@@ -12,7 +12,6 @@ public class PlayerMovement : PlayerComponent
     Rigidbody2D physics;
     Vector2 movement;
 
-
     private void Start()
     {
         physics = GetComponent<Rigidbody2D>();
@@ -30,7 +29,6 @@ public class PlayerMovement : PlayerComponent
         {
             playerCamera.SetOffset(GetMovementDirection() * 2f);
         }
-        physics.MovePosition(physics.position + movement * movementSpeed * Time.fixedDeltaTime);
     }
 
     private void FixedUpdate()
