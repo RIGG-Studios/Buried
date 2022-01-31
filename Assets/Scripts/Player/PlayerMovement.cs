@@ -2,32 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : PlayerComponent
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField, Range(0, 20)]
     private float movementSpeed;
     [SerializeField, Range(0, 10)]
-    private float offset;
+    private float camOffset;
+
+
     float horizontal;
     float vertical;
     Rigidbody2D physics;
     Vector2 movement;
+    PlayerCamera playerCam;
 
     private void Start()
     {
         physics = GetComponent<Rigidbody2D>();
-        playerCamera.SetTarget(transform);
+        playerCam = FindObjectOfType<PlayerCamera>();
+
+        playerCam.SetTarget(transform);
     }
 
     private void Update()
     {
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-
-        movement = new Vector2(horizontal, vertical);
-
-        playerCamera.SetOffset(movement != Vector2.zero ? GetMovementDirection() * offset : Vector3.zero);
-
+        playerCam.SetOffset(movement != Vector2.zero ? GetMovementDirection() * camOffset : Vector3.zero);
     }
 
     private void FixedUpdate()
@@ -36,6 +35,7 @@ public class PlayerMovement : PlayerComponent
     }
 
     public Vector3 GetMovementDirection() => movement.normalized;
+    public void UpdateInputVector(Vector2 input) => movement = input;
 
     public void OnTriggerEnter2D(Collider2D collision)
     {

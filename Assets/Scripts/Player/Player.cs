@@ -1,48 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField, Range(0, 100)]
-    private float maxHealth;
+    InputActions inputActions;
 
-    [SerializeField, Range(0, 10)]
-    private float maxOxygen;
+    PlayerMovement movement;
+    GrapplingHook grappleHook;
 
-    public float health { get; private set; }
-    public float oxygen { get; private set; }
+    private void Awake()
+    {
+        inputActions = new InputActions();
+        inputActions.Player.Fire.started += ctx => GrappleCheck();
+        inputActions.Player.Fire.canceled += ctx => EndGrapple();
+        inputActions.Player.Enable();
+    }
 
     private void Start()
     {
-        health = maxHealth;
-        oxygen = maxOxygen;
+        movement = GetComponent<PlayerMovement>();
+        grappleHook = GetComponent<GrapplingHook>();
     }
 
-    public void ApplyDamage(float damage)
+    private void Update()
     {
-        health -= damage;
+        Vector2 movementInput = inputActions.Player.Move.ReadValue<Vector2>();
 
-        if(health <= 0)
-        {
-            health = 0;
-            Die();
-        }
+        movement.UpdateInputVector(movementInput);
     }
 
-    public void DepleteOxygen(float amount)
+    private void GrappleCheck()
     {
-        oxygen -= amount;
-
-        if(oxygen <= 0)
-        {
-            //start a damage loop as we are now out of breath
-        }
+        if (grappleHook.TryStartGrapple())
+            movement.enabled = false;
     }
 
-    private void Die()
+    private void EndGrapple()
     {
-        Debug.Log("Now Dead");
+        if (grappleHook.TryEndGrapple())
+            movement.enabled = true;
     }
 }
 

@@ -2,54 +2,62 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class GrapplingHook : MonoBehaviour
 {
-    private List<Vector2> ropePositions = new List<Vector2>();
+    public float initialForceSpeed;
 
-    public Rigidbody2D rb;
-    public float speed;
-    public LayerMask layer;
-    public GameObject joint;
+    public LayerMask grappleLayer;
+    public GameObject grappleHelper;
 
-    bool ingrapple;
-    Rope rope;
-    public LineRenderer lineRender;
+    Rigidbody2D rb;
 
-    private void Update()
+    private bool usingGrapple;
+
+
+    private void Start()
     {
-        if (Input.GetMouseButton(0) && !ingrapple)
+        rb = GetComponent<Rigidbody2D>();
+    }
+    
+    public bool TryStartGrapple()
+    {
+        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        worldPos.z = 0;
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero, grappleLayer);
+
+
+        if (hit.collider != null)
         {
-            Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(point, Vector2.zero);
-            if (hit.collider != null)
-            {
-                rb.gravityScale = 1;
-                GetComponent<PlayerMovement>().enabled = false;
-                Vector2 dir = (transform.position - point).normalized;
-                rb.AddForce(new Vector2(-dir.x, 0) * speed);
-                rb.velocity = Vector2.zero;
-                SpawnDummy(hit.transform);
-                ingrapple = true;
-            }
+            rb.velocity = Vector2.zero;
+            float dot = Vector3.Dot(transform.position, hit.point);
+            rb.gravityScale = 1;
+
+            Vector2 dir = (transform.position - worldPos).normalized;
+            rb.AddForce(new Vector2(-dir.x, 0) * initialForceSpeed);
+
+            SetHelper(hit.point);
+            usingGrapple = true;
         }
 
-        if(ingrapple && Input.GetMouseButtonUp(0))
-        {
-            rb.gravityScale = 0;
-            joint.SetActive(false);
-            GetComponent<PlayerMovement>().enabled = true;
+        return usingGrapple;
+    }
 
-            ingrapple = false;
-        }
+    public bool TryEndGrapple()
+    {
+        rb.gravityScale = 0;
+        grappleHelper.SetActive(false);
+        usingGrapple = false;
+
+        return true;
     }
 
 
-    private void SpawnDummy(Transform position)
+    private void SetHelper(Vector3 position)
     {
-        joint.SetActive(true);
-        rope = joint.GetComponent<Rope>();
-     //   rope.SetupSwing(transform, position);
-        joint.transform.position = position.position;
+        grappleHelper.SetActive(true);
+        grappleHelper.transform.position = Vector3.zero;
+        grappleHelper.transform.position = position;
     }
 }

@@ -12,11 +12,10 @@ public class Rope : MonoBehaviour
     private float lineWidth = 0.1f;
     public Transform player;
 
-    // Use this for initialization
     void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        Vector3 ropeStartPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 ropeStartPoint = transform.position;
 
         for (int i = 0; i < segmentLength; i++)
         {
@@ -25,7 +24,6 @@ public class Rope : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         DrawRope();
@@ -38,7 +36,6 @@ public class Rope : MonoBehaviour
 
     private void Simulate()
     {
-        // SIMULATION
         Vector2 forceGravity = new Vector2(0f, -1.5f);
 
         for (int i = 1; i < segmentLength; i++)
@@ -54,11 +51,11 @@ public class Rope : MonoBehaviour
         //CONSTRAINTS
         for (int i = 0; i < 50; i++)
         {
-            ApplyConstraint(i);
+            ApplyConstraint();
         }
     }
 
-    private void ApplyConstraint(int z)
+    private void ApplyConstraint()
     {
         //Constrant to Mouse
         RopeSegment firstSegment = ropeSegments[0];
