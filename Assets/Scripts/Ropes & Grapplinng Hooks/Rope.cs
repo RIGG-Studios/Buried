@@ -82,7 +82,15 @@ public class Rope : MonoBehaviour
                 changeDir = (secondSeg.posNow - firstSeg.posNow).normalized;
             }
 
+            /*/
             if (z == 48)
+            {
+                firstSeg.posNow = (Vector2)player.position;
+                ropeSegments[i] = firstSeg;
+            }
+            /*/
+
+            if(i >= 20)
             {
                 firstSeg.posNow = (Vector2)player.position;
                 ropeSegments[i] = firstSeg;

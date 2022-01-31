@@ -27,7 +27,7 @@ public class GrapplingHook : MonoBehaviour
                 rb.gravityScale = 1;
                 GetComponent<PlayerMovement>().enabled = false;
                 Vector2 dir = (transform.position - point).normalized;
-                rb.AddForce(new Vector2(dir.x, 0) * speed);
+                rb.AddForce(new Vector2(-dir.x, 0) * speed);
                 rb.velocity = Vector2.zero;
                 SpawnDummy(hit.transform);
                 ingrapple = true;
