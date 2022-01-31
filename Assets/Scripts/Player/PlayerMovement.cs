@@ -6,7 +6,8 @@ public class PlayerMovement : PlayerComponent
 {
     [SerializeField, Range(0, 20)]
     private float movementSpeed;
-
+    [SerializeField, Range(0, 10)]
+    private float offset;
     float horizontal;
     float vertical;
     Rigidbody2D physics;
@@ -25,10 +26,8 @@ public class PlayerMovement : PlayerComponent
 
         movement = new Vector2(horizontal, vertical);
 
-        if(movement != Vector2.zero)
-        {
-            playerCamera.SetOffset(GetMovementDirection() * 2f);
-        }
+        playerCamera.SetOffset(movement != Vector2.zero ? GetMovementDirection() * offset : Vector3.zero);
+
     }
 
     private void FixedUpdate()
@@ -37,4 +36,15 @@ public class PlayerMovement : PlayerComponent
     }
 
     public Vector3 GetMovementDirection() => movement.normalized;
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        physics.gravityScale = 1;
+
+    }
+
+    public void OnTriggerExit2D(Collider2D collision)
+    {
+        physics.gravityScale = 0;
+    }
 }
