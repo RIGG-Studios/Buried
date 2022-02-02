@@ -69,10 +69,10 @@ MonoBehaviour:
   m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 1
-    m_Value: -0.04
+    m_Value: -0.61
   contrast:
     m_OverrideState: 1
-    m_Value: 16.5
+    m_Value: 64.7
     min: -100
     max: 100
   colorFilter:
@@ -134,11 +134,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81180773991d8724ab7f2d216912b564, type: 3}
   m_Name: ChromaticAberration
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   m_AdvancedMode: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.134
     min: 0
     max: 1
 --- !u!114 &-2731554051574948260

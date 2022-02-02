@@ -292,12 +292,12 @@ TextureImporter:
       name: TX Struct Gate T2 T
       rect:
         serializedVersion: 2
-        x: 408
-        y: 466
+        x: 409
+        y: 465
         width: 80
         height: 19
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -401,8 +401,8 @@ TextureImporter:
         y: 320
         width: 64
         height: 45
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -421,10 +421,10 @@ TextureImporter:
         x: 416
         y: 365
         width: 64
-        height: 19
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+        height: 18
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 16, y: 0, z: 15, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
