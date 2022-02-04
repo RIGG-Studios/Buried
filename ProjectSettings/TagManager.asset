@@ -11,14 +11,14 @@ TagManager:
   - 
   - Water
   - UI
+  - Interaction
   - GrapplePoint
-  - FallZone
-  - Background
-  - Room
-  - SecretRoomEntrance
-  - MiniMapRender
-  - StoneRender
-  - InteractbleObject
+  - InteractableButton
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -42,8 +42,8 @@ TagManager:
     uniqueID: 0
     locked: 0
   - name: Environment
-    uniqueID: 4283974101
+    uniqueID: 3420322187
     locked: 0
   - name: Player
-    uniqueID: 3118128903
+    uniqueID: 282671577
     locked: 0

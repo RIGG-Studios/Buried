@@ -5,30 +5,15 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    InputActions inputActions;
-
-    PlayerMovement movement;
-    GrapplingHook grappleHook;
-    FlashlightPositioner flashlightPositioner;
-    FlashlightManager flashLightManager;
-    PlayerUI playerUI;
-    PlayerInteractionManager playerInteraction;
+    public PlayerMovement movement { get; private set; }
+    public GrapplingHook grappleHook { get; private set; }
+    public FlashlightPositioner flashlightPositioner { get; private set; }
+    public FlashlightManager flashLightManager { get; private set; }
+    public PlayerUI playerUI { get; private set; }
+    public PlayerAnimator playerAnimator { get; private set; }
+    public PlayerInteractionManager playerInteraction { get; private set; }
 
     public RoomController currentRoom;
-
-    private void Awake()
-    {
-        inputActions = new InputActions();
-
-        inputActions.Player.Fire.started += ctx => OnLeftClick();
-        inputActions.Player.Fire.canceled += ctx => OnLeftClickReleased();
-        inputActions.Player.Flashlight.performed += ctx => UpdateFlashLight();
-        inputActions.Player.Map.performed += ctx => ToggleMap();
-        inputActions.Player.Crouch.performed += ctx => OnCrouchPressed();
-        inputActions.Player.Interact.performed += ctx => OnInteractPressed();
-
-        inputActions.Player.Enable();
-    }
 
     private void Start()
     {
@@ -42,39 +27,34 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Vector2 movementInput = inputActions.Player.Move.ReadValue<Vector2>();
-
-        movement.UpdateInputVector(movementInput);
     }
 
-    private void OnLeftClick()
+    public void TryUseGrapplingHook()
     {
-        if (grappleHook.TryStartGrapple())
+        bool canGrapple = grappleHook.TryStartGrapple();
+
+        if (canGrapple)
             movement.enabled = false;
     }
 
-    private void OnLeftClickReleased()
+    public void TryEndGrapplingHook()
     {
-        if (grappleHook.TryEndGrapple())
+        bool canEnd = grappleHook.TryEndGrapple();
+
+        if (canEnd)
             movement.enabled = true;
     }
 
-    private void UpdateFlashLight()
+    public void TryInteract()
     {
-        flashLightManager.ToggleFlashlight();
-    }
-
-    private void OnCrouchPressed()
-    {
-        movement.ToggleCrouch();
-    }
-
-    private void OnInteractPressed()
-    {
-        if (playerInteraction.hoveredObject != null) 
+        if(playerInteraction.hoveredObject)
             playerInteraction.InteractWithObject();
     }
 
+    public void TryUseFlashlight()
+    {
+        flashLightManager.ToggleFlashlight();
+    }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -115,8 +95,7 @@ public class Player : MonoBehaviour
 
         }
     }
-    private void ToggleMap() => playerUI.ToggleMap();
 
-    public Vector3 GetMousePositionInWorldSpace() => Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+    public Vector3 GetMovement() => movement.GetMovementDirection();
 }
 

@@ -10,6 +10,4 @@ public class MouseLook : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
     }
-
-
 }

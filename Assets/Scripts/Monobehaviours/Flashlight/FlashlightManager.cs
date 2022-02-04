@@ -19,7 +19,7 @@ public class FlashlightManager : MonoBehaviour
         flashlightSlider.maxValue = lightSource.intensity;
         flashlightSlider.value = flashlightSlider.maxValue;
 
-        ToggleFlashlight();
+      //  ToggleFlashlight();
     }
 
     private void Update()

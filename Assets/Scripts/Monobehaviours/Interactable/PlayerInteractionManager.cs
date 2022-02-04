@@ -19,22 +19,17 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void Update()
     {
-        Vector3 worldPos = player.GetMousePositionInWorldSpace();
+        Vector2 mouseWorldSpace = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
+        Vector3 worldPos = mouseWorldSpace;
 
-        RaycastHit2D hit = Physics2D.CircleCast(worldPos, 0.5f, transform.position - worldPos, Mathf.Infinity, interactionLayer);
+        RaycastHit2D hit = Physics2D.CircleCast(worldPos, 0.5f, transform.position - worldPos, minInteractionDistance, interactionLayer);
 
         if (hit.collider != null)
         {
-            float dist = (hit.collider.transform.position - transform.position).magnitude;
-
-            if (dist >= minInteractionDistance)
-                return;
-
             hoveredObject = hit.collider.GetComponent<InteractableObject>();
 
             if (hoveredObject.canInteract)
             {
-                interactionAssist.transform.position = hit.point;
                 interactionAssist.SetActive(true);
             }
         }
@@ -51,4 +46,5 @@ public class PlayerInteractionManager : MonoBehaviour
         interactionAssist.SetActive(false);
     }
 
+    public void UpdateInteractionAssistRotation(Vector3 direction) => interactionAssist.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
 }
