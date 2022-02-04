@@ -27,7 +27,7 @@ public class PlayerCamera : MonoBehaviour
 
         Vector3 finalMovement = target.position + offset + additionalOffset + swayOffset;
         transform.position = Vector3.Lerp(transform.position, finalMovement + transform.forward, Time.deltaTime * smoothingSpeed);
-        transform.rotation = Quaternion.Lerp(transform.rotation, player.transform.rotation, Time.deltaTime * 5f);
+      //  transform.rotation = Quaternion.Lerp(transform.rotation, player.transform.rotation, Time.deltaTime * 5f);
     }
 
     public void SetTarget(Transform target) => this.target = target;

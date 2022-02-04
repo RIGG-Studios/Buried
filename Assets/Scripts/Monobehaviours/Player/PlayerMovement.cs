@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         if (canRotate)
         {
             Vector2 dir = (mousePos - transform.position).normalized;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, dir), Time.fixedDeltaTime * rotateSpeed);
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
         }
     }
 
