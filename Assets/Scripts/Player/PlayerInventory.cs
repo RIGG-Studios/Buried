@@ -24,7 +24,15 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(GameObject item)
     {
-        items.Add(item.GetComponent<ItemManager>().itemVariables);
+        if(item.GetComponent<ItemManager>() != null)
+        {
+            items.Add(item.GetComponent<ItemManager>().itemVariables);
+        }
+        else if (item.GetComponent<NoteManager>() != null)
+        {
+            items.Add(item.GetComponent<NoteManager>().noteVariables);
+        }
+
         GameObject newNote = Instantiate(prefabNote, viewportCanvas.transform);
         newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
 

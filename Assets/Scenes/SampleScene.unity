@@ -5785,6 +5785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewportData: {fileID: 11400000, guid: a5d01f54e67b817448f0b85d62d7ce89, type: 2}
+  inventory: {fileID: 5628018141770616597}
   scrollSpeed: 5
   eventSystem: {fileID: 614963982}
   connectorPrefab: {fileID: 2948861896879133417, guid: 23c57ff0b70617d48a4e2b8562c11f54, type: 3}

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 {
     public PersistentData viewportData;
+    public PlayerInventory inventory;
     public float scrollSpeed;
     public EventSystem eventSystem;
 
@@ -95,12 +96,12 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 
                         if (correspondingNote && manager.noteVariables == correspondingNote)
                         {
-                            Instantiate(connectionResultNotes[correspondingNoteIndex], result.gameObject.transform.parent);
+                            inventory.AddItem(connectionResultNotes[correspondingNoteIndex]);
                         }
                         else
                         {
-                            Destroy(currentNoteBeingConnnected.transform.GetChild(0).gameObject);
-                            Destroy(result.gameObject.transform.GetChild(0).gameObject);
+                            Destroy(currentNoteBeingConnnected.transform.GetChild(currentNoteBeingConnnected.transform.childCount - 1).gameObject);
+                            Destroy(result.gameObject.transform.GetChild(result.gameObject.transform.childCount - 1).gameObject);
                         }
 
                         currentNoteBeingConnnected.GetComponent<NoteManager>().connected = false;
