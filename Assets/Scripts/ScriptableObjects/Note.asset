@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
   m_Name: Note
   m_EditorClassIdentifier: 
-  isClue: 1
-  toolTip: Hastily written note
-  name: Miner's note
+  name: Test note
+  text: Testing, testing, 123
   sprite: {fileID: 0}

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : PlayerComponent
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField, Range(0, 20)]
     private float movementSpeed;
@@ -11,6 +11,8 @@ public class PlayerMovement : PlayerComponent
     float vertical;
     Rigidbody2D physics;
     Vector2 movement;
+
+    public PlayerCamera playerCamera;
 
     private void Start()
     {

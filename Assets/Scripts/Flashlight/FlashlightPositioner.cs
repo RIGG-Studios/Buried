@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlashlightPositioner : PlayerComponent
+public class FlashlightPositioner : MonoBehaviour
 {
     [SerializeField]
     private float offset;
     [SerializeField]
     private Transform player;
+
+    public PlayerMovement playerMovement;
 
     private void Update()
     {
