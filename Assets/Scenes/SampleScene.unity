@@ -2531,7 +2531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566337664}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.99, y: -1.31, z: 49.288002}
+  m_LocalPosition: {x: -6.99, y: -1.31, z: -1}
   m_LocalScale: {x: 0.80287397, y: 0.80287397, z: 0.80287397}
   m_Children: []
   m_Father: {fileID: 1518046500}
@@ -5787,6 +5787,13 @@ MonoBehaviour:
   viewportData: {fileID: 11400000, guid: a5d01f54e67b817448f0b85d62d7ce89, type: 2}
   scrollSpeed: 5
   eventSystem: {fileID: 614963982}
+  connectorPrefab: {fileID: 2948861896879133417, guid: 23c57ff0b70617d48a4e2b8562c11f54, type: 3}
+  itemConnectionsListA:
+  - {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
+  itemConnectionsListB:
+  - {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
+  connectionResultNotes:
+  - {fileID: 911593649815160367, guid: 75ebfe0c3d9302e439be140539d12113, type: 3}
 --- !u!4 &1627905643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7947911505737750448, guid: ba7fef4c928d8c4459466bf93171730e, type: 3}
@@ -6361,7 +6368,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1879028624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.27, y: -1.95, z: 49.288002}
+  m_LocalPosition: {x: -12.27, y: -1.95, z: -1}
   m_LocalScale: {x: 0.80287397, y: 0.80287397, z: 0.80287397}
   m_Children: []
   m_Father: {fileID: 1518046500}

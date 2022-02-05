@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 911593649815160365}
   - component: {fileID: 7816978878687855009}
   m_Layer: 0
-  m_Name: Note
+  m_Name: Note 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,4 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connected: 0
-  noteVariables: {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
+  noteVariables: {fileID: 11400000, guid: 0ab736a03be038c49bfe669ab7cf5408, type: 2}

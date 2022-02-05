@@ -7,5 +7,4 @@ public class ItemObjects : ScriptableObject
 {
     new public string name;
     public string text;
-    public Sprite sprite;
 }

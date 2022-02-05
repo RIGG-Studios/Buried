@@ -4,15 +4,26 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler, IPointerUpHandler, IPointerDownHandler
+public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 {
     public PersistentData viewportData;
     public float scrollSpeed;
     public EventSystem eventSystem;
 
+    public GameObject connectorPrefab;
+
+    public List<ItemObjects> itemConnectionsListA;
+    public List<ItemObjects> itemConnectionsListB;
+
+    public List<GameObject> connectionResultNotes;
+
+    GameObject currentNote;
+    GameObject currentNoteBeingConnnected;
+
     GraphicRaycaster rayCaster;
 
     Camera viewportCamera;
+    bool isCurrentlyConnecting;
 
     void Start()
     {
@@ -24,7 +35,14 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler, IPo
     {
         Vector3 viewportCameraPos = viewportCamera.transform.position;
 
-        viewportCamera.transform.position = new Vector3(viewportCameraPos.x - eventData.delta.x, viewportCameraPos.y - eventData.delta.y, viewportCameraPos.z);
+        if(currentNote != null)
+        {
+            currentNote.GetComponent<RectTransform>().anchoredPosition += eventData.delta / transform.parent.GetComponent<Canvas>().scaleFactor;
+        }
+        else
+        {
+            viewportCamera.transform.position = new Vector3(viewportCameraPos.x - eventData.delta.x, viewportCameraPos.y - eventData.delta.y, viewportCameraPos.z);
+        }
     }
 
     public void OnScroll(PointerEventData eventData)
@@ -32,12 +50,69 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler, IPo
         viewportCamera.orthographicSize -= eventData.scrollDelta.y * scrollSpeed;
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    private void Update()
     {
-        //Debug.Log(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            currentNote = RaycastFromMousePosition().gameObject;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (currentNote != null)
+            {
+                currentNote = null;
+            }
+        }
+        else if (Input.GetMouseButtonDown(1))
+        {
+            RaycastResult result = RaycastFromMousePosition();
+
+            if(result.gameObject != null && result.gameObject.GetComponent<NoteManager>() != null)
+            {
+                NoteManager manager = result.gameObject.GetComponent<NoteManager>();
+                if (!manager.connected)
+                {
+                    GameObject instantiatedConnector = Instantiate(connectorPrefab, result.gameObject.transform);
+                    instantiatedConnector.transform.position = result.worldPosition;
+
+                    if (!isCurrentlyConnecting)
+                    {
+                        isCurrentlyConnecting = true;
+                        currentNoteBeingConnnected = result.gameObject;
+
+                        manager.connected = true;
+                    }
+                    else
+                    {
+                        isCurrentlyConnecting = false;
+                        int correspondingNoteIndex = GetCorrespondingNoteIndex();
+                        ItemObjects correspondingNote = itemConnectionsListB[correspondingNoteIndex];
+                        if(correspondingNote == null)
+                        {
+                            correspondingNote = itemConnectionsListA[correspondingNoteIndex];
+                        }
+
+                        if (correspondingNote && manager.noteVariables == correspondingNote)
+                        {
+                            Instantiate(connectionResultNotes[correspondingNoteIndex], result.gameObject.transform.parent);
+                        }
+                        else
+                        {
+                            Destroy(currentNoteBeingConnnected.transform.GetChild(0).gameObject);
+                            Destroy(result.gameObject.transform.GetChild(0).gameObject);
+                        }
+
+                        currentNoteBeingConnnected.GetComponent<NoteManager>().connected = false;
+                        manager.connected = false;
+                        currentNoteBeingConnnected = null;
+                    }
+                }
+            }
+        }
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    RaycastResult RaycastFromMousePosition()
     {
         Vector2 worldPoint;
 
@@ -46,19 +121,40 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler, IPo
         Vector2 vector = worldPoint + new Vector2(viewportCamera.transform.position.x, viewportCamera.transform.position.y);
         Vector2 finalVector = viewportCamera.WorldToScreenPoint(vector);
 
-        Debug.Log(finalVector);
-
         PointerEventData pointerEventData = new PointerEventData(eventSystem);
 
         pointerEventData.position = finalVector;
 
-        List <RaycastResult> raycastResults = new List<RaycastResult>();
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
         rayCaster.Raycast(pointerEventData, raycastResults);
 
-        foreach(RaycastResult result in raycastResults)
+        foreach (RaycastResult result in raycastResults)
         {
-            Debug.Log(result.gameObject.transform.name);
+            if (currentNote == null)
+            {
+                return result;
+            }
         }
 
+        return new RaycastResult();
+    }
+
+    int GetCorrespondingNoteIndex()
+    {
+        for (int i = 0; i < itemConnectionsListA.Count; i++)
+        {
+            if (currentNoteBeingConnnected != null && itemConnectionsListA[i] == currentNoteBeingConnnected.GetComponent<NoteManager>().noteVariables)
+            {
+                return i;
+            }
+        }
+        for(int v = 0; v < itemConnectionsListB.Count; v++)
+        {
+            if (currentNoteBeingConnnected != null && itemConnectionsListA[v] == currentNoteBeingConnnected.GetComponent<NoteManager>().noteVariables)
+            {
+                return v;
+            }
+        }
+        return 0;
     }
 }
