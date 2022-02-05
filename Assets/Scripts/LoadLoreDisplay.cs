@@ -6,9 +6,11 @@ public class LoadLoreDisplay : MonoBehaviour
 {
     public PersistentData data;
     public Camera mainCamera;
+    public Canvas viewportCanvas;
 
     void Awake()
     {
-        data.viewportCamera = mainCamera;    
+        data.viewportCamera = mainCamera;
+        data.viewportCanvas = viewportCanvas;
     }
 }
