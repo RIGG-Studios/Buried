@@ -25,4 +25,9 @@ public class Door : InteractableObject
             doorClosed = !doorClosed;
         }
     }
+
+    public override void StopInteract()
+    {
+        throw new System.NotImplementedException();
+    }
 }

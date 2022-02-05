@@ -65,9 +65,9 @@ public class GrapplingHook : MonoBehaviour
 
     public bool TryEndGrapple()
     {
-        rb.gravityScale = 0;
-        grappleHelper.SetActive(false);
-        usingGrapple = false;
+    //    rb.gravityScale = 0;
+     //   grappleHelper.SetActive(false);
+     //   usingGrapple = false;
 
         return true;
     }

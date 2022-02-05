@@ -10,6 +10,10 @@ public class Chest : InteractableObject
     {
         openChest.SetActive(true);
         closedChest.SetActive(false);
-        canInteract = false;
+    }
+
+    public override void StopInteract()
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    [SerializeField, Range(0, 10)]
-    private float smoothingSpeed;
+    [Range(0, 10)]
+    public float smoothingSpeed;
+    public Vector3 offset;
 
-    [SerializeField]
-    private Vector3 offset;
+    public float magnitude;
 
     public float swayIntensity;
     public float maxSway;
@@ -27,10 +27,13 @@ public class PlayerCamera : MonoBehaviour
 
         Vector3 finalMovement = target.position + offset + additionalOffset + swayOffset;
         transform.position = Vector3.Lerp(transform.position, finalMovement + transform.forward, Time.deltaTime * smoothingSpeed);
-      //  transform.rotation = Quaternion.Lerp(transform.rotation, player.transform.rotation, Time.deltaTime * 5f);
+
+        transform.position += new Vector3(Random.Range(-magnitude, magnitude), Random.Range(-magnitude, magnitude));
     }
 
     public void SetTarget(Transform target) => this.target = target;
 
     public void SetOffset(Vector3 offset) => additionalOffset = offset;
+
+    public void SetShakeMagnitude(float magnitude) => this.magnitude = magnitude;
 }

@@ -10,4 +10,8 @@ public class InventoryButton : InteractableObject
     {
         inventoryButton.SetActive(true);
     }
+
+    public override void StopInteract()
+    {
+    }
 }

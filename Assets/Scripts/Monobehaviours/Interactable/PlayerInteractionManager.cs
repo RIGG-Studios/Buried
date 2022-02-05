@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerInteractionManager : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PlayerInteractionManager : MonoBehaviour
     public float minInteractionDistance;
 
     Player player;
-    public InteractableObject hoveredObject { get; private set; }
+    public InteractableObject hoveredObject;
 
     private void Start()
     {
@@ -23,17 +24,24 @@ public class PlayerInteractionManager : MonoBehaviour
         Vector3 worldPos = mouseWorldSpace;
 
         RaycastHit2D hit = Physics2D.CircleCast(worldPos, 0.5f, transform.position - worldPos, minInteractionDistance, interactionLayer);
+        RaycastResult result = Utilites.IsPointerOverUIElement();
 
-        if (hit.collider != null)
+        GameObject collision = null;
+        if (hit)
+            collision = hit.collider.gameObject;
+        if (result.gameObject)
+            collision = result.gameObject;
+
+        if (collision != null)
         {
-            hoveredObject = hit.collider.GetComponent<InteractableObject>();
+            hoveredObject = collision.GetComponent<InteractableObject>();
 
-            if (hoveredObject.canInteract)
+            if (hoveredObject.useAssist)
             {
                 interactionAssist.SetActive(true);
             }
         }
-        else if(hit.collider == null || !hoveredObject.canInteract)
+        else if(hit.collider == null && hoveredObject != null)
         {
             hoveredObject = null;
             interactionAssist.SetActive(false);

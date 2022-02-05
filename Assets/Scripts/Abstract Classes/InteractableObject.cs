@@ -4,8 +4,10 @@ using UnityEngine;
 
 public abstract class InteractableObject : MonoBehaviour
 {
-    public bool canInteract;
+    public bool useAssist;
     public List<AudioClip> interactAudio = new List<AudioClip>();
 
     public abstract void Interact();
+
+    public abstract void StopInteract();
 }
