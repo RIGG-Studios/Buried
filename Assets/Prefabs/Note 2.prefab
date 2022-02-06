@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 911593649815160365}
   - component: {fileID: 7816978878687855009}
   m_Layer: 5
-  m_Name: Note
+  m_Name: Note 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connected: 0
   connectedTo: []
-  noteVariables: {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
+  noteVariables: {fileID: 11400000, guid: c56de67bf1202c643968525ab4243899, type: 2}
   title: {fileID: 5478837364750696354}
   body: {fileID: 6064439178862374721}
 --- !u!1 &1155357409856620795
@@ -129,8 +129,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -11.766602}
-  m_SizeDelta: {x: -5.5894, y: 17.531}
+  m_AnchoredPosition: {x: 0, y: -10.266098}
+  m_SizeDelta: {x: 0, y: 20.5322}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7668489196572894893
 CanvasRenderer:
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 2
+  m_fontSizeMin: 7
   m_fontSizeMax: 10
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -261,10 +261,10 @@ RectTransform:
   m_Father: {fileID: 911593649815160364}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -10.099991}
-  m_SizeDelta: {x: -5.5894, y: -26.38}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -10.266}
+  m_SizeDelta: {x: 0, y: 89.14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2861336268764878885
 CanvasRenderer:
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 1
+  m_fontSizeMin: 6
   m_fontSizeMax: 8
   m_fontStyle: 0
   m_HorizontalAlignment: 2

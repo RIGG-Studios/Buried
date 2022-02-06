@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
-  m_Name: Note
+  m_Name: Note 1
   m_EditorClassIdentifier: 
-  name: Half of door combination
-  text: Crap, I forgot the combination to this door, I do remember what it starts
-    with though. I think Jerry had the other half...
+  name: Jerry's note
+  text: I forgot the door combination, dammit all, I'm doomed, all I remember are
+    the last few digits!

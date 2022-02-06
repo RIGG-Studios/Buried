@@ -8,6 +8,7 @@ public class PlayerInventory : MonoBehaviour
     public int collectionRange;
 
     public Transform itemRepository;
+    public Transform doorRepository;
     public GameObject pickupPrompt;
     public Vector3 offset;
     public Canvas loreCorkboard;
@@ -24,16 +25,19 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(GameObject item)
     {
-        if(item.GetComponent<ItemManager>() != null)
+        GameObject newNote = Instantiate(prefabNote, viewportCanvas.transform);
+
+        if (item.GetComponent<ItemManager>() != null)
         {
             items.Add(item.GetComponent<ItemManager>().itemVariables);
+            newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<ItemManager>().itemVariables;
         }
         else if (item.GetComponent<NoteManager>() != null)
         {
             items.Add(item.GetComponent<NoteManager>().noteVariables);
+            newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<NoteManager>().noteVariables;
         }
 
-        GameObject newNote = Instantiate(prefabNote, viewportCanvas.transform);
         newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
 
         currentNoteOffset += new Vector2(newNote.transform.localScale.x/2, newNote.transform.localScale.y/2);
@@ -54,13 +58,27 @@ public class PlayerInventory : MonoBehaviour
     {
         for (int i = 0; i < itemRepository.childCount; i++)
         {
-            if ((transform.position - itemRepository.GetChild(i).position).magnitude <= collectionRange)
+            if (((transform.position - itemRepository.GetChild(i).position).magnitude <= collectionRange))
             {
                 currentItem = itemRepository.GetChild(i).gameObject;
                 break;
             }
 
             currentItem = null;
+        }
+
+        if(currentItem == null)
+        {
+            for (int v = 0; v < doorRepository.childCount; v++)
+            {
+                if (((transform.position - doorRepository.GetChild(v).position).magnitude <= collectionRange))
+                {
+                    currentItem = doorRepository.GetChild(v).gameObject;
+                    break;
+                }
+
+                currentItem = null;
+            }
         }
 
         if(currentItem != null)
@@ -84,10 +102,17 @@ public class PlayerInventory : MonoBehaviour
         {
             if(currentItem != null)
             {
-                AddItem(currentItem);
+                if(currentItem.GetComponent<ItemManager>() != null)
+                {
+                    AddItem(currentItem);
 
-                Destroy(currentItem);
-                currentItem = null;
+                    Destroy(currentItem);
+                    currentItem = null;
+                }
+                else if(currentItem.GetComponent<DoorManager>() != null)
+                {
+                    currentItem.GetComponent<DoorManager>().Open(items);
+                }
             }
         }
     }

@@ -88,15 +88,27 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
                     {
                         isCurrentlyConnecting = false;
                         int correspondingNoteIndex = GetCorrespondingNoteIndex();
-                        ItemObjects correspondingNote = itemConnectionsListB[correspondingNoteIndex];
-                        if(correspondingNote == null)
+                        ItemObjects correspondingNote;
+
+                        if (IsNoteInListA())
+                        {
+                            correspondingNote = itemConnectionsListB[correspondingNoteIndex];
+                        }
+                        else if (IsNoteInListB())
                         {
                             correspondingNote = itemConnectionsListA[correspondingNoteIndex];
                         }
+                        else
+                        {
+                            correspondingNote = null;
+                        }
 
-                        if (correspondingNote && manager.noteVariables == correspondingNote)
+                        if (correspondingNote && correspondingNoteIndex > -1 && manager.noteVariables == correspondingNote && CanContinue(manager))
                         {
                             inventory.AddItem(connectionResultNotes[correspondingNoteIndex]);
+
+                            currentNoteBeingConnnected.GetComponent<NoteManager>().connectedTo.Add(manager);
+                            manager.connectedTo.Add(currentNoteBeingConnnected.GetComponent<NoteManager>());
                         }
                         else
                         {
@@ -131,7 +143,7 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 
         foreach (RaycastResult result in raycastResults)
         {
-            if (currentNote == null)
+            if (currentNote == null && result.gameObject.GetComponent<NoteManager>() != null)
             {
                 return result;
             }
@@ -151,11 +163,64 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
         }
         for(int v = 0; v < itemConnectionsListB.Count; v++)
         {
-            if (currentNoteBeingConnnected != null && itemConnectionsListA[v] == currentNoteBeingConnnected.GetComponent<NoteManager>().noteVariables)
+            if (currentNoteBeingConnnected != null && itemConnectionsListB[v] == currentNoteBeingConnnected.GetComponent<NoteManager>().noteVariables)
             {
                 return v;
             }
         }
-        return 0;
+        return -1;
+    }
+
+    bool IsNoteInListA()
+    {
+        for (int i = 0; i < itemConnectionsListA.Count; i++)
+        {
+            if (currentNoteBeingConnnected != null && itemConnectionsListA[i] == currentNoteBeingConnnected.GetComponent<NoteManager>().noteVariables)
+            {
+                return true;
+            }
+        }
+        for (int v = 0; v < itemConnectionsListB.Count; v++)
+        {
+            if (currentNoteBeingConnnected != null && itemConnectionsListB[v] == currentNoteBeingConnnected.GetComponent<NoteManager>().noteVariables)
+            {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    bool IsNoteInListB()
+    {
+        for (int i = 0; i < itemConnectionsListA.Count; i++)
+        {
+            if (currentNoteBeingConnnected != null && itemConnectionsListA[i] == currentNoteBeingConnnected.GetComponent<NoteManager>().noteVariables)
+            {
+                return false;
+            }
+        }
+        for (int v = 0; v < itemConnectionsListB.Count; v++)
+        {
+            if (currentNoteBeingConnnected != null && itemConnectionsListB[v] == currentNoteBeingConnnected.GetComponent<NoteManager>().noteVariables)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool CanContinue(NoteManager manager)
+    {
+        for (int i = 0; i < manager.connectedTo.Count; i++)
+        {
+            if (manager.connectedTo[i] == currentNoteBeingConnnected.GetComponent<NoteManager>())
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

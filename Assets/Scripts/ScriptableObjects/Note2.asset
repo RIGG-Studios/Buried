@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
   m_Name: Note2
   m_EditorClassIdentifier: 
-  name: Idk
-  text: /shrug
-  sprite: {fileID: 0}
+  name: Door combination
+  text: After finding two notes with the half the door's combination on them, I am
+    able to piece together the full combination
