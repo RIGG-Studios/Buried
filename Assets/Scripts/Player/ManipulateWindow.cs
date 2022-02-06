@@ -9,6 +9,7 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
     public PersistentData viewportData;
     public PlayerInventory inventory;
     public float scrollSpeed;
+    public int maxSize;
     public EventSystem eventSystem;
 
     public GameObject connectorPrefab;
@@ -48,7 +49,22 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 
     public void OnScroll(PointerEventData eventData)
     {
-        viewportCamera.orthographicSize -= eventData.scrollDelta.y * scrollSpeed;
+        if(viewportCamera.orthographicSize > 0 && eventData.scrollDelta.y > 0)
+        {
+            viewportCamera.orthographicSize -= eventData.scrollDelta.y * scrollSpeed;
+        }
+        else if(viewportCamera.orthographicSize < maxSize && eventData.scrollDelta.y < 0)
+        {
+            viewportCamera.orthographicSize -= eventData.scrollDelta.y * scrollSpeed;
+        }
+        else if(viewportCamera.orthographicSize < 0)
+        {
+            viewportCamera.orthographicSize = 0;
+        }
+        else if(viewportCamera.orthographicSize > maxSize)
+        {
+            viewportCamera.orthographicSize = maxSize;
+        }
     }
 
     private void Update()

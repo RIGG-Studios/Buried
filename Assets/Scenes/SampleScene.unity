@@ -6270,7 +6270,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524841228}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -6931,6 +6931,7 @@ MonoBehaviour:
   viewportData: {fileID: 11400000, guid: a5d01f54e67b817448f0b85d62d7ce89, type: 2}
   inventory: {fileID: 5628018141770616597}
   scrollSpeed: 5
+  maxSize: 200
   eventSystem: {fileID: 614963982}
   connectorPrefab: {fileID: 2948861896879133417, guid: 23c57ff0b70617d48a4e2b8562c11f54, type: 3}
   itemConnectionsListA:
