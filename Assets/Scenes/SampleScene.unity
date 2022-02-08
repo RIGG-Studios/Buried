@@ -588,7 +588,7 @@ MonoBehaviour:
   targetPlayerDist: 12
   lightDist: 12
   minDist: 1
-  speed: 1
+  speed: 10
   wayPoints:
   - {fileID: 1975091479}
   - {fileID: 2095616123}
