@@ -6,49 +6,93 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class FlashlightManager : MonoBehaviour
 {
-    public float batteryLifeInSeconds;
-    public Light2D lightSource;
-    public Slider flashlightSlider;
+    [Range(0, 500)] public float batteryLifeInSeconds;
+    public float defaultLightIntensity;
+    public float maxLightIntensity;
 
-    float currentBattery;
-    bool flashlightEnabled;
+    private Light2D[] lights = new Light2D[2];
+
+    private bool flashlightEnabled;
+    private bool flickerLight;
+    private float flashLightIntensity;
+    private float currentLightIntensity;
 
     private void Start()
     {
-        currentBattery = lightSource.intensity;
-        flashlightSlider.maxValue = lightSource.intensity;
-        flashlightSlider.value = flashlightSlider.maxValue;
-
-      //  ToggleFlashlight();
+        InitializeLights();
     }
 
+    public void InitializeLights()
+    {
+        lights = GetComponentsInChildren<Light2D>();
+
+        currentLightIntensity = defaultLightIntensity;
+        flashLightIntensity = maxLightIntensity;
+    }
     private void Update()
     {
         if (flashlightEnabled)
         {
-            lightSource.intensity -= currentBattery / batteryLifeInSeconds * Time.deltaTime;
+            flashLightIntensity -= flashLightIntensity / batteryLifeInSeconds * Time.deltaTime;
 
-            flashlightSlider.value = lightSource.intensity;
+            if (flashLightIntensity <= defaultLightIntensity)
+            {
+                flashLightIntensity = defaultLightIntensity;
+                flashlightEnabled = false;
+            }
 
-            if (lightSource.intensity <= 0)
-                ToggleFlashlight();
-        }
-    }
+            SetLightIntensity(flashLightIntensity);
 
-    public void ToggleFlashlight()
-    {
-        if(flashlightEnabled)
-        {
-            flashlightSlider.gameObject.SetActive(false);
-            lightSource.enabled = false;
-            flashlightEnabled = false;
+            if(flashLightIntensity <= maxLightIntensity / 1.5f)
+                StartCoroutine(FlickerLight());
         }
         else if(!flashlightEnabled)
         {
-            flashlightSlider.gameObject.SetActive(true);
-            lightSource.enabled = true;
-            flashlightEnabled = true;
+            SetLightIntensity(defaultLightIntensity);
+            flickerLight = false;
         }
+
+        if (!flickerLight)
+            StopCoroutine(FlickerLight());
+
+        currentLightIntensity = lights[0].intensity;
     }
+
+    private void SetLightIntensity(float intensity)
+    {
+        for (int i = 0; i < lights.Length; i++)
+            lights[i].intensity = intensity;
+    }
+
+    public void ToggleFlashlight(out bool flashLightEnabled)
+    {
+        if (!flashlightEnabled)
+            flashlightEnabled = true;
+        else
+            flashlightEnabled = false;
+
+        flashLightEnabled = flashlightEnabled;
+    }
+
+    public void UpdateBatteryLife(int batteryLife)
+    {
+        flashLightIntensity = maxLightIntensity;
+        batteryLifeInSeconds = batteryLife;
+    }
+
+    private IEnumerator FlickerLight()
+    {
+        float startIntensity = flashLightIntensity;
+
+        SetLightIntensity(0);
+
+        yield return new WaitForSeconds(Random.Range(0.3f, 0.8f));
+        SetLightIntensity(startIntensity);
+
+    }
+
+    public float GetCurrentLightIntensity() => currentLightIntensity;
+
+    public float GetCurrentMaxLightIntensity() => flashlightEnabled ? maxLightIntensity : defaultLightIntensity;
 }
 

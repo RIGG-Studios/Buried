@@ -6,7 +6,7 @@ public class PlayerParanoidManager : MonoBehaviour
 {
     [Range(0.1f, 1)]
     public float paranoidAmount;
-    [Range(0, 10f)]
+    [Range(0, 100f)]
     public float enemyDistanceThreshold;
     [Range(0, 100f)]
     public float enemyDistanceMultiplier;
@@ -19,26 +19,26 @@ public class PlayerParanoidManager : MonoBehaviour
     public PlayerCamera cam;
 
      float currentHeartBeat;
-     float currentShakeMagnitude;
+     public float currentShakeMagnitude;
      float heartBeatTimer;
 
     private void Update()
     {
         float distance = (transform.position - GameObject.FindGameObjectWithTag("Enemy").transform.position).magnitude;
 
-        currentShakeMagnitude = paranoidAmount >= 0.3f ? paranoidAmount * cameraShakeMultiplier : 0;
+        paranoidAmount = Mathf.Clamp(1 - (distance * enemyDistanceMultiplier), 0.1f, 1f);
+        currentHeartBeat = paranoidAmount * heartBeatMultiplier;
+
         if (distance >= enemyDistanceThreshold)
         {
             currentShakeMagnitude = 0;
         }
+        else
+            currentShakeMagnitude = paranoidAmount * cameraShakeMultiplier;
 
-
-        paranoidAmount = Mathf.Clamp(1 - (distance * enemyDistanceMultiplier), 0.1f, 1f);
-
-        currentHeartBeat = paranoidAmount * heartBeatMultiplier;
         cam.SetShakeMagnitude(currentShakeMagnitude);
-        float t = (60f / currentHeartBeat);
 
+        float t = (60f / currentHeartBeat);
         if (heartBeatTimer <= t)
             heartBeatTimer += Time.deltaTime;
         else

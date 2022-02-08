@@ -14,22 +14,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Flashlight
   itemDescription: A tool used for looking
-  itemType: 1
-  itemSprite: {fileID: 0}
+  itemType: 3
+  itemSprite: {fileID: 21300000, guid: 138d625a02c0a224ca5ee893f935f09e, type: 3}
   itemPrefab: {fileID: 0}
   stackable: 0
   stackAmount: 0
   noteAuthor: 
   noteDate: 
   noteDescription: 
+  toolType: 1
   damage: 2
   wieldTime: 1
   unWieldTime: 1
-  consumableType: 0
-  batteryAmount: 0
+  consumableType: 1
+  batteryCapacity: 100
+  batteryAmount: 70
   healAmount: 0
   useInventoryButtons: 1
-  uiButton: {fileID: 0}
+  uiButton: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649,
+    type: 3}
   uiButtons:
-  - name: View Battery
-  - name: Turn Off
+  - name: Use
+    propertyType: 1
+    propertyName: 
+  - name: Discard
+    propertyType: 2
+    propertyName: 

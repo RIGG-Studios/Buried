@@ -6,7 +6,7 @@ public class InventoryButton : InteractableObject
 {
     public GameObject inventoryButton;
 
-    public override void Interact()
+    public override void Interact(Player player)
     {
         inventoryButton.SetActive(true);
     }

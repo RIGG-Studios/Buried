@@ -5,21 +5,36 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public GameObject map;
+    public GameObject chestUI;
 
-    bool mapShown;
+    public Slider healthSlider;
+    public Text healthText;
 
-    public void ToggleMap()
+    public Slider oxygenSlider;
+    public Text oxygenText;
+
+    public Slider flashLightSlider;
+    public Text flashLightText;
+
+    public void ShowFlashlightBattery(float battery, float maxBattery)
     {
-        if (mapShown)
-        {
-            map.SetActive(false);
-            mapShown = false;
-        }
-        else if (!mapShown)
-        {
-            map.SetActive(true);
-            mapShown = true;
-        }
+        flashLightSlider.gameObject.SetActive(true);
+        flashLightText.gameObject.SetActive(true);
+
+        float percentage = (battery / maxBattery) * 100;
+
+        flashLightSlider.maxValue = maxBattery;
+        flashLightSlider.value = battery;
+        flashLightText.text = ((int)percentage).ToString();
+
+        Invoke("HideFlashlight", 3f);
     }
+
+    private void HideFlashlight()
+    {
+        flashLightSlider.gameObject.SetActive(false);
+        flashLightText.gameObject.SetActive(false);
+    }
+
+    public void ToggleChest(bool state) => chestUI.SetActive(state);
 }

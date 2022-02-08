@@ -8,8 +8,8 @@ public class Door : InteractableObject
     public GameObject openDoor;
     public Collider2D collider;
     bool doorClosed = true;
-    public override void Interact()
-    {
+    public override void Interact(Player player) 
+    { 
         if (doorClosed)
         {
             collider.enabled = false;

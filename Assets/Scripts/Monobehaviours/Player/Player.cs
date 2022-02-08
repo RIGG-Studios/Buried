@@ -3,57 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum PlayerActions
+{
+    ToggleFlashlight,
+    GrapplingHook,
+    EndGrapplingHook,
+    Interact,
+    Hide,
+    UnHide
+}
+
 public class Player : MonoBehaviour
 {
+    public Transform mouseRotate;
+    public bool isHiding { get; private set; }
+   [HideInInspector] public bool flashLightEnabled;
+
     public PlayerMovement movement { get; private set; }
-    public GrapplingHook grappleHook { get; private set; }
-    public FlashlightPositioner flashlightPositioner { get; private set; }
     public FlashlightManager flashLightManager { get; private set; }
     public PlayerUI playerUI { get; private set; }
-    public PlayerAnimator playerAnimator { get; private set; }
     public PlayerInteractionManager playerInteraction { get; private set; }
+    public Inventory inventory { get; private set; }
 
     public RoomController currentRoom;
 
     private void Start()
     {
         movement = GetComponent<PlayerMovement>();
-        grappleHook = GetComponent<GrapplingHook>();
-        flashlightPositioner = FindObjectOfType<FlashlightPositioner>();
-        flashLightManager = GetComponent<FlashlightManager>();
+        flashLightManager = GetComponentInChildren<FlashlightManager>();
         playerUI = GetComponent<PlayerUI>();
         playerInteraction = GetComponent<PlayerInteractionManager>();
+        inventory = FindObjectOfType<Inventory>();
     }
 
     private void Update()
     {
+        LookingAtEnemy();
     }
 
-    public void TryUseGrapplingHook()
+    public void DoAction(PlayerActions action)
     {
-        bool canGrapple = grappleHook.TryStartGrapple();
+        switch (action)
+        {
+            case PlayerActions.Interact:
+                if (playerInteraction.hoveredObject) playerInteraction.InteractWithObject();
+                break;
 
-        if (canGrapple)
+            case PlayerActions.EndGrapplingHook:
+
+                break;
+
+            case PlayerActions.GrapplingHook:
+
+                break;
+
+            case PlayerActions.ToggleFlashlight:
+                if (inventory.HasItem(Item.WeaponTypes.Flashlight)) flashLightManager.ToggleFlashlight(out flashLightEnabled);
+                break;
+
+            case PlayerActions.Hide:
+                ToggleHide();
+                break;
+
+            case PlayerActions.UnHide:
+                ToggleHide();
+                break;
+        }
+    }
+
+    private void ToggleHide()
+    {
+        if (!isHiding)
+        {
             movement.enabled = false;
-    }
-
-    public void TryEndGrapplingHook()
-    {
-        bool canEnd = grappleHook.TryEndGrapple();
-
-        if (canEnd)
+            movement.sprite.enabled = false;
+            isHiding = true;
+        }
+        else
+        {
             movement.enabled = true;
-    }
-
-    public void TryInteract()
-    {
-        if(playerInteraction.hoveredObject)
-            playerInteraction.InteractWithObject();
-    }
-
-    public void TryUseFlashlight()
-    {
-        flashLightManager.ToggleFlashlight();
+            movement.sprite.enabled = true;
+            isHiding = false;
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
@@ -96,6 +127,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    public bool LookingAtEnemy()
+    {
+        Vector3 mousePos = Utilites.GetMousePosition();
+        Vector3 dir = (mousePos - transform.position);
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,10, LayerMask.NameToLayer("Enemy"));
+        if (hit.collider != null)
+        {
+            Debug.Log(hit.collider.gameObject);
+        }
+        return false;
+    }
     public Vector3 GetMovement() => movement.GetMovementDirection();
 }
 

@@ -6,6 +6,30 @@ using UnityEngine.InputSystem;
 
 public class Utilites : MonoBehaviour
 {
+    static GameObject player;
+    public static Vector3 GetPlayerPosition()
+    {
+        if(player == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            Debug.Log(p);
+            player = p;
+        }
+
+        return player.transform.position;
+    }
+
+    public static Player GetPlayer()
+    {
+        if (player == null)
+        {
+            GameObject p = GameObject.FindGameObjectWithTag("Player");
+            player = p;
+        }
+
+        return player.GetComponent<Player>();
+    }
+
     public static Vector2 GetMousePosition() => Mouse.current.position.ReadValue();
 
     public static RaycastResult IsPointerOverUIElement()

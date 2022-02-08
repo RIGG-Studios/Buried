@@ -42,8 +42,9 @@ public class PlayerInput : MonoBehaviour
         playerMovement.UpdateInputVector(movementInput);
     }
 
-    private void OnFireAction() => player.TryUseGrapplingHook();
-    private void OnFireActionReleased() => player.TryEndGrapplingHook();
-    private void OnFlashlightAction() => player.TryUseFlashlight();
-    private void OnInteracAction() => player.TryInteract();
+    private void OnFireAction() => player.DoAction(PlayerActions.GrapplingHook);
+    private void OnFireActionReleased() => player.DoAction(PlayerActions.EndGrapplingHook);
+    private void OnFlashlightAction() => player.DoAction(PlayerActions.ToggleFlashlight);
+    private void OnInteracAction() => player.DoAction(PlayerActions.Interact);
+
 }
