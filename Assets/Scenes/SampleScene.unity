@@ -10077,6 +10077,7 @@ MonoBehaviour:
   loreCorkboard: {fileID: 1751012350}
   viewportData: {fileID: 11400000, guid: a5d01f54e67b817448f0b85d62d7ce89, type: 2}
   prefabNote: {fileID: 911593649815160367, guid: 5548a771c7de36d44938721ec9d21c84, type: 3}
+  connectors: 1
 --- !u!4 &5628018141770616598
 Transform:
   m_ObjectHideFlags: 0

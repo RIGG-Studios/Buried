@@ -88,8 +88,9 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
             if(result.gameObject != null && result.gameObject.GetComponent<NoteManager>() != null)
             {
                 NoteManager manager = result.gameObject.GetComponent<NoteManager>();
-                if (!manager.connected)
+                if (!manager.connected && inventory.connectors > 0)
                 {
+                    inventory.connectors--;
                     GameObject instantiatedConnector = Instantiate(connectorPrefab, result.gameObject.transform);
                     instantiatedConnector.transform.position = result.worldPosition;
 

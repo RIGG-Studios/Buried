@@ -17,6 +17,8 @@ public class PlayerInventory : MonoBehaviour
     public PersistentData viewportData;
     public GameObject prefabNote;
 
+    public int connectors;
+
     GameObject currentItem;
     GameObject spawnedPrompt = null;
 
@@ -37,6 +39,10 @@ public class PlayerInventory : MonoBehaviour
         {
             items.Add(item.GetComponent<NoteManager>().noteVariables);
             newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<NoteManager>().noteVariables;
+        }
+        else if(item.name == "Connector")
+        {
+            connectors+=2;
         }
 
         newNote.transform.position = new Vector3(viewportCanvas.transform.position.x, viewportCanvas.transform.position.y, newNote.transform.position.z);
