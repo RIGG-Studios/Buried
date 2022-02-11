@@ -17,7 +17,7 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
     public List<ItemObjects> itemConnectionsListA;
     public List<ItemObjects> itemConnectionsListB;
 
-    public List<GameObject> connectionResultNotes;
+    public List<KnowledgeObject> connectionResultNotes;
 
     GameObject currentNote;
     GameObject currentNoteBeingConnnected;
@@ -121,7 +121,7 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 
                         if (correspondingNote && correspondingNoteIndex > -1 && manager.noteVariables == correspondingNote && CanContinue(manager))
                         {
-                            inventory.AddItem(connectionResultNotes[correspondingNoteIndex]);
+                            inventory.AddKnowledge(connectionResultNotes[correspondingNoteIndex]);
 
                             currentNoteBeingConnnected.GetComponent<NoteManager>().connectedTo.Add(manager);
                             manager.connectedTo.Add(currentNoteBeingConnnected.GetComponent<NoteManager>());

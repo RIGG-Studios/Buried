@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     public List<ItemObjects> items;
+    public List<KnowledgeObject> knowledge;
     public int collectionRange;
 
     public Transform itemRepository;
@@ -42,6 +43,12 @@ public class PlayerInventory : MonoBehaviour
         newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
 
         currentNoteOffset += new Vector2(newNote.transform.localScale.x * 20, -newNote.transform.localScale.y * 20);
+    }
+
+    public void AddKnowledge(KnowledgeObject newKnowledge)
+    {
+        knowledge.Add(newKnowledge);
+        Debug.Log("I have gained new knowledge");
     }
 
     public void RemoveItem(GameObject item)
@@ -112,7 +119,7 @@ public class PlayerInventory : MonoBehaviour
                 }
                 else if(currentItem.GetComponent<DoorManager>() != null)
                 {
-                    currentItem.GetComponent<DoorManager>().Open(items);
+                    currentItem.GetComponent<DoorManager>().Open(knowledge);
                 }
             }
         }

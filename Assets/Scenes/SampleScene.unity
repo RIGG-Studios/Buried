@@ -7585,7 +7585,7 @@ MonoBehaviour:
   itemConnectionsListB:
   - {fileID: 11400000, guid: c56de67bf1202c643968525ab4243899, type: 2}
   connectionResultNotes:
-  - {fileID: 911593649815160367, guid: ec7b9871b1cda7446a12a8ae2238e725, type: 3}
+  - {fileID: 11400000, guid: c11ee2bfc788e2b4ea4791af6e0f2003, type: 2}
 --- !u!4 &1627905643 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7947911505737750448, guid: ba7fef4c928d8c4459466bf93171730e, type: 3}
@@ -9249,7 +9249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed0592b9b013b647973718d59c35a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: {fileID: 11400000, guid: 0ab736a03be038c49bfe669ab7cf5408, type: 2}
+  key: {fileID: 11400000, guid: c11ee2bfc788e2b4ea4791af6e0f2003, type: 2}
   opened: {fileID: 21300160, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
 --- !u!4 &1991834507 stripped
 Transform:
@@ -10068,6 +10068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
+  knowledge: []
   collectionRange: 3
   itemRepository: {fileID: 1518046500}
   doorRepository: {fileID: 1436065191}

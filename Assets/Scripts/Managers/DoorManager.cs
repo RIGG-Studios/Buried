@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class DoorManager : MonoBehaviour
 {
-    public ItemObjects key;
+    public KnowledgeObject key;
     public Sprite opened;
 
-    public void Open(List<ItemObjects> notes)
+    public void Open(List<KnowledgeObject> knowledge)
     {
-        for(int i = 0; i < notes.Count; i++)
+        for(int i = 0; i < knowledge.Count; i++)
         {
-            if(notes[i] == key)
+            if(knowledge[i] == key)
             {
                 GetComponent<Collider2D>().enabled = false;
                 GetComponent<SpriteRenderer>().sprite = opened;
