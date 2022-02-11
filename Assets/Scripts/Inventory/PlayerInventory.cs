@@ -38,9 +38,10 @@ public class PlayerInventory : MonoBehaviour
             newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<NoteManager>().noteVariables;
         }
 
+        newNote.transform.position = new Vector3(viewportCanvas.transform.position.x, viewportCanvas.transform.position.y, newNote.transform.position.z);
         newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
 
-        currentNoteOffset += new Vector2(newNote.transform.localScale.x/2, newNote.transform.localScale.y/2);
+        currentNoteOffset += new Vector2(newNote.transform.localScale.x * 20, -newNote.transform.localScale.y * 20);
     }
 
     public void RemoveItem(GameObject item)

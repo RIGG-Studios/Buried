@@ -7,6 +7,9 @@ public class KeepOtherSceneLoaded : MonoBehaviour
 {
     void OnEnable()
     {
-        SceneManager.LoadScene("LoreCorkboard", LoadSceneMode.Additive);
+        if (!SceneManager.GetSceneByName("LoreCorkboard").isLoaded)
+        {
+            SceneManager.LoadScene("LoreCorkboard", LoadSceneMode.Additive);
+        }
     }
 }
