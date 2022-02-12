@@ -6,19 +6,10 @@ public class PlayerCamera : MonoBehaviour
     public float smoothingSpeed;
     public Vector3 offset;
 
-    public float magnitude;
-
-    public float swayIntensity;
-    public float maxSway;
+    float magnitude;
     Transform target;
     Vector3 additionalOffset;
     Vector3 swayOffset;
-    Player player;
-
-    private void Start()
-    {
-        player = FindObjectOfType<Player>();
-    }
 
     private void LateUpdate()
     {

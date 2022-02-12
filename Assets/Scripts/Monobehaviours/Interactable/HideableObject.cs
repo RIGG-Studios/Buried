@@ -23,8 +23,8 @@ public class HideableObject : InteractableObject
         }
         else
         {
-            player.transform.position = transform.position;
             player.DoAction(PlayerActions.Hide);
+            player.transform.position = transform.position;
             interactionType = InteractionType.UnHide;
             hidingPlayer = true;
         }

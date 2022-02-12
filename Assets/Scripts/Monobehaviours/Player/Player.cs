@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     public FlashlightManager flashLightManager { get; private set; }
     public PlayerUI playerUI { get; private set; }
     public PlayerInteractionManager playerInteraction { get; private set; }
+
+    public PlayerParanoidManager paranoidManager { get; private set; }
     public Inventory inventory { get; private set; }
 
     public RoomController currentRoom;
@@ -36,8 +38,26 @@ public class Player : MonoBehaviour
         playerUI = GetComponent<PlayerUI>();
         playerInteraction = GetComponent<PlayerInteractionManager>();
         inventory = FindObjectOfType<Inventory>();
+        paranoidManager = GetComponent<PlayerParanoidManager>();
+
+        paranoidManager.enabled = false;
+        movement.enabled = false;
+        flashLightManager.enabled = false;
+        playerInteraction.enabled = false;
+        inventory.enabled = false;
+        mouseRotate.gameObject.SetActive(false);
 
         trans = transform;
+    }
+
+    public void InitializePlayer()
+    {
+        paranoidManager.enabled = true;
+        movement.enabled = true;
+        flashLightManager.enabled = true;
+        playerInteraction.enabled = true;
+        inventory.enabled = true;
+        mouseRotate.gameObject.SetActive(true);
     }
 
     public void DoAction(PlayerActions action)
@@ -76,12 +96,14 @@ public class Player : MonoBehaviour
         {
             movement.enabled = false;
             movement.sprite.enabled = false;
+            GetComponent<Collider2D>().enabled = false;
             isHiding = true;
         }
         else
         {
             movement.enabled = true;
             movement.sprite.enabled = true;
+            GetComponent<Collider2D>().enabled = true;
             isHiding = false;
         }
     }
@@ -92,14 +114,12 @@ public class Player : MonoBehaviour
         {
             movement.enabled = false;
             GetComponent<Collider2D>().enabled = false;
-
             isGrabbed = true;
         }
         else
         {
             movement.enabled = true;
             GetComponent<Collider2D>().enabled = true;
-
             isGrabbed = false;
         }
     }

@@ -9,13 +9,15 @@ public class FlashlightManager : MonoBehaviour
     [Range(0, 500)] public float batteryLifeInSeconds;
     public float defaultLightIntensity;
     public float maxLightIntensity;
+    public Slider slider;
 
-    private Light2D[] lights = new Light2D[2];
+    Light2D light;
 
-    private bool flashlightEnabled;
-    private bool flickerLight;
-    private float flashLightIntensity;
-    private float currentLightIntensity;
+    bool flashlightEnabled;
+    bool flickerLight;
+
+    float flashLightIntensity;
+    float currentLightIntensity;
 
     private void Start()
     {
@@ -24,29 +26,34 @@ public class FlashlightManager : MonoBehaviour
 
     public void InitializeLights()
     {
-        lights = GetComponentsInChildren<Light2D>();
+        light = GetComponentInChildren<Light2D>();
 
         currentLightIntensity = defaultLightIntensity;
         flashLightIntensity = maxLightIntensity;
     }
+
     private void Update()
     {
         if (flashlightEnabled)
         {
             flashLightIntensity -= flashLightIntensity / batteryLifeInSeconds * Time.deltaTime;
+            slider.maxValue = maxLightIntensity;
+            slider.minValue = defaultLightIntensity;
+            slider.value = flashLightIntensity;
 
             if (flashLightIntensity <= defaultLightIntensity)
             {
                 flashLightIntensity = defaultLightIntensity;
+                slider.gameObject.SetActive(false);
                 flashlightEnabled = false;
             }
 
             SetLightIntensity(flashLightIntensity);
 
-            if(flashLightIntensity <= maxLightIntensity / 1.5f)
+            if(flashLightIntensity <= (defaultLightIntensity + maxLightIntensity) / 3)
                 StartCoroutine(FlickerLight());
         }
-        else if(!flashlightEnabled)
+        else 
         {
             SetLightIntensity(defaultLightIntensity);
             flickerLight = false;
@@ -55,22 +62,27 @@ public class FlashlightManager : MonoBehaviour
         if (!flickerLight)
             StopCoroutine(FlickerLight());
 
-        currentLightIntensity = lights[0].intensity;
+        currentLightIntensity = light.intensity;
     }
 
     private void SetLightIntensity(float intensity)
     {
-        for (int i = 0; i < lights.Length; i++)
-            lights[i].intensity = intensity;
+        light.intensity = intensity;
     }
 
     public void ToggleFlashlight(out bool flashLightEnabled)
     {
         if (!flashlightEnabled)
+        {
             flashlightEnabled = true;
+        }
         else
+        {
             flashlightEnabled = false;
+        }
 
+        slider.gameObject.SetActive(flashlightEnabled);
+     
         flashLightEnabled = flashlightEnabled;
     }
 

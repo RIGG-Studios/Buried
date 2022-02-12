@@ -17,8 +17,8 @@ MonoBehaviour:
   itemType: 3
   itemSprite: {fileID: 21300000, guid: 138d625a02c0a224ca5ee893f935f09e, type: 3}
   itemPrefab: {fileID: 0}
-  stackable: 0
-  stackAmount: 0
+  stackable: 1
+  stackAmount: 5
   noteAuthor: 
   noteDate: 
   noteDescription: 

@@ -17,6 +17,7 @@ public class TentacleLineRenderer : MonoBehaviour
 
     Vector3[] segments;
     Vector3[] segmentVelocity;
+    bool setup;
 
     private void Awake()
     {
@@ -38,10 +39,15 @@ public class TentacleLineRenderer : MonoBehaviour
 
         if (agent)
             agent.SetupAI(properties, true, body, this);
+
+        setup = true;
     }
 
     private void LateUpdate()
     {
+        if (!setup)
+            return;
+
         UpdateSegments();
     }
 
@@ -75,7 +81,7 @@ public class TentacleLineRenderer : MonoBehaviour
         if (agentDist > properties.tentacleAIMaxDistance)
             agent.ResetAI();
 
-        if(playerDist <= 1 && !player.flashLightEnabled)
+        if(playerDist <= 1.5f && !player.flashLightEnabled)
         {
             if(!player.isHiding)
             {

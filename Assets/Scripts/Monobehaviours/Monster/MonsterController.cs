@@ -6,11 +6,11 @@ public class MonsterController : MonoBehaviour
 {
     List<TentacleLineRenderer> tentacles = new List<TentacleLineRenderer>();
 
-    private void Start()
+    public void InitializeMonster()
     {
         TentacleLineRenderer[] tentacles = GetComponentsInChildren<TentacleLineRenderer>();
 
-        if(tentacles.Length > 0)
+        if (tentacles.Length > 0)
         {
             for (int i = 0; i < tentacles.Length; i++)
                 this.tentacles.Add(tentacles[i]);

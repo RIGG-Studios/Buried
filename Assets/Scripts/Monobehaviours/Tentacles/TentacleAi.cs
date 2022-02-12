@@ -15,6 +15,7 @@ public class TentacleAi : MonoBehaviour
 
     Transform currentTarget;
     bool targettingPlayer;
+    bool setup;
 
     private void Awake()
     {
@@ -37,16 +38,20 @@ public class TentacleAi : MonoBehaviour
         this.line = line;
 
         agent.enabled = activateAI;
+        setup = true;
     }
 
     private void Update()
     {
-        RetreatLight();
+        if (!setup)
+            return;
+
+        TransitionStates();
 
         agent.SetDestination(currentTarget.position);
     }
 
-    public void RetreatLight()
+    public void TransitionStates()
     {
         float distanceBetweenPlayer = (transform.position - player.transform.position).magnitude;
         float distanceBetweenBody = (transform.position - body.position).magnitude;

@@ -6,6 +6,7 @@ public class Game : MonoBehaviour
 {
     public static Game instance;
 
+    public GameObject startUI;
     public MonsterController monster { get; private set; }  
     public Player player { get; private set; }
 
@@ -15,5 +16,13 @@ public class Game : MonoBehaviour
 
         player = FindObjectOfType<Player>();
         monster = FindObjectOfType<MonsterController>();
+    }
+
+    public void StartGame()
+    {
+        startUI.SetActive(false);
+
+        player.InitializePlayer();
+        monster.InitializeMonster();
     }
 }

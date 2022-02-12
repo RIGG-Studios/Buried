@@ -18,8 +18,8 @@ public class PlayerUI : MonoBehaviour
 
     public void ShowFlashlightBattery(float battery, float maxBattery)
     {
+        /*/
         flashLightSlider.gameObject.SetActive(true);
-        flashLightText.gameObject.SetActive(true);
 
         float percentage = (battery / maxBattery) * 100;
 
@@ -28,6 +28,7 @@ public class PlayerUI : MonoBehaviour
         flashLightText.text = ((int)percentage).ToString();
 
         Invoke("HideFlashlight", 3f);
+        /*/
     }
 
     private void HideFlashlight()
