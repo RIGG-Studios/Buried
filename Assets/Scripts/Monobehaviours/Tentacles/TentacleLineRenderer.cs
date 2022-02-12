@@ -58,17 +58,14 @@ public class TentacleLineRenderer : MonoBehaviour
             Vector3 pos = origin + direction;
 
             if (i >= segments.Length / 2)
-            {
                 direction = agent.transform.position - segments[i - 1];
-            }
 
             RaycastHit2D hit = Physics2D.Raycast(origin, direction, direction.magnitude, wallLayer);
 
-            if (hit.collider != null && i < segments.Length-1 && !grabPlayer)
-            {
-                Vector2 normal = hit.normal * hitOffset;
-                pos = hit.point + normal;
-            }
+            if (hit.collider != null)
+                pos = hit.point + (hit.normal * hitOffset);
+
+
             segments[i] = Vector3.SmoothDamp(segments[i], pos, ref segmentVelocity[i], properties.tentacleMoveSpeed);
         }
 
@@ -78,15 +75,21 @@ public class TentacleLineRenderer : MonoBehaviour
         if (agentDist > properties.tentacleAIMaxDistance)
             agent.ResetAI();
 
-        if(playerDist <= 1)
+        if(playerDist <= 1 && !player.flashLightEnabled)
         {
             if(!player.isHiding)
             {
-                player.GrabPlayer();
+                player.DoAction(PlayerActions.GrabByMonster);
                 player.transform.position = GetTentacleEndPoint();
                 agent.ResetAI();
                 grabPlayer = true;
             }
+        }
+
+        if(grabPlayer && player.flashLightEnabled)
+        {
+            player.DoAction(PlayerActions.GrabByMonster);
+            grabPlayer = false;
         }
 
         line.SetPositions(segments);

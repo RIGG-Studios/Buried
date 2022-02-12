@@ -10,13 +10,14 @@ public enum PlayerActions
     EndGrapplingHook,
     Interact,
     Hide,
-    UnHide
+    GrabByMonster
 }
 
 public class Player : MonoBehaviour
 {
     public Transform mouseRotate;
     public bool isHiding { get; private set; }
+    public bool isGrabbed { get; private set; }
    [HideInInspector] public bool flashLightEnabled;
 
     public PlayerMovement movement { get; private set; }
@@ -63,8 +64,8 @@ public class Player : MonoBehaviour
                 ToggleHide();
                 break;
 
-            case PlayerActions.UnHide:
-                ToggleHide();
+            case PlayerActions.GrabByMonster:
+                ToggleGrabPlayer();
                 break;
         }
     }
@@ -85,10 +86,22 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void GrabPlayer()
+    private void ToggleGrabPlayer()
     {
-        movement.enabled = false;
-        GetComponent<Collider2D>().enabled = false;
+        if (!isGrabbed)
+        {
+            movement.enabled = false;
+            GetComponent<Collider2D>().enabled = false;
+
+            isGrabbed = true;
+        }
+        else
+        {
+            movement.enabled = true;
+            GetComponent<Collider2D>().enabled = true;
+
+            isGrabbed = false;
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

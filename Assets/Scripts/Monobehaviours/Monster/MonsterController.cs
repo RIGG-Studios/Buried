@@ -43,7 +43,6 @@ public class MonsterController : MonoBehaviour
                 minDist = dist;
             }
         }
-        Debug.Log(tMin);
         return tMin;
     }
 }

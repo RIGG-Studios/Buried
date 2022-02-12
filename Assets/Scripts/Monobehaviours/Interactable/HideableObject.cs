@@ -17,7 +17,7 @@ public class HideableObject : InteractableObject
     {
         if (hidingPlayer)
         {
-            player.DoAction(PlayerActions.UnHide);
+            player.DoAction(PlayerActions.Hide);
             interactionType = InteractionType.Hide;
             hidingPlayer = false;
         }
