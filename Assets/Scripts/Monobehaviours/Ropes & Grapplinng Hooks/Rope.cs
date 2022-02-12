@@ -11,6 +11,7 @@ public class Rope : MonoBehaviour
     private int segmentLength = 35;
     private float lineWidth = 0.1f;
     public Transform player;
+    public Transform body;
 
     void Start()
     {
@@ -23,7 +24,6 @@ public class Rope : MonoBehaviour
             ropeStartPoint.y -= ropeSegLen;
         }
     }
-
     void Update()
     {
         DrawRope();
@@ -47,19 +47,15 @@ public class Rope : MonoBehaviour
             firstSegment.posNow += forceGravity * Time.fixedDeltaTime;
             ropeSegments[i] = firstSegment;
         }
+        ApplyConstraint();
 
-        //CONSTRAINTS
-        for (int i = 0; i < 50; i++)
-        {
-            ApplyConstraint();
-        }
     }
 
     private void ApplyConstraint()
     {
         //Constrant to Mouse
         RopeSegment firstSegment = ropeSegments[0];
-        firstSegment.posNow = transform.position + new Vector3(0, 0.25f);
+        firstSegment.posNow = body.position;
         ropeSegments[0] = firstSegment;
 
         for (int i = 0; i < segmentLength - 1; i++)
@@ -87,10 +83,11 @@ public class Rope : MonoBehaviour
             }
             /*/
 
-            if(i >= 20)
+            if(i >= 40)
             {
-                firstSeg.posNow = (Vector2)player.position;
+                firstSeg.posNow = player.position;
                 ropeSegments[i] = firstSeg;
+                continue;
             }
 
             Vector2 changeAmount = changeDir * error;

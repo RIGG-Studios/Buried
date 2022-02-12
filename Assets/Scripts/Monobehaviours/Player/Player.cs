@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     public RoomController currentRoom;
 
+    Transform trans;
     private void Start()
     {
         movement = GetComponent<PlayerMovement>();
@@ -34,11 +35,8 @@ public class Player : MonoBehaviour
         playerUI = GetComponent<PlayerUI>();
         playerInteraction = GetComponent<PlayerInteractionManager>();
         inventory = FindObjectOfType<Inventory>();
-    }
 
-    private void Update()
-    {
-        LookingAtEnemy();
+        trans = transform;
     }
 
     public void DoAction(PlayerActions action)
@@ -87,6 +85,12 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void GrabPlayer()
+    {
+        movement.enabled = false;
+        GetComponent<Collider2D>().enabled = false;
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Room")) 
@@ -127,18 +131,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool LookingAtEnemy()
-    {
-        Vector3 mousePos = Utilites.GetMousePosition();
-        Vector3 dir = (mousePos - transform.position);
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir,10, LayerMask.NameToLayer("Enemy"));
-        if (hit.collider != null)
-        {
-            Debug.Log(hit.collider.gameObject);
-        }
-        return false;
-    }
     public Vector3 GetMovement() => movement.GetMovementDirection();
+
+    public Vector3 GetPosition() => trans.position;
 }
 

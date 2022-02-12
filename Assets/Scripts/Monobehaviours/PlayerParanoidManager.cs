@@ -21,29 +21,21 @@ public class PlayerParanoidManager : MonoBehaviour
      float currentHeartBeat;
      public float currentShakeMagnitude;
      float heartBeatTimer;
-
     private void Update()
     {
-        float distance = (transform.position - GameObject.FindGameObjectWithTag("Enemy").transform.position).magnitude;
-
+        float distance = (Game.instance.monster.GetClosestTentacleToPlayer().GetTentacleEndPoint() - transform.position).magnitude;
         paranoidAmount = Mathf.Clamp(1 - (distance * enemyDistanceMultiplier), 0.1f, 1f);
         currentHeartBeat = paranoidAmount * heartBeatMultiplier;
-
-        if (distance >= enemyDistanceThreshold)
-        {
-            currentShakeMagnitude = 0;
-        }
-        else
-            currentShakeMagnitude = paranoidAmount * cameraShakeMultiplier;
-
+        currentShakeMagnitude = distance >= enemyDistanceThreshold ? 0 : (paranoidAmount * cameraShakeMultiplier);
         cam.SetShakeMagnitude(currentShakeMagnitude);
 
+
         float t = (60f / currentHeartBeat);
+
         if (heartBeatTimer <= t)
             heartBeatTimer += Time.deltaTime;
         else
-        {
-            
+        {       
             foreach (AudioClip c in sounds)
                 source.PlayOneShot(c);
 
