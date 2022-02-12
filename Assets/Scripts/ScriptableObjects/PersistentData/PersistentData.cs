@@ -7,4 +7,5 @@ public class PersistentData : ScriptableObject
 {
     public Camera viewportCamera;
     public Canvas viewportCanvas;
+    public NoteLineRenderer lineRenderer;
 }

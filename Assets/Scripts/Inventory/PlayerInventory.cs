@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class PlayerInventory : MonoBehaviour
 
     public PersistentData viewportData;
     public GameObject prefabNote;
+    public TextMeshProUGUI knowledgePopup;
+    public TextMeshProUGUI connectorCount;
 
     public int connectors;
 
@@ -28,16 +31,20 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(GameObject item)
     {
-        GameObject newNote = Instantiate(prefabNote, viewportCanvas.transform);
+        GameObject newNote = null;
 
         if (item.GetComponent<ItemManager>() != null)
         {
             items.Add(item.GetComponent<ItemManager>().itemVariables);
+            newNote = Instantiate(prefabNote, viewportCanvas.transform);
+
             newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<ItemManager>().itemVariables;
         }
         else if (item.GetComponent<NoteManager>() != null)
         {
             items.Add(item.GetComponent<NoteManager>().noteVariables);
+            newNote = Instantiate(prefabNote, viewportCanvas.transform);
+
             newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<NoteManager>().noteVariables;
         }
         else if(item.name == "Connector")
@@ -45,21 +52,34 @@ public class PlayerInventory : MonoBehaviour
             connectors+=2;
         }
 
-        newNote.transform.position = new Vector3(viewportCanvas.transform.position.x, viewportCanvas.transform.position.y, newNote.transform.position.z);
-        newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
+        if(item.name != "Connector" && newNote != null)
+        {
+            newNote.transform.position = new Vector3(viewportCanvas.transform.position.x, viewportCanvas.transform.position.y, newNote.transform.position.z);
+            newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
 
-        currentNoteOffset += new Vector2(newNote.transform.localScale.x * 20, -newNote.transform.localScale.y * 20);
+            currentNoteOffset += new Vector2(newNote.transform.localScale.x * 20, -newNote.transform.localScale.y * 20);
+        }
     }
 
     public void AddKnowledge(KnowledgeObject newKnowledge)
     {
         knowledge.Add(newKnowledge);
-        Debug.Log("I have gained new knowledge");
+        knowledgePopup.text = "You have gained knowledge of " + newKnowledge.description;
+        StartCoroutine("DisplayKnowledgePopUp");
     }
 
     public void RemoveItem(GameObject item)
     {
         items.Remove(item.GetComponent<ItemManager>().itemVariables);
+    }
+
+    IEnumerator DisplayKnowledgePopUp()
+    {
+        knowledgePopup.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(5);
+
+        knowledgePopup.gameObject.SetActive(false);
     }
 
     void Start()
@@ -116,7 +136,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if(currentItem != null)
             {
-                if(currentItem.GetComponent<ItemManager>() != null)
+                if(currentItem.GetComponent<ItemManager>() != null || currentItem.name == "Connector")
                 {
                     AddItem(currentItem);
 
@@ -129,5 +149,7 @@ public class PlayerInventory : MonoBehaviour
                 }
             }
         }
+
+        connectorCount.text = "Connectors - " + connectors;
     }
 }
