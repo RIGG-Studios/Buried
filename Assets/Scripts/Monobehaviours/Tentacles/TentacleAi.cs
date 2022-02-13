@@ -57,20 +57,23 @@ public class TentacleAi : MonoBehaviour
         float distanceBetweenBody = (transform.position - body.position).magnitude;
         float angle = Vector3.Angle(transform.position, player.transform.position);
 
+
+        if (distanceBetweenBody >= properties.tentacleLength || player.isHiding)
+        {
+            currentTarget = body;
+            targettingPlayer = false;
+            line.rotateAngle = 0;
+            Debug.Log("greater then length of tent");
+        }
+
+
         if (distanceBetweenPlayer < properties.aiDistance && !player.isHiding)
         {
             currentTarget = target;
             targettingPlayer = true;
             line.rotateAngle = 2;
+            Debug.Log("attacking player");
         }
-
-        if(distanceBetweenBody >= properties.tentacleLength || player.isHiding)
-        {
-            currentTarget = body;
-            targettingPlayer = false;
-            line.rotateAngle = 0;
-        }
-
         if (distanceBetweenPlayer <= properties.lightDistance && player.flashLightEnabled && targettingPlayer)
         {
             if (angle <= 90)

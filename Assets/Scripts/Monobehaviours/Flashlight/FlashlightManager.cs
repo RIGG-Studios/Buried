@@ -98,7 +98,7 @@ public class FlashlightManager : MonoBehaviour
 
         SetLightIntensity(0);
 
-        yield return new WaitForSeconds(Random.Range(0.3f, 0.8f));
+        yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
         SetLightIntensity(startIntensity);
 
     }

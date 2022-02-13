@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
         Vector2 dir = (mousePos - transform.position).normalized;
 
-        playerCam.SetOffset(dir * camOffset);
+        playerCam.SetOffset((dir * camOffset) + (movement * camOffset / 4));
     }
 
     private void FixedUpdate()

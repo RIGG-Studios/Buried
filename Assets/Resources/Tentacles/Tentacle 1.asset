@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Tentacle 1
   m_EditorClassIdentifier: 
   lengthBetweenSegments: 1
-  tentacleLength: 100
-  aiDistance: 20
-  tentacleAIMaxDistance: 10
+  tentacleLength: 30
+  aiDistance: 30
+  tentacleAIMaxDistance: 12
   tentacleMoveSpeed: 0.1
   tentacleSegments: 40
   lightDistance: 12
