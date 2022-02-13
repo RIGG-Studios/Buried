@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 335843cd436718c4d80fc92f34902115, type: 3}
-  m_Name: DoorCombo
+  m_Name: DoorCombo2
   m_EditorClassIdentifier: 
-  name: Main Bottom
-  description: the southern door combination
+  name: Main East
+  description: the eastern door combination

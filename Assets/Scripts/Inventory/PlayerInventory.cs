@@ -119,7 +119,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if(spawnedPrompt == null)
             {
-                spawnedPrompt = Instantiate(pickupPrompt, currentItem.transform);
+                spawnedPrompt = Instantiate(pickupPrompt);
             }
             spawnedPrompt.transform.position = currentItem.transform.position + offset;
         }
@@ -146,6 +146,7 @@ public class PlayerInventory : MonoBehaviour
                 else if(currentItem.GetComponent<DoorManager>() != null)
                 {
                     currentItem.GetComponent<DoorManager>().Open(knowledge);
+                    currentItem = null;
                 }
             }
         }
