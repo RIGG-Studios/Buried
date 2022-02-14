@@ -39,7 +39,6 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
         if (currentNote != null)
         {
             Vector2 mousePositionRelativeToViewportPosition = (Input.mousePosition - GetComponent<RectTransform>().position) / GetComponent<RectTransform>().rect.width * 2;
-
             Vector2 translatedMousePosition = new Vector2(viewportCamera.transform.position.x, viewportCamera.transform.position.y) + new Vector2(mousePositionRelativeToViewportPosition.x * viewportCamera.rect.width, mousePositionRelativeToViewportPosition.y * viewportCamera.rect.height) * viewportCamera.orthographicSize;
 
             currentNote.transform.position = new Vector3(translatedMousePosition.x, translatedMousePosition.y, currentNote.transform.position.z);
