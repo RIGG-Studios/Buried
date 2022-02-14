@@ -35,15 +35,18 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector3 viewportCameraPos = viewportCamera.transform.position;
 
-        if(currentNote != null)
+        if (currentNote != null)
         {
-            currentNote.GetComponent<RectTransform>().anchoredPosition += eventData.delta / transform.parent.GetComponent<Canvas>().scaleFactor;
+            Vector2 mousePositionRelativeToViewportPosition = (Input.mousePosition - GetComponent<RectTransform>().position) / GetComponent<RectTransform>().rect.width * 2;
+
+            Vector2 translatedMousePosition = new Vector2(viewportCamera.transform.position.x, viewportCamera.transform.position.y) + new Vector2(mousePositionRelativeToViewportPosition.x * viewportCamera.rect.width, mousePositionRelativeToViewportPosition.y * viewportCamera.rect.height) * viewportCamera.orthographicSize;
+
+            currentNote.transform.position = new Vector3(translatedMousePosition.x, translatedMousePosition.y, currentNote.transform.position.z);
         }
         else
         {
-            viewportCamera.transform.position = new Vector3(viewportCameraPos.x - eventData.delta.x, viewportCameraPos.y - eventData.delta.y, viewportCameraPos.z);
+            viewportCamera.transform.localPosition -= new Vector3(eventData.delta.x, eventData.delta.y, 0);
         }
     }
 
@@ -57,22 +60,20 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
         {
             viewportCamera.orthographicSize -= eventData.scrollDelta.y * scrollSpeed;
         }
-        else if(viewportCamera.orthographicSize < 0)
-        {
-            viewportCamera.orthographicSize = 0;
-        }
-        else if(viewportCamera.orthographicSize > maxSize)
-        {
-            viewportCamera.orthographicSize = maxSize;
-        }
     }
 
     private void Update()
     {
+        viewportCamera.orthographicSize = Mathf.Clamp(viewportCamera.orthographicSize, 1, maxSize);
 
         if (Input.GetMouseButtonDown(0))
         {
-            currentNote = RaycastFromMousePosition().gameObject;
+            RaycastHit2D hit = RaycastFromMousePosition();
+
+            if (hit)
+            {
+                currentNote = hit.collider.gameObject;
+            }
         }
         else if (Input.GetMouseButtonUp(0))
         {
@@ -83,21 +84,21 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
         }
         else if (Input.GetMouseButtonDown(1))
         {
-            RaycastResult result = RaycastFromMousePosition();
+            RaycastHit2D result = RaycastFromMousePosition();
 
-            if(result.gameObject != null && result.gameObject.GetComponent<NoteManager>() != null)
+            if(result && result.collider.gameObject != null && result.collider.gameObject.GetComponent<NoteManager>() != null)
             {
-                NoteManager manager = result.gameObject.GetComponent<NoteManager>();
+                NoteManager manager = result.collider.gameObject.GetComponent<NoteManager>();
                 if (!manager.connected && inventory.connectors > 0)
                 {
                     inventory.connectors--;
-                    GameObject instantiatedConnector = Instantiate(connectorPrefab, result.gameObject.transform);
-                    instantiatedConnector.transform.position = result.worldPosition;
+                    GameObject instantiatedConnector = Instantiate(connectorPrefab, result.collider.gameObject.transform);
+                    instantiatedConnector.transform.position = new Vector3(result.point.x, result.point.y, instantiatedConnector.transform.position.z);
 
                     if (!isCurrentlyConnecting)
                     {
                         isCurrentlyConnecting = true;
-                        currentNoteBeingConnnected = result.gameObject;
+                        currentNoteBeingConnnected = result.collider.gameObject;
 
                         manager.connected = true;
                     }
@@ -130,7 +131,7 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
                         else
                         {
                             Destroy(currentNoteBeingConnnected.transform.GetChild(currentNoteBeingConnnected.transform.childCount - 1).gameObject);
-                            Destroy(result.gameObject.transform.GetChild(result.gameObject.transform.childCount - 1).gameObject);
+                            Destroy(result.collider.gameObject.transform.GetChild(result.collider.gameObject.transform.childCount - 1).gameObject);
                         }
 
                         currentNoteBeingConnnected.GetComponent<NoteManager>().connected = false;
@@ -142,31 +143,19 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
         }
     }
 
-    RaycastResult RaycastFromMousePosition()
+    RaycastHit2D RaycastFromMousePosition()
     {
-        Vector2 worldPoint;
+        Vector2 mousePositionRelativeToViewportPosition = (Input.mousePosition - GetComponent<RectTransform>().position)/GetComponent<RectTransform>().rect.width * 2;
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), Input.mousePosition, null, out worldPoint);
+        Vector2 translatedMousePosition = new Vector2(viewportCamera.transform.position.x, viewportCamera.transform.position.y) + new Vector2(mousePositionRelativeToViewportPosition.x * viewportCamera.rect.width, mousePositionRelativeToViewportPosition.y * viewportCamera.rect.height) * viewportCamera.orthographicSize;
 
-        Vector2 vector = worldPoint + new Vector2(viewportCamera.transform.position.x, viewportCamera.transform.position.y);
-        Vector2 finalVector = viewportCamera.WorldToScreenPoint(vector);
-
-        PointerEventData pointerEventData = new PointerEventData(eventSystem);
-
-        pointerEventData.position = finalVector;
-
-        List<RaycastResult> raycastResults = new List<RaycastResult>();
-        rayCaster.Raycast(pointerEventData, raycastResults);
-
-        foreach (RaycastResult result in raycastResults)
+        RaycastHit2D hit = Physics2D.Raycast(translatedMousePosition, -Vector3.forward, Mathf.Infinity);
+        if (hit)
         {
-            if (currentNote == null && result.gameObject.GetComponent<NoteManager>() != null)
-            {
-                return result;
-            }
+            return hit;
         }
 
-        return new RaycastResult();
+        return new RaycastHit2D();
     }
 
     int GetCorrespondingNoteIndex()

@@ -13,7 +13,6 @@ public class PlayerInventory : MonoBehaviour
     public Transform doorRepository;
     public GameObject pickupPrompt;
     public Vector3 offset;
-    public Canvas loreCorkboard;
 
     public PersistentData viewportData;
     public GameObject prefabNote;
@@ -27,7 +26,7 @@ public class PlayerInventory : MonoBehaviour
 
     Vector2 currentNoteOffset;
 
-    Canvas viewportCanvas;
+    Transform viewportNotes;
 
     public void AddItem(GameObject item)
     {
@@ -36,14 +35,14 @@ public class PlayerInventory : MonoBehaviour
         if (item.GetComponent<ItemManager>() != null)
         {
             items.Add(item.GetComponent<ItemManager>().itemVariables);
-            newNote = Instantiate(prefabNote, viewportCanvas.transform);
+            newNote = Instantiate(prefabNote, viewportNotes);
 
             newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<ItemManager>().itemVariables;
         }
         else if (item.GetComponent<NoteManager>() != null)
         {
             items.Add(item.GetComponent<NoteManager>().noteVariables);
-            newNote = Instantiate(prefabNote, viewportCanvas.transform);
+            newNote = Instantiate(prefabNote, viewportNotes);
 
             newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<NoteManager>().noteVariables;
         }
@@ -54,10 +53,10 @@ public class PlayerInventory : MonoBehaviour
 
         if(item.name != "Connector" && newNote != null)
         {
-            newNote.transform.position = new Vector3(viewportCanvas.transform.position.x, viewportCanvas.transform.position.y, newNote.transform.position.z);
+            newNote.transform.position = new Vector3(viewportNotes.position.x, viewportNotes.position.y, newNote.transform.position.z);
             newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
 
-            currentNoteOffset += new Vector2(newNote.transform.localScale.x * 20, -newNote.transform.localScale.y * 20);
+            currentNoteOffset += new Vector2(20, -20);
         }
     }
 
@@ -85,7 +84,7 @@ public class PlayerInventory : MonoBehaviour
     void Start()
     {
         items = new List<ItemObjects>();
-        viewportCanvas = viewportData.viewportCanvas;
+        viewportNotes = viewportData.noteRepository;
     }
 
     void Update()
