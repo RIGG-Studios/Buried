@@ -24,9 +24,10 @@ public class Player : MonoBehaviour
     public FlashlightManager flashLightManager { get; private set; }
     public PlayerUI playerUI { get; private set; }
     public PlayerInteractionManager playerInteraction { get; private set; }
-
     public PlayerParanoidManager paranoidManager { get; private set; }
     public Inventory inventory { get; private set; }
+
+    public PlayerCamera playerCam { get; private set; }
 
     public RoomController currentRoom;
 
@@ -39,7 +40,15 @@ public class Player : MonoBehaviour
         playerInteraction = GetComponent<PlayerInteractionManager>();
         inventory = FindObjectOfType<Inventory>();
         paranoidManager = GetComponent<PlayerParanoidManager>();
+        playerCam = FindObjectOfType<PlayerCamera>();
 
+        trans = transform;
+        DisablePlayer();
+    }
+
+    public void DisablePlayer()
+    {
+        playerCam.SetShakeMagnitude(0);
         paranoidManager.enabled = false;
         movement.enabled = false;
         flashLightManager.enabled = false;
@@ -47,7 +56,6 @@ public class Player : MonoBehaviour
         inventory.enabled = false;
         mouseRotate.gameObject.SetActive(false);
 
-        trans = transform;
     }
 
     public void InitializePlayer()
@@ -113,13 +121,13 @@ public class Player : MonoBehaviour
         if (!isGrabbed)
         {
             movement.enabled = false;
-            GetComponent<Collider2D>().enabled = false;
+         //   GetComponent<Collider2D>().enabled = false;
             isGrabbed = true;
         }
         else
         {
             movement.enabled = true;
-            GetComponent<Collider2D>().enabled = true;
+        //    GetComponent<Collider2D>().enabled = true;
             isGrabbed = false;
         }
     }

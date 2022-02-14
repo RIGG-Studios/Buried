@@ -43,7 +43,7 @@ public class TentacleLineRenderer : MonoBehaviour
         setup = true;
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if (!setup)
             return;
@@ -57,33 +57,33 @@ public class TentacleLineRenderer : MonoBehaviour
 
         for (int i = 1; i < segments.Length; i++)
         {
-            Vector3 origin =  segments[i - 1];
-            Vector3 direction =  Quaternion.AngleAxis(((i > 1 ? i : 0) * rotateAngle), Vector3.forward) *
+            Vector3 origin = segments[i - 1];
+            Vector3 direction = Quaternion.AngleAxis(i > 1 ? i * rotateAngle : 0, Vector3.forward) *
                 (agent.transform.position - segments[i - 1]).normalized;
 
             Vector3 pos = origin + direction;
 
-            if (i >= segments.Length / 2)
-                direction = agent.transform.position - segments[i - 1];
+        //    if (i >= segments.Length / 2)
+          //      direction = agent.transform.position - segments[i - 1];
 
             RaycastHit2D hit = Physics2D.Raycast(origin, direction, direction.magnitude, wallLayer);
 
             if (hit.collider != null)
                 pos = hit.point + (hit.normal * hitOffset);
 
-
             segments[i] = Vector3.SmoothDamp(segments[i], pos, ref segmentVelocity[i], properties.tentacleMoveSpeed);
         }
 
         float agentDist = (agent.transform.position - GetTentacleEndPoint()).magnitude;
         float playerDist = (GetTentacleEndPoint() - player.GetPosition()).magnitude;
+        float playerDistToBody = (body.position - player.GetPosition()).magnitude;
 
         if (agentDist > properties.tentacleAIMaxDistance)
             agent.ResetAI();
 
-        if(playerDist <= 1.5f && !player.flashLightEnabled)
+        if (playerDist <= 1.5f && !player.flashLightEnabled)
         {
-            if(!player.isHiding)
+            if (!player.isHiding)
             {
                 player.DoAction(PlayerActions.GrabByMonster);
                 player.transform.position = GetTentacleEndPoint();
@@ -92,10 +92,15 @@ public class TentacleLineRenderer : MonoBehaviour
             }
         }
 
-        if(grabPlayer && player.flashLightEnabled)
+        if (grabPlayer && player.flashLightEnabled)
         {
             player.DoAction(PlayerActions.GrabByMonster);
             grabPlayer = false;
+        }
+
+        if (grabPlayer && playerDistToBody <= 1.5f)
+        {
+            Game.instance.EndGame();
         }
 
         line.SetPositions(segments);

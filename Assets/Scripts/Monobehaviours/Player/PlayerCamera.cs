@@ -21,7 +21,6 @@ public class PlayerCamera : MonoBehaviour
 
         transform.position += new Vector3(Random.Range(-magnitude, magnitude), Random.Range(-magnitude, magnitude));
     }
-
     public void SetTarget(Transform target) => this.target = target;
 
     public void SetOffset(Vector3 offset) => additionalOffset = offset;
