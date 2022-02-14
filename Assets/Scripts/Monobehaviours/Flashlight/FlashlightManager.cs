@@ -11,7 +11,7 @@ public class FlashlightManager : MonoBehaviour
     public float maxLightIntensity;
     public Slider slider;
 
-    Light2D light;
+    Light2D[] lights = new Light2D[2];
 
     bool flashlightEnabled;
     bool flickerLight;
@@ -19,14 +19,12 @@ public class FlashlightManager : MonoBehaviour
     float flashLightIntensity;
     float currentLightIntensity;
 
+    Player player;
+
     private void Start()
     {
-        InitializeLights();
-    }
-
-    public void InitializeLights()
-    {
-        light = GetComponentInChildren<Light2D>();
+        player = FindObjectOfType<Player>();
+        lights = GetComponentsInChildren<Light2D>();
 
         currentLightIntensity = defaultLightIntensity;
         flashLightIntensity = maxLightIntensity;
@@ -62,12 +60,14 @@ public class FlashlightManager : MonoBehaviour
         if (!flickerLight)
             StopCoroutine(FlickerLight());
 
-        currentLightIntensity = light.intensity;
+        lights[1].enabled = player.isHiding;
+        currentLightIntensity = lights[0].intensity;
     }
 
     private void SetLightIntensity(float intensity)
     {
-        light.intensity = intensity;
+        foreach(Light2D light in lights)
+            light.intensity = intensity;
     }
 
     public void ToggleFlashlight(out bool flashLightEnabled)

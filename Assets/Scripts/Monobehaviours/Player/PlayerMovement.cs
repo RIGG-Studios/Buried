@@ -14,12 +14,14 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody2D physics;
     PlayerCamera playerCam;
+    Player player;
 
 
     private void Start()
     {
         physics = GetComponent<Rigidbody2D>();
         playerCam = FindObjectOfType<PlayerCamera>();
+        player = GetComponent<Player>();
         playerCam.SetTarget(transform);
     }
 
@@ -27,8 +29,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
         Vector2 dir = (mousePos - transform.position).normalized;
+        Vector3 camOffset = (dir * this.camOffset) + (movement * this.camOffset / 4);
 
-        playerCam.SetOffset((dir * camOffset) + (movement * camOffset / 4));
+        playerCam.SetOffset(player.isHiding ? Vector3.zero : camOffset);
     }
 
     private void FixedUpdate()
