@@ -53,7 +53,7 @@ public class PlayerInventory : MonoBehaviour
 
         if(item.name != "Connector" && newNote != null)
         {
-            newNote.transform.position = new Vector3(viewportNotes.position.x, viewportNotes.position.y, newNote.transform.position.z);
+            newNote.transform.position = new Vector3(viewportNotes.position.x, viewportNotes.position.y, (viewportData.noteRepository.childCount - 1) * 0.1f);
             newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
 
             currentNoteOffset += new Vector2(20, -20);
