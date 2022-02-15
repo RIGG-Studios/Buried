@@ -17,4 +17,9 @@ public class LoadLoreDisplay : MonoBehaviour
         data.lineRenderer = lineRenderer;
         data.noteRepository = noteRepository;
     }
+
+    private void Start()
+    {
+        mainCamera.transparencySortMode = TransparencySortMode.Orthographic;
+    }
 }

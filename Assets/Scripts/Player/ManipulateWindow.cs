@@ -12,6 +12,9 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
     public int maxSize;
     public EventSystem eventSystem;
 
+    public int draggingZ;
+    public float restingZ;
+
     public GameObject connectorPrefab;
 
     public List<ItemObjects> itemConnectionsListA;
@@ -19,10 +22,10 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 
     public List<KnowledgeObject> connectionResultNotes;
 
+    public Material normalNoteConnectionMaterial;
+
     GameObject currentNote;
     GameObject currentNoteBeingConnnected;
-
-    GraphicRaycaster rayCaster;
 
     Camera viewportCamera;
     bool isCurrentlyConnecting;
@@ -30,7 +33,6 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
     void Start()
     {
         viewportCamera = viewportData.viewportCamera;
-        rayCaster = viewportData.viewportCanvas.GetComponent<GraphicRaycaster>();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -41,7 +43,7 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
             Vector2 mousePositionRelativeToViewportPosition = (Input.mousePosition - GetComponent<RectTransform>().position) / GetComponent<RectTransform>().rect.width * 2;
             Vector2 translatedMousePosition = new Vector2(viewportCamera.transform.position.x, viewportCamera.transform.position.y) + new Vector2(mousePositionRelativeToViewportPosition.x * viewportCamera.rect.width, mousePositionRelativeToViewportPosition.y * viewportCamera.rect.height) * viewportCamera.orthographicSize;
 
-            currentNote.transform.position = new Vector3(translatedMousePosition.x, translatedMousePosition.y, currentNote.transform.position.z);
+            currentNote.transform.position = new Vector3(translatedMousePosition.x, translatedMousePosition.y, draggingZ);
         }
         else
         {
@@ -78,6 +80,18 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
         {
             if (currentNote != null)
             {
+                int z = 0;
+
+                for(int i = 0; i < viewportData.noteRepository.childCount; i++)
+                {
+                    if (currentNote == viewportData.noteRepository.GetChild(i).gameObject)
+                    {
+                        z = i;
+                        break;
+                    }
+                }
+
+                currentNote.transform.position = new Vector3(currentNote.transform.position.x, currentNote.transform.position.y, restingZ * z);
                 currentNote = null;
             }
         }
@@ -123,6 +137,9 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
                         if (correspondingNote && correspondingNoteIndex > -1 && manager.noteVariables == correspondingNote && CanContinue(manager))
                         {
                             inventory.AddKnowledge(connectionResultNotes[correspondingNoteIndex]);
+                            viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsA.Add(currentNoteBeingConnnected.transform.GetChild(currentNoteBeingConnnected.transform.childCount - 1));
+                            viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsB.Add(result.collider.gameObject.transform.GetChild(result.collider.gameObject.transform.childCount - 1));
+                            viewportData.noteRepository.GetComponent<LineRenderer>().materials.Add(normalNoteConnectionMaterial);
 
                             currentNoteBeingConnnected.GetComponent<NoteManager>().connectedTo.Add(manager);
                             manager.connectedTo.Add(currentNoteBeingConnnected.GetComponent<NoteManager>());

@@ -13375,6 +13375,8 @@ MonoBehaviour:
   scrollSpeed: 5
   maxSize: 200
   eventSystem: {fileID: 614963982}
+  draggingZ: -1
+  restingZ: 0.1
   connectorPrefab: {fileID: 3584371974274747342, guid: f0ced7bcf32d34f478fb1a4a9a1f892a, type: 3}
   itemConnectionsListA:
   - {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
@@ -13382,6 +13384,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c56de67bf1202c643968525ab4243899, type: 2}
   connectionResultNotes:
   - {fileID: 11400000, guid: c11ee2bfc788e2b4ea4791af6e0f2003, type: 2}
+  normalNoteConnectionMaterial: {fileID: 2100000, guid: 4cd6027c95250274cbd795c5effe5a7e, type: 2}
 --- !u!1001 &1619738131
 PrefabInstance:
   m_ObjectHideFlags: 0
