@@ -3217,16 +3217,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 314727545}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 5628018141770616597}
+        m_TargetAssemblyTypeName: PlayerInventory, Assembly-CSharp
+        m_MethodName: StopKnowledgeTextCoroutine
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: DisplayKnowledgePopUp
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &314727548
@@ -5266,7 +5266,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 566337664}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.99, y: -1.31, z: -1}
+  m_LocalPosition: {x: -14.32, y: 4.99, z: -1}
   m_LocalScale: {x: 0.80287397, y: 0.80287397, z: 0.80287397}
   m_Children: []
   m_Father: {fileID: 1518046500}
@@ -5284,7 +5284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b386f4e9474c14dbfd624d1d8c18ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemVariables: {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
+  itemVariables: {fileID: 11400000, guid: c56de67bf1202c643968525ab4243899, type: 2}
 --- !u!61 &566337668
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13057,7 +13057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590866342}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.44, y: -4.12, z: -1}
+  m_LocalPosition: {x: -13.58, y: -4.99, z: -1}
   m_LocalScale: {x: 0.80287397, y: 0.80287397, z: 0.80287397}
   m_Children: []
   m_Father: {fileID: 1518046500}
@@ -13075,7 +13075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b386f4e9474c14dbfd624d1d8c18ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemVariables: {fileID: 11400000, guid: c56de67bf1202c643968525ab4243899, type: 2}
+  itemVariables: {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
 --- !u!61 &1590866345
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13465,12 +13465,9 @@ MonoBehaviour:
   draggingZ: -1
   restingZ: 0.1
   connectorPrefab: {fileID: 3584371974274747342, guid: f0ced7bcf32d34f478fb1a4a9a1f892a, type: 3}
-  itemConnectionsListA:
-  - {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
-  itemConnectionsListB:
-  - {fileID: 11400000, guid: c56de67bf1202c643968525ab4243899, type: 2}
-  connectionResultNotes:
-  - {fileID: 11400000, guid: c11ee2bfc788e2b4ea4791af6e0f2003, type: 2}
+  itemConnectionsListA: []
+  itemConnectionsListB: []
+  connectionResultNotes: []
   normalNoteConnectionMaterial: {fileID: 2100000, guid: 4cd6027c95250274cbd795c5effe5a7e, type: 2}
 --- !u!1001 &1619738131
 PrefabInstance:
@@ -15732,6 +15729,63 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!1 &1942887080
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942887081}
+  - component: {fileID: 1942887082}
+  m_Layer: 0
+  m_Name: Hitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1942887081
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942887080}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1989217932}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1942887082
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942887080}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.016041279, y: 0.18350364}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1924915, y: 0.32434246}
+  m_EdgeRadius: 0
 --- !u!1 &1944160315
 GameObject:
   m_ObjectHideFlags: 0
@@ -16067,7 +16121,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -11.58, y: -10.03, z: 0}
   m_LocalScale: {x: 2.5166, y: 2.5166, z: 2.5166}
-  m_Children: []
+  m_Children:
+  - {fileID: 1942887081}
   m_Father: {fileID: 1436065191}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16081,10 +16136,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.19941664}
+  m_Offset: {x: -0.01289767, y: 0.7748566}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -16095,7 +16150,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.37782001}
+  m_Size: {x: 1.1805648, y: 1.6056021}
   m_EdgeRadius: 0
 --- !u!114 &1989217934
 MonoBehaviour:
@@ -16111,6 +16166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: {fileID: 11400000, guid: c11ee2bfc788e2b4ea4791af6e0f2003, type: 2}
   opened: {fileID: 21300160, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
+  colliderToDisable: {fileID: 1942887082}
 --- !u!1001 &2009951802
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17286,7 +17342,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items: []
   knowledge: []
-  collectionRange: 3
+  collectionRange: 4
   itemRepository: {fileID: 1518046500}
   doorRepository: {fileID: 1436065191}
   pickupPrompt: {fileID: 5068823168229512459, guid: e5cfd78f6418b2a42b34d0d0129fae25, type: 3}

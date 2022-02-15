@@ -28,6 +28,8 @@ public class PlayerInventory : MonoBehaviour
 
     Transform viewportNotes;
 
+    bool debounce;
+
     public void AddItem(GameObject item)
     {
         GameObject newNote = null;
@@ -63,7 +65,7 @@ public class PlayerInventory : MonoBehaviour
     public void AddKnowledge(KnowledgeObject newKnowledge)
     {
         knowledge.Add(newKnowledge);
-        knowledgePopup.text = "You have gained knowledge of " + newKnowledge.description;
+        knowledgePopup.text = "You have gained " + newKnowledge.description;
         StartCoroutine("DisplayKnowledgePopUp");
     }
 
@@ -74,11 +76,16 @@ public class PlayerInventory : MonoBehaviour
 
     IEnumerator DisplayKnowledgePopUp()
     {
-        knowledgePopup.gameObject.SetActive(true);
+        if (!debounce)
+        {
+            debounce = true;
+            knowledgePopup.gameObject.SetActive(true);
 
-        yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(5);
 
-        knowledgePopup.gameObject.SetActive(false);
+            knowledgePopup.gameObject.SetActive(false);
+            debounce = false;
+        }
     }
 
     void Start()
@@ -89,6 +96,7 @@ public class PlayerInventory : MonoBehaviour
 
     void Update()
     {
+        /*
         for (int i = 0; i < itemRepository.childCount; i++)
         {
             if (((transform.position - itemRepository.GetChild(i).position).magnitude <= collectionRange))
@@ -130,14 +138,40 @@ public class PlayerInventory : MonoBehaviour
                 spawnedPrompt = null;
             }
         }
+        */
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetMouseButtonDown(0))
         {
+            RaycastHit2D hit;
+
+            hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector3.forward, Mathf.Infinity);
+
+            if (hit)
+            {
+                if(hit.transform.parent == itemRepository || hit.transform.parent == doorRepository)
+                {
+                    if((transform.position - hit.transform.position).magnitude <= collectionRange)
+                    {
+                        currentItem = hit.transform.gameObject;
+                    }
+                    else
+                    {
+                        knowledgePopup.text = "That object is too far away";
+                        StartCoroutine("DisplayKnowledgePopUp");
+                    }
+                }
+            }
+
             if(currentItem != null)
             {
                 if(currentItem.GetComponent<ItemManager>() != null || currentItem.name == "Connector")
                 {
                     AddItem(currentItem);
+
+                    if(currentItem.name != "Connector" && currentItem.GetComponent<ItemManager>().itemVariables.knowledge != null)
+                    {
+                        AddKnowledge(currentItem.GetComponent<ItemManager>().itemVariables.knowledge);
+                    }
 
                     Destroy(currentItem);
                     currentItem = null;
@@ -151,5 +185,11 @@ public class PlayerInventory : MonoBehaviour
         }
 
         connectorCount.text = "Connectors - " + connectors;
+    }
+
+    public void StopKnowledgeTextCoroutine()
+    {
+        StopCoroutine(DisplayKnowledgePopUp());
+        debounce = false;
     }
 }

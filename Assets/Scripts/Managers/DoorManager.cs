@@ -6,6 +6,7 @@ public class DoorManager : MonoBehaviour
 {
     public KnowledgeObject key;
     public Sprite opened;
+    public Collider2D colliderToDisable;
 
     public void Open(List<KnowledgeObject> knowledge)
     {
@@ -13,7 +14,7 @@ public class DoorManager : MonoBehaviour
         {
             if(knowledge[i] == key)
             {
-                GetComponent<Collider2D>().enabled = false;
+                colliderToDisable.enabled = false;
                 GetComponent<SpriteRenderer>().sprite = opened;
                 transform.parent = transform.parent.parent;
             }
