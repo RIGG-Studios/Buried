@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
   m_Name: DoorKey
   m_EditorClassIdentifier: 
-  name: 
-  text: 
-  knowledge: {fileID: 0}
+  name: Door Key
+  text: There's an old key with strange symbols carved into it attached to the back
+    of this note.

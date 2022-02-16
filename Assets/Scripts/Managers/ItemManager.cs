@@ -5,4 +5,5 @@ using UnityEngine;
 public class ItemManager : MonoBehaviour
 {
     public ItemObjects itemVariables;
+    public GameObject itemPrefab;
 }

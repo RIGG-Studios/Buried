@@ -14,7 +14,6 @@ public class PlayerInventory : MonoBehaviour
     public Vector3 offset;
 
     public PersistentData viewportData;
-    public GameObject prefabNote;
     public TextMeshProUGUI knowledgePopup;
 
     GameObject currentItem;
@@ -26,25 +25,17 @@ public class PlayerInventory : MonoBehaviour
 
     bool debounce;
 
-    public void AddItem(GameObject item)
+    public GameObject AddItem(ItemObjects item, GameObject prefabNote)
     {
         GameObject newNote = null;
 
-        if (item.GetComponent<ItemManager>() != null)
+        if (item != null)
         {
-            items.Add(item.GetComponent<ItemManager>().itemVariables);
+            items.Add(item);
             newNote = Instantiate(prefabNote, viewportNotes);
 
-            newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<ItemManager>().itemVariables;
+            newNote.GetComponent<NoteManager>().noteVariables = item;
         }
-        else if (item.GetComponent<NoteManager>() != null)
-        {
-            items.Add(item.GetComponent<NoteManager>().noteVariables);
-            newNote = Instantiate(prefabNote, viewportNotes);
-
-            newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<NoteManager>().noteVariables;
-        }
-
         if(newNote != null)
         {
             newNote.transform.position = new Vector3(viewportNotes.position.x, viewportNotes.position.y, (viewportData.noteRepository.childCount - 1) * 0.1f);
@@ -52,6 +43,8 @@ public class PlayerInventory : MonoBehaviour
 
             currentNoteOffset += new Vector2(20, -20);
         }
+
+        return newNote;
     }
 
     public void RemoveItem(GameObject item)
@@ -151,7 +144,7 @@ public class PlayerInventory : MonoBehaviour
             {
                 if(currentItem.GetComponent<ItemManager>() != null)
                 {
-                    AddItem(currentItem);
+                    AddItem(currentItem.GetComponent<ItemManager>().itemVariables, currentItem.GetComponent<ItemManager>().itemPrefab);
 
                     Destroy(currentItem);
                     currentItem = null;

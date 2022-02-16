@@ -9,17 +9,36 @@ public class LineRenderer : MonoBehaviour
 
     public List<Material> materials;
 
+    List<GameObject> emptysForMeshes;
+
     public float lineThickness;
 
-    MeshFilter filter;
-
-    void Start()
+    private void Start()
     {
-        filter = GetComponent<MeshFilter>();
+        emptysForMeshes = new List<GameObject>();
     }
 
-    public void DrawLineBetweenPoints(Transform point1, Transform point2, Material material)
+    public void DrawLineBetweenPoints(Transform point1, Transform point2, Material material, int index)
     {
+        GameObject empty = null;
+
+        if(emptysForMeshes.Count < index + 1)
+        {
+            empty = new GameObject();
+            empty.transform.position = transform.position;
+
+            empty.AddComponent<MeshFilter>();
+            empty.AddComponent<MeshRenderer>();
+
+            emptysForMeshes.Add(empty);
+        }
+        else if(emptysForMeshes.Count >= index + 1)
+        {
+            empty = emptysForMeshes[index].gameObject;
+        }
+
+        MeshFilter filter = empty.GetComponent<MeshFilter>();
+
         Mesh mesh = new Mesh();
 
         Vector3[] vertices = new Vector3[4];
@@ -50,10 +69,11 @@ public class LineRenderer : MonoBehaviour
 
 
         mesh.RecalculateNormals();
+
         mesh.vertices = vertices;
         mesh.triangles = triangles;
 
-        GetComponent<MeshRenderer>().material = material;
+        empty.GetComponent<MeshRenderer>().material = material;
 
         filter.mesh = mesh;
     }
@@ -62,7 +82,7 @@ public class LineRenderer : MonoBehaviour
     {
         for(int i = 0; i < connectionPointsA.Count; i++)
         {
-            DrawLineBetweenPoints(connectionPointsA[i], connectionPointsB[i], materials[i]);
+            DrawLineBetweenPoints(connectionPointsA[i], connectionPointsB[i], materials[i], i);
         }
     }
 }

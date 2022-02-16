@@ -4910,6 +4910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemVariables: {fileID: 11400000, guid: c56de67bf1202c643968525ab4243899, type: 2}
+  itemPrefab: {fileID: 7740689958486631226, guid: 5548a771c7de36d44938721ec9d21c84, type: 3}
 --- !u!61 &566337668
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12417,6 +12418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemVariables: {fileID: 11400000, guid: ca32357cb00343e48ae7f34abf46ecb5, type: 2}
+  itemPrefab: {fileID: 7740689958486631226, guid: e6a5157d42937d5469d2a963feca4c24, type: 3}
 --- !u!61 &1590866345
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -12809,7 +12811,9 @@ MonoBehaviour:
   itemConnectionsListA: []
   itemConnectionsListB: []
   connectionResultNotes: []
+  connecttionResultNotePrefabs: []
   normalNoteConnectionMaterial: {fileID: 2100000, guid: 4cd6027c95250274cbd795c5effe5a7e, type: 2}
+  specialNoteConnectionMaterial: {fileID: 2100000, guid: af4f7558a7095e74d83c2011e0fb26ca, type: 2}
 --- !u!1001 &1619738131
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15403,7 +15407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed0592b9b013b647973718d59c35a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: {fileID: 11400000, guid: c11ee2bfc788e2b4ea4791af6e0f2003, type: 2}
+  key: {fileID: 11400000, guid: 1d7df57537215294895d56f2df933dab, type: 2}
   opened: {fileID: 21300160, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
   colliderToDisable: {fileID: 1942887082}
 --- !u!1001 &2009951802
@@ -16487,17 +16491,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
-  knowledge: []
   collectionRange: 4
   itemRepository: {fileID: 1518046500}
   doorRepository: {fileID: 1436065191}
   pickupPrompt: {fileID: 5068823168229512459, guid: e5cfd78f6418b2a42b34d0d0129fae25, type: 3}
   offset: {x: 0, y: 0.8, z: 0}
   viewportData: {fileID: 11400000, guid: a5d01f54e67b817448f0b85d62d7ce89, type: 2}
-  prefabNote: {fileID: 7740689958486631226, guid: 5548a771c7de36d44938721ec9d21c84, type: 3}
   knowledgePopup: {fileID: 1653491672}
-  connectorCount: {fileID: 724720513}
-  connectors: 0
 --- !u!4 &5628018141770616598
 Transform:
   m_ObjectHideFlags: 0
