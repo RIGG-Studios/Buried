@@ -20,7 +20,7 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
     public List<ItemObjects> itemConnectionsListA;
     public List<ItemObjects> itemConnectionsListB;
 
-    public List<KnowledgeObject> connectionResultNotes;
+    public List<GameObject> connectionResultNotes;
 
     public Material normalNoteConnectionMaterial;
 
@@ -135,7 +135,7 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 
                         if (correspondingNote && correspondingNoteIndex > -1 && manager.noteVariables == correspondingNote && CanContinue(manager))
                         {
-                            inventory.AddKnowledge(connectionResultNotes[correspondingNoteIndex]);
+                            inventory.AddItem(connectionResultNotes[correspondingNoteIndex]);
                             viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsA.Add(currentNoteBeingConnnected.transform.GetChild(currentNoteBeingConnnected.transform.childCount - 1));
                             viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsB.Add(result.collider.gameObject.transform.GetChild(result.collider.gameObject.transform.childCount - 1));
                             viewportData.noteRepository.GetComponent<LineRenderer>().materials.Add(normalNoteConnectionMaterial);

@@ -6,7 +6,6 @@ using TMPro;
 public class PlayerInventory : MonoBehaviour
 {
     public List<ItemObjects> items;
-    public List<KnowledgeObject> knowledge;
     public int collectionRange;
 
     public Transform itemRepository;
@@ -53,13 +52,6 @@ public class PlayerInventory : MonoBehaviour
 
             currentNoteOffset += new Vector2(20, -20);
         }
-    }
-
-    public void AddKnowledge(KnowledgeObject newKnowledge)
-    {
-        knowledge.Add(newKnowledge);
-        knowledgePopup.text = "You have gained " + newKnowledge.description;
-        StartCoroutine("DisplayKnowledgePopUp");
     }
 
     public void RemoveItem(GameObject item)
@@ -161,17 +153,12 @@ public class PlayerInventory : MonoBehaviour
                 {
                     AddItem(currentItem);
 
-                    if(currentItem.GetComponent<ItemManager>().itemVariables.knowledge != null)
-                    {
-                        AddKnowledge(currentItem.GetComponent<ItemManager>().itemVariables.knowledge);
-                    }
-
                     Destroy(currentItem);
                     currentItem = null;
                 }
                 else if(currentItem.GetComponent<DoorManager>() != null)
                 {
-                    currentItem.GetComponent<DoorManager>().Open(knowledge);
+                    currentItem.GetComponent<DoorManager>().Open(items);
                     currentItem = null;
                 }
             }

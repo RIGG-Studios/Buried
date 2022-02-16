@@ -8,6 +8,4 @@ public class ItemObjects : ScriptableObject
     new public string name;
     [TextArea]
     public string text;
-
-    public KnowledgeObject knowledge;
 }

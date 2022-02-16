@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class DoorManager : MonoBehaviour
 {
-    public KnowledgeObject key;
+    public ItemObjects key;
     public Sprite opened;
     public Collider2D colliderToDisable;
 
-    public void Open(List<KnowledgeObject> knowledge)
+    public void Open(List<ItemObjects> items)
     {
-        for(int i = 0; i < knowledge.Count; i++)
+        for(int i = 0; i < items.Count; i++)
         {
-            if(knowledge[i] == key)
+            if(items[i] == key)
             {
                 colliderToDisable.enabled = false;
                 GetComponent<SpriteRenderer>().sprite = opened;

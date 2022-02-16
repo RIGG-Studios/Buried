@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 335843cd436718c4d80fc92f34902115, type: 3}
-  m_Name: DoorCombo
+  m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
+  m_Name: DoorKey
   m_EditorClassIdentifier: 
-  name: Main Bottom
-  description: the southern door combination
+  name: 
+  text: 
+  knowledge: {fileID: 0}
