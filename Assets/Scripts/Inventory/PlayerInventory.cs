@@ -17,9 +17,6 @@ public class PlayerInventory : MonoBehaviour
     public PersistentData viewportData;
     public GameObject prefabNote;
     public TextMeshProUGUI knowledgePopup;
-    public TextMeshProUGUI connectorCount;
-
-    public int connectors;
 
     GameObject currentItem;
     GameObject spawnedPrompt = null;
@@ -48,12 +45,8 @@ public class PlayerInventory : MonoBehaviour
 
             newNote.GetComponent<NoteManager>().noteVariables = item.GetComponent<NoteManager>().noteVariables;
         }
-        else if(item.name == "Connector")
-        {
-            connectors+=2;
-        }
 
-        if(item.name != "Connector" && newNote != null)
+        if(newNote != null)
         {
             newNote.transform.position = new Vector3(viewportNotes.position.x, viewportNotes.position.y, (viewportData.noteRepository.childCount - 1) * 0.1f);
             newNote.transform.position += new Vector3(currentNoteOffset.x, currentNoteOffset.y, newNote.transform.position.z);
@@ -164,11 +157,11 @@ public class PlayerInventory : MonoBehaviour
 
             if(currentItem != null)
             {
-                if(currentItem.GetComponent<ItemManager>() != null || currentItem.name == "Connector")
+                if(currentItem.GetComponent<ItemManager>() != null)
                 {
                     AddItem(currentItem);
 
-                    if(currentItem.name != "Connector" && currentItem.GetComponent<ItemManager>().itemVariables.knowledge != null)
+                    if(currentItem.GetComponent<ItemManager>().itemVariables.knowledge != null)
                     {
                         AddKnowledge(currentItem.GetComponent<ItemManager>().itemVariables.knowledge);
                     }
@@ -183,8 +176,6 @@ public class PlayerInventory : MonoBehaviour
                 }
             }
         }
-
-        connectorCount.text = "Connectors - " + connectors;
     }
 
     public void StopKnowledgeTextCoroutine()

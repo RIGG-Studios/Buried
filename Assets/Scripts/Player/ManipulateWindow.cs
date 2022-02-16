@@ -102,9 +102,8 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
             if(result && result.collider.gameObject != null && result.collider.gameObject.GetComponent<NoteManager>() != null)
             {
                 NoteManager manager = result.collider.gameObject.GetComponent<NoteManager>();
-                if (!manager.connected && inventory.connectors > 0)
+                if (!manager.connected)
                 {
-                    inventory.connectors--;
                     GameObject instantiatedConnector = Instantiate(connectorPrefab, result.collider.gameObject.transform);
                     instantiatedConnector.transform.position = new Vector3(result.point.x, result.point.y, instantiatedConnector.transform.position.z);
 

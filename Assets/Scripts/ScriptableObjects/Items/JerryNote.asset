@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
   m_Name: JerryNote
   m_EditorClassIdentifier: 
-  name: Jack, come quick!
+  name: Come quick please!
   text: Oh god, I can't belive it, something's happened to Tom, something terrible.
-    Please come to the lowermost chamber past this door, I'm attaching Tom's key
-    to this note in case you lose yours.
+    Please come to the lowermost chamber past the door, I know you have many questions,
+    but please come quickly! I have attached a key for the door with this note
   knowledge: {fileID: 11400000, guid: c11ee2bfc788e2b4ea4791af6e0f2003, type: 2}
