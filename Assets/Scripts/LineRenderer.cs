@@ -18,7 +18,7 @@ public class LineRenderer : MonoBehaviour
         emptysForMeshes = new List<GameObject>();
     }
 
-    public void DrawLineBetweenPoints(Transform point1, Transform point2, Material material, int index)
+    public void DrawLineBetweenPoints(Vector3 point1, Vector3 point2, Material material, int index)
     {
         GameObject empty = null;
 
@@ -44,8 +44,8 @@ public class LineRenderer : MonoBehaviour
         Vector3[] vertices = new Vector3[4];
         int[] triangles = new int[6];
 
-        Vector3 point1PositionToRepo = point1.position - transform.position;
-        Vector3 point2PositionToRepo = point2.position - transform.position;
+        Vector3 point1PositionToRepo = point1 - transform.position;
+        Vector3 point2PositionToRepo = point2 - transform.position;
 
         Vector3 point1ToPoint2 = point2PositionToRepo - point1PositionToRepo;
         Vector3 point2ToPoint1 = point1PositionToRepo - point2PositionToRepo;
@@ -82,7 +82,7 @@ public class LineRenderer : MonoBehaviour
     {
         for(int i = 0; i < connectionPointsA.Count; i++)
         {
-            DrawLineBetweenPoints(connectionPointsA[i], connectionPointsB[i], materials[i], i);
+            DrawLineBetweenPoints(connectionPointsA[i].position, connectionPointsB[i].position, materials[i], i);
         }
     }
 }

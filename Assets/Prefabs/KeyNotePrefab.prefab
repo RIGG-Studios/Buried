@@ -628,5 +628,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 1d7df57537215294895d56f2df933dab, type: 2}
-  itemprefab: {fileID: 7740689958486631226, guid: 5548a771c7de36d44938721ec9d21c84, type: 3}
+  itemprefab: {fileID: 7740689958486631226, guid: 75bafb803bbefba44918102d883169f2, type: 3}
   correspondingNote: {fileID: 7740689958486631227}

@@ -83,8 +83,8 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
                 {
                     GameObject newNote = inventory.AddItem(hit.transform.gameObject.GetComponent<ClickButton>().item, hit.transform.gameObject.GetComponent<ClickButton>().itemprefab);
 
-                    viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsA.Add(hit.transform.gameObject.GetComponent<ClickButton>().correspondingNote);
-                    viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsB.Add(newNote.transform);
+                    viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsA.Add(hit.transform);
+                    viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsB.Add(newNote.transform.GetChild(newNote.transform.childCount - 1));
                     viewportData.noteRepository.GetComponent<LineRenderer>().materials.Add(specialNoteConnectionMaterial);
                 }
             }
