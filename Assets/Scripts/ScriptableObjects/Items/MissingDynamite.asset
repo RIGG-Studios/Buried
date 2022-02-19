@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: MissingDynamite
   m_EditorClassIdentifier: 
   name: Missing Dynamite
-  text: It appears as though this mining party was missing their dynamite
+  text: It appears as though this mining party was missing their dynamite. I wonder
+    if this can be of use to me somehow...
