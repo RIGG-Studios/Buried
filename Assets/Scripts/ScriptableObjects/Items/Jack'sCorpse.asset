@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: An emaciated body
   text: This is an emaciated corpse with lacerations all throughout its body, but
-    the cause of death appears to be starvation...
+    the cause of death appears to be starvation. However, it seem to be clutching
+    an old key with strange symbols carved into it...

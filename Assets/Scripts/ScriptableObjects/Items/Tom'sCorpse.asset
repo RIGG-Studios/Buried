@@ -10,17 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
-  m_Name: Inventory
+  m_Name: Tom'sCorpse
   m_EditorClassIdentifier: 
-  name: Equipment inventory check - June 6, 1920
-  text: 'Pickaxes (2) - Accounted for
-
-
-    Lumber supports (3) - Accounted for
-
-
-    Saws
-    (4) - Accounted for
-
-
-    Dynamite (1) - Missing, Tom will look for it'
+  name: A badly mutilated body
+  text: This is a heavily mutilated corpse, limbs have been crudely ripped off, large
+    sections of skin flayed from the body and large sections of flesh, seemingly
+    chewed off the bone...

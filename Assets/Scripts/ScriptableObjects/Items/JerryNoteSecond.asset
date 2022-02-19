@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
+  m_Name: JerryNoteSecond
+  m_EditorClassIdentifier: 
+  name: Journal Entry - June 3, 1920
+  text: I've been hearing voices behind this door for the past few days, voices beconing
+    me to enter. Today I had enough of it and decided to try entering when Tom and
+    Jack were away. Surprisingly it worked. This place has a lot of relics from what
+    appears to be a lost civilization. However, no matter how hard I try, I am unable
+    to enter the room to the right, it's like there's some kind of invisible barrier
+    in the way.
