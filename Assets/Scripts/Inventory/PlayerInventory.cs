@@ -132,21 +132,23 @@ public class PlayerInventory : MonoBehaviour
                     {
                         currentItem = hit.transform.gameObject;
                     }
-                    else
-                    {
-                        knowledgePopup.text = "That object is too far away";
-                        StartCoroutine("DisplayKnowledgePopUp");
-                    }
                 }
             }
 
             if(currentItem != null)
             {
-                if(currentItem.GetComponent<ItemManager>() != null)
+                if(currentItem.GetComponent<ItemManager>() != null && !currentItem.GetComponent<ItemManager>().used)
                 {
                     AddItem(currentItem.GetComponent<ItemManager>().itemVariables, currentItem.GetComponent<ItemManager>().itemPrefab);
 
-                    Destroy(currentItem);
+                    if (currentItem.GetComponent<ItemManager>().destroyOnUse)
+                    {
+                        Destroy(currentItem);
+                    }
+                    else
+                    {
+                        currentItem.GetComponent<ItemManager>().used = true;
+                    }
                     currentItem = null;
                 }
                 else if(currentItem.GetComponent<DoorManager>() != null)

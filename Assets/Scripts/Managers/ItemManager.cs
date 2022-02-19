@@ -6,4 +6,6 @@ public class ItemManager : MonoBehaviour
 {
     public ItemObjects itemVariables;
     public GameObject itemPrefab;
+    public bool destroyOnUse;
+    public bool used;
 }
