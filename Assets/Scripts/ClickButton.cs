@@ -8,8 +8,5 @@ public class ClickButton : MonoBehaviour
     public GameObject itemprefab;
     public Transform correspondingNote;
 
-    void Start()
-    {
-
-    }
+    public bool used;
 }

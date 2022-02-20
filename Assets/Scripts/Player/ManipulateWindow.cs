@@ -79,13 +79,15 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
                 {
                     currentNote = hit.collider.gameObject;
                 }
-                else if (hit.transform.gameObject.GetComponent<ClickButton>())
+                else if (hit.transform.gameObject.GetComponent<ClickButton>() && hit.transform.gameObject.GetComponent<ClickButton>().used == false)
                 {
                     GameObject newNote = inventory.AddItem(hit.transform.gameObject.GetComponent<ClickButton>().item, hit.transform.gameObject.GetComponent<ClickButton>().itemprefab);
 
                     viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsA.Add(hit.transform);
                     viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsB.Add(newNote.transform.GetChild(newNote.transform.childCount - 1));
                     viewportData.noteRepository.GetComponent<LineRenderer>().materials.Add(specialNoteConnectionMaterial);
+
+                    hit.transform.gameObject.GetComponent<ClickButton>().used = false;
                 }
             }
         }
@@ -148,10 +150,19 @@ public class ManipulateWindow : MonoBehaviour, IDragHandler, IScrollHandler
 
                         if (correspondingNote && correspondingNoteIndex > -1 && manager.noteVariables == correspondingNote && CanContinue(manager))
                         {
-                            inventory.AddItem(connectionResultNotes[correspondingNoteIndex], connecttionResultNotePrefabs[correspondingNoteIndex]);
+                            GameObject newNote = inventory.AddItem(connectionResultNotes[correspondingNoteIndex], connecttionResultNotePrefabs[correspondingNoteIndex]);
+                           
                             viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsA.Add(currentNoteBeingConnnected.transform.GetChild(currentNoteBeingConnnected.transform.childCount - 1));
                             viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsB.Add(result.collider.gameObject.transform.GetChild(result.collider.gameObject.transform.childCount - 1));
                             viewportData.noteRepository.GetComponent<LineRenderer>().materials.Add(normalNoteConnectionMaterial);
+
+                            viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsA.Add(currentNoteBeingConnnected.transform.GetChild(currentNoteBeingConnnected.transform.childCount - 1));
+                            viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsB.Add(newNote.transform.GetChild(newNote.transform.childCount - 1));
+                            viewportData.noteRepository.GetComponent<LineRenderer>().materials.Add(specialNoteConnectionMaterial);
+
+                            viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsA.Add(newNote.transform.GetChild(newNote.transform.childCount - 1));
+                            viewportData.noteRepository.GetComponent<LineRenderer>().connectionPointsB.Add(result.collider.gameObject.transform.GetChild(result.collider.gameObject.transform.childCount - 1));
+                            viewportData.noteRepository.GetComponent<LineRenderer>().materials.Add(specialNoteConnectionMaterial);
 
                             currentNoteBeingConnnected.GetComponent<NoteManager>().connectedTo.Add(manager);
                             manager.connectedTo.Add(currentNoteBeingConnnected.GetComponent<NoteManager>());
