@@ -10,10 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
-  m_Name: JerryNote
+  m_Name: Jerry'sCorpse
   m_EditorClassIdentifier: 
-  name: Come quick please!
-  text: If anyone sees this note, please come quick, something's happened to my friends,
-    something terrible. Please come to the lowermost chamber past the door, I know
-    you have many questions, but please come quickly! I have attached a key for the
-    door with this note
+  name: A strange corpse
+  text: 'This is a very emaciated corpse, looks like it died of starvation, but it''s
+    missing large chunks of its body, almost as if it was partially eaten.. The corpse
+    also appears to have razor sharp teeth stained with old blood and long black
+    claws.
+
+
+    It appears to be desperately reaching for something.'

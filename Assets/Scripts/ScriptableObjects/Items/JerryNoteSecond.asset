@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: JerryNoteSecond
   m_EditorClassIdentifier: 
   name: Journal Entry - June 3, 1920
-  text: I've been hearing voices behind this door for the past few days, voices beconing
-    me to enter. Today I had enough of it and decided to try entering when Tom and
-    Jack were away. Surprisingly it worked. This place has a lot of relics from what
-    appears to be a lost civilization. However, no matter how hard I try, I am unable
-    to enter the room to the right, it's like there's some kind of invisible barrier
-    in the way.
+  text: I've been hearing voices behind this door for the past few days. Today I
+    had enough of it and decided to try entering when Tom and Jack were away. Surprisingly
+    it worked. This place has a lot of relics from what appears to be a lost civilization.
+    However, no matter how hard I try, I am unable to enter the room to the right.

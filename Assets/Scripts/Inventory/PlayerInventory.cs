@@ -139,17 +139,40 @@ public class PlayerInventory : MonoBehaviour
             {
                 if(currentItem.GetComponent<ItemManager>() != null && !currentItem.GetComponent<ItemManager>().used)
                 {
-                    AddItem(currentItem.GetComponent<ItemManager>().itemVariables, currentItem.GetComponent<ItemManager>().itemPrefab);
+                    bool canContinue = false;
 
-                    if (currentItem.GetComponent<ItemManager>().destroyOnUse)
+                    if(currentItem.GetComponent<ItemManager>().preRequisite == null)
                     {
-                        Destroy(currentItem);
+                        canContinue = true;
                     }
                     else
                     {
-                        currentItem.GetComponent<ItemManager>().used = true;
+                        for (int i = 0; i < items.Count; i++)
+                        {
+                            canContinue = false;
+
+                            if (items[i] == currentItem.GetComponent<ItemManager>().preRequisite)
+                            {
+                                canContinue = true;
+                                break;
+                            }
+                        }
                     }
-                    currentItem = null;
+
+                    if (canContinue)
+                    {
+                        AddItem(currentItem.GetComponent<ItemManager>().itemVariables, currentItem.GetComponent<ItemManager>().itemPrefab);
+
+                        if (currentItem.GetComponent<ItemManager>().destroyOnUse)
+                        {
+                            Destroy(currentItem);
+                        }
+                        else
+                        {
+                            currentItem.GetComponent<ItemManager>().used = true;
+                        }
+                        currentItem = null;
+                    }
                 }
                 else if(currentItem.GetComponent<DoorManager>() != null)
                 {

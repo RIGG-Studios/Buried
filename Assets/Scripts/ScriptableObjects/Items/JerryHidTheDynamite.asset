@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
-  m_Name: JerryNote
+  m_Name: JerryHidTheDynamite
   m_EditorClassIdentifier: 
-  name: Come quick please!
-  text: If anyone sees this note, please come quick, something's happened to my friends,
-    something terrible. Please come to the lowermost chamber past the door, I know
-    you have many questions, but please come quickly! I have attached a key for the
-    door with this note
+  name: Dynamite hiding spot
+  text: Jerry appears to have hidden the dynamite in the rubble he was reaching for.
+    He wanted to blow himself and the entire cave up as an act of defiance against
+    whatever posessed him.

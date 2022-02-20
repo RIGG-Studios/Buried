@@ -10,10 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
-  m_Name: JerryNote
+  m_Name: JerryTookTheDynamite
   m_EditorClassIdentifier: 
-  name: Come quick please!
-  text: If anyone sees this note, please come quick, something's happened to my friends,
-    something terrible. Please come to the lowermost chamber past the door, I know
-    you have many questions, but please come quickly! I have attached a key for the
-    door with this note
+  name: Jerry stole the dynamite
+  text: It appears like Jerry stole the dynamite in order to lure Tom into the caves,
+    I wonder where he hid it...

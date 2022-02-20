@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 7740689958486631225}
   - component: {fileID: 82263050096780254}
   m_Layer: 0
-  m_Name: KeyNotePrefab
+  m_Name: JerryCave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -429,9 +429,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Oh god, I can't belive it, something's happened to Tom, something terrible.
-    Please come to the lowermost chamber past the door, I know you have many questions,
-    but please come quickly! I have attached a key for the door with this note
+  m_text: "Oh god, what have I done? I'm sorry, I didn't mean it, I couldn't control
+    myself, the hunger is so powerful...\n\nMy strength is fading quickly. My vision's
+    going blurry, I need to eat some more...\n\nIf anyone finds this, please leave
+    this place as soon as you can! There's something supernatural here, something
+    we were never meant to find. \n\nI will try to kill myself and take this whole
+    place with me, it's the least I can do to make amends with Tom and Jack."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -458,11 +461,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 3.45
+  m_fontSize: 2.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 3
+  m_fontSizeMin: 1
   m_fontSizeMax: 4
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -535,8 +538,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.4, y: -14.5}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -6.4906, y: -12.5}
+  m_SizeDelta: {x: 0.8944, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!212 &5039946794452017635
 SpriteRenderer:
@@ -602,7 +605,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.0002707988, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -613,7 +616,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.90133655, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &2354219831848682115
 MonoBehaviour:
@@ -627,6 +630,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4396c16158a98c43a8e6957babcb9dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 1d7df57537215294895d56f2df933dab, type: 2}
+  item: {fileID: 11400000, guid: bd2aeba7df8c12844b94983fb343c288, type: 2}
   itemprefab: {fileID: 7740689958486631226, guid: 75bafb803bbefba44918102d883169f2, type: 3}
   correspondingNote: {fileID: 7740689958486631227}

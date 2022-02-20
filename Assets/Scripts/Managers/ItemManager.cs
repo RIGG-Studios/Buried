@@ -8,4 +8,6 @@ public class ItemManager : MonoBehaviour
     public GameObject itemPrefab;
     public bool destroyOnUse;
     public bool used;
+
+    public ItemObjects preRequisite;
 }

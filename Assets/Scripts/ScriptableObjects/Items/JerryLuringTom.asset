@@ -10,10 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e14eee7e8a96f45b2ad6c70b82a809, type: 3}
-  m_Name: JerryNote
+  m_Name: JerryLuringTom
   m_EditorClassIdentifier: 
-  name: Come quick please!
-  text: If anyone sees this note, please come quick, something's happened to my friends,
-    something terrible. Please come to the lowermost chamber past the door, I know
-    you have many questions, but please come quickly! I have attached a key for the
-    door with this note
+  name: Jerry tried to lure Tom
+  text: Jerry seems to have successfully lured Tom into the cave, but how did he
+    do it?
