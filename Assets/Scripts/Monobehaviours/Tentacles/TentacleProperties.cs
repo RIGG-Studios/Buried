@@ -3,19 +3,14 @@ using UnityEngine;
 [CreateAssetMenu()]
 public class TentacleProperties : ScriptableObject
 {
-    public enum TentacleLightResistanceLevels
-    {
-        High,
-        Med,
-        Low
-    }
-
-    public float lengthBetweenSegments;
-    public float tentacleLength;
-    public float aiDistance;
-    public float tentacleAIMaxDistance;
+    [Header("Base Properties")]
+    public float tentacleMaxLength;
     public float tentacleMoveSpeed;
-    public int tentacleSegments;
     public float lightDistance;
-    public TentacleLightResistanceLevels lightResistance;
+
+    [Header("Segments Properties")]
+    public int tentacleSegments;
+    public float lengthBetweenSegments;
+    public float hitOffset;
+    public float rotateAngle;
 }

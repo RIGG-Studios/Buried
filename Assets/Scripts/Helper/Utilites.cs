@@ -27,6 +27,7 @@ public class Utilites : MonoBehaviour
     {
         PointerEventData eventData = new PointerEventData(EventSystem.current);
         eventData.position = GetMousePosition();
+
         List<RaycastResult> raysastResults = new List<RaycastResult>();
         EventSystem.current.RaycastAll(eventData, raysastResults);
         return raysastResults;

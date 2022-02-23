@@ -16,7 +16,7 @@ public class TentacleLineRenderer : MonoBehaviour
     bool grabPlayer;
 
     Vector3[] segments;
-    Vector3[] segmentVelocity;
+    Vector2[] segmentVelocity;
     bool setup;
 
     private void Awake()
@@ -34,7 +34,7 @@ public class TentacleLineRenderer : MonoBehaviour
     {
         line.positionCount = properties.tentacleSegments;
         segments = new Vector3[properties.tentacleSegments];
-        segmentVelocity = new Vector3[properties.tentacleSegments];
+        segmentVelocity = new Vector2[properties.tentacleSegments];
         this.body = body;
 
         if (agent)
@@ -49,63 +49,36 @@ public class TentacleLineRenderer : MonoBehaviour
             return;
 
         UpdateSegments();
+
+        float lengthOfTentacle = (segments[segments.Length - 1] - segments[0]).magnitude;
     }
 
     private void UpdateSegments()
     {
         segments[0] = body.position;
-
         for (int i = 1; i < segments.Length; i++)
         {
-            Vector3 origin = segments[i - 1];
-            Vector3 direction = Quaternion.AngleAxis(i > 1 ? i * rotateAngle : 0, Vector3.forward) *
-                (agent.transform.position - segments[i - 1]).normalized;
-
-            Vector3 pos = origin + direction;
-
-        //    if (i >= segments.Length / 2)
-          //      direction = agent.transform.position - segments[i - 1];
+            Vector2 origin = segments[i - 1];
+            Quaternion rotation = Quaternion.AngleAxis(i * 2f, Vector3.forward);
+            Vector2 direction = rotation*  (agent.transform.position - segments[i - 1]).normalized;
+            Vector2 pos = origin + direction.normalized;
 
             RaycastHit2D hit = Physics2D.Raycast(origin, direction, direction.magnitude, wallLayer);
+            Debug.DrawRay(origin, direction, Color.red);
+
 
             if (hit.collider != null)
-                pos = hit.point + (hit.normal * hitOffset);
+                pos = hit.point;
 
-            segments[i] = Vector3.SmoothDamp(segments[i], pos, ref segmentVelocity[i], properties.tentacleMoveSpeed);
-        }
-
-        float agentDist = (agent.transform.position - GetTentacleEndPoint()).magnitude;
-        float playerDist = (GetTentacleEndPoint() - player.GetPosition()).magnitude;
-        float playerDistToBody = (body.position - player.GetPosition()).magnitude;
-
-        if (agentDist > properties.tentacleAIMaxDistance)
-            agent.ResetAI();
-
-        if (playerDist <= 1.5f && !player.flashLightEnabled)
-        {
-            if (!player.isHiding)
-            {
-                player.DoAction(PlayerActions.GrabByMonster);
-                player.transform.position = GetTentacleEndPoint();
-                agent.ResetAI();
-                grabPlayer = true;
-            }
-        }
-
-        if (grabPlayer && player.flashLightEnabled)
-        {
-            player.DoAction(PlayerActions.GrabByMonster);
-            grabPlayer = false;
-        }
-
-        if (grabPlayer && playerDistToBody <= 1.5f)
-        {
-            Game.instance.EndGame();
+            segments[i] = Vector2.SmoothDamp(segments[i], pos, ref segmentVelocity[i], properties.tentacleMoveSpeed);
         }
 
         line.SetPositions(segments);
     }
 
     public Vector3 GetTentacleEndPoint() => segments[segments.Length - 1];
+    private float GetDistanceBetweenAgentAndEndPoint() => (agent.transform.position - GetTentacleEndPoint()).magnitude;
+    private float GetDistanceBetweenPlayerAndEndPoint() => (GetTentacleEndPoint() - player.GetPosition()).magnitude;
+    private float GetDistanceBetweenPlayerAndBody() => (body.position - GetTentacleEndPoint()).magnitude;
 }
 

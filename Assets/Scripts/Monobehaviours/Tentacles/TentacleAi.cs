@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 public class TentacleAi : MonoBehaviour
 {
+    public int areaMask;
+    public int maxDistance;
+
     public Transform target;
 
     NavMeshAgent agent;
@@ -46,43 +49,26 @@ public class TentacleAi : MonoBehaviour
         if (!setup)
             return;
 
-        TransitionStates();
+        NavMeshHit hit = GetNextPosition();
+        if (hit.hit)
+        {
+
+        }
 
         agent.SetDestination(currentTarget.position);
     }
 
     public void TransitionStates()
     {
-        float distanceBetweenPlayer = (transform.position - player.transform.position).magnitude;
-        float distanceBetweenBody = (transform.position - body.position).magnitude;
-        float angle = Vector3.Angle(transform.position, player.transform.position);
 
-
-        if (distanceBetweenBody >= properties.tentacleLength || player.isHiding)
-        {
-            currentTarget = body;
-            targettingPlayer = false;
-            line.rotateAngle = 0;
-            Debug.Log("greater then length of tent");
-        }
-
-
-        if (distanceBetweenPlayer < properties.aiDistance && !player.isHiding)
-        {
-            currentTarget = target;
-            targettingPlayer = true;
-            line.rotateAngle = 2;
-            Debug.Log("attacking player");
-        }
-        if (distanceBetweenPlayer <= properties.lightDistance && player.flashLightEnabled && targettingPlayer)
-        {
-            if (angle <= 90)
-            {
-                currentTarget = body;
-                targettingPlayer = false;
-            }
-        }
     }
 
     public void ResetAI() => transform.position = body.position;
+
+    private NavMeshHit GetNextPosition()
+    {
+        NavMeshHit hit;
+        bool foundPos =  agent.SamplePathPosition(areaMask, maxDistance, out hit);
+        return hit;
+    }
 }

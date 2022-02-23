@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     public float rotationMinDistance;
     public SpriteRenderer sprite;
+    public Sprite sideWaysSprite;
+    public Sprite forwardSprite;
 
     Vector2 movement;
 
@@ -29,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
         Vector2 dir = (mousePos - transform.position).normalized;
-        Vector3 camOffset = (dir * this.camOffset) + (movement * this.camOffset / 4);
+        Vector3 camOffset = (dir * this.camOffset);
 
         playerCam.SetOffset(player.isHiding ? Vector3.zero : camOffset);
     }
@@ -42,14 +44,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if(input.y != 0.0f)
         {
-            sprite.flipX = false;
-            sprite.transform.localRotation = Quaternion.Euler(0, 0, input.y > 0 ? 90f : -90f);
+
         }
 
-        if(input.x != 0.0f)
-        {
-            sprite.flipX = input.x > 0.0f ? false : true;
-            sprite.transform.localRotation = Quaternion.Euler(0, 0, 0f);
+        if(input.x != 0.0f) 
+        { 
+
         }
 
         movement = input;
