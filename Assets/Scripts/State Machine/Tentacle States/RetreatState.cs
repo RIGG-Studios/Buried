@@ -35,8 +35,6 @@ public class RetreatState : State
         {
             stateManager.TransitionStates(TentacleStates.Idle);
         }
-
-        controller.UpdateTentacleRotation(3f, 4f);
     }
 
     public override void UpdateLateLogic()

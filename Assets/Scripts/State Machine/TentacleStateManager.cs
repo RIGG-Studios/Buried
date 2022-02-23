@@ -71,6 +71,7 @@ public class TentacleStateManager : MonoBehaviour
 
         if (newState != null) 
         {
+            Debug.Log(newState);
             currentState.ExitState();
             currentState = newState;
             newState.EnterState(controller);

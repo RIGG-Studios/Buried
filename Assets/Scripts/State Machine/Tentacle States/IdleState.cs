@@ -19,6 +19,5 @@ public class IdleState : State
     public override void UpdateLogic()
     {
         controller.UpdateAgentPosition(Vector3.zero);
-        controller.SetSegmentPositions(Vector3.zero);
     }
 }

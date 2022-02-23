@@ -14,50 +14,47 @@ public class TentacleController : MonoBehaviour
     [SerializeField] private TentacleProperties properties;
     [SerializeField] private LayerMask wallLayer;
 
-    public float frequency;
 
     LineRenderer line;
     NavMeshAgent agent;
     TentacleSpawner spawner;
-
-    public List<Segment> segments = new List<Segment>();
-    public List<Segment> queuedSegments = new List<Segment>();
+    List<Segment> segments = new List<Segment>();
+    List<Segment> queuedSegments = new List<Segment>();
+    List<Vector3> agentTrackedPositions = new List<Vector3>();
     Vector2[] segmentVelocity;
 
-    float tentacleRotation;
-    float lastSegmentCountDist;
+    int segmentCount;
 
     private void Awake()
     {
         line = GetComponent<LineRenderer>();
         agent = GetComponentInChildren<NavMeshAgent>();
         stateManager = GetComponent<TentacleStateManager>();
-        tentacleRotation = 1f;
     }
 
     public void InitializeTentacles()
     {
         for (int i = 0; i < properties.tentacleSegments; i++)
         {
-            segments.Add(new Segment(i, 2, 2, frequency, properties));
+            segments.Add(new Segment(i, 2, 2, properties));
         }
 
         segmentVelocity = new Vector2[segments.Count];
         line.positionCount = properties.tentacleSegments;
-
         setup = true;
     }
 
-    int segmentCount;
-    public void UpdateSegments(Vector3 targetDir)
+    public void UpdateSegmentCount()
     {
         float dist = (Game.instance.player.GetPosition() - spawner.spawnPoint).magnitude;
-        segmentCount = (int)(dist / properties.lengthBetweenSegments) * 5;
+        segmentCount = (int)(dist / properties.lengthBetweenSegments) * 3;
+        segmentCount = Mathf.Clamp(segmentCount, 0, properties.tentacleSegments);
+    }
 
+    public void UpdateSegments(Vector3 targetDir)
+    {
         segments[0].position = spawner.spawnPoint;
-        line.positionCount = segmentCount;
-
-        for (int i  = 1; i < segments.Count; i++)
+        for (int i = 1; i < segments.Count; i++)
         {
             if(i >= segmentCount)
             {
@@ -69,25 +66,48 @@ public class TentacleController : MonoBehaviour
             Segment currentSeg = segments[i];
             Segment previousSeg = segments[i - 1];
 
-            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, targetDir);
+            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, GetTrackedPosition(i), wallLayer);
 
-            segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i], properties.tentacleMoveSpeed);
-        
+            segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i], properties.tentacleMoveSpeed);    
         }
 
+        line.positionCount = segmentCount;
         line.SetPositions(GetSegmentPositions());
     }
 
-    public void UpdateQueuedSegments(bool state)
+    public void UpdateAgentTrackedPositions()
     {
-        if (state) StartCoroutine(IELoopUpdateQueuedObjects());
-        else StopCoroutine(IELoopUpdateQueuedObjects());
+        bool canAdd = agentTrackedPositions.Count < segmentCount;
+        if(canAdd && !agentTrackedPositions.Contains(agent.nextPosition))
+        {
+            agentTrackedPositions.Add(agent.nextPosition);
+        }
+
+        if (agentTrackedPositions.Count > segmentCount) 
+        {
+            agentTrackedPositions.Clear();
+        }
     }
 
-    public IEnumerator IELoopUpdateQueuedObjects()
+    public Vector3 GetTrackedPosition(int index)
     {
-        yield return new WaitForSeconds(1f);
+        if (index >= agentTrackedPositions.Count-1)
+        {
+            if (agentTrackedPositions.Count <= 0)
+                return agent.nextPosition;
 
+            Vector3 pos = agentTrackedPositions[agentTrackedPositions.Count - 1];
+            return pos;
+        }
+
+        Vector3 agentPos = agentTrackedPositions[index];
+     //   agentTrackedPositions.Remove(agentPos);
+
+        return agentPos;
+    }
+
+    public void UpdateQueuedSegments()
+    {
         if (segments.Count != segmentCount)
         {
             for (int i = 0; i < queuedSegments.Count; i++)
@@ -96,14 +116,11 @@ public class TentacleController : MonoBehaviour
                 queuedSegments.Remove(queuedSegments[i]);
             }
         }
-
-        StartCoroutine(IELoopUpdateQueuedObjects());
     }
 
     public Vector3[] GetSegmentPositions()
     {
         List<Vector3> seg = new List<Vector3>();
-
 
         for(int i = 0; i < segments.Count; i++)
         {
@@ -111,11 +128,6 @@ public class TentacleController : MonoBehaviour
         }
 
         return seg.ToArray();
-    }
-
-    public void UpdateTentacleRotation(float targetRotation, float incraseSpeed)
-    {
-        tentacleRotation = Mathf.Lerp(tentacleRotation, targetRotation, Time.deltaTime * incraseSpeed);
     }
 
     public void UpdateAgentPosition(Vector3 position)
@@ -144,19 +156,6 @@ public class TentacleController : MonoBehaviour
         }
 
         this.spawner = spawner;
-    }
-
-    public void SetSegmentPositions(Vector3 position)
-    {
-        /*/
-        for(int i = 0; i < segments.Count; i++)
-        {
-            segments[i] = position;
-            segmentVelocity[i] = position;
-        }
-
-        line.SetPositions(segments);
-        /*/
     }
 
     public void ResetTentacle()

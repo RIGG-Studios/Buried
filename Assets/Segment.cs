@@ -8,31 +8,35 @@ public class Segment
     public int index;
     public float length;
     public float angle;
-    public float frequency;
     public TentacleProperties properties;
     public Vector3 position;
 
-    public Segment(int index, float length, float angle, float frequency, TentacleProperties properties)
+    public Segment(int index, float length, float angle, TentacleProperties properties)
     {
         this.index = index;
         this.length = length;
         this.angle = angle;
-        this.frequency = frequency;
         this.properties = properties;
     }
 
-    public Vector2 UpdatePosition(Segment previousSegment, Vector2 targetDir)
+    public Vector2 UpdatePosition(Segment previousSegment, Vector2 targetDir, LayerMask wallLayer)
     {
         Vector2 origin = previousSegment.position;
         Vector2 dir = CalculateRotationAngle() * (targetDir - origin).normalized;
+        Vector3 position = origin + dir.normalized;
 
+        RaycastHit2D hit = Physics2D.Raycast(origin, dir, dir.magnitude, wallLayer);
         Debug.DrawRay(origin, dir, Color.red);
-        return origin + dir.normalized;
+
+        if (hit.collider != null)
+           position = hit.point;
+
+
+        return position;
     }
 
     private Quaternion CalculateRotationAngle()
     {
-        float rot = Mathf.PingPong(Time.time * 100f, index * properties.rotateAngle);
-        return Quaternion.AngleAxis(rot, Vector3.forward);
+        return Quaternion.AngleAxis(index * properties.rotateAngle, Vector3.forward);
     }
 }
