@@ -68,7 +68,9 @@ public class TentacleLineRenderer : MonoBehaviour
 
 
             if (hit.collider != null)
+            {
                 pos = hit.point;
+            }
 
             segments[i] = Vector2.SmoothDamp(segments[i], pos, ref segmentVelocity[i], properties.tentacleMoveSpeed);
         }

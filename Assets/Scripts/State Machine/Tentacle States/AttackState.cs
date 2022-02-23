@@ -42,7 +42,18 @@ public class AttackState : State
             controller.UpdateTentacleRotation(0f, 4f);
         }
 
+        controller.UpdateQueuedSegments(true);
+    }
+
+    public override void ExitState()
+    {
+        controller.UpdateQueuedSegments(false);
+    }
+
+    public override void UpdateLateLogic()
+    {
         Vector3 targetDir = controller.GetAgentPosition();
+
         controller.UpdateSegments(targetDir);
     }
 }
