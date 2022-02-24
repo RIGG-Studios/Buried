@@ -11,13 +11,12 @@ public class IdleState : State
         base.EnterState(controller);
         this.controller = controller;
 
-        controller.occupied = false;
-
         controller.InitializeTentacles();
     }
 
     public override void UpdateLogic()
     {
-        controller.UpdateAgentPosition(Vector3.zero);
+        controller.SetAgentPosition(Vector3.zero);
     }
+
 }

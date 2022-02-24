@@ -17,19 +17,21 @@ public class Segment
         this.length = length;
         this.angle = angle;
         this.properties = properties;
+
+        position = Vector3.zero;
     }
 
     public Vector2 UpdatePosition(Segment previousSegment, Vector2 targetDir, LayerMask wallLayer)
     {
         Vector2 origin = previousSegment.position;
         Vector2 dir = CalculateRotationAngle() * (targetDir - origin).normalized;
-        Vector3 position = origin + dir.normalized;
+        Vector3 position = origin + dir;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, dir, dir.magnitude, wallLayer);
         Debug.DrawRay(origin, dir, Color.red);
 
         if (hit.collider != null)
-           position = hit.point;
+            position = hit.point;
 
 
         return position;

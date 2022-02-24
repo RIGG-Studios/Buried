@@ -18,7 +18,8 @@ public class AttackState : State
 
         controller.SetAgentPosition(controller.GetAnchorPosition());
         controller.occupied = true;
-    }
+            }
+
     public override void UpdateLogic()
     {
         controller.UpdateAgentPosition(Game.instance.player.GetPosition());
@@ -26,19 +27,17 @@ public class AttackState : State
         float distance = controller.GetDistanceBetweenEndPointAndHole();
 
         if (distance >= properties.tentacleMaxLength)
-        {
-       //     stateManager.TransitionStates(TentacleStates.Retreat);
-        }
+            stateManager.TransitionStates(TentacleStates.Retreat);
 
         controller.UpdateQueuedSegments();
+
     }
 
-    public override void UpdateLateLogic()
+    public override void UpdatePhysics()
     {
-        Vector3 targetDir = controller.GetAgentPosition();
-
-        controller.UpdateSegments(targetDir);
         controller.UpdateSegmentCount();
+        controller.UpdateSegmentPositions(Vector3.zero);
         controller.UpdateAgentTrackedPositions();
     }
+
 }

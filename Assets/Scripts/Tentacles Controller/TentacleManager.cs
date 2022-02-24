@@ -47,6 +47,7 @@ public class TentacleManager : MonoBehaviour
 
     public void SpawnTentacle(TentacleSpawner spawner, int tentaclesToSpawn)
     {
+        Debug.Log("spawn");
         TentacleData[] tentacles = GetTentacles(tentaclesToSpawn);
 
         for (int i = 0; i < tentacles.Length; i++)

@@ -6,6 +6,7 @@ public class RetreatState : State
 {
     TentacleProperties properties;
     TentacleStateManager stateManager;
+
     public RetreatState(TentacleController controller) : base("Retreat", controller) => this.controller = controller;
 
     public override void EnterState(TentacleController controller)
@@ -20,9 +21,10 @@ public class RetreatState : State
 
     public override void ExitState()
     {
+        base.ExitState();
+
         controller.ResetTentacle();
     }
-
     public override void UpdateLogic()
     {
         base.UpdateLogic();
@@ -31,18 +33,13 @@ public class RetreatState : State
 
         float distance = controller.GetDistanceBetweenEndPointAndHole();
 
-        if (distance <= 1f)
-        {
-            stateManager.TransitionStates(TentacleStates.Idle);
-        }
+    //    if (distance <= 1.5f)
+      //      stateManager.TransitionStates(TentacleStates.Idle);
     }
 
-    public override void UpdateLateLogic()
+    public override void UpdatePhysics()
     {
-        base.UpdateLateLogic();
-
-        Vector3 dir = controller.GetAnchorPosition();
-
-        controller.UpdateSegments(dir);
+        controller.UpdateSegmentCount();
+        controller.UpdateSegmentPositions(controller.GetAnchorPosition());
     }
 }

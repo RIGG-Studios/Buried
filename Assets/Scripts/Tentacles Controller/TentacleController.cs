@@ -34,6 +34,15 @@ public class TentacleController : MonoBehaviour
 
     public void InitializeTentacles()
     {
+        if (segments.Count > 0)
+            segments.Clear();
+
+        if (queuedSegments.Count > 0)
+            queuedSegments.Clear();
+
+        if (agentTrackedPositions.Count > 0)
+            agentTrackedPositions.Clear();
+
         for (int i = 0; i < properties.tentacleSegments; i++)
         {
             segments.Add(new Segment(i, 2, 2, properties));
@@ -47,16 +56,17 @@ public class TentacleController : MonoBehaviour
     public void UpdateSegmentCount()
     {
         float dist = (Game.instance.player.GetPosition() - spawner.spawnPoint).magnitude;
-        segmentCount = (int)(dist / properties.lengthBetweenSegments) * 3;
+        segmentCount = (int)(dist / properties.lengthBetweenSegments);
         segmentCount = Mathf.Clamp(segmentCount, 0, properties.tentacleSegments);
     }
 
-    public void UpdateSegments(Vector3 targetDir)
+
+    public void UpdateSegmentPositions(Vector3 dir)
     {
         segments[0].position = spawner.spawnPoint;
         for (int i = 1; i < segments.Count; i++)
         {
-            if(i >= segmentCount)
+            if (i >= segmentCount)
             {
                 queuedSegments.Add(segments[i]);
                 segments.Remove(segments[i]);
@@ -66,7 +76,7 @@ public class TentacleController : MonoBehaviour
             Segment currentSeg = segments[i];
             Segment previousSeg = segments[i - 1];
 
-            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, GetTrackedPosition(i), wallLayer);
+            Vector2 segPos = currentSeg.UpdatePosition(previousSeg,  dir != Vector3.zero ? dir : GetTrackedPosition(i), wallLayer);
 
             segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i], properties.tentacleMoveSpeed);    
         }
@@ -78,32 +88,11 @@ public class TentacleController : MonoBehaviour
     public void UpdateAgentTrackedPositions()
     {
         bool canAdd = agentTrackedPositions.Count < segmentCount;
-        if(canAdd && !agentTrackedPositions.Contains(agent.nextPosition))
+
+        if(canAdd && !agentTrackedPositions.Contains(agent.transform.position))
         {
-            agentTrackedPositions.Add(agent.nextPosition);
+            agentTrackedPositions.Add(agent.transform.position);
         }
-
-        if (agentTrackedPositions.Count > segmentCount) 
-        {
-            agentTrackedPositions.Clear();
-        }
-    }
-
-    public Vector3 GetTrackedPosition(int index)
-    {
-        if (index >= agentTrackedPositions.Count-1)
-        {
-            if (agentTrackedPositions.Count <= 0)
-                return agent.nextPosition;
-
-            Vector3 pos = agentTrackedPositions[agentTrackedPositions.Count - 1];
-            return pos;
-        }
-
-        Vector3 agentPos = agentTrackedPositions[index];
-     //   agentTrackedPositions.Remove(agentPos);
-
-        return agentPos;
     }
 
     public void UpdateQueuedSegments()
@@ -116,18 +105,6 @@ public class TentacleController : MonoBehaviour
                 queuedSegments.Remove(queuedSegments[i]);
             }
         }
-    }
-
-    public Vector3[] GetSegmentPositions()
-    {
-        List<Vector3> seg = new List<Vector3>();
-
-        for(int i = 0; i < segments.Count; i++)
-        {
-            seg.Add(segments[i].position);
-        }
-
-        return seg.ToArray();
     }
 
     public void UpdateAgentPosition(Vector3 position)
@@ -161,20 +138,66 @@ public class TentacleController : MonoBehaviour
     public void ResetTentacle()
     {
         spawner.occupied = false;
+        occupied = false;
         spawner = null;
-
-        segments.Clear();
-        segmentVelocity = new Vector2[0];
-        line.positionCount = segments.Count;
-        line.SetPositions(new Vector3[0]);
+        line.positionCount = 0;
     }
 
-    public Vector3 GetTentacleEndPoint() => segments[segments.Count - 1].position;
-    public float GetDistanceBetweenAgentAndEndPoint() => (agent.transform.position - GetTentacleEndPoint()).magnitude;
-    public float GetDistanceBetweenPlayerAndEndPoint() => (GetTentacleEndPoint() - Game.instance.player.GetPosition()).magnitude;
-    public float GetDistanceBetweenEndPointAndHole() => (spawner.spawnPoint - GetTentacleEndPoint()).magnitude;
-    public TentacleProperties GetTentacleProperties() => properties;
-    public Vector3 GetAnchorPosition() => spawner.spawnPoint;
-    public Vector3 GetAgentPosition() => agent.nextPosition;
+    private Vector3[] GetSegmentPositions()
+    {
+        List<Vector3> seg = new List<Vector3>();
+
+        for (int i = 0; i < segments.Count; i++)
+        {
+            seg.Add(segments[i].position);
+        }
+
+        return seg.ToArray();
+    }
+
+    public Vector3 GetTrackedPosition(int i)
+    {
+        if (i >= agentTrackedPositions.Count - 1)
+        {
+            if (agentTrackedPositions.Count <= 0)
+                return agent.nextPosition;
+
+            Vector3 pos = agentTrackedPositions[agentTrackedPositions.Count - 1];
+            return pos;
+        }
+
+        Vector3 agentPos = agentTrackedPositions[i];
+        agentTrackedPositions.Remove(agentPos);
+        return agentPos;
+    }
+
+    public Vector3 GetTentacleEndPoint()
+    {
+      return  segments[segments.Count - 1].position;
+    }
+    public float GetDistanceBetweenAgentAndEndPoint()
+    {
+        return (agent.transform.position - GetTentacleEndPoint()).magnitude;
+    }
+    public float GetDistanceBetweenPlayerAndEndPoint()
+    {
+        return (GetTentacleEndPoint() - Game.instance.player.GetPosition()).magnitude;
+    }
+    public float GetDistanceBetweenEndPointAndHole()
+    {
+       return (spawner.spawnPoint - GetTentacleEndPoint()).magnitude;
+    }
+    public TentacleProperties GetTentacleProperties()
+    {
+        return properties;
+    }
+    public Vector3 GetAnchorPosition()
+    {
+       return spawner.spawnPoint;
+    }
+    public Vector3 GetAgentPosition()
+    {
+       return agent.nextPosition;
+    }
 }
 

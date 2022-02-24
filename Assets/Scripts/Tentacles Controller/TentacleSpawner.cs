@@ -27,6 +27,7 @@ public class TentacleSpawner : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("player ent");
         if (collision.gameObject.tag == "Player")
             TentacleManager.instance.SpawnTentacle(this, 1);
     }
