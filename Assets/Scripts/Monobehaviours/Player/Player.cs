@@ -28,11 +28,10 @@ public class Player : MonoBehaviour
     public Inventory inventory { get; private set; }
 
     public PlayerCamera playerCam { get; private set; }
-
     public RoomController currentRoom;
 
     Transform trans;
-    private void Start()
+    private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
         flashLightManager = GetComponentInChildren<FlashlightManager>();
@@ -43,29 +42,6 @@ public class Player : MonoBehaviour
         playerCam = FindObjectOfType<PlayerCamera>();
 
         trans = transform;
-        DisablePlayer();
-    }
-
-    public void DisablePlayer()
-    {
-        playerCam.SetShakeMagnitude(0);
-        paranoidManager.enabled = false;
-        movement.enabled = false;
-        flashLightManager.enabled = false;
-        playerInteraction.enabled = false;
-        inventory.enabled = false;
-        mouseRotate.gameObject.SetActive(false);
-
-    }
-
-    public void InitializePlayer()
-    {
-        paranoidManager.enabled = true;
-        movement.enabled = true;
-        flashLightManager.enabled = true;
-        playerInteraction.enabled = true;
-        inventory.enabled = true;
-        mouseRotate.gameObject.SetActive(true);
     }
 
     public void DoAction(PlayerActions action)
@@ -85,72 +61,46 @@ public class Player : MonoBehaviour
                 break;
 
             case PlayerActions.ToggleFlashlight:
-                if (inventory.HasItem(Item.WeaponTypes.Flashlight)) flashLightManager.ToggleFlashlight(out flashLightEnabled);
+                if (inventory.HasItem(Item.WeaponTypes.Flashlight))
+                    flashLightManager.ToggleFlashlight(out flashLightEnabled);
                 break;
 
             case PlayerActions.Hide:
-                ToggleHide();
                 break;
 
             case PlayerActions.GrabByMonster:
-                ToggleGrabPlayer();
                 break;
         }
     }
 
-    private void ToggleHide()
+    public void PlayerDie()
     {
-        if (!isHiding)
-        {
-            movement.enabled = false;
-            movement.sprite.enabled = false;
-            GetComponent<Collider2D>().enabled = false;
-            isHiding = true;
-        }
-        else
-        {
-            movement.enabled = true;
-            movement.sprite.enabled = true;
-            GetComponent<Collider2D>().enabled = true;
-            isHiding = false;
-        }
+        GameEvents.OnPlayerDie.Invoke();
     }
 
-    private void ToggleGrabPlayer()
+    public void PlayerGrabbed()
     {
-        if (!isGrabbed)
-        {
-            movement.enabled = false;
-         //   GetComponent<Collider2D>().enabled = false;
-            isGrabbed = true;
-        }
-        else
-        {
-            movement.enabled = true;
-        //    GetComponent<Collider2D>().enabled = true;
-            isGrabbed = false;
-        }
+        GameEvents.OnPlayerGetGrabbed.Invoke();
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Room")) 
+        if (collision.gameObject.layer != LayerMask.NameToLayer("Room"))
+            return;
+
+        RoomController roomProperties = collision.gameObject.GetComponent<RoomController>();
+
+        if (roomProperties == null)
+            return;
+
+        if (roomProperties.useShadow)
         {
-            RoomController roomProperties = collision.gameObject.GetComponent<RoomController>();
-
-            if (roomProperties == null)
-                return;
-
-            if (roomProperties.useShadow)
-            {
-               if(currentRoom && currentRoom.useShadow) currentRoom.shadowRender.SetActive(true);
-                roomProperties.shadowRender.SetActive(false);
-            }
-
-            currentRoom = roomProperties;
-
-            EnterNewRoom(roomProperties.room);
+            if (currentRoom && currentRoom.useShadow) currentRoom.shadowRender.SetActive(true);
+            roomProperties.shadowRender.SetActive(false);
         }
+
+        currentRoom = roomProperties;
+        EnterNewRoom(roomProperties.room);
     }
 
 
@@ -173,7 +123,6 @@ public class Player : MonoBehaviour
     }
 
     public Vector3 GetMovement() => movement.GetMovementDirection();
-
     public Vector3 GetPosition() => trans.position;
 }
 

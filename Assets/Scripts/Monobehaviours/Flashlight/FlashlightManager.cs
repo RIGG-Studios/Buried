@@ -60,7 +60,7 @@ public class FlashlightManager : MonoBehaviour
         if (!flickerLight)
             StopCoroutine(FlickerLight());
 
-        lights[1].enabled = player.isHiding;
+   //     lights[1].enabled = player.isHiding;
         currentLightIntensity = lights[0].intensity;
     }
 

@@ -7,9 +7,6 @@ public class Game : MonoBehaviour
 {
     public static Game instance;
 
-    public GameObject startUI;
-
-    public GameObject endUI;
     public MonsterController monster { get; private set; }  
     public Player player { get; private set; }
 
@@ -21,33 +18,29 @@ public class Game : MonoBehaviour
         monster = FindObjectOfType<MonsterController>();
     }
 
-    public void StartGame()
+    public TentacleSpawner GetClosestSpawnerToPlayer()
     {
-        startUI.SetActive(false);
+        TentacleSpawner tMin = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
 
-        player.InitializePlayer();
-        monster.InitializeMonster();
+        foreach (TentacleSpawner t in GetAllTentaclesSpawners())
+        {
+            float dist = Vector3.Distance(t.spawnPoint, currentPos);
+            if (dist < minDist)
+            {
+                tMin = t;
+                minDist = dist;
+            }
+        }
+
+        return tMin;
     }
 
-    public void EndGame()
+    public TentacleSpawner[] GetAllTentaclesSpawners()
     {
-        player.DisablePlayer();
-        startUI.SetActive(false);
-        endUI.SetActive(true);
-    }
+        TentacleSpawner[] spawners = FindObjectsOfType<TentacleSpawner>();
 
-    public void ResetGame()
-    {
-        SceneManager.LoadScene(0);
-    }
-
-    public void GiveFeedBack()
-    {
-        Application.OpenURL("https://forms.gle/Z5hjJTLKDkeMnGyGA");
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+        return spawners.Length > 0 ? spawners : null;
     }
 }

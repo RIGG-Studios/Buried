@@ -4,40 +4,36 @@ using UnityEngine;
 
 public class RetreatState : State
 {
-    TentacleProperties properties;
-    TentacleStateManager stateManager;
+    private TentacleStateManager stateManager = null;
 
     public RetreatState(TentacleController controller) : base("Retreat", controller) => this.controller = controller;
 
     public override void EnterState(TentacleController controller)
     {
-        base.EnterState(controller);
-
         this.controller = controller;
-
         stateManager = controller.stateManager;
-        properties = controller.GetTentacleProperties();
+
+        GameEvents.OnTentacleRetreat.Invoke(controller);
     }
 
     public override void ExitState()
     {
-        base.ExitState();
-
         controller.ResetTentacle();
     }
+
     public override void UpdateLogic()
     {
-        base.UpdateLogic();
-
         controller.UpdateAgentPosition(controller.GetAnchorPosition());
 
         float distance = controller.GetDistanceBetweenEndPointAndHole();
 
-    //    if (distance <= 1.5f)
-      //      stateManager.TransitionStates(TentacleStates.Idle);
+        if (distance <= 1.5f)
+           stateManager.TransitionStates(TentacleStates.Idle);
+
+        controller.UpdateQueuedSegments();
     }
 
-    public override void UpdatePhysics()
+    public override void UpdateLateLogic()
     {
         controller.UpdateSegmentCount();
         controller.UpdateSegmentPositions(controller.GetAnchorPosition());

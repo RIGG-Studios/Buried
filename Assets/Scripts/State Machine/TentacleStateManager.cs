@@ -29,6 +29,7 @@ public class TentacleStateManager : MonoBehaviour
         attackState = new AttackState(controller);
         idleState = new IdleState(controller);
         retreatState = new RetreatState(controller);
+        scaredState = new ScaredState(controller);
 
         currentState = idleState;
     }
@@ -68,7 +69,6 @@ public class TentacleStateManager : MonoBehaviour
     public void TransitionStates(TentacleStates state)
     {
         State newState = ConvertToState(state);
-
         if (newState != null) 
         {
             Debug.Log(newState);
@@ -90,6 +90,9 @@ public class TentacleStateManager : MonoBehaviour
 
             case TentacleStates.Retreat:
                 return retreatState;
+
+            case TentacleStates.Scared:
+                return scaredState;
         }
 
         return null;

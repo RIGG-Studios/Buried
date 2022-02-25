@@ -10,6 +10,7 @@ public class Segment
     public float angle;
     public TentacleProperties properties;
     public Vector3 position;
+    public float rotationAngle;
 
     public Segment(int index, float length, float angle, TentacleProperties properties)
     {
@@ -19,20 +20,21 @@ public class Segment
         this.properties = properties;
 
         position = Vector3.zero;
+        rotationAngle = properties.rotateAngle;
     }
 
-    public Vector2 UpdatePosition(Segment previousSegment, Vector2 targetDir, LayerMask wallLayer)
+    public Vector2 UpdatePosition(Segment previousSegment, Vector2 targetDir, LayerMask wallLayer, float targetRotation)
     {
+        rotationAngle = targetRotation;
+
         Vector2 origin = previousSegment.position;
         Vector2 dir = CalculateRotationAngle() * (targetDir - origin).normalized;
         Vector3 position = origin + dir;
 
         RaycastHit2D hit = Physics2D.Raycast(origin, dir, dir.magnitude, wallLayer);
-        Debug.DrawRay(origin, dir, Color.red);
 
         if (hit.collider != null)
-            position = hit.point;
-
+            position = hit.point + hit.normal * properties.hitOffset;
 
         return position;
     }

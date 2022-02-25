@@ -6,15 +6,15 @@ public class TentacleManager : MonoBehaviour
 {
     public bool initialized { get; private set; }
 
-    [SerializeField, Range(0, 10)]
-    private int maxTentacles = 5;
+    [SerializeField]
+    private TentacleProperties[] tentacleProperties;
 
     [SerializeField]
     private GameObject tentaclePrefab;
 
     public static TentacleManager instance;
 
-    private List<TentacleData> tentacles = new List<TentacleData>();
+    private List<TentacleController> tentacles = new List<TentacleController>();
 
     void Start()
     {
@@ -25,20 +25,20 @@ public class TentacleManager : MonoBehaviour
 
     public void SetupTentacles()
     {
-        for(int i = 0; i < maxTentacles; i++)
+        for(int i = 0; i < tentacleProperties.Length; i++)
         {
             TentacleController controller = Instantiate(tentaclePrefab, Vector2.zero, Quaternion.identity).GetComponent<TentacleController>();
 
             if(controller != null)
             {
-                TentacleData data = new TentacleData(controller);
-
                 controller.stateManager.TransitionStates(TentacleStates.Idle);
                 controller.gameObject.name = "Tentacle" + i;
                 controller.gameObject.SetActive(false);
                 controller.transform.parent = transform;
+                controller.properties = tentacleProperties[i];
+                controller.InitializeTentacles();
 
-                tentacles.Add(data);
+                tentacles.Add(controller);
             }
         }
 
@@ -47,28 +47,27 @@ public class TentacleManager : MonoBehaviour
 
     public void SpawnTentacle(TentacleSpawner spawner, int tentaclesToSpawn)
     {
-        Debug.Log("spawn");
-        TentacleData[] tentacles = GetTentacles(tentaclesToSpawn);
+        TentacleController[] tentacles = GetTentacles(tentaclesToSpawn);
 
         for (int i = 0; i < tentacles.Length; i++)
         {
-            tentacles[i].controller.gameObject.SetActive(true);
-            tentacles[i].controller.SetNewAnchor(spawner);
-            tentacles[i].controller.stateManager.TransitionStates(TentacleStates.Attack);
+            tentacles[i].gameObject.SetActive(true);
+            tentacles[i].SetNewAnchor(spawner);
+            tentacles[i].stateManager.TransitionStates(TentacleStates.Attack);
         }
 
         spawner.occupied = true;
     }
 
-    private TentacleData[] GetTentacles(int amount)
+    private TentacleController[] GetTentacles(int amount)
     {
-        List<TentacleData> data = new List<TentacleData>();
+        List<TentacleController> data = new List<TentacleController>();
 
         for (int z = 0; z < amount; z++)
         {
             for(int i = 0; i < tentacles.Count; i++)
             {
-                if (!tentacles[i].IsOccupied())
+                if (!tentacles[i].occupied)
                 {
                     if(data.Count >= amount)
                         break;
@@ -81,14 +80,4 @@ public class TentacleManager : MonoBehaviour
         return data.ToArray();
     }
 
-}
-
-public class TentacleData
-{
-    public TentacleController controller { get; set; }
-    public TentacleData(TentacleController controller)
-    {
-        this.controller = controller;
-    }
-    public bool IsOccupied() => controller.occupied;
 }

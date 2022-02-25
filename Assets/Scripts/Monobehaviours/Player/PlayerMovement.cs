@@ -8,19 +8,21 @@ public class PlayerMovement : MonoBehaviour
     public float camOffset;
 
     public float rotationMinDistance;
-    public SpriteRenderer sprite;
     public Sprite sideWaysSprite;
     public Sprite forwardSprite;
 
+    SpriteRenderer sprite;
+    Animator animator;
     Vector2 movement;
-
     Rigidbody2D physics;
     PlayerCamera playerCam;
     Player player;
 
 
-    private void Start()
+    private void Awake()
     {
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
         physics = GetComponent<Rigidbody2D>();
         playerCam = FindObjectOfType<PlayerCamera>();
         player = GetComponent<Player>();
@@ -34,6 +36,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camOffset = (dir * this.camOffset);
 
         playerCam.SetOffset(player.isHiding ? Vector3.zero : camOffset);
+        animator.SetFloat("x", dir.x);
+        animator.SetFloat("y", dir.y);
     }
 
     private void FixedUpdate()
@@ -42,15 +46,6 @@ public class PlayerMovement : MonoBehaviour
     }
     public void UpdateInputVector(Vector2 input)
     {
-        if(input.y != 0.0f)
-        {
-
-        }
-
-        if(input.x != 0.0f) 
-        { 
-
-        }
 
         movement = input;
     }

@@ -2,28 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
-using System;
 
-[RequireComponent(typeof(LineRenderer), typeof(TentacleStateManager))]
+[RequireComponent(typeof(LineRenderer),
+    typeof(TentacleStateManager))]
 public class TentacleController : MonoBehaviour
 {
-    public bool setup { get; private set; }
-    public bool occupied { get; set; }
-    public TentacleStateManager stateManager { get; private set; }
-
-    [SerializeField] private TentacleProperties properties;
     [SerializeField] private LayerMask wallLayer;
 
+    private LineRenderer line = null;
+    private NavMeshAgent agent = null;
+    private TentacleSpawner spawner = null;
+    private List<Segment> segments = new List<Segment>();
+    private List<Segment> queuedSegments = new List<Segment>();
+    private List<Vector3> agentTrackedPositions = new List<Vector3>();
+    private Vector2[] segmentVelocity = new Vector2[0];
+    private int segmentCount = 0;
 
-    LineRenderer line;
-    NavMeshAgent agent;
-    TentacleSpawner spawner;
-    List<Segment> segments = new List<Segment>();
-    List<Segment> queuedSegments = new List<Segment>();
-    List<Vector3> agentTrackedPositions = new List<Vector3>();
-    Vector2[] segmentVelocity;
-
-    int segmentCount;
+    public bool setup { get; private set; }
+    public bool occupied { get; set; }
+    public float targetRotation { get; set; }
+    public TentacleProperties properties { get; set; }
+    public TentacleStateManager stateManager { get; private set; }
 
     private void Awake()
     {
@@ -34,6 +33,9 @@ public class TentacleController : MonoBehaviour
 
     public void InitializeTentacles()
     {
+        if (properties == null)
+            return;
+
         if (segments.Count > 0)
             segments.Clear();
 
@@ -60,7 +62,6 @@ public class TentacleController : MonoBehaviour
         segmentCount = Mathf.Clamp(segmentCount, 0, properties.tentacleSegments);
     }
 
-
     public void UpdateSegmentPositions(Vector3 dir)
     {
         segments[0].position = spawner.spawnPoint;
@@ -68,6 +69,8 @@ public class TentacleController : MonoBehaviour
         {
             if (i >= segmentCount)
             {
+                segments[i].position = segments[i].UpdatePosition(segments[i - 1], dir != Vector3.zero ? dir : GetTrackedPosition(i), wallLayer, targetRotation);
+
                 queuedSegments.Add(segments[i]);
                 segments.Remove(segments[i]);
                 continue;
@@ -76,7 +79,7 @@ public class TentacleController : MonoBehaviour
             Segment currentSeg = segments[i];
             Segment previousSeg = segments[i - 1];
 
-            Vector2 segPos = currentSeg.UpdatePosition(previousSeg,  dir != Vector3.zero ? dir : GetTrackedPosition(i), wallLayer);
+            Vector2 segPos = currentSeg.UpdatePosition(previousSeg,  dir != Vector3.zero ? dir : GetTrackedPosition(i), wallLayer, targetRotation);
 
             segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i], properties.tentacleMoveSpeed);    
         }
@@ -94,7 +97,6 @@ public class TentacleController : MonoBehaviour
             agentTrackedPositions.Add(agent.transform.position);
         }
     }
-
     public void UpdateQueuedSegments()
     {
         if (segments.Count != segmentCount)
@@ -106,7 +108,6 @@ public class TentacleController : MonoBehaviour
             }
         }
     }
-
     public void UpdateAgentPosition(Vector3 position)
     {
         if (agent == null)
