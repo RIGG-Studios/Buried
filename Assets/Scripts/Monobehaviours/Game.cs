@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class Game : MonoBehaviour
 {
     public static Game instance;
-
     public MonsterController monster { get; private set; }  
     public Player player { get; private set; }
+
 
     private void Awake()
     {

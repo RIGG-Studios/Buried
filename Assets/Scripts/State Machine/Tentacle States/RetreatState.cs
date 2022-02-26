@@ -8,11 +8,9 @@ public class RetreatState : State
 
     public RetreatState(TentacleController controller) : base("Retreat", controller) => this.controller = controller;
 
-    public override void EnterState(TentacleController controller)
+    public override void EnterState()
     {
-        this.controller = controller;
         stateManager = controller.stateManager;
-
         GameEvents.OnTentacleRetreat.Invoke(controller);
     }
 
@@ -25,7 +23,7 @@ public class RetreatState : State
     {
         controller.UpdateAgentPosition(controller.GetAnchorPosition());
 
-        float distance = controller.GetDistanceBetweenEndPointAndHole();
+        float distance = controller.GetDistanceBetweenEndPointAndAnchor();
 
         if (distance <= 1.5f)
            stateManager.TransitionStates(TentacleStates.Idle);

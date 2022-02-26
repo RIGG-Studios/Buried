@@ -17,14 +17,14 @@ public class HideableObject : InteractableObject
     {
         if (hidingPlayer)
         {
-            player.DoAction(PlayerActions.Hide);
+         //   player.DoAction(PlayerActions.Hide);
             interactionType = InteractionType.Hide;
             hidingPlayer = false;
         }
         else
         {
-            player.DoAction(PlayerActions.Hide);
-            player.transform.position = transform.position;
+       //     player.DoAction(PlayerActions.Hide);
+      //      player.transform.position = transform.position;
             interactionType = InteractionType.UnHide;
             hidingPlayer = true;
         }

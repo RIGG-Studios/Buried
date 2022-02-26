@@ -9,9 +9,8 @@ public class ScaredState : State
 
     public ScaredState(TentacleController controller) : base("Scared", controller) => this.controller = controller;
 
-    public override void EnterState(TentacleController controller)
+    public override void EnterState()
     {
-        this.controller = controller;
         stateManager = controller.stateManager;
     }
 

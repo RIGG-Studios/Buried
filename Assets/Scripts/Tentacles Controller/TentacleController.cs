@@ -133,6 +133,10 @@ public class TentacleController : MonoBehaviour
             segments[i].position = anchor;
         }
 
+        agent.enabled = false;
+        agent.transform.position = anchor;
+        agent.enabled = true;
+
         this.spawner = spawner;
     }
 
@@ -169,6 +173,7 @@ public class TentacleController : MonoBehaviour
 
         Vector3 agentPos = agentTrackedPositions[i];
         agentTrackedPositions.Remove(agentPos);
+
         return agentPos;
     }
 
@@ -184,7 +189,7 @@ public class TentacleController : MonoBehaviour
     {
         return (GetTentacleEndPoint() - Game.instance.player.GetPosition()).magnitude;
     }
-    public float GetDistanceBetweenEndPointAndHole()
+    public float GetDistanceBetweenEndPointAndAnchor()
     {
        return (spawner.spawnPoint - GetTentacleEndPoint()).magnitude;
     }
@@ -199,6 +204,11 @@ public class TentacleController : MonoBehaviour
     public Vector3 GetAgentPosition()
     {
        return agent.nextPosition;
+    }
+
+    public float GetDistanceBetweenPlayerAndAnchor()
+    {
+        return (spawner.spawnPoint - Game.instance.player.GetPosition()).magnitude;
     }
 }
 

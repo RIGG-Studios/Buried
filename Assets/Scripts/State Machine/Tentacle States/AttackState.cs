@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackState : State
@@ -7,14 +5,14 @@ public class AttackState : State
     private TentacleProperties properties = null;
     private TentacleStateManager stateManager = null;
 
-    bool detachedFromAnchor;
+    private bool detachedFromAnchor;
+    private float attackTime;
+    private float wrapTime;
 
     public AttackState(TentacleController controller) : base("Attack", controller) => this.controller = controller;
 
-    public override void EnterState(TentacleController controller)
+    public override void EnterState()
     {
-        this.controller = controller;
-
         stateManager = controller.stateManager;
         properties = controller.GetTentacleProperties();
 
@@ -26,36 +24,40 @@ public class AttackState : State
     public override void ExitState()
     {
         detachedFromAnchor = false;
+        attackTime = 0.0f;
+        wrapTime = 0.0f;
     }
 
     public override void UpdateLogic()
     {
         controller.UpdateAgentPosition(Game.instance.player.GetPosition());
 
-        float currentTentacleDistance = controller.GetDistanceBetweenEndPointAndHole();
+        float currentTentacleDistance = controller.GetDistanceBetweenEndPointAndAnchor();
+        attackTime += Time.deltaTime;
 
         if (currentTentacleDistance >= 4 && !detachedFromAnchor)
             detachedFromAnchor = true;
-        else if(currentTentacleDistance < 1 && detachedFromAnchor)
-        {
-            stateManager.TransitionStates(TentacleStates.Retreat);
-        }
-
-        if(currentTentacleDistance > properties.tentacleMaxLength)
+        else if(currentTentacleDistance < 1 && detachedFromAnchor || attackTime >= 5 || currentTentacleDistance > properties.tentacleMaxLength)
         {
             stateManager.TransitionStates(TentacleStates.Retreat);
         }
 
         float playerDistFromTentacle = controller.GetDistanceBetweenPlayerAndEndPoint();
 
-        if(playerDistFromTentacle <= properties.lightDistance && Game.instance.player.flashLightEnabled)
+        if(playerDistFromTentacle <= properties.lightDistance)
+        {            
+        //    stateManager.TransitionStates(TentacleStates.Scared);
+        }
+        if(playerDistFromTentacle <= 0.75f)
         {
-            stateManager.TransitionStates(TentacleStates.Scared);
+            wrapTime += Time.deltaTime;
+            if (wrapTime > 1)
+            {
+                stateManager.TransitionStates(TentacleStates.GrabPlayer);
+            }
         }
 
-
         controller.UpdateQueuedSegments();
-
     }
 
     public override void UpdateLateLogic()

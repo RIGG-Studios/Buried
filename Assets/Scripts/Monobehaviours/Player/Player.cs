@@ -1,128 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum PlayerActions
-{
-    ToggleFlashlight,
-    GrapplingHook,
-    EndGrapplingHook,
-    Interact,
-    Hide,
-    GrabByMonster
-}
-
+[RequireComponent(typeof(PlayerStateManager))]
 public class Player : MonoBehaviour
 {
-    public Transform mouseRotate;
-    public bool isHiding { get; private set; }
-    public bool isGrabbed { get; private set; }
-   [HideInInspector] public bool flashLightEnabled;
+    [Header("Player Settings")]
 
-    public PlayerMovement movement { get; private set; }
-    public FlashlightManager flashLightManager { get; private set; }
-    public PlayerUI playerUI { get; private set; }
-    public PlayerInteractionManager playerInteraction { get; private set; }
-    public PlayerParanoidManager paranoidManager { get; private set; }
-    public Inventory inventory { get; private set; }
+    public MovementSettings movementSettings;
 
-    public PlayerCamera playerCam { get; private set; }
-    public RoomController currentRoom;
+    [HideInInspector]
+    public PlayerStateManager stateManager;
+    [HideInInspector]
+    public TentacleController attackingTentacle;
+    [HideInInspector]
+    public Animator animator;
+    [HideInInspector]
+    public PlayerInput playerInput;
 
-    Transform trans;
     private void Awake()
     {
-        movement = GetComponent<PlayerMovement>();
-        flashLightManager = GetComponentInChildren<FlashlightManager>();
-        playerUI = GetComponent<PlayerUI>();
-        playerInteraction = GetComponent<PlayerInteractionManager>();
-        inventory = FindObjectOfType<Inventory>();
-        paranoidManager = GetComponent<PlayerParanoidManager>();
-        playerCam = FindObjectOfType<PlayerCamera>();
-
-        trans = transform;
+        stateManager = GetComponent<PlayerStateManager>();
+        playerInput = GetComponent<PlayerInput>();
+        animator = GetComponentInChildren<Animator>();
     }
 
-    public void DoAction(PlayerActions action)
+    private void OnEnable()
     {
-        switch (action)
-        {
-            case PlayerActions.Interact:
-                if (playerInteraction.hoveredObject) playerInteraction.InteractWithObject();
-                break;
-
-            case PlayerActions.EndGrapplingHook:
-
-                break;
-
-            case PlayerActions.GrapplingHook:
-
-                break;
-
-            case PlayerActions.ToggleFlashlight:
-                if (inventory.HasItem(Item.WeaponTypes.Flashlight))
-                    flashLightManager.ToggleFlashlight(out flashLightEnabled);
-                break;
-
-            case PlayerActions.Hide:
-                break;
-
-            case PlayerActions.GrabByMonster:
-                break;
-        }
+        GameEvents.OnPlayerGetGrabbed += GrabbedState;
     }
 
-    public void PlayerDie()
+    private void OnDisable()
     {
-        GameEvents.OnPlayerDie.Invoke();
+        GameEvents.OnPlayerGetGrabbed -= GrabbedState;
     }
 
-    public void PlayerGrabbed()
+    private void GrabbedState(TentacleController controller)
     {
-        GameEvents.OnPlayerGetGrabbed.Invoke();
+        stateManager.TransitionStates(PlayerStates.GrabbedByTentacle);
+        Debug.Log(controller);
+        attackingTentacle = controller;
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    public Vector3 GetPosition()
     {
-        if (collision.gameObject.layer != LayerMask.NameToLayer("Room"))
-            return;
-
-        RoomController roomProperties = collision.gameObject.GetComponent<RoomController>();
-
-        if (roomProperties == null)
-            return;
-
-        if (roomProperties.useShadow)
-        {
-            if (currentRoom && currentRoom.useShadow) currentRoom.shadowRender.SetActive(true);
-            roomProperties.shadowRender.SetActive(false);
-        }
-
-        currentRoom = roomProperties;
-        EnterNewRoom(roomProperties.room);
+        return transform.position;
     }
-
-
-    private void EnterNewRoom(Room room)
-    {
-        if (!room.breathable)
-        {
-
-        }
-
-        if (room.restrictVision)
-        {
-
-        }
-
-        if (room.tripOut)
-        {
-
-        }
-    }
-
-    public Vector3 GetMovement() => movement.GetMovementDirection();
-    public Vector3 GetPosition() => trans.position;
 }
 

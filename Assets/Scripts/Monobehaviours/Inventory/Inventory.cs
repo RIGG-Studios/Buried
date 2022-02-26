@@ -37,8 +37,8 @@ public class Inventory : MonoBehaviour
     {     
         if(property.Contains("Battery"))
         {
-            playerUI.ShowFlashlightBattery(player.flashLightManager.GetCurrentLightIntensity(),
-                player.flashLightManager.GetCurrentMaxLightIntensity());
+       //     playerUI.ShowFlashlightBattery(player.flashLightManager.GetCurrentLightIntensity(),
+          //     player.flashLightManager.GetCurrentMaxLightIntensity());
         }
     }
 
@@ -49,7 +49,7 @@ public class Inventory : MonoBehaviour
             switch (item.toolType)
             {
                 case Item.WeaponTypes.Flashlight:
-                    player.DoAction(PlayerActions.ToggleFlashlight);
+                //    player.DoAction(PlayerActions.ToggleFlashlight);
                     break;
 
                 case Item.WeaponTypes.Pickaxe:
@@ -69,7 +69,7 @@ public class Inventory : MonoBehaviour
 
                         int batteryLife = batteryCapacity - battery;
 
-                        player.flashLightManager.UpdateBatteryLife(batteryLife);
+                 //       player.flashLightManager.UpdateBatteryLife(batteryLife);
                         RemoveItem(item);
                     }
                     break;

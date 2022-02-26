@@ -55,7 +55,7 @@ public class Chest : InteractableObject
 
     private void ShowChestLoot()
     {
-        slotManager.SetupSlots(itemsInChest.Count, player.inventory);
+       // slotManager.SetupSlots(itemsInChest.Count, player.inventory);
 
         for(int i = 0; i < itemsInChest.Count; i++)
         {

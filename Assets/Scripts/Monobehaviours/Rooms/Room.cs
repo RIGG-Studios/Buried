@@ -8,7 +8,6 @@ public class Room : ScriptableObject
     [System.Serializable]
     public class RoomEnemySpawnProperties
     {
-        public Enemy enemy;
         public int enemyCount;
     }
 

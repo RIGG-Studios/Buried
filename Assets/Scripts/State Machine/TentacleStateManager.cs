@@ -8,19 +8,20 @@ public enum TentacleStates
     Attack,
     Retreat,
     Scared,
-    Stunned
+    Stunned,
+    GrabPlayer
 }
 
-public class TentacleStateManager : MonoBehaviour
+public class TentacleStateManager : StateMachine
 {
-    TentacleController controller;
-    public State currentState { get; private set; }
+    private TentacleController controller = null;
 
-    public AttackState attackState { get; private set; }
-    public RetreatState retreatState { get; private set; }
-    public StunnedState stunnedState { get; private set; }
-    public ScaredState scaredState { get; private set; }
-    public IdleState idleState { get; private set; }
+    private AttackState attackState;
+    private RetreatState retreatState;
+    private StunnedState stunnedState;
+    private ScaredState scaredState;
+    private IdleState idleState;
+    private GrabPlayerState grabState;
 
     private void Awake()
     {
@@ -30,51 +31,19 @@ public class TentacleStateManager : MonoBehaviour
         idleState = new IdleState(controller);
         retreatState = new RetreatState(controller);
         scaredState = new ScaredState(controller);
+        grabState = new GrabPlayerState(controller);
 
         currentState = idleState;
-    }
-
-    public void Start()
-    {
-        if (currentState == null)
-            return;
-
-        currentState.EnterState(controller);
-    }
-
-    public void Update()
-    {
-        if (currentState == null)
-            return;
-
-        currentState.UpdateLogic();
-    }
-
-    public void LateUpdate()
-    {
-        if (currentState == null)
-            return;
-
-        currentState.UpdateLateLogic();
-    }
-
-    public void FixedUpdate()
-    {
-        if (currentState == null)
-            return;
-
-        currentState.UpdatePhysics();
-    }
-
+    } 
     public void TransitionStates(TentacleStates state)
     {
         State newState = ConvertToState(state);
+
         if (newState != null) 
         {
-            Debug.Log(newState);
             currentState.ExitState();
             currentState = newState;
-            newState.EnterState(controller);
+            newState.EnterState();
         }
     }
 
@@ -93,6 +62,9 @@ public class TentacleStateManager : MonoBehaviour
 
             case TentacleStates.Scared:
                 return scaredState;
+
+            case TentacleStates.GrabPlayer:
+                return grabState;
         }
 
         return null;
