@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class Game : MonoBehaviour
 {
     public static Game instance;
-    public MonsterController monster { get; private set; }  
     public Player player { get; private set; }
 
 
@@ -15,7 +14,6 @@ public class Game : MonoBehaviour
         instance = this;
 
         player = FindObjectOfType<Player>();
-        monster = FindObjectOfType<MonsterController>();
     }
 
     public TentacleSpawner GetClosestSpawnerToPlayer()
@@ -27,6 +25,7 @@ public class Game : MonoBehaviour
         foreach (TentacleSpawner t in GetAllTentaclesSpawners())
         {
             float dist = Vector3.Distance(t.spawnPoint, currentPos);
+
             if (dist < minDist)
             {
                 tMin = t;

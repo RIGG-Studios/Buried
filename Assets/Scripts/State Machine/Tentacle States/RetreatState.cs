@@ -12,11 +12,15 @@ public class RetreatState : State
     {
         stateManager = controller.stateManager;
         GameEvents.OnTentacleRetreat.Invoke(controller);
+
+        GameEvents.OnPlayerDie += OnPlayerDead;
     }
 
     public override void ExitState()
     {
         controller.ResetTentacle();
+
+        GameEvents.OnPlayerDie -= OnPlayerDead;
     }
 
     public override void UpdateLogic()
@@ -25,7 +29,7 @@ public class RetreatState : State
 
         float distance = controller.GetDistanceBetweenEndPointAndAnchor();
 
-        if (distance <= 1.5f)
+        if (distance <= 0.5f)
            stateManager.TransitionStates(TentacleStates.Idle);
 
         controller.UpdateQueuedSegments();
@@ -34,6 +38,12 @@ public class RetreatState : State
     public override void UpdateLateLogic()
     {
         controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions(controller.GetAnchorPosition());
+        controller.UpdateSegmentPositions();
+        controller.UpdateAgentTrackedPositions();
+    }
+
+    public void OnPlayerDead()
+    {
+        stateManager.TransitionStates(TentacleStates.Idle);
     }
 }

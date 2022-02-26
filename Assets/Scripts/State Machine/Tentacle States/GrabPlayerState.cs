@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GrabPlayerState : State
 {
-    public GrabPlayerState(TentacleController controller) : base("Attack", controller) => this.controller = controller;
+    public GrabPlayerState(TentacleController controller) : base("GrabPlayer", controller) => this.controller = controller;
 
     public override void EnterState()
     {
@@ -12,12 +12,14 @@ public class GrabPlayerState : State
     public override void UpdateLogic()
     {
         controller.UpdateAgentPosition(controller.GetAnchorPosition());
+
         controller.UpdateQueuedSegments();
     }
 
     public override void UpdateLateLogic()
     {
         controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions(controller.GetAnchorPosition());
+        controller.UpdateSegmentPositions();
+        controller.UpdateAgentTrackedPositions();
     }
 }

@@ -62,14 +62,14 @@ public class TentacleController : MonoBehaviour
         segmentCount = Mathf.Clamp(segmentCount, 0, properties.tentacleSegments);
     }
 
-    public void UpdateSegmentPositions(Vector3 dir)
+    public void UpdateSegmentPositions()
     {
         segments[0].position = spawner.spawnPoint;
         for (int i = 1; i < segments.Count; i++)
         {
             if (i >= segmentCount)
             {
-                segments[i].position = segments[i].UpdatePosition(segments[i - 1], dir != Vector3.zero ? dir : GetTrackedPosition(i), wallLayer, targetRotation);
+                segments[i].position = segments[i].UpdatePosition(segments[i - 1], GetTrackedPosition(i), wallLayer, targetRotation);
 
                 queuedSegments.Add(segments[i]);
                 segments.Remove(segments[i]);
@@ -79,7 +79,7 @@ public class TentacleController : MonoBehaviour
             Segment currentSeg = segments[i];
             Segment previousSeg = segments[i - 1];
 
-            Vector2 segPos = currentSeg.UpdatePosition(previousSeg,  dir != Vector3.zero ? dir : GetTrackedPosition(i), wallLayer, targetRotation);
+            Vector2 segPos = currentSeg.UpdatePosition(previousSeg,  GetTrackedPosition(i), wallLayer, targetRotation);
 
             segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i], properties.tentacleMoveSpeed);    
         }

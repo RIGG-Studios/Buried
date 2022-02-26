@@ -37,24 +37,30 @@ public class AttackState : State
 
         if (currentTentacleDistance >= 4 && !detachedFromAnchor)
             detachedFromAnchor = true;
-        else if(currentTentacleDistance < 1 && detachedFromAnchor || attackTime >= 5 || currentTentacleDistance > properties.tentacleMaxLength)
+        else if (currentTentacleDistance < 1 && detachedFromAnchor || currentTentacleDistance >= properties.tentacleMaxLength)
         {
             stateManager.TransitionStates(TentacleStates.Retreat);
         }
 
         float playerDistFromTentacle = controller.GetDistanceBetweenPlayerAndEndPoint();
 
-        if(playerDistFromTentacle <= properties.lightDistance)
-        {            
-        //    stateManager.TransitionStates(TentacleStates.Scared);
+        if (playerDistFromTentacle <= properties.lightDistance)
+        {
+            //    stateManager.TransitionStates(TentacleStates.Scared);
         }
-        if(playerDistFromTentacle <= 0.75f)
+
+        if (playerDistFromTentacle <= 1f)
         {
             wrapTime += Time.deltaTime;
-            if (wrapTime > 1)
+
+            if (wrapTime > 0.75f)
             {
                 stateManager.TransitionStates(TentacleStates.GrabPlayer);
             }
+        }
+        else
+        {
+            wrapTime = 0.0f;
         }
 
         controller.UpdateQueuedSegments();
@@ -63,7 +69,7 @@ public class AttackState : State
     public override void UpdateLateLogic()
     {
         controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions(Vector3.zero);
+        controller.UpdateSegmentPositions();
         controller.UpdateAgentTrackedPositions();
     }
 

@@ -23,7 +23,7 @@ public class ScaredState : State
         Debug.Log(timer);
         if (timer >= 1)
         {
-            stateManager.TransitionStates(TentacleStates.Retreat);
+            stateManager.TransitionStates(TentacleStates.GrabPlayer);
             timer = 0.0f;
         }
     }
@@ -31,7 +31,7 @@ public class ScaredState : State
     public override void UpdatePhysics()
     {
         controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions(Vector3.zero);
+        controller.UpdateSegmentPositions();
         controller.UpdateAgentTrackedPositions();
     }
 }
