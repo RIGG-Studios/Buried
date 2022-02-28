@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour
     public void AddItem(Item item)
     {
         items.Add(item);
-        slotManager.AddSlot(true, item);
+        slotManager.AddSlot(false, item);
     }
 
     private void RemoveItem(Item item)

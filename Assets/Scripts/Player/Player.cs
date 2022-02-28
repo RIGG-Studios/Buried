@@ -16,12 +16,25 @@ public class Player : MonoBehaviour
     public Animator animator;
     [HideInInspector]
     public PlayerInput playerInput;
+    [HideInInspector]
+    public Inventory inventory;
+    [HideInInspector]
+    public PlayerParanoidManager paranoidManager;
+    [HideInInspector]
+    public MouseLook mouseLook;
+    [HideInInspector]
+    public InputActions input;
 
     private void Awake()
     {
+        input = new InputActions();
+
         stateManager = GetComponent<PlayerStateManager>();
         playerInput = GetComponent<PlayerInput>();
         animator = GetComponentInChildren<Animator>();
+        inventory = FindObjectOfType<Inventory>();
+        paranoidManager = GetComponent<PlayerParanoidManager>();
+        mouseLook = GetComponentInChildren<MouseLook>();
     }
 
     private void OnEnable()
@@ -37,7 +50,6 @@ public class Player : MonoBehaviour
     private void GrabbedState(TentacleController controller)
     {
         stateManager.TransitionStates(PlayerStates.GrabbedByTentacle);
-        Debug.Log(controller);
         attackingTentacle = controller;
     }
 

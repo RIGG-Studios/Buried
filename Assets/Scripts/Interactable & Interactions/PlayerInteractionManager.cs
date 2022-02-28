@@ -1,32 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class PlayerInteractionManager : MonoBehaviour
 {
-    public LayerMask interactionLayer;
+    [SerializeField] private LayerMask interactionLayer;
 
-    public GameObject interactionAssist;
-    public TextMeshPro interactionName;
-    public TextMeshPro interactionType;
+    [SerializeField] private GameObject interactionAssist;
+    [SerializeField] private TextMeshPro interactionName;
+    [SerializeField] private TextMeshPro interactionType;
 
-    public float assistRadius;
-    public float minInteractionDistance;
+    [SerializeField] private float assistRadius = 0.0f;
+    [SerializeField] private float minInteractionDistance = 0.0f;
 
+    [HideInInspector]
     public InteractableObject hoveredObject;
 
-    Player player;
+    private Player player = null;
+    private Camera camera = null;
+
+    private void Awake()
+    {
+        player = GetComponent<Player>();
+        camera = Camera.main;
+    }
 
     private void Start()
     {
-        player = GetComponent<Player>();
+        player.input.Player.Flashlight.performed += ctx => InteractWithObject();
     }
 
     private void Update()
     {
-        Vector2 mouseWorldSpace = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
+        Vector2 mouseWorldSpace = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
         Vector3 worldPos = mouseWorldSpace;
 
         RaycastHit2D spriteHit = Physics2D.Raycast(worldPos, transform.position - worldPos, minInteractionDistance, interactionLayer);
@@ -70,10 +77,14 @@ public class PlayerInteractionManager : MonoBehaviour
 
     public void InteractWithObject()
     {
+        Debug.Log("hi");
         hoveredObject.Interact(player);
         interactionAssist.SetActive(false);
     }
 
 
-    public void UpdateInteractionAssistRotation(Vector3 direction) => interactionAssist.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+    public void UpdateInteractionAssistRotation(Vector3 direction)
+    {
+        interactionAssist.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+    }
 }

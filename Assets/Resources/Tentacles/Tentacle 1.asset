@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12696b7e59632a04b9b5b9ae5a90d099, type: 3}
   m_Name: Tentacle 1
   m_EditorClassIdentifier: 
-  tentacleMaxLength: 12
+  tentacleMaxLength: 17
   tentacleMoveSpeed: 0.3
   lightDistance: 7
   tentacleSegments: 30

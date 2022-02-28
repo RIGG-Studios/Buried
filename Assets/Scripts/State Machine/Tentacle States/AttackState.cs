@@ -15,6 +15,7 @@ public class AttackState : State
     {
         stateManager = controller.stateManager;
         properties = controller.GetTentacleProperties();
+        player = Game.instance.player;
 
         controller.SetAgentPosition(controller.GetAnchorPosition());
         controller.occupied = true;
@@ -37,16 +38,21 @@ public class AttackState : State
 
         if (currentTentacleDistance >= 4 && !detachedFromAnchor)
             detachedFromAnchor = true;
-        else if (currentTentacleDistance < 1 && detachedFromAnchor || currentTentacleDistance >= properties.tentacleMaxLength)
+
+
+        if ((currentTentacleDistance < 1 && detachedFromAnchor) || currentTentacleDistance >= properties.tentacleMaxLength || attackTime >= 5)
         {
             stateManager.TransitionStates(TentacleStates.Retreat);
         }
 
         float playerDistFromTentacle = controller.GetDistanceBetweenPlayerAndEndPoint();
 
-        if (playerDistFromTentacle <= properties.lightDistance)
+        if (playerDistFromTentacle <= properties.lightDistance && player.inventory.HasItem(Item.WeaponTypes.Flashlight))
         {
-            //    stateManager.TransitionStates(TentacleStates.Scared);
+            float angle = Quaternion.Angle(Quaternion.Euler(controller.GetLastTentacle().position), player.mouseLook.transform.rotation);
+            Debug.Log(angle);
+
+            //   stateManager.TransitionStates(TentacleStates.Scared);
         }
 
         if (playerDistFromTentacle <= 1f)

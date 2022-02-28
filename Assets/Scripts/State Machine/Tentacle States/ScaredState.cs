@@ -16,11 +16,8 @@ public class ScaredState : State
 
     public override void UpdateLogic()
     {
-        controller.targetRotation = Random.Range(5f, 9f);
-
         timer += Time.deltaTime;
 
-        Debug.Log(timer);
         if (timer >= 1)
         {
             stateManager.TransitionStates(TentacleStates.GrabPlayer);

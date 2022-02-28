@@ -1,20 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public enum HoleSize
-{
-    Small,
-    Medium,
-    Large
-}
 public class TentacleSpawner : MonoBehaviour
 {
-    [SerializeField]
-    private HoleSize holeSize;
-    [Range(0, 20)]
-    public float holeRange;
-
     public Vector3 spawnPoint
     {
         get

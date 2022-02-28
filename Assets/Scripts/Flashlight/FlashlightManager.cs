@@ -1,27 +1,27 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.InputSystem;
 
 public class FlashlightManager : MonoBehaviour
 {
-    [Range(0, 500)] public float batteryLifeInSeconds;
-    public float defaultLightIntensity;
-    public float maxLightIntensity;
-    public Slider slider;
+    [Header("Flashlight Properties")]
+    [SerializeField, Range(0, 500)] private float batteryLifeInSeconds;
+    [SerializeField, Range(0, 5)] float defaultLightIntensity;
+    [SerializeField, Range(0, 5)] float maxLightIntensity;
 
-    Light2D[] lights = new Light2D[2];
+    [Header("UI")]
+    [SerializeField] private Slider slider;
 
-    bool flashlightEnabled;
-    bool flickerLight;
+    private Light2D[] lights = new Light2D[2];
+    private bool flashlightEnabled = false;
+    private bool flickerLight = false;
+    private float flashLightIntensity = 0.0f;
+    private float currentLightIntensity = 0.0f;
+    private Player player;
 
-    float flashLightIntensity;
-    float currentLightIntensity;
-
-    Player player;
-
-    private void Start()
+    private void Awake()
     {
         player = FindObjectOfType<Player>();
         lights = GetComponentsInChildren<Light2D>();
@@ -30,13 +30,12 @@ public class FlashlightManager : MonoBehaviour
         flashLightIntensity = maxLightIntensity;
     }
 
+
     private void Update()
     {
         if (flashlightEnabled)
         {
             flashLightIntensity -= flashLightIntensity / batteryLifeInSeconds * Time.deltaTime;
-            slider.maxValue = maxLightIntensity;
-            slider.minValue = defaultLightIntensity;
             slider.value = flashLightIntensity;
 
             if (flashLightIntensity <= defaultLightIntensity)
@@ -60,7 +59,6 @@ public class FlashlightManager : MonoBehaviour
         if (!flickerLight)
             StopCoroutine(FlickerLight());
 
-   //     lights[1].enabled = player.isHiding;
         currentLightIntensity = lights[0].intensity;
     }
 
@@ -70,10 +68,13 @@ public class FlashlightManager : MonoBehaviour
             light.intensity = intensity;
     }
 
-    public void ToggleFlashlight(out bool flashLightEnabled)
+    public void ToggleFlashlight()
     {
+        Debug.Log("g");
         if (!flashlightEnabled)
         {
+            slider.maxValue = maxLightIntensity;
+            slider.minValue = defaultLightIntensity;
             flashlightEnabled = true;
         }
         else
@@ -82,8 +83,8 @@ public class FlashlightManager : MonoBehaviour
         }
 
         slider.gameObject.SetActive(flashlightEnabled);
-     
-        flashLightEnabled = flashlightEnabled;
+
+        GameEvents.OnToggleFlashlight(flashlightEnabled);
     }
 
     public void UpdateBatteryLife(int batteryLife)
@@ -103,8 +104,13 @@ public class FlashlightManager : MonoBehaviour
 
     }
 
-    public float GetCurrentLightIntensity() => currentLightIntensity;
-
-    public float GetCurrentMaxLightIntensity() => flashlightEnabled ? maxLightIntensity : defaultLightIntensity;
+    public float GetCurrentLightIntensity()
+    {
+       return currentLightIntensity;
+    }
+    public float GetCurrentMaxLightIntensity()
+    {
+        return flashlightEnabled ? maxLightIntensity : defaultLightIntensity;
+    }
 }
 

@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class PlayerParanoidManager : MonoBehaviour
 {
-    [SerializeField, Range(0.1f, 1)]
-    private float paranoidAmount;
-    [SerializeField, Range(0, 100f)]
-    private float enemyDistanceThreshold;
-    [SerializeField, Range(0, 100f)]
-    private float enemyDistanceMultiplier;
+    [Range(0.1f, 1)] public float paranoidAmount;
 
-    public float heartBeatMultiplier = 1;
-    public float cameraShakeMultiplier = 1;
+    [SerializeField, Range(0, 100f)] private float enemyDistanceThreshold;
+    [SerializeField, Range(0, 100f)] private float enemyDistanceMultiplier;
 
-    public AudioClip[] sounds;
-    public AudioSource source;
-    public PlayerCamera cam;
+    [SerializeField] private float heartBeatMultiplier = 1;
+    [SerializeField] private float cameraShakeMultiplier = 1;
 
-    float currentHeartBeat = 0.0f;
-    float currentShakeMagnitude = 0.0f;
-    float heartBeatTimer = 0.0f;
-    float distance = 0.0f;
+    private float currentHeartBeat = 0.0f;
+    private float currentShakeMagnitude = 0.0f;
+    private float heartBeatTimer = 0.0f;
+    private float distance = 0.0f;
 
-    bool calculateDistance;
-    TentacleController controller;
+    private bool calculateDistance = false;
+    private TentacleController controller = null;
+    private PlayerCamera playerCamera = null;
 
     private void Awake()
     {
         distance = 100f;
+    }
+
+    private void Start()
+    {
+        playerCamera = FindObjectOfType<PlayerCamera>();
     }
 
     private void OnEnable()
@@ -69,7 +69,7 @@ public class PlayerParanoidManager : MonoBehaviour
         paranoidAmount = Mathf.Clamp(1 - (distance * enemyDistanceMultiplier), 0.1f, 1f);
         currentHeartBeat = paranoidAmount * heartBeatMultiplier;
         currentShakeMagnitude = distance >= enemyDistanceThreshold ? 0 : (paranoidAmount * cameraShakeMultiplier);
-        cam.SetShakeMagnitude(currentShakeMagnitude);
+        playerCamera.SetShakeMagnitude(currentShakeMagnitude);
 
         float t = (60f / currentHeartBeat);
 
@@ -77,8 +77,7 @@ public class PlayerParanoidManager : MonoBehaviour
             heartBeatTimer += Time.deltaTime;
         else
         {
-            foreach (AudioClip c in sounds)
-                source.PlayOneShot(c);
+            GameEvents.OnPlayAudio.Invoke("Heartbeat");
 
             heartBeatTimer = 0;
         }
