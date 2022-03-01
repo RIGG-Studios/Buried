@@ -7,7 +7,7 @@ public class Chest : InteractableObject
     [System.Serializable]
     public class ChestItemProperties
     {
-        public Item item;
+        public ItemProperties item;
         public int stack;
     }
 
@@ -59,7 +59,7 @@ public class Chest : InteractableObject
 
         for(int i = 0; i < itemsInChest.Count; i++)
         {
-            slotManager.AddSlot(false, itemsInChest[i].item);
+      //      slotManager.AddSlot(false, itemsInChest[i].item);
         }
     }
 }

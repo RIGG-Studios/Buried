@@ -26,6 +26,7 @@ public class State
         lookAction = player.GetComponent<PlayerInput>().actions["Look"];
     }
 
+    public virtual void UpdateInput() { }
     public virtual void EnterState() { }
     public virtual void UpdateLogic() { }
     public virtual void UpdatePhysics() { }

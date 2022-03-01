@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class MovementState : State
 {
-    private Vector2 movementInput;
+    private Vector2 movementInput = Vector2.zero;
+    private Vector2 mouseDir = Vector2.zero;
 
-    private Camera camera;
-    private PlayerCamera cameraController;
-    private MovementSettings settings;
-    private Rigidbody2D physics;
-    private PlayerFootsteps footSteps; 
-    private Animator animator;
+    private Camera camera = null;
+    private PlayerCamera cameraController = null;
+    private MovementSettings settings = null;
+    private Rigidbody2D physics = null;
+    private PlayerFootsteps footSteps = null;
+    private Animator animator = null;
 
-    private float stepCooldown;
+    private float stepCooldown = 0.0f;
 
     public MovementState(Player player) : base("PlayerMovement", player) => this.player = player;
 
@@ -34,11 +32,16 @@ public class MovementState : State
         cameraController.SetTarget(player.transform);
     }
 
-    public override void UpdateLogic()
+    public override void UpdateInput()
     {
         Vector3 mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
-        Vector2 dir = (mousePos - player.GetPosition()).normalized;
+        mouseDir = (mousePos - player.GetPosition()).normalized;
 
+        movementInput = moveAction.ReadValue<Vector2>();
+    }
+
+    public override void UpdateLogic()
+    {
         bool isMoving = movementInput != Vector2.zero;
 
         if (isMoving && stepCooldown < 0f)
@@ -47,10 +50,9 @@ public class MovementState : State
             stepCooldown = settings.stepRate / GetMovementSpeed() / 2f;
         }
 
-        cameraController.SetOffset(dir * settings.cameraOffset);
-        animator.SetInteger("Direction", Utilites.DirectionToIndex(dir, 4));
+        cameraController.SetOffset(mouseDir * settings.cameraOffset);
+        animator.SetInteger("Direction", Utilites.DirectionToIndex(mouseDir, 4));
 
-        movementInput = moveAction.ReadValue<Vector2>();
         stepCooldown -= Time.deltaTime;
     }
 

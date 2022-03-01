@@ -21,6 +21,8 @@ public class StateMachine : MonoBehaviour
         if (currentState == null)
             return;
 
+        currentState.UpdateInput();
+
         currentState.UpdateLogic();
     }
 

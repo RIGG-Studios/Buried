@@ -8,7 +8,7 @@ public class GrabbedByTentacleState : State
 
     public override void UpdateLogic()
     {
-        player.transform.position = Vector3.Lerp(player.transform.position, player.attackingTentacle.GetTentacleEndPoint(), Time.deltaTime * 50f);
+        player.transform.position = Vector3.Lerp(player.transform.position, player.attackingTentacle.GetTentacleEndPoint(), Time.deltaTime * 8f);
 
         float dist = (player.transform.position - player.attackingTentacle.GetAnchorPosition()).magnitude;
 

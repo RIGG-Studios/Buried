@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemPickup : InteractableObject
 {
-    public Item item;
+    public ItemProperties item;
 
     private Inventory inventory
     {
@@ -16,7 +16,7 @@ public class ItemPickup : InteractableObject
 
     public override void Interact(Player player)
     {
-        inventory.AddItem(item);
+      //  inventory.AddItem(item);
 
         Destroy(gameObject);
     }

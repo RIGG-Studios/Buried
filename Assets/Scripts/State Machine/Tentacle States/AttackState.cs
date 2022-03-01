@@ -31,10 +31,7 @@ public class AttackState : State
 
     public override void UpdateLogic()
     {
-        controller.UpdateAgentPosition(Game.instance.player.GetPosition());
-
         float currentTentacleDistance = controller.GetDistanceBetweenEndPointAndAnchor();
-        attackTime += Time.deltaTime;
 
         if (currentTentacleDistance >= 4 && !detachedFromAnchor)
             detachedFromAnchor = true;
@@ -47,7 +44,7 @@ public class AttackState : State
 
         float playerDistFromTentacle = controller.GetDistanceBetweenPlayerAndEndPoint();
 
-        if (playerDistFromTentacle <= properties.lightDistance && player.inventory.HasItem(Item.WeaponTypes.Flashlight))
+        if (playerDistFromTentacle <= properties.lightDistance)
         {
             float angle = Quaternion.Angle(Quaternion.Euler(controller.GetLastTentacle().position), player.mouseLook.transform.rotation);
             Debug.Log(angle);
@@ -69,6 +66,9 @@ public class AttackState : State
             wrapTime = 0.0f;
         }
 
+        attackTime += Time.deltaTime;
+
+        controller.UpdateAgentPosition(Game.instance.player.GetPosition());
         controller.UpdateQueuedSegments();
     }
 
