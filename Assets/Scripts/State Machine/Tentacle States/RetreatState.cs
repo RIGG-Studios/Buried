@@ -4,42 +4,45 @@ using UnityEngine;
 
 public class RetreatState : State
 {
-    TentacleProperties properties;
-    TentacleStateManager stateManager;
+    private TentacleStateManager stateManager = null;
+    private float retreatTimer = 0.0f;
 
     public RetreatState(TentacleController controller) : base("Retreat", controller) => this.controller = controller;
 
-    public override void EnterState(TentacleController controller)
+    public override void EnterState()
     {
-        base.EnterState(controller);
-
-        this.controller = controller;
-
         stateManager = controller.stateManager;
-        properties = controller.GetTentacleProperties();
+
+        GameEvents.OnTentacleRetreat.Invoke(controller);
+        GameEvents.OnPlayerDie += OnPlayerDead;
     }
 
     public override void ExitState()
     {
-        base.ExitState();
-
         controller.ResetTentacle();
+        retreatTimer = 0.0f;
+        GameEvents.OnPlayerDie -= OnPlayerDead;
     }
+
     public override void UpdateLogic()
     {
-        base.UpdateLogic();
-
+        retreatTimer += Time.deltaTime;
         controller.UpdateAgentPosition(controller.GetAnchorPosition());
 
-        float distance = controller.GetDistanceBetweenEndPointAndHole();
+        float distance = controller.GetDistanceBetweenEndPointAndAnchor();
 
-    //    if (distance <= 1.5f)
-      //      stateManager.TransitionStates(TentacleStates.Idle);
+        if (distance <= 1f || retreatTimer >= 10f)
+           stateManager.TransitionStates(TentacleStates.Idle);
     }
 
-    public override void UpdatePhysics()
+    public override void UpdateLateLogic()
     {
-        controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions(controller.GetAnchorPosition());
+        controller.UpdateSegmentPositions();
+        controller.UpdateAgentTrackedPositions();
+    }
+
+    public void OnPlayerDead()
+    {
+        stateManager.TransitionStates(TentacleStates.Idle);
     }
 }

@@ -6,11 +6,8 @@ public class IdleState : State
 {
     public IdleState(TentacleController controller) : base("Idle", controller) => this.controller = controller;
 
-    public override void EnterState(TentacleController controller)
+    public override void EnterState()
     {
-        base.EnterState(controller);
-        this.controller = controller;
-
         controller.InitializeTentacles();
     }
 

@@ -2,86 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//class for handling the tentacle state manager
+
+//create an enum for all possible states a tentacle could be in
 public enum TentacleStates
 {
     Idle,
     Attack,
     Retreat,
     Scared,
-    Stunned
+    Stunned,
+    GrabPlayer
 }
 
-public class TentacleStateManager : MonoBehaviour
+//derive from the state machine class
+public class TentacleStateManager : StateMachine
 {
-    TentacleController controller;
-    public State currentState { get; private set; }
+    //refernce to the controller
+    private TentacleController controller { get { return GetComponent<TentacleController>(); } }
 
-    public AttackState attackState { get; private set; }
-    public RetreatState retreatState { get; private set; }
-    public StunnedState stunnedState { get; private set; }
-    public ScaredState scaredState { get; private set; }
-    public IdleState idleState { get; private set; }
+    //reference to all the state classes
+    private AttackState attackState;
+    private RetreatState retreatState;
+    private StunnedState stunnedState;
+    private ScaredState scaredState;
+    private IdleState idleState;
+    private GrabPlayerState grabState;
 
+    //when we awake, assign all the variables to their proper values.
     private void Awake()
     {
-        controller = GetComponent<TentacleController>();
-
+        //create new instances of all the states
         attackState = new AttackState(controller);
         idleState = new IdleState(controller);
         retreatState = new RetreatState(controller);
+        scaredState = new ScaredState(controller);
+        grabState = new GrabPlayerState(controller);
 
+        //set the current state to be the idle state for the tentacle
         currentState = idleState;
-    }
+    } 
 
-    public void Start()
-    {
-        if (currentState == null)
-            return;
-
-        currentState.EnterState(controller);
-    }
-
-    public void Update()
-    {
-        if (currentState == null)
-            return;
-
-        currentState.UpdateLogic();
-    }
-
-    public void LateUpdate()
-    {
-        if (currentState == null)
-            return;
-
-        currentState.UpdateLateLogic();
-    }
-
-    public void FixedUpdate()
-    {
-        if (currentState == null)
-            return;
-
-        currentState.UpdatePhysics();
-    }
-
+    //method for transtioning states
     public void TransitionStates(TentacleStates state)
     {
+        //find the corresponding state using the method below
         State newState = ConvertToState(state);
 
+        //if its found, continue
         if (newState != null) 
         {
-            Debug.Log(newState);
+            //exit and old state and enter the new one.
             currentState.ExitState();
             currentState = newState;
-            newState.EnterState(controller);
+            newState.EnterState();
         }
     }
 
+    //simple method for converting states from the TentacleStates enum
     public State ConvertToState(TentacleStates state)
     {
+        //check all possibilites
         switch (state)
         {
+            //if we found any states, return the state instance
             case TentacleStates.Attack:
                 return attackState;
 
@@ -90,8 +74,15 @@ public class TentacleStateManager : MonoBehaviour
 
             case TentacleStates.Retreat:
                 return retreatState;
+
+            case TentacleStates.Scared:
+                return scaredState;
+
+            case TentacleStates.GrabPlayer:
+                return grabState;
         }
 
+        //if none are found, return null.
         return null;
     }
 }
