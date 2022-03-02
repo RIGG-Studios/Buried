@@ -14,8 +14,10 @@ public class PlayerInteractionManager : MonoBehaviour
     [SerializeField] private float assistRadius = 0.0f;
     [SerializeField] private float minInteractionDistance = 0.0f;
 
-    [HideInInspector]
+
     public InteractableObject hoveredObject;
+    [HideInInspector]
+    public bool allowInteractions;
 
     private Player player = null;
     private Camera camera = null;
@@ -28,8 +30,10 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void Start()
     {
-        player.input.Player.Flashlight.performed += ctx => InteractWithObject();
+        player.playerInput.Player.Interact.performed += ctx => InteractWithObject();
+        allowInteractions = true;
     }
+
 
     private void Update()
     {
@@ -44,14 +48,24 @@ public class PlayerInteractionManager : MonoBehaviour
             OnHoverOverInteractable(uiHit.gameObject, Vector2.zero);
         }
         else if (uiHit.gameObject == null && hoveredObject != null && spriteHit.collider == null)
-            OnStopHoverInteractable();
-
-        if (spriteHit.collider != null)
         {
-            OnHoverOverInteractable(spriteHit.collider.gameObject, spriteHit.point);
-        }
-        else if(spriteHit.collider == null && hoveredObject != null && uiHit.gameObject == null)
             OnStopHoverInteractable();
+        }
+
+        if (allowInteractions)
+        {
+            if (spriteHit.collider != null)
+            {
+                float dist = (spriteHit.collider.transform.position - transform.position).magnitude;
+
+                if (dist < 2)
+                    OnHoverOverInteractable(spriteHit.collider.gameObject, spriteHit.point);
+            }
+            else if (spriteHit.collider == null && hoveredObject != null && uiHit.gameObject == null)
+            {
+                OnStopHoverInteractable();
+            }
+        }
     }
 
     private void OnHoverOverInteractable(GameObject collision, Vector2 point)
@@ -65,26 +79,28 @@ public class PlayerInteractionManager : MonoBehaviour
             interactionAssist.transform.position = point;
             interactionAssist.SetActive(true);
         }
+
+        hoveredObject.HoverInteract();
     }
 
     private void OnStopHoverInteractable()
     {
-        hoveredObject.StopInteract();
-        hoveredObject = null;
+        if (hoveredObject == null)
+            return;
 
+        hoveredObject.StopHoverInteract();
         interactionAssist.SetActive(false);
+        hoveredObject = null;
     }
 
     public void InteractWithObject()
     {
-        Debug.Log("hi");
-        hoveredObject.Interact(player);
+        if (hoveredObject == null)
+            return;
+
+        if (!hoveredObject.open)
+            hoveredObject.ButtonInteract();
+
         interactionAssist.SetActive(false);
-    }
-
-
-    public void UpdateInteractionAssistRotation(Vector3 direction)
-    {
-        interactionAssist.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
     }
 }

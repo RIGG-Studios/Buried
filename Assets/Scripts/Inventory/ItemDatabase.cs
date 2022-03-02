@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(SlotManager))]
 public class ItemDatabase : MonoBehaviour
 {
+    public bool initialized { get; private set; }
+
     protected SlotManager slotManager = null;
     protected List<Item> items = new List<Item>();
 
@@ -13,9 +15,9 @@ public class ItemDatabase : MonoBehaviour
         slotManager = GetComponent<SlotManager>();
     }
 
-    public void InitializeDatabase(Item[] startingItems, int inventorySize, Transform slotGrid, GameObject slotPrefab)
+    public void InitializeDatabase(Item[] startingItems, int inventorySize, Transform slotGrid, GameObject slotPrefab, bool isPlayer)
     {
-        slotManager.SetupSlots(inventorySize, slotGrid, this, slotPrefab);
+        slotManager.SetupSlots(inventorySize, slotGrid, this, slotPrefab, isPlayer);
 
         if (startingItems.Length > 0)
         {
@@ -24,6 +26,8 @@ public class ItemDatabase : MonoBehaviour
                 AddItem(startingItems[i].item, startingItems[i].stack);
             }
         }
+
+        initialized = true;
     }
 
     public virtual bool AddItem(ItemProperties itemProperties, int amount)
@@ -33,8 +37,10 @@ public class ItemDatabase : MonoBehaviour
             return UpdateExistingItem(FindItem(itemProperties), amount);
         }
 
-        slotManager.GetNextSlot().AddItem(itemProperties, itemProperties.useInventoryButtons, amount);
-        items.Add(new Item(itemProperties, amount));
+        Item item = new Item(itemProperties, amount);
+
+        slotManager.GetNextSlot().AddItem(item, amount);
+        items.Add(item);
         return true;
     }
 
@@ -45,7 +51,7 @@ public class ItemDatabase : MonoBehaviour
 
         Item item = FindItem(itemProperties);
 
-        if(item.stack - amount <= 0)
+        if(item.stack - amount <= 0 || !item.item.stackable)
         {
             slotManager.FindSlotByItemProperties(itemProperties).ResetSlot();
             items.Remove(item);
@@ -62,16 +68,19 @@ public class ItemDatabase : MonoBehaviour
 
         if (canAddToStack)
         {
-            slotManager.FindSlotByItemProperties(item.item).UpdateSlotStack(amount);
             item.AddToStack(amount);
+            slotManager.FindSlotByItemProperties(item.item).UpdateSlotStack(item.stack);
         }
 
         return canAddToStack;
     }
 
-    public void ResetItems()
+    public void ResetDatabase()
     {
+        slotManager.ResetSlots();
         items.Clear();
+
+        initialized = false;
     }
 
     public bool HasItem(ItemProperties itemProperties)

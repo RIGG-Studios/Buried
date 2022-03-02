@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class State
 {
@@ -7,9 +6,6 @@ public class State
 
     protected TentacleController controller;
     protected Player player;
-
-    public InputAction moveAction;
-    public InputAction lookAction;
 
     protected State(string name, TentacleController controller)
     {
@@ -21,9 +17,6 @@ public class State
     {
         this.name = name;
         this.player = player;
-
-        moveAction = player.GetComponent<PlayerInput>().actions["Move"];
-        lookAction = player.GetComponent<PlayerInput>().actions["Look"];
     }
 
     public virtual void UpdateInput() { }

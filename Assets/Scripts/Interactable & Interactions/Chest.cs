@@ -2,64 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ChestInventory))]
 public class Chest : InteractableObject
 {
-    [System.Serializable]
-    public class ChestItemProperties
+    [SerializeField] private GameObject closedChest;
+    [SerializeField] private GameObject openChest;
+
+    [HideInInspector]
+    public ChestInventory inventory = null;
+
+    private bool chestShown = false;
+    private UIElementGroup inventoryElement;
+
+    private void Awake()
     {
-        public ItemProperties item;
-        public int stack;
+        inventory = GetComponent<ChestInventory>();
     }
-
-    public GameObject closedChest;
-    public GameObject openChest;
-
-    public List<ChestItemProperties> itemsInChest = new List<ChestItemProperties>();
-
-    bool chestShown;
-    Player player;
-    SlotManager slotManager;
 
     private void Start()
     {
-        slotManager = GetComponent<SlotManager>();
+        inventoryElement = CanvasManager.instance.FindElementGroupByID("ChestInventory");
     }
 
-    public override void Interact(Player player)
+    private void ToggleChest(bool state)
     {
-        this.player = player;
-        ToggleChest();
+        chestShown = state;
+        openChest.SetActive(state);
+        closedChest.SetActive(!state);
     }
 
-    private void ToggleChest()
-    {
-        if (chestShown)
-        {
-            openChest.SetActive(false);
-            closedChest.SetActive(true);
-            chestShown = false;
-        }
-        else
-        {
-            openChest.SetActive(true);
-            closedChest.SetActive(false);
-            chestShown = true;
-
-            ShowChestLoot();
-        }
-    }
-
-    public override void StopInteract()
+    public override void HoverInteract()
     {
     }
 
-    private void ShowChestLoot()
+    public override void StopHoverInteract()
     {
-       // slotManager.SetupSlots(itemsInChest.Count, player.inventory);
+    }
 
-        for(int i = 0; i < itemsInChest.Count; i++)
-        {
-      //      slotManager.AddSlot(false, itemsInChest[i].item);
-        }
+    public override void ButtonInteract()
+    {
+        ToggleChest(true);
+        inventory.OnInteract();
+
+        inventoryElement.UpdateElements(0, 0, chestShown);
+        GameEvents.OnSearchChest.Invoke();
+        open = true;
+    }
+
+    public void StopButtonInteract()
+    {
+        inventory.OnStopInteract();
+        ToggleChest(false);
+        inventoryElement.UpdateElements(0, 0, false);
+        open = false;
     }
 }

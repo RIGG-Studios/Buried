@@ -7,7 +7,8 @@ public enum PlayerStates
 {
     Movement,
     GrabbedByTentacle,
-    Dead
+    Dead,
+    Search
 }
 
 //this class handles the state transitoning/updating of the player
@@ -20,6 +21,7 @@ public class PlayerStateManager : StateMachine
     private MovementState movementState = null;
     private GrabbedByTentacleState grabbedState = null;
     private PlayerDeadState deadState = null;
+    public SearchingState searchState = null;
 
     private void Awake()
     {
@@ -27,6 +29,7 @@ public class PlayerStateManager : StateMachine
         movementState = new MovementState(player);
         grabbedState = new GrabbedByTentacleState(player);
         deadState = new PlayerDeadState(player);
+        searchState = new SearchingState(player);
 
         //assign the current state to the movement state, because we want to start being able to move.
         currentState = movementState;
@@ -62,6 +65,9 @@ public class PlayerStateManager : StateMachine
 
             case PlayerStates.Dead:
                 return deadState;
+
+            case PlayerStates.Search:
+                return searchState;
         }
 
         //if nothing is found, return null

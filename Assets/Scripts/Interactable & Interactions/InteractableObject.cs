@@ -5,22 +5,18 @@ using UnityEngine;
 public enum InteractionType
 {
     Search,
-    Loot,
-    Examine,
     Hide,
-    UnHide
+    Loot
 }
 
 public abstract class InteractableObject : MonoBehaviour
 {
-
     public bool useAssist;
-    public bool draggable;
+    public bool open;
     public string interactionName;
     public InteractionType interactionType;
-    public List<AudioClip> interactAudio = new List<AudioClip>();
 
-    public abstract void Interact(Player player);
-
-    public abstract void StopInteract();
+    public abstract void HoverInteract();
+    public abstract void StopHoverInteract();
+    public abstract void ButtonInteract();
 }

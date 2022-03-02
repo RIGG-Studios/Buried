@@ -6,13 +6,13 @@ public class SlotManager : MonoBehaviour
 {
     private List<Slot> slots = new List<Slot>();
 
-    public void SetupSlots(int size, Transform slotGrid, ItemDatabase database, GameObject slotPrefab)
+    public void SetupSlots(int size, Transform slotGrid, ItemDatabase database, GameObject slotPrefab, bool isPlayer)
     {
         for (int i = 0; i < size; i++)
         {
             Slot slot = Instantiate(slotPrefab, slotGrid).GetComponent<Slot>();
 
-            slot.SetupSlot(database);
+            slot.SetupSlot(database, isPlayer);
             slots.Add(slot);
         }
     }
@@ -39,7 +39,7 @@ public class SlotManager : MonoBehaviour
 
         for (int i = 0; i < slots.Count; i++)
         {
-            if(slots[i].item == itemProperties)
+            if(slots[i].item.item == itemProperties)
             {
                 slot = slots[i];
                 break;
@@ -47,6 +47,17 @@ public class SlotManager : MonoBehaviour
         }
 
         return slot;
+    }
+
+    public void ResetSlots()
+    {
+        for(int i = 0; i < slots.Count; i++)
+        {
+            Destroy(slots[i].gameObject);
+        }
+
+        if (slots.Count > 0)
+            slots.Clear();
     }
 }
 

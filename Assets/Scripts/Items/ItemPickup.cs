@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemPickup : InteractableObject
-{
-    public ItemProperties item;
+{  
+    [SerializeField] private ItemProperties itemProperties = null;
+    [SerializeField, Range(1, 5)] private int pickupAmount;
 
-    private Inventory inventory
+
+    private PlayerInventory inventory
     {
         get
         {
-            return FindObjectOfType<Inventory>();
+            return FindObjectOfType<PlayerInventory>();
         }
     }
-
-    public override void Interact(Player player)
+    public override void ButtonInteract()
     {
-      //  inventory.AddItem(item);
-
-        Destroy(gameObject);
+        inventory.AddItem(itemProperties, pickupAmount);
     }
 
-    public override void StopInteract()
+    public override void HoverInteract()
+    {
+    }
+
+    public override void StopHoverInteract()
     {
     }
 }

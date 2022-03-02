@@ -30,15 +30,13 @@ MonoBehaviour:
   batteryCapacity: 0
   batteryAmount: 0
   healAmount: 0
-  useInventoryButtons: 1
+  useUIButtons: 1
   uiButton: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649,
     type: 3}
-  uiButtons:
-  - name: View Battery
-    propertyType: 0
-    propertyName: Battery
-  - name: Toggle Light
-    propertyType: 1
+  uiInventoryButtons: []
+  uiChestButtons:
+  - name: Take
+    propertyType: 3
     propertyName: 
   - name: Discard
     propertyType: 2

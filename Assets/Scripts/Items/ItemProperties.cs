@@ -25,7 +25,8 @@ public class ItemProperties : ScriptableObject
     {
         None,
         Pickaxe,
-        Flashlight
+        Flashlight,
+        GrapplingHook
     }
 
     public string itemName;
@@ -56,22 +57,25 @@ public class ItemProperties : ScriptableObject
     public int batteryAmount;
     public int healAmount;
 
-    public bool useInventoryButtons;
+    public bool useUIButtons;
     public GameObject uiButton;
-    public UIButtonProperties[] uiButtons;
+    public UIButtonProperties[] uiInventoryButtons;
+    public UIButtonProperties[] uiChestButtons;
 }
 
 [System.Serializable]
 public class UIButtonProperties
 {
-    public enum PropertyType
+    public enum PropertyTypes
     {
         ShowProperty,
         Use,
-        Discard
+        Discard,
+        AddToInventory
     }
 
+
     public string name;
-    public PropertyType propertyType;
+    public PropertyTypes propertyType;
     [Tooltip("Only use if the property type is ShowProperty")] public string propertyName;
 }

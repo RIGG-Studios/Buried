@@ -15,41 +15,31 @@ public class Slot : InteractableObject
     [HideInInspector]
     public bool hasItem;
     [HideInInspector]
-    public ItemProperties item;
+    public Item item;
 
-    private void Awake()
-    {
-        itemIcon.enabled = false;
-        itemStack.enabled = false;
-    }
+    private bool isPlayer;
 
-    public void SetupSlot(ItemDatabase database)
+
+    public void SetupSlot(ItemDatabase database, bool isPlayer)
     {
         this.database = database;
+        this.isPlayer = isPlayer;
     }
 
-    public void AddItem(ItemProperties item, bool inventoryButtons, int amount)
+    public void AddItem(Item item, int amount)
     {
-        Debug.Log("wa");
-        itemIcon.sprite = item.itemSprite;
         itemIcon.enabled = true;
+        itemIcon.sprite = item.item.itemSprite;
 
         this.item = item;
 
-        if (item.useInventoryButtons && inventoryButtons)
+        if (item.item.useUIButtons)
         {
-            for(int i = 0; i < item.uiButtons.Length; i++)
-            {
-                Button button = Instantiate(item.uiButton, uiButtonTransform).GetComponent<Button>();
-                button.GetComponentInChildren<Text>().text = item.uiButtons[i].name;
-                buttons.Add(button);
-
-                FilterItemButtons(button, item.uiButtons[i]);
-                ToggleButtons(false);
-            }
+            if (isPlayer) SpawnUIButtons(item.item.uiInventoryButtons);
+            else SpawnUIButtons(item.item.uiChestButtons);
         }
 
-        if (item.stackable)
+        if (item.item.stackable)
         {
             itemStack.enabled = true;
             itemStack.text = string.Format("x{0}", amount);
@@ -58,20 +48,37 @@ public class Slot : InteractableObject
         hasItem = true;
     }
 
+    private void SpawnUIButtons(UIButtonProperties[] properties)
+    {
+        for(int i = 0; i < properties.Length; i++)
+        {
+            Button button = Instantiate(item.item.uiButton, uiButtonTransform).GetComponent<Button>();
+            button.GetComponentInChildren<Text>().text = properties[i].name;
+            buttons.Add(button);
+
+            FilterItemButtons(button, properties[i]);
+            ToggleButtons(false);
+        }
+    }
+
     private void FilterItemButtons(Button button, UIButtonProperties properties)
     {
         switch (properties.propertyType)
         {
-            case UIButtonProperties.PropertyType.ShowProperty:
+            case UIButtonProperties.PropertyTypes.ShowProperty:
         //        button.onClick.AddListener(() => inventory.ShowItemProperty(item, properties.propertyName));
                 break;
 
-            case UIButtonProperties.PropertyType.Use:
+            case UIButtonProperties.PropertyTypes.Use:
         //        button.onClick.AddListener(() => inventory.UseItem(item));
                 break;
 
-            case UIButtonProperties.PropertyType.Discard:
+            case UIButtonProperties.PropertyTypes.Discard:
           //      button.onClick.AddListener(() => inventory.DiscardItem(item));
+                break;
+
+            case UIButtonProperties.PropertyTypes.AddToInventory:
+                button.onClick.AddListener(() => GameEvents.OnPlayerTakeItem.Invoke(item));
                 break;
         }
     }
@@ -98,18 +105,23 @@ public class Slot : InteractableObject
         itemStack.text = string.Format("x{0}", stack);
     }
 
-    public override void Interact(Player player)
-    {
-        ToggleButtons(true);
-    }
-
-    public override void StopInteract()
-    {
-        ToggleButtons(false);
-    }
 
     private void ToggleButtons(bool state)
     {
         uiButtonTransform.gameObject.SetActive(state);
+    }
+
+    public override void HoverInteract()
+    {
+        ToggleButtons(true);
+    }
+
+    public override void StopHoverInteract()
+    {
+        ToggleButtons(false);
+    }
+
+    public override void ButtonInteract()
+    {
     }
 }

@@ -20,4 +20,10 @@ public class GameEvents
 
     public delegate void ToggleFlashlight(bool state);
     public static ToggleFlashlight OnToggleFlashlight;
+
+    public delegate void PlayerLootChest();
+    public static PlayerLootChest OnSearchChest;
+
+    public delegate void PlayerTakeItem(Item item);
+    public static PlayerTakeItem OnPlayerTakeItem;
 }

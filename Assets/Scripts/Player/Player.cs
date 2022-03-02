@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerStateManager))]
 public class Player : MonoBehaviour
@@ -15,36 +14,44 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public Animator animator;
     [HideInInspector]
-    public PlayerInput playerInput;
-    [HideInInspector]
-    public Inventory inventory;
+    public PlayerInventory inventory;
     [HideInInspector]
     public PlayerParanoidManager paranoidManager;
     [HideInInspector]
     public MouseLook mouseLook;
     [HideInInspector]
-    public InputActions input;
+    public PlayerControls playerInput;
+    [HideInInspector]
+    public PlayerInteractionManager playerInteraction;
 
     private void Awake()
     {
-        input = new InputActions();
+        playerInput = new PlayerControls();
+        playerInput.Enable();
 
         stateManager = GetComponent<PlayerStateManager>();
-        playerInput = GetComponent<PlayerInput>();
         animator = GetComponentInChildren<Animator>();
-        inventory = FindObjectOfType<Inventory>();
+        inventory = FindObjectOfType<PlayerInventory>();
         paranoidManager = GetComponent<PlayerParanoidManager>();
         mouseLook = GetComponentInChildren<MouseLook>();
+        playerInteraction = GetComponent<PlayerInteractionManager>();
     }
 
     private void OnEnable()
     {
         GameEvents.OnPlayerGetGrabbed += GrabbedState;
+        GameEvents.OnSearchChest += SearchState;
     }
 
     private void OnDisable()
     {
         GameEvents.OnPlayerGetGrabbed -= GrabbedState;
+        GameEvents.OnSearchChest -= SearchState;
+    }
+
+    private void SearchState()
+    {
+        stateManager.TransitionStates(PlayerStates.Search);
     }
 
     private void GrabbedState(TentacleController controller)

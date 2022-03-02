@@ -16,14 +16,21 @@ public class ItemEditor : Editor
         item.itemPrefab = EditorGUILayout.ObjectField("Item Prefab", item.itemPrefab, typeof(GameObject)) as GameObject;
         item.itemSprite = EditorGUILayout.ObjectField("Item Sprite", item.itemSprite, typeof(Sprite)) as Sprite;
 
-        item.useInventoryButtons = EditorGUILayout.Toggle("Use Slot Hover Buttons", item.useInventoryButtons);
+        item.useUIButtons = EditorGUILayout.Toggle("Use Slot Hover Buttons", item.useUIButtons);
 
-        if (item.useInventoryButtons)
+        if (item.useUIButtons)
         {
-            item.uiButton = EditorGUILayout.ObjectField("UI Button", item.uiButton, typeof(GameObject)) as GameObject;
+            item.uiButton = EditorGUILayout.ObjectField("Inventory Buttons", item.uiButton, typeof(GameObject)) as GameObject;
             EditorGUILayout.LabelField("Inventory Buttons");
+            var inventoryObj = new SerializedObject(target);
+            var invProp = inventoryObj.FindProperty("uiInventoryButtons");
+            inventoryObj.Update();
+            EditorGUILayout.PropertyField(invProp, true);
+            inventoryObj.ApplyModifiedProperties();
+
+            EditorGUILayout.LabelField("Chest Buttons");
             var serializedObject = new SerializedObject(target);
-            var property = serializedObject.FindProperty("uiButtons");
+            var property = serializedObject.FindProperty("uiChestButtons");
             serializedObject.Update();
             EditorGUILayout.PropertyField(property, true);
             serializedObject.ApplyModifiedProperties();

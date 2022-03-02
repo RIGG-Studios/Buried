@@ -46,8 +46,7 @@ public class AttackState : State
 
         if (playerDistFromTentacle <= properties.lightDistance)
         {
-            float angle = Quaternion.Angle(Quaternion.Euler(controller.GetLastTentacle().position), player.mouseLook.transform.rotation);
-            Debug.Log(angle);
+         //   float angle = Quaternion.Angle(Quaternion.Euler(controller.GetLastTentacle().position), player.mouseLook.transform.rotation);
 
             //   stateManager.TransitionStates(TentacleStates.Scared);
         }
@@ -58,7 +57,7 @@ public class AttackState : State
 
             if (wrapTime > 0.75f)
             {
-                stateManager.TransitionStates(TentacleStates.GrabPlayer);
+          //      stateManager.TransitionStates(TentacleStates.GrabPlayer);
             }
         }
         else
@@ -70,6 +69,7 @@ public class AttackState : State
 
         controller.UpdateAgentPosition(Game.instance.player.GetPosition());
         controller.UpdateQueuedSegments();
+
     }
 
     public override void UpdateLateLogic()
@@ -78,5 +78,4 @@ public class AttackState : State
         controller.UpdateSegmentPositions();
         controller.UpdateAgentTrackedPositions();
     }
-
 }

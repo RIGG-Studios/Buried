@@ -13,24 +13,18 @@ public class HideableObject : InteractableObject
         }
     }
 
-    public override void Interact(Player player)
+    public override void ButtonInteract()
     {
-        if (hidingPlayer)
-        {
-         //   player.DoAction(PlayerActions.Hide);
-            interactionType = InteractionType.Hide;
-            hidingPlayer = false;
-        }
-        else
-        {
-       //     player.DoAction(PlayerActions.Hide);
-      //      player.transform.position = transform.position;
-            interactionType = InteractionType.UnHide;
-            hidingPlayer = true;
-        }
+        throw new System.NotImplementedException();
     }
 
-    public override void StopInteract()
+    public override void HoverInteract()
     {
+        throw new System.NotImplementedException();
+    }
+
+    public override void StopHoverInteract()
+    {
+        throw new System.NotImplementedException();
     }
 }

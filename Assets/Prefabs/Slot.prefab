@@ -112,7 +112,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3924911045130346336}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -227,10 +227,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useAssist: 0
+  draggable: 0
+  interactionName: 
+  interactionType: 0
   interactAudio: []
+  uiButtonTransform: {fileID: 2924986394299915346}
   itemIcon: {fileID: 3924911045130346338}
   itemStack: {fileID: 7037078861388517488}
-  uiButtonTransform: {fileID: 2924986394299915346}
+  hasItem: 0
+  item: {fileID: 0}
 --- !u!1 &6092854341323689979
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +288,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6092854341323689979}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
