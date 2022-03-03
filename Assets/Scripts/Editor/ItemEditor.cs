@@ -52,10 +52,6 @@ public class ItemEditor : Editor
                     item.batteryCapacity = EditorGUILayout.IntField("Battery Capacity (In Seconds)", item.batteryCapacity);
                     item.batteryAmount = EditorGUILayout.IntField("Battery Amount (In Seconds)", item.batteryAmount);
                     break;
-
-                case ItemProperties.ConsumableTypes.Healing:
-                    item.healAmount = EditorGUILayout.IntField("Heal Amount", item.healAmount);
-                    break;
             }
 
             item.stackable = EditorGUILayout.Toggle("Stackable", item.stackable);

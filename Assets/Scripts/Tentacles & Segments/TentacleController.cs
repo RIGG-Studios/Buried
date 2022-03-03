@@ -37,6 +37,9 @@ public class TentacleController : MonoBehaviour
     //refernce to the state manager
     public TentacleStateManager stateManager { get; private set; }
 
+    private int index = 1;
+    [HideInInspector]
+    public float targetRotation;
 
     private void Awake()
     {
@@ -94,7 +97,7 @@ public class TentacleController : MonoBehaviour
 
     //method used for updating segment positions
     public void UpdateSegmentPositions()
-    { 
+    {
         //set the first segment to the anchor point
         segments[0].position = spawner.spawnPoint;
         //loop through all the segments expect for the first one, as we set it just before.
@@ -104,7 +107,7 @@ public class TentacleController : MonoBehaviour
             if (i >= segmentCount)
             {
                 //set their position 
-                segments[i].position = segments[i].UpdatePosition(segments[i - 1], agent.nextPosition, wallLayer, 0.0f);
+                segments[i].position = agent.nextPosition;
 
                 //add it to the queued list
                 queuedSegments.Add(segments[i]);
@@ -113,7 +116,6 @@ public class TentacleController : MonoBehaviour
                 continue;
             }
 
-
             //if we can move this segment
 
             //set the current segment and previous segment
@@ -121,10 +123,10 @@ public class TentacleController : MonoBehaviour
             Segment previousSeg = segments[i - 1];
 
             //update the current segment position with the given arguments
-            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, agent.nextPosition, wallLayer, i * properties.rotateAngle);
+            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, agent.nextPosition, wallLayer, i < segments.Count ? i * targetRotation : 0f);
 
             //move the position to the target position using smooth damp
-            segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i], properties.tentacleMoveSpeed);    
+            segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i],  properties.tentacleMoveSpeed);    
         }
 
         //set the position count and positions of the line render

@@ -26,4 +26,7 @@ public class GameEvents
 
     public delegate void PlayerTakeItem(Item item);
     public static PlayerTakeItem OnPlayerTakeItem;
+
+    public delegate void PlayerUseItem(ItemProperties item);
+    public static PlayerUseItem OnPlayerUseItem;
 }

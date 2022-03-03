@@ -15,7 +15,7 @@ public class ItemDatabase : MonoBehaviour
         slotManager = GetComponent<SlotManager>();
     }
 
-    public void InitializeDatabase(Item[] startingItems, int inventorySize, Transform slotGrid, GameObject slotPrefab, bool isPlayer)
+    public bool InitializeDatabase(Item[] startingItems, int inventorySize, Transform slotGrid, GameObject slotPrefab, bool isPlayer)
     {
         slotManager.SetupSlots(inventorySize, slotGrid, this, slotPrefab, isPlayer);
 
@@ -28,6 +28,8 @@ public class ItemDatabase : MonoBehaviour
         }
 
         initialized = true;
+
+        return initialized;
     }
 
     public virtual bool AddItem(ItemProperties itemProperties, int amount)
@@ -113,6 +115,76 @@ public class ItemDatabase : MonoBehaviour
         }
 
         return item;
+    }
+
+    public Item FindItem(ItemProperties.WeaponTypes weaponType)
+    {
+        Item item = null;
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (weaponType == items[i].item.toolType)
+            {
+                item = items[i];
+                break;
+            }
+        }
+
+        return item;
+    }
+
+    public Item FindItem(ItemProperties.ConsumableTypes consumableTypes)
+    {
+        Item item = null;
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (consumableTypes == items[i].item.consumableType)
+            {
+                item = items[i];
+                break;
+            }
+        }
+
+        return item;
+    }
+
+    public ItemProperties[] FindAllTools()
+    {
+        List<ItemProperties> items = new List<ItemProperties>();
+
+        for (int i = 0; i < this.items.Count; i++)
+        {
+            if (this.items[i].item.toolType != ItemProperties.WeaponTypes.None)
+            {
+                items.Add(this.items[i].item);
+                break;
+            }
+        }
+
+        return items.ToArray();
+    }
+
+    public ItemProperties[] FindAllConsumables()
+    {
+        List<ItemProperties> items = new List<ItemProperties>();
+
+        for (int i = 0; i < this.items.Count; i++)
+        {
+            if (this.items[i].item.consumableType != ItemProperties.ConsumableTypes.None)
+            {
+                items.Add(this.items[i].item);
+                break;
+            }
+        }
+
+        return items.ToArray();
+    }
+
+
+    public Item[] GetItems()
+    {
+        return items.ToArray();
     }
 }
 

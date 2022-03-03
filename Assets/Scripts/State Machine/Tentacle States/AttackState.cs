@@ -8,6 +8,7 @@ public class AttackState : State
     private bool detachedFromAnchor;
     private float attackTime;
     private float wrapTime;
+    private float targetRotation;
 
     public AttackState(TentacleController controller) : base("Attack", controller) => this.controller = controller;
 
@@ -44,12 +45,9 @@ public class AttackState : State
 
         float playerDistFromTentacle = controller.GetDistanceBetweenPlayerAndEndPoint();
 
-        if (playerDistFromTentacle <= properties.lightDistance)
-        {
-         //   float angle = Quaternion.Angle(Quaternion.Euler(controller.GetLastTentacle().position), player.mouseLook.transform.rotation);
+        targetRotation = playerDistFromTentacle <= 2 ? 2f : 0f;
 
-            //   stateManager.TransitionStates(TentacleStates.Scared);
-        }
+        controller.targetRotation = Mathf.Lerp(controller.targetRotation, targetRotation, Time.deltaTime * 5f);
 
         if (playerDistFromTentacle <= 1f)
         {

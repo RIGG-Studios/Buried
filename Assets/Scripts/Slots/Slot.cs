@@ -70,7 +70,7 @@ public class Slot : InteractableObject
                 break;
 
             case UIButtonProperties.PropertyTypes.Use:
-        //        button.onClick.AddListener(() => inventory.UseItem(item));
+                button.onClick.AddListener(() => GameEvents.OnPlayerUseItem(item.item));
                 break;
 
             case UIButtonProperties.PropertyTypes.Discard:

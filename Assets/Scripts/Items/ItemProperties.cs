@@ -18,7 +18,6 @@ public class ItemProperties : ScriptableObject
     {
         None,
         Battery,
-        Healing
     }
 
     public enum WeaponTypes

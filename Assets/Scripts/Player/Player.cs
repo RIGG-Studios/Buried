@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     public PlayerControls playerInput;
     [HideInInspector]
     public PlayerInteractionManager playerInteraction;
+    [HideInInspector]
+    public ItemManagement itemManagement;
 
     private void Awake()
     {
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour
         paranoidManager = GetComponent<PlayerParanoidManager>();
         mouseLook = GetComponentInChildren<MouseLook>();
         playerInteraction = GetComponent<PlayerInteractionManager>();
+        itemManagement = GetComponent<ItemManagement>();
     }
 
     private void OnEnable()
