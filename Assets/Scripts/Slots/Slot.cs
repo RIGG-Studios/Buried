@@ -2,35 +2,76 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
-public class Slot : InteractableObject
+public class Slot : InteractableObject, IDragHandler, IEndDragHandler
 {
+    [Header("Buttons")]
     [SerializeField] private Transform uiButtonTransform = null;
     [SerializeField] private Image itemIcon = null;
     [SerializeField] private Text itemStack = null;
 
-    private ItemDatabase database = null;
+    [Header("Item Info")]
+    [SerializeField] private Transform itemInfoTransform = null;
+    [SerializeField] private Text itemName = null;
+    [SerializeField] private Text itemDescription = null;
+
     private List<Button> buttons = new List<Button>();
+
 
     [HideInInspector]
     public bool hasItem;
     [HideInInspector]
     public Item item;
 
-    private bool isPlayer;
+    private bool isPlayer = false;
+    private SlotManager slotManager = null;
 
-
-    public void SetupSlot(ItemDatabase database, bool isPlayer)
+    public void SetupSlot(SlotManager slotManager, bool isPlayer)
     {
-        this.database = database;
         this.isPlayer = isPlayer;
+        this.slotManager = slotManager;
     }
 
-    public void AddItem(Item item, int amount)
+    public void OnDrag(PointerEventData eventData)
+    {
+        itemIcon.transform.position = Mouse.current.position.ReadValue();
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (slotManager != null)
+        {
+            Slot[] slots = slotManager.GetAllSlots();
+
+            float closestDist = -1f;
+            Slot closestSlot = null;
+            for (int i = 0; i < slots.Length; i++)
+            {
+                float dist = Vector2.Distance(itemIcon.transform.position, slots[i].transform.position);
+                if (closestSlot == null || dist < closestDist)
+                {
+                    closestSlot = slots[i];
+                    closestDist = dist;
+                }
+            }
+
+            if (closestSlot != null && closestDist <= 15f)
+            {
+                slotManager.SwitchItemsInSlots(this, closestSlot);
+            }
+        }
+
+        itemIcon.transform.localPosition = Vector3.zero;
+    }
+
+    public void AddItem(Item item)
     {
         itemIcon.enabled = true;
         itemIcon.sprite = item.item.itemSprite;
-
+        itemName.text = item.item.itemName;
+        itemDescription.text = item.item.itemDescription;
         this.item = item;
 
         if (item.item.useUIButtons)
@@ -42,7 +83,7 @@ public class Slot : InteractableObject
         if (item.item.stackable)
         {
             itemStack.enabled = true;
-            itemStack.text = string.Format("x{0}", amount);
+            itemStack.text = string.Format("x{0}", item.stack);
         }
 
         hasItem = true;
@@ -87,10 +128,12 @@ public class Slot : InteractableObject
     {
         hasItem = false;
         item = null;
-        database = null;
         itemIcon.enabled = false;
         itemIcon.sprite = null;
         itemStack.text = null;
+        itemName.text = string.Empty;
+        itemDescription.text = string.Empty;
+        itemInfoTransform.gameObject.SetActive(false);
 
         foreach (Button b in buttons)
         {
@@ -111,13 +154,23 @@ public class Slot : InteractableObject
         uiButtonTransform.gameObject.SetActive(state);
     }
 
+    private void ToggleItemInfo(bool state)
+    {
+        if (item == null || item.item == null || isPlayer)
+            return;
+
+        itemInfoTransform.gameObject.SetActive(state);
+    }
+
     public override void HoverInteract()
     {
+        ToggleItemInfo(true);
         ToggleButtons(true);
     }
 
     public override void StopHoverInteract()
     {
+        ToggleItemInfo(false);
         ToggleButtons(false);
     }
 

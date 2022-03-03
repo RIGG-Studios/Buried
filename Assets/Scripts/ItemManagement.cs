@@ -53,7 +53,6 @@ public class ItemManagement : MonoBehaviour
         player.playerInput.Player.Flashlight.performed += ctx => ToggleItem(player.inventory.FindItem(ItemProperties.WeaponTypes.Flashlight));
     }
 
-
     public void ToggleItem(Item item)
     {
         if (item == null)

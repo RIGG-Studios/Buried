@@ -103,6 +103,7 @@ public class TentacleController : MonoBehaviour
         //loop through all the segments expect for the first one, as we set it just before.
         for (int i = 1; i < segments.Count; i++)
         {
+            /*/
             //if the amount of segments is greater then the amount of segments needed
             if (i >= segmentCount)
             {
@@ -115,6 +116,7 @@ public class TentacleController : MonoBehaviour
                 segments.Remove(segments[i]);
                 continue;
             }
+            /*/
 
             //if we can move this segment
 
@@ -123,7 +125,7 @@ public class TentacleController : MonoBehaviour
             Segment previousSeg = segments[i - 1];
 
             //update the current segment position with the given arguments
-            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, agent.nextPosition, wallLayer, i < segments.Count ? i * targetRotation : 0f);
+            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, agent.nextPosition, wallLayer, i * targetRotation);
 
             //move the position to the target position using smooth damp
             segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i],  properties.tentacleMoveSpeed);    

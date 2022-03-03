@@ -62,7 +62,7 @@ public class PlayerInventory : ItemDatabase
     {
         bool addItem = base.AddItem(itemProperties, amount);
 
-        if(addItem && itemProperties.toolType != ItemProperties.WeaponTypes.None)
+        if(addItem && itemProperties.itemType == ItemProperties.ItemTypes.Tool)
             player.itemManagement.SetupNewItem(itemProperties);
 
         return addItem;
@@ -72,7 +72,7 @@ public class PlayerInventory : ItemDatabase
     {
         bool removeItem = base.RemoveItem(itemProperties, amount);
 
-        if (removeItem && itemProperties.toolType != ItemProperties.WeaponTypes.None)
+        if (removeItem && itemProperties.itemType == ItemProperties.ItemTypes.Tool)
             player.itemManagement.RemoveItem(itemProperties);
 
         return removeItem;

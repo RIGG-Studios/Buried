@@ -17,7 +17,7 @@ public class ItemDatabase : MonoBehaviour
 
     public bool InitializeDatabase(Item[] startingItems, int inventorySize, Transform slotGrid, GameObject slotPrefab, bool isPlayer)
     {
-        slotManager.SetupSlots(inventorySize, slotGrid, this, slotPrefab, isPlayer);
+        slotManager.SetupSlots(inventorySize, slotGrid, slotPrefab, isPlayer);
 
         if (startingItems.Length > 0)
         {
@@ -41,7 +41,7 @@ public class ItemDatabase : MonoBehaviour
 
         Item item = new Item(itemProperties, amount);
 
-        slotManager.GetNextSlot().AddItem(item, amount);
+        slotManager.GetNextSlot().AddItem(item);
         items.Add(item);
         return true;
     }
@@ -192,7 +192,7 @@ public class ItemDatabase : MonoBehaviour
 public class Item
 {
     public ItemProperties item;
-    public int stack;
+    public int stack = 1;
 
     public Item(ItemProperties item, int stack)
     {

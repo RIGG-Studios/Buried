@@ -20,6 +20,5 @@ public class GrabPlayerState : State
     {
         controller.UpdateSegmentCount();
         controller.UpdateSegmentPositions();
-        controller.UpdateAgentTrackedPositions();
     }
 }
