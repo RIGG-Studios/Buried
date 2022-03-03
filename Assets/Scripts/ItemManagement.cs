@@ -18,23 +18,34 @@ public class ItemManagement : MonoBehaviour
     {
         for(int i = 0; i < items.Length; i++)
         {
-            ItemController item = Instantiate(items[i].itemPrefab, itemParent).GetComponent<ItemController>();
-            item.transform.localPosition = item.startingPosition;
-            item.transform.localRotation = Quaternion.Euler(item.startingRotation);
-            item.baseItem = items[i];
-            item.SetupController(player);
-            itemControllers.Add(item);
+            SpawnItemController(items[i]);
         }
+    }
+
+    private void SpawnItemController(ItemProperties properties)
+    {
+        ItemController item = Instantiate(properties.itemPrefab, itemParent).GetComponent<ItemController>();
+        item.transform.localPosition = item.startingPosition;
+        item.transform.localRotation = Quaternion.Euler(item.startingRotation);
+        item.baseItem = properties;
+        item.SetupController(player);
+        itemControllers.Add(item);
     }
 
     public void SetupNewItem(ItemProperties item)
     {
-
+        SpawnItemController(item);
     }
 
     public void RemoveItem(ItemProperties item)
     {
+        ItemController controller = FindItemController(item);
 
+        if(controller != null)
+        {
+            itemControllers.Remove(controller);
+            Destroy(controller);
+        }
     }
 
     private void Start()
