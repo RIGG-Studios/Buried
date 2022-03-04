@@ -23,6 +23,15 @@ public class PlayerInventory : ItemDatabase
         {
             player.itemManagement.SetupItemControllers(FindAllTools());
         }
+
+        player.playerInput.Player.Slot1.performed += ctx => TryEnableSlot(0);
+        player.playerInput.Player.Slot2.performed += ctx => TryEnableSlot(1);
+        player.playerInput.Player.Slot3.performed += ctx => TryEnableSlot(2);
+        player.playerInput.Player.Slot4.performed += ctx => TryEnableSlot(3);
+        player.playerInput.Player.Slot5.performed += ctx => TryEnableSlot(4);
+        player.playerInput.Player.Slot5.performed += ctx => TryEnableSlot(5);
+
+        CanvasManager.instance.FindElementGroupByID("PlayerInventory").UpdateElements(0, 0, true);
     }
 
     private void OnEnable()

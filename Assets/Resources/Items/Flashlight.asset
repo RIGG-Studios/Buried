@@ -34,10 +34,7 @@ MonoBehaviour:
   useUIButtons: 1
   uiButton: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649,
     type: 3}
-  uiInventoryButtons:
-  - name: Use
-    propertyType: 1
-    propertyName: 
+  uiInventoryButtons: []
   uiChestButtons:
   - name: Take
     propertyType: 3

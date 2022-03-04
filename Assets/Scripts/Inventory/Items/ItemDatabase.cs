@@ -181,6 +181,10 @@ public class ItemDatabase : MonoBehaviour
         return items.ToArray();
     }
 
+    public void TryEnableSlot(int index)
+    {
+       slotManager.TryEnableSlot(index);
+    }
 
     public Item[] GetItems()
     {

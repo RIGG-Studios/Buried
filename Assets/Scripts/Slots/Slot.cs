@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +9,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
     [Header("Buttons")]
     [SerializeField] private Transform uiButtonTransform = null;
     [SerializeField] private Image itemIcon = null;
+    [SerializeField] private Text itemInput = null;
     [SerializeField] private Text itemStack = null;
 
     [Header("Item Info")]
@@ -28,10 +28,12 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
     private bool isPlayer = false;
     private SlotManager slotManager = null;
 
-    public void SetupSlot(SlotManager slotManager, bool isPlayer)
+    public void SetupSlot(SlotManager slotManager, bool isPlayer, int index)
     {
         this.isPlayer = isPlayer;
         this.slotManager = slotManager;
+        itemInput.text = (index + 1).ToString();
+        gameObject.name = isPlayer ? "PLAYER_SLOT_" + index : "CHEST_SLOT_" + index;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -47,6 +49,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
 
             float closestDist = -1f;
             Slot closestSlot = null;
+
             for (int i = 0; i < slots.Length; i++)
             {
                 float dist = Vector2.Distance(itemIcon.transform.position, slots[i].transform.position);
@@ -57,7 +60,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
                 }
             }
 
-            if (closestSlot != null && closestDist <= 15f)
+            if (closestSlot != null && closestDist <= 25f)
             {
                 slotManager.SwitchItemsInSlots(this, closestSlot);
             }
@@ -74,6 +77,11 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
         itemDescription.text = item.item.itemDescription;
         this.item = item;
 
+        if (isPlayer)
+        {
+            itemInput.enabled = true;
+        }
+
         if (item.item.useUIButtons)
         {
             if (isPlayer) SpawnUIButtons(item.item.uiInventoryButtons);
@@ -83,7 +91,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
         if (item.item.stackable)
         {
             itemStack.enabled = true;
-            itemStack.text = string.Format("x{0}", item.stack);
+            itemStack.text = string.Format("{0}", item.stack);
         }
 
         hasItem = true;
@@ -111,7 +119,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
                 break;
 
             case UIButtonProperties.PropertyTypes.Use:
-                button.onClick.AddListener(() => GameEvents.OnPlayerUseItem(item.item));
+                button.onClick.AddListener(() => UseItem());
                 break;
 
             case UIButtonProperties.PropertyTypes.Discard:
@@ -122,6 +130,14 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
                 button.onClick.AddListener(() => GameEvents.OnPlayerTakeItem.Invoke(item));
                 break;
         }
+    }
+
+    public void UseItem()
+    {
+        if (!hasItem)
+            return;
+
+        GameEvents.OnPlayerUseItem(item.item);
     }
 
     public void ResetSlot()
@@ -135,6 +151,8 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
         itemDescription.text = string.Empty;
         itemInfoTransform.gameObject.SetActive(false);
 
+        if (isPlayer) itemInput.enabled = false;
+
         foreach (Button b in buttons)
         {
             Destroy(b.gameObject);
@@ -145,9 +163,8 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
 
     public void UpdateSlotStack(int stack)
     {
-        itemStack.text = string.Format("x{0}", stack);
+        itemStack.text = string.Format("{0}", stack);
     }
-
 
     private void ToggleButtons(bool state)
     {
@@ -156,7 +173,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
 
     private void ToggleItemInfo(bool state)
     {
-        if (item == null || item.item == null || isPlayer)
+        if (item == null || item.item == null)
             return;
 
         itemInfoTransform.gameObject.SetActive(state);

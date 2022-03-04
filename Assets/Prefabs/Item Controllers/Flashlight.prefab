@@ -131,5 +131,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingPosition: {x: 0, y: 0.88, z: 0}
   startingRotation: {x: 0, y: 0, z: 0}
+  baseItem: {fileID: 11400000, guid: fc1684062d0f4134cb18bf94903428fb, type: 2}
   state: 0
   settings: {fileID: 11400000, guid: d19d0323ccc81bb408b613464c5b0929, type: 2}

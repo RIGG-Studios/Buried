@@ -53,7 +53,7 @@ public class AttackState : State
         {
             wrapTime += Time.deltaTime;
 
-            if (wrapTime > .25f)
+            if (wrapTime > 0.75f)
             {
                 stateManager.TransitionStates(TentacleStates.GrabPlayer);
             }

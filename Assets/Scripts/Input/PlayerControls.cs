@@ -57,6 +57,54 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slot1"",
+                    ""type"": ""Button"",
+                    ""id"": ""1500b0fc-2fb7-4af5-8a33-ac425bf182c4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slot2"",
+                    ""type"": ""Button"",
+                    ""id"": ""db636c71-adfa-4f09-bc5c-0af863ba3ff9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slot3"",
+                    ""type"": ""Button"",
+                    ""id"": ""84d4aa6b-192d-4eb6-b2db-3ca54fd96271"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slot4"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1ba0b08-1742-477e-974a-853c8fbbbddb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slot5"",
+                    ""type"": ""Button"",
+                    ""id"": ""c9f358e5-9fb0-4c64-82f0-de64bea1da33"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Slot6"",
+                    ""type"": ""Button"",
+                    ""id"": ""b1e4a9cf-1c96-4414-8702-2bca23f1ebe4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -266,6 +314,72 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Leave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e2344c2-8712-46ff-89ce-c0550e67656f"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slot1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cae6d66d-0d67-4b0a-bfca-4da6b98d6e33"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slot2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31325e4c-f851-40ec-b789-88008a528ec5"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slot3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e6283363-a15c-48d9-847f-b55bee7d3969"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slot4"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b277f7e-b6cf-40c5-ab8b-e96f10419fdc"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slot5"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""674d7783-6535-4554-a805-6e22c245c548"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Slot6"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -848,6 +962,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
         m_Player_Leave = m_Player.FindAction("Leave", throwIfNotFound: true);
+        m_Player_Slot1 = m_Player.FindAction("Slot1", throwIfNotFound: true);
+        m_Player_Slot2 = m_Player.FindAction("Slot2", throwIfNotFound: true);
+        m_Player_Slot3 = m_Player.FindAction("Slot3", throwIfNotFound: true);
+        m_Player_Slot4 = m_Player.FindAction("Slot4", throwIfNotFound: true);
+        m_Player_Slot5 = m_Player.FindAction("Slot5", throwIfNotFound: true);
+        m_Player_Slot6 = m_Player.FindAction("Slot6", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -914,6 +1034,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Flashlight;
     private readonly InputAction m_Player_Leave;
+    private readonly InputAction m_Player_Slot1;
+    private readonly InputAction m_Player_Slot2;
+    private readonly InputAction m_Player_Slot3;
+    private readonly InputAction m_Player_Slot4;
+    private readonly InputAction m_Player_Slot5;
+    private readonly InputAction m_Player_Slot6;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -923,6 +1049,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
         public InputAction @Leave => m_Wrapper.m_Player_Leave;
+        public InputAction @Slot1 => m_Wrapper.m_Player_Slot1;
+        public InputAction @Slot2 => m_Wrapper.m_Player_Slot2;
+        public InputAction @Slot3 => m_Wrapper.m_Player_Slot3;
+        public InputAction @Slot4 => m_Wrapper.m_Player_Slot4;
+        public InputAction @Slot5 => m_Wrapper.m_Player_Slot5;
+        public InputAction @Slot6 => m_Wrapper.m_Player_Slot6;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -947,6 +1079,24 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Leave.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
                 @Leave.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
                 @Leave.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
+                @Slot1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot1;
+                @Slot1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot1;
+                @Slot1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot1;
+                @Slot2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot2;
+                @Slot2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot2;
+                @Slot2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot2;
+                @Slot3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot3;
+                @Slot3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot3;
+                @Slot3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot3;
+                @Slot4.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot4;
+                @Slot4.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot4;
+                @Slot4.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot4;
+                @Slot5.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot5;
+                @Slot5.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot5;
+                @Slot5.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot5;
+                @Slot6.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
+                @Slot6.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
+                @Slot6.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -966,6 +1116,24 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Leave.started += instance.OnLeave;
                 @Leave.performed += instance.OnLeave;
                 @Leave.canceled += instance.OnLeave;
+                @Slot1.started += instance.OnSlot1;
+                @Slot1.performed += instance.OnSlot1;
+                @Slot1.canceled += instance.OnSlot1;
+                @Slot2.started += instance.OnSlot2;
+                @Slot2.performed += instance.OnSlot2;
+                @Slot2.canceled += instance.OnSlot2;
+                @Slot3.started += instance.OnSlot3;
+                @Slot3.performed += instance.OnSlot3;
+                @Slot3.canceled += instance.OnSlot3;
+                @Slot4.started += instance.OnSlot4;
+                @Slot4.performed += instance.OnSlot4;
+                @Slot4.canceled += instance.OnSlot4;
+                @Slot5.started += instance.OnSlot5;
+                @Slot5.performed += instance.OnSlot5;
+                @Slot5.canceled += instance.OnSlot5;
+                @Slot6.started += instance.OnSlot6;
+                @Slot6.performed += instance.OnSlot6;
+                @Slot6.canceled += instance.OnSlot6;
             }
         }
     }
@@ -1127,6 +1295,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnFlashlight(InputAction.CallbackContext context);
         void OnLeave(InputAction.CallbackContext context);
+        void OnSlot1(InputAction.CallbackContext context);
+        void OnSlot2(InputAction.CallbackContext context);
+        void OnSlot3(InputAction.CallbackContext context);
+        void OnSlot4(InputAction.CallbackContext context);
+        void OnSlot5(InputAction.CallbackContext context);
+        void OnSlot6(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

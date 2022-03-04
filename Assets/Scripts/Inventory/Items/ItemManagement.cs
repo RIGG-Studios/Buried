@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ItemManagement : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class ItemManagement : MonoBehaviour
     {
         player = GetComponent<Player>();
     }
+    private void Start()
+    {
+        player.playerInput.Player.Flashlight.performed += ctx => ToggleItem(player.inventory.FindItem(ItemProperties.WeaponTypes.Flashlight));
+    }
+
 
     public void SetupItemControllers(ItemProperties[] items)
     {
@@ -46,11 +52,6 @@ public class ItemManagement : MonoBehaviour
             itemControllers.Remove(controller);
             Destroy(controller);
         }
-    }
-
-    private void Start()
-    {
-        player.playerInput.Player.Flashlight.performed += ctx => ToggleItem(player.inventory.FindItem(ItemProperties.WeaponTypes.Flashlight));
     }
 
     public void ToggleItem(Item item)

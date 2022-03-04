@@ -16,9 +16,10 @@ public class FlashlightController : ItemController
 
     private Battery currentBattery = null;
     private Light2D lightSource = null;
-    private Player player = null;
 
     private float currentLightIntensity;
+    private UIElement flashlightSlider;
+    private bool flashLightDisabled;
 
     private void Awake()
     {
@@ -27,12 +28,8 @@ public class FlashlightController : ItemController
 
     private void Start()
     {
-        SetNewBattery(new Battery(200f, 5f));
-    }
-
-    public override void SetupController(Player player)
-    {
-        this.player = player;
+        SetNewBattery(new Battery(25f, 5f));
+        flashlightSlider = CanvasManager.instance.FindElementGroupByID("PlayerVitals").FindElement("flashlightslider");
     }
 
     public void SetNewBattery(Battery battery)
@@ -42,17 +39,28 @@ public class FlashlightController : ItemController
 
         currentLightIntensity = settings.maxIntensity;
         currentBattery = battery;
+
+        if (flashLightDisabled)
+        {
+            flashLightDisabled = false;
+            UseItem();
+        }
     }
 
     public override void UseItem()
     {
+        if (flashLightDisabled)
+            return;
+
         if(state == FlashlightStates.Off)
         {
+            flashlightSlider.SetActive(true);
             lightSource.enabled = true;
             state = FlashlightStates.On;
         }
         else if(state == FlashlightStates.On)
         {
+            flashlightSlider.SetActive(false);
             lightSource.enabled = false;
             state = FlashlightStates.Off;
         }
@@ -67,6 +75,8 @@ public class FlashlightController : ItemController
         lightSource.intensity = currentLightIntensity;
         currentBattery.currentBatteryLife = currentLightIntensity;
 
+        flashlightSlider.OverrideValue(currentLightIntensity);
+
         if(currentLightIntensity < settings.minIntensity)
         {
             DisableItem();
@@ -75,6 +85,11 @@ public class FlashlightController : ItemController
 
     private void DisableItem()
     {
-
+        state = FlashlightStates.Off;
+        lightSource.intensity = 0.0f;
+        currentLightIntensity = 0.0f;
+        lightSource.enabled = false;
+        currentBattery = null;
+        flashLightDisabled = true;
     }
 }

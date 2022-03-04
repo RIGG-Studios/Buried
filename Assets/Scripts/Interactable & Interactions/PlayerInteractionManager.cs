@@ -15,6 +15,7 @@ public class PlayerInteractionManager : MonoBehaviour
     [SerializeField] private float minInteractionDistance = 0.0f;
 
 
+    [HideInInspector]
     public InteractableObject hoveredObject;
     [HideInInspector]
     public bool allowInteractions;
