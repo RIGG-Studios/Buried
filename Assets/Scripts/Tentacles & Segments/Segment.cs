@@ -30,7 +30,7 @@ public class Segment
         //the origin of this segment will be the previous segment, this it to create a chain effect
         Vector2 origin = previousSegment.position;
         //the direction will be the dir between the targetDir and origin, rotating around an axis calcuated below. Then its normalized
-        Vector2 dir = CalculateRotationAngle(angle) * (targetDir - origin).normalized;
+        Vector2 dir =  CalculateRotationAngle(angle) * (targetDir - origin).normalized;
         //the next position will be the origin + dir
         Vector3 position = origin + dir.normalized;
 

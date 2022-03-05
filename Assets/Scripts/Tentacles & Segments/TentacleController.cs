@@ -123,7 +123,7 @@ public class TentacleController : MonoBehaviour
             Segment previousSeg = segments[i - 1];
 
             //update the current segment position with the given arguments
-            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, agent.nextPosition, wallLayer, i * targetRotation);
+            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, GetTrackedPosition(i), wallLayer, i * targetRotation);
 
             //move the position to the target position using smooth damp
             segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i],  properties.tentacleMoveSpeed);    

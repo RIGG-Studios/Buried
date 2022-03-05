@@ -16,7 +16,6 @@ public class AttackState : State
     {
         stateManager = controller.stateManager;
         properties = controller.GetTentacleProperties();
-        player = Game.instance.player;
 
         controller.SetAgentPosition(controller.GetAnchorPosition());
         controller.occupied = true;
@@ -45,9 +44,23 @@ public class AttackState : State
 
         float playerDistFromTentacle = controller.GetDistanceBetweenPlayerAndEndPoint();
 
-        targetRotation = playerDistFromTentacle <= 2 ? 2f : 0f;
+        targetRotation = playerDistFromTentacle <= 2f ? 2f : 0f;
 
         controller.targetRotation = Mathf.Lerp(controller.targetRotation, targetRotation, Time.deltaTime * 5f);
+
+        /*/
+        if(playerDistFromTentacle <= properties.lightDistance)
+        {
+            bool canGetScared = Game.instance.player.itemManagement.GetActiveController().baseItem.item.toolType == ItemProperties.WeaponTypes.Flashlight;
+
+            if (canGetScared)
+            {
+                float angle = Quaternion.Angle(Quaternion.Euler(controller.GetTentacleEndPoint()), Game.instance.player.mouseLook.transform.rotation);
+
+                Debug.Log(angle);
+            }
+        }
+        /*/
 
         if (playerDistFromTentacle <= 0.5f)
         {
@@ -69,6 +82,7 @@ public class AttackState : State
         controller.UpdateQueuedSegments();
 
     }
+
 
     public override void UpdateLateLogic()
     {

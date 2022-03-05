@@ -11,7 +11,7 @@ public enum FlashlightStates
 
 public class FlashlightController : ItemController
 {
-    [SerializeField] private FlashlightStates state = FlashlightStates.On;
+    [SerializeField] private FlashlightStates state = FlashlightStates.Off;
     [SerializeField] private FlashlightSettings settings;
 
     private Battery currentBattery = null;
@@ -28,6 +28,7 @@ public class FlashlightController : ItemController
 
     private void Start()
     {
+        state = FlashlightStates.Off;
         SetNewBattery(new Battery(25f, 5f));
         flashlightSlider = CanvasManager.instance.FindElementGroupByID("PlayerVitals").FindElement("flashlightslider");
     }

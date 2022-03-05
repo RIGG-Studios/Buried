@@ -32,7 +32,6 @@ public class MovementState : State
 
     public override void UpdateInput()
     {
-        Debug.Log("g");
         Vector3 mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
         mouseDir = (mousePos - player.GetPosition()).normalized;
 

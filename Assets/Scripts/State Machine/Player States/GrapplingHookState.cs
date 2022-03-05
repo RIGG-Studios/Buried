@@ -2,21 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GrappleStates
+{
+    None,
+    Shooting,
+    Retracting
+}
 
 public class GrapplingHookState : State
 {
+    public GrappleStates state = GrappleStates.None;
+
     private Rigidbody2D physics = null;
     private LineRenderer line = null;
     private GrapplingHookSettings settings = null;
-    private Camera camera;
+    private Camera camera = null;
+    private HookshotController grappleController = null;
+
 
     private Vector2 mouseDir = Vector2.zero;
     private Vector2 grappleTarget = Vector2.zero;
-    private HookshotController grappleController = null;
-    private bool isGrappling = false;
-
-    [HideInInspector]
-    public bool isRetracting = false;
 
     public GrapplingHookState(Player player) : base("PlayerGrapple", player)
     {
@@ -31,9 +36,9 @@ public class GrapplingHookState : State
     {
         if (grappleController == null)
         {
-            grappleController = (HookshotController)player.itemManagement.FindItemController(player.inventory.FindItem(ItemProperties.WeaponTypes.GrapplingHook));
+            grappleController = (HookshotController)player.itemManagement.GetActiveController();
 
-            line = grappleController.lineRenderer;
+            line = grappleController.GetLine();
         }
 
         Vector3 mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
@@ -43,7 +48,7 @@ public class GrapplingHookState : State
 
         if(hit.collider != null)
         {
-            isGrappling = true;
+            state = GrappleStates.Shooting;
             grappleTarget = hit.point;
             line.enabled = true;
             line.positionCount = 2;
@@ -58,17 +63,18 @@ public class GrapplingHookState : State
 
     public override void UpdateLogic()
     {
-        if (isRetracting)
+        if (state == GrappleStates.Retracting)
         {
             Vector2 grapplePos = Vector2.Lerp(player.transform.position, grappleTarget, settings.speed * Time.deltaTime);
             player.transform.position = grapplePos;
 
-            line.SetPosition(0, player.GetPosition());
+            line.SetPosition(0, grappleController.GetPosition());
 
-            if(Vector3.Distance(player.GetPosition(), grappleTarget) < 0.5f)
+            float dist = Vector3.Distance(player.GetPosition(), grappleTarget);
+
+            if (dist< 0.5f)
             {
-                isRetracting = false;
-                isGrappling = false;
+                state = GrappleStates.None;
                 line.enabled = false;
 
                 player.stateManager.TransitionStates(PlayerStates.Movement);
@@ -95,6 +101,6 @@ public class GrapplingHookState : State
         }
 
         line.SetPosition(1, grappleTarget);
-        isRetracting = true;
+        state = GrappleStates.Retracting;
     }
 }
