@@ -7,8 +7,12 @@ public class ItemController : MonoBehaviour
     public Vector3 startingPosition;
     public Vector3 startingRotation;
 
-    public ItemProperties baseItem;
+    public Item baseItem;
 
-    public virtual void SetupController(Player player) { }
+    protected Player player;
+
+    public virtual void SetupController(Player player) => this.player = player;
     public virtual void UseItem() { }
+
+    public virtual void ResetItem() { }
 }

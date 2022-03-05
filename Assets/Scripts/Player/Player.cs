@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     [Header("Player Settings")]
 
     public MovementSettings movementSettings;
+    public GrapplingHookSettings grappleHookSettings;
 
     [HideInInspector]
     public PlayerStateManager stateManager;

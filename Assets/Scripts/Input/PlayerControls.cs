@@ -105,6 +105,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""5faca0e2-0f0b-49e9-bd1a-9ccbdf9cffb8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -380,6 +388,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Slot6"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c765ce7f-8ba5-4966-8ffa-f134d607445f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -968,6 +987,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Slot4 = m_Player.FindAction("Slot4", throwIfNotFound: true);
         m_Player_Slot5 = m_Player.FindAction("Slot5", throwIfNotFound: true);
         m_Player_Slot6 = m_Player.FindAction("Slot6", throwIfNotFound: true);
+        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1040,6 +1060,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Slot4;
     private readonly InputAction m_Player_Slot5;
     private readonly InputAction m_Player_Slot6;
+    private readonly InputAction m_Player_Fire;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1055,6 +1076,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Slot4 => m_Wrapper.m_Player_Slot4;
         public InputAction @Slot5 => m_Wrapper.m_Player_Slot5;
         public InputAction @Slot6 => m_Wrapper.m_Player_Slot6;
+        public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1097,6 +1119,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Slot6.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
                 @Slot6.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
                 @Slot6.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
+                @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1134,6 +1159,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Slot6.started += instance.OnSlot6;
                 @Slot6.performed += instance.OnSlot6;
                 @Slot6.canceled += instance.OnSlot6;
+                @Fire.started += instance.OnFire;
+                @Fire.performed += instance.OnFire;
+                @Fire.canceled += instance.OnFire;
             }
         }
     }
@@ -1301,6 +1329,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnSlot4(InputAction.CallbackContext context);
         void OnSlot5(InputAction.CallbackContext context);
         void OnSlot6(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SlotManager : MonoBehaviour
 {
+    [SerializeField] private Color slotDefaultColor;
+    [SerializeField] private Color slotHighlightedColor;
+
     private List<Slot> slots = new List<Slot>();
 
     public void SetupSlots(int size, Transform slotGrid, GameObject slotPrefab, bool isPlayer)
@@ -17,12 +20,24 @@ public class SlotManager : MonoBehaviour
         }
     }
 
-    public void TryEnableSlot(int index)
+    public bool TryEnableSlot(int index, out Item item)
     {
+        bool success = false;
+        item = null;
         if (index > slots.Count - 1 || index < 0)
-            return;
+        {
+            item = null;
+            success = false;
+        }
 
-        slots[index].UseItem();
+        if (slots[index].hasItem)
+        {
+            slots[index].UseItem();
+            item = slots[index].item;
+            success = true;
+        }
+
+        return success;
     }
 
     public void SwitchItemsInSlots(Slot baseSlot, Slot nextSlot)
@@ -80,6 +95,28 @@ public class SlotManager : MonoBehaviour
         }
 
         return slot;
+    }
+
+    public void SetSlotTo(Slot startingSlot, Vector3 position)
+    {
+        float closestDist = -1f;
+        Slot closestSlot = null;
+
+        for (int i = 0; i < slots.Count; i++)
+        {
+            float dist = (position - slots[i].transform.position).magnitude;
+
+            if (closestSlot == null || dist < closestDist)
+            {
+                closestSlot = slots[i];
+                closestDist = dist;
+            }
+        }
+
+        if (closestSlot != null && closestDist <= 25f)
+        {
+            SwitchItemsInSlots(startingSlot, closestSlot);
+        }
     }
 
     public void ResetSlots()

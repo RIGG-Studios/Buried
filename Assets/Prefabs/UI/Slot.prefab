@@ -424,8 +424,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -12.9684, y: -13.1204}
-  m_SizeDelta: {x: 14.0637, y: 11.6543}
+  m_AnchoredPosition: {x: -5.51, y: -13.1204}
+  m_SizeDelta: {x: 27.2919, y: 11.6543}
   m_Pivot: {x: 0.5, y: 0.43466994}
 --- !u!222 &3768436355291733439
 CanvasRenderer:
@@ -462,13 +462,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 67
-    m_Alignment: 7
+    m_Alignment: 6
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 3
+  m_Text: 0
 --- !u!1 &6975368722091485352
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,7 +708,11 @@ MonoBehaviour:
   itemInfoTransform: {fileID: 4788926257713327425}
   itemName: {fileID: 1969717560806608478}
   itemDescription: {fileID: 7206752366659660587}
+  defaultColor: {r: 0.2, g: 0.2, b: 0.2, a: 0.7372549}
+  highlighedColor: {r: 0.4627451, g: 0.4627451, b: 0.4627451, a: 0.7372549}
+  selected: 0
   hasItem: 0
   item:
     item: {fileID: 0}
+    slot: {fileID: 0}
     stack: 0

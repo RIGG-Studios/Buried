@@ -71,6 +71,9 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void OnHoverOverInteractable(GameObject collision, Vector2 point)
     {
+        if (hoveredObject != null)
+            OnStopHoverInteractable();
+
         hoveredObject = collision.GetComponent<InteractableObject>();
 
         if (hoveredObject.useAssist)

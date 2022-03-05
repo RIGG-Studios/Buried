@@ -14,26 +14,25 @@ public class MovementState : State
 
     private float stepCooldown = 0.0f;
 
-    public MovementState(Player player) : base("PlayerMovement", player) => this.player = player;
-
-    public override void EnterState()
+    public MovementState(Player player) : base("PlayerMovement", player)
     {
+        this.player = player;
         camera = Camera.main;
         settings = player.movementSettings;
         physics = player.GetComponent<Rigidbody2D>();
         footSteps = player.GetComponent<PlayerFootsteps>();
         animator = player.animator;
+        cameraController = camera.GetComponent<PlayerCamera>();
+    }
 
-        if(camera != null)
-        {
-            cameraController = camera.GetComponent<PlayerCamera>();
-        }
-
+    public override void EnterState()
+    {
         cameraController.SetTarget(player.transform);
     }
 
     public override void UpdateInput()
     {
+        Debug.Log("g");
         Vector3 mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
         mouseDir = (mousePos - player.GetPosition()).normalized;
 

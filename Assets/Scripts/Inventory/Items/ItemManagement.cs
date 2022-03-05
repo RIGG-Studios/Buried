@@ -8,6 +8,8 @@ public class ItemManagement : MonoBehaviour
     [SerializeField] private Transform itemParent = null;
 
     private List<ItemController> itemControllers = new List<ItemController>();
+    private ItemController activeItemController = null;
+
     private Player player = null;
 
     private void Awake()
@@ -16,29 +18,62 @@ public class ItemManagement : MonoBehaviour
     }
     private void Start()
     {
-        player.playerInput.Player.Flashlight.performed += ctx => ToggleItem(player.inventory.FindItem(ItemProperties.WeaponTypes.Flashlight));
+        player.playerInput.Player.Fire.performed += ctx => UseActiveItem();
     }
 
+    private void UseActiveItem()
+    {
+        if (activeItemController == null)
+            return;
 
-    public void SetupItemControllers(ItemProperties[] items)
+        activeItemController.UseItem();
+    }
+
+    public void SetNewItemController(ItemProperties props)
+    {
+        ItemController nextController = FindItemController(props);
+
+        if (nextController && activeItemController != nextController)
+        {
+            if (activeItemController)
+            {
+                activeItemController.ResetItem();
+                activeItemController.baseItem.slot.SetColor(activeItemController.baseItem.slot.dColor);
+            }
+
+            activeItemController = nextController;
+        }
+    }
+
+    public void UseItem(Item item)
+    {
+        if (item == null)
+            return;
+
+        ItemController controller = FindItemController(item);
+
+        if (controller)
+            controller.UseItem();
+    }
+
+    public void SetupItemControllers(Item[] items)
     {
         for(int i = 0; i < items.Length; i++)
         {
             SpawnItemController(items[i]);
         }
     }
-
-    private void SpawnItemController(ItemProperties properties)
+    private void SpawnItemController(Item item)
     {
-        ItemController item = Instantiate(properties.itemPrefab, itemParent).GetComponent<ItemController>();
-        item.transform.localPosition = item.startingPosition;
-        item.transform.localRotation = Quaternion.Euler(item.startingRotation);
-        item.baseItem = properties;
-        item.SetupController(player);
-        itemControllers.Add(item);
+        ItemController itm = Instantiate(item.item.itemPrefab, itemParent).GetComponent<ItemController>();
+        itm.transform.localPosition = itm.startingPosition;
+        itm.transform.localRotation = Quaternion.Euler(itm.startingRotation);
+        itm.baseItem = item;
+        itm.SetupController(player);
+        itemControllers.Add(itm);
     }
 
-    public void SetupNewItem(ItemProperties item)
+    public void SetupNewItem(Item item)
     {
         SpawnItemController(item);
     }
@@ -54,23 +89,11 @@ public class ItemManagement : MonoBehaviour
         }
     }
 
-    public void ToggleItem(Item item)
-    {
-        if (item == null)
-            return;
-
-        ItemController controller = FindItemController(item);
-
-        if (controller)
-            controller.UseItem();
-    }
-
-
     public ItemController FindItemController(Item item)
     {
         for(int i = 0; i < itemControllers.Count; i++)
         {
-            if (item.item == itemControllers[i].baseItem)
+            if (item == itemControllers[i].baseItem)
                 return itemControllers[i];
         }
 
@@ -81,10 +104,15 @@ public class ItemManagement : MonoBehaviour
     {
         for (int i = 0; i < itemControllers.Count; i++)
         {
-            if (item == itemControllers[i].baseItem)
+            if (item == itemControllers[i].baseItem.item)
                 return itemControllers[i];
         }
 
         return null;
+    }
+
+    public ItemController GetActiveController()
+    {
+        return activeItemController;
     }
 }

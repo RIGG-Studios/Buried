@@ -24,14 +24,26 @@ public class PlayerInventory : ItemDatabase
             player.itemManagement.SetupItemControllers(FindAllTools());
         }
 
-        player.playerInput.Player.Slot1.performed += ctx => TryEnableSlot(0);
-        player.playerInput.Player.Slot2.performed += ctx => TryEnableSlot(1);
-        player.playerInput.Player.Slot3.performed += ctx => TryEnableSlot(2);
-        player.playerInput.Player.Slot4.performed += ctx => TryEnableSlot(3);
-        player.playerInput.Player.Slot5.performed += ctx => TryEnableSlot(4);
-        player.playerInput.Player.Slot5.performed += ctx => TryEnableSlot(5);
+        player.playerInput.Player.Slot1.performed += ctx => EnableSlot(0);
+        player.playerInput.Player.Slot2.performed += ctx => EnableSlot(1);
+        player.playerInput.Player.Slot3.performed += ctx => EnableSlot(2);
+        player.playerInput.Player.Slot4.performed += ctx => EnableSlot(3);
+        player.playerInput.Player.Slot5.performed += ctx => EnableSlot(4);
+        player.playerInput.Player.Slot5.performed += ctx => EnableSlot(5);
 
         CanvasManager.instance.FindElementGroupByID("PlayerInventory").UpdateElements(0, 0, true);
+    }
+
+    private void EnableSlot(int i)
+    {
+        Item item = null;
+        bool success = TryEnableSlot(i, out item);
+
+        if (success && item.item.itemType == ItemProperties.ItemTypes.Tool)
+        {
+            player.itemManagement.SetNewItemController(item.item);
+            item.slot.SetColor(item.slot.hColor);
+        }
     }
 
     private void OnEnable()
@@ -57,7 +69,7 @@ public class PlayerInventory : ItemDatabase
         }
         else if(item.toolType == ItemProperties.WeaponTypes.Flashlight)
         {
-            player.itemManagement.ToggleItem(FindItem(ItemProperties.WeaponTypes.Flashlight));
+            player.itemManagement.UseItem(FindItem(ItemProperties.WeaponTypes.Flashlight));
         }
     }
 
@@ -67,12 +79,13 @@ public class PlayerInventory : ItemDatabase
         chest.RemoveItemFromChest(item);
     }
 
-    public override bool AddItem(ItemProperties itemProperties, int amount)
+    public override Item AddItem(ItemProperties itemProperties, int amount)
     {
-        bool addItem = base.AddItem(itemProperties, amount);
-
-        if(addItem && itemProperties.itemType == ItemProperties.ItemTypes.Tool)
-            player.itemManagement.SetupNewItem(itemProperties);
+        Item addItem = base.AddItem(itemProperties, amount);
+        if (addItem != null && itemProperties.itemType == ItemProperties.ItemTypes.Tool)
+        {
+            player.itemManagement.SetupNewItem(addItem);
+        }
 
         return addItem;
     }

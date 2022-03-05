@@ -66,6 +66,12 @@ public class FlashlightController : ItemController
         }
     }
 
+    public override void ResetItem()
+    {
+        if (state == FlashlightStates.On)
+            UseItem();
+    }
+
     private void Update()
     {
         if (currentBattery == null || state == FlashlightStates.Off)

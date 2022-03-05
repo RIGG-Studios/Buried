@@ -49,7 +49,7 @@ public class AttackState : State
 
         controller.targetRotation = Mathf.Lerp(controller.targetRotation, targetRotation, Time.deltaTime * 5f);
 
-        if (playerDistFromTentacle <= 1f)
+        if (playerDistFromTentacle <= 0.5f)
         {
             wrapTime += Time.deltaTime;
 

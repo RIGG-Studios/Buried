@@ -32,18 +32,22 @@ public class ItemDatabase : MonoBehaviour
         return initialized;
     }
 
-    public virtual bool AddItem(ItemProperties itemProperties, int amount)
+    public virtual Item AddItem(ItemProperties itemProperties, int amount)
     {
         if (HasItem(itemProperties))
         {
-            return UpdateExistingItem(FindItem(itemProperties), amount);
+            Item itm = FindItem(itemProperties);
+            UpdateExistingItem(itm, amount);
+
+            return itm; 
         }
 
-        Item item = new Item(itemProperties, amount);
+        Slot slot = slotManager.GetNextSlot();
+        Item item = new Item(itemProperties, slot, amount);
 
-        slotManager.GetNextSlot().AddItem(item);
+        slot.AddItem(item);
         items.Add(item);
-        return true;
+        return item;
     }
 
     public virtual bool RemoveItem(ItemProperties itemProperties, int amount)
@@ -149,15 +153,15 @@ public class ItemDatabase : MonoBehaviour
         return item;
     }
 
-    public ItemProperties[] FindAllTools()
+    public Item[] FindAllTools()
     {
-        List<ItemProperties> items = new List<ItemProperties>();
+        List<Item> items = new List<Item>();
 
         for (int i = 0; i < this.items.Count; i++)
         {
             if (this.items[i].item.toolType != ItemProperties.WeaponTypes.None)
             {
-                items.Add(this.items[i].item);
+                items.Add(this.items[i]);
                 break;
             }
         }
@@ -165,15 +169,15 @@ public class ItemDatabase : MonoBehaviour
         return items.ToArray();
     }
 
-    public ItemProperties[] FindAllConsumables()
+    public Item[] FindAllConsumables()
     {
-        List<ItemProperties> items = new List<ItemProperties>();
+        List<Item> items = new List<Item>();
 
         for (int i = 0; i < this.items.Count; i++)
         {
             if (this.items[i].item.consumableType != ItemProperties.ConsumableTypes.None)
             {
-                items.Add(this.items[i].item);
+                items.Add(this.items[i]);
                 break;
             }
         }
@@ -181,9 +185,9 @@ public class ItemDatabase : MonoBehaviour
         return items.ToArray();
     }
 
-    public void TryEnableSlot(int index)
+    public bool TryEnableSlot(int index, out Item item)
     {
-       slotManager.TryEnableSlot(index);
+       return slotManager.TryEnableSlot(index, out item);
     }
 
     public Item[] GetItems()
@@ -197,10 +201,12 @@ public class Item
 {
     public ItemProperties item;
     public int stack = 1;
+    public Slot slot { get; set; }
 
-    public Item(ItemProperties item, int stack)
+    public Item(ItemProperties item, Slot slot, int stack)
     {
         this.item = item;
+        this.slot = slot;
         this.stack = stack;
     }
 

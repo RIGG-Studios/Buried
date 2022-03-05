@@ -103,7 +103,6 @@ public class TentacleController : MonoBehaviour
         //loop through all the segments expect for the first one, as we set it just before.
         for (int i = 1; i < segments.Count; i++)
         {
-            /*/
             //if the amount of segments is greater then the amount of segments needed
             if (i >= segmentCount)
             {
@@ -116,7 +115,6 @@ public class TentacleController : MonoBehaviour
                 segments.Remove(segments[i]);
                 continue;
             }
-            /*/
 
             //if we can move this segment
 

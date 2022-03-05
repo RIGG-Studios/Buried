@@ -16,66 +16,74 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
     [SerializeField] private Transform itemInfoTransform = null;
     [SerializeField] private Text itemName = null;
     [SerializeField] private Text itemDescription = null;
-
-    private List<Button> buttons = new List<Button>();
-
+    [SerializeField] private Color defaultColor = Color.black;
+    [SerializeField] private Color highlighedColor = Color.white;
 
     [HideInInspector]
-    public bool hasItem;
+    public bool selected = false;
     [HideInInspector]
-    public Item item;
+    public bool hasItem = false;
+    [HideInInspector]
+    public Item item = null;
 
     private bool isPlayer = false;
     private SlotManager slotManager = null;
+    private Image slotBackground = null;
+    private List<Button> buttons = new List<Button>();
+
+    public Color dColor
+    {
+        get
+        {
+            return defaultColor;
+        }
+
+        set
+        {
+            defaultColor = value;
+        }
+    }
+
+    public Color hColor
+    {
+        get
+        {
+            return highlighedColor;
+        }
+
+        set
+        {
+            highlighedColor = value;
+        }
+    }
+
+
+    private void Awake()
+    {
+        slotBackground = GetComponent<Image>();
+
+        if (slotBackground)
+            defaultColor = slotBackground.color;
+    }
 
     public void SetupSlot(SlotManager slotManager, bool isPlayer, int index)
     {
         this.isPlayer = isPlayer;
         this.slotManager = slotManager;
+
         itemInput.text = (index + 1).ToString();
         gameObject.name = isPlayer ? "PLAYER_SLOT_" + index : "CHEST_SLOT_" + index;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void AddItem(Item nextItem)
     {
-        itemIcon.transform.position = Mouse.current.position.ReadValue();
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (slotManager != null)
-        {
-            Slot[] slots = slotManager.GetAllSlots();
-
-            float closestDist = -1f;
-            Slot closestSlot = null;
-
-            for (int i = 0; i < slots.Length; i++)
-            {
-                float dist = Vector2.Distance(itemIcon.transform.position, slots[i].transform.position);
-                if (closestSlot == null || dist < closestDist)
-                {
-                    closestSlot = slots[i];
-                    closestDist = dist;
-                }
-            }
-
-            if (closestSlot != null && closestDist <= 25f)
-            {
-                slotManager.SwitchItemsInSlots(this, closestSlot);
-            }
-        }
-
-        itemIcon.transform.localPosition = Vector3.zero;
-    }
-
-    public void AddItem(Item item)
-    {
+        item = nextItem;
         itemIcon.enabled = true;
         itemIcon.sprite = item.item.itemSprite;
         itemName.text = item.item.itemName;
         itemDescription.text = item.item.itemDescription;
-        this.item = item;
+        item.slot = this;
+        Debug.Log(item.slot);
 
         if (isPlayer)
         {
@@ -84,8 +92,14 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
 
         if (item.item.useUIButtons)
         {
-            if (isPlayer) SpawnUIButtons(item.item.uiInventoryButtons);
-            else SpawnUIButtons(item.item.uiChestButtons);
+            if (isPlayer)
+            {
+                SpawnUIButtons(item.item.uiInventoryButtons);
+            }
+            else
+            {
+                SpawnUIButtons(item.item.uiChestButtons);
+            }
         }
 
         if (item.item.stackable)
@@ -114,16 +128,8 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
     {
         switch (properties.propertyType)
         {
-            case UIButtonProperties.PropertyTypes.ShowProperty:
-        //        button.onClick.AddListener(() => inventory.ShowItemProperty(item, properties.propertyName));
-                break;
-
             case UIButtonProperties.PropertyTypes.Use:
                 button.onClick.AddListener(() => UseItem());
-                break;
-
-            case UIButtonProperties.PropertyTypes.Discard:
-          //      button.onClick.AddListener(() => inventory.DiscardItem(item));
                 break;
 
             case UIButtonProperties.PropertyTypes.AddToInventory:
@@ -132,19 +138,15 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
         }
     }
 
-    public void UseItem()
-    {
-        if (!hasItem)
-            return;
-
-        GameEvents.OnPlayerUseItem(item.item);
-    }
-
     public void ResetSlot()
     {
         hasItem = false;
+        if(item.slot == this)
+            item.slot = null;
+
         item = null;
         itemIcon.enabled = false;
+        slotBackground.color = defaultColor;
         itemIcon.sprite = null;
         itemStack.text = null;
         itemName.text = string.Empty;
@@ -190,8 +192,33 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
         ToggleItemInfo(false);
         ToggleButtons(false);
     }
+    public void UseItem()
+    {
+        GameEvents.OnPlayerUseItem(item.item);
+    }
+
+    public void SetColor(Color color)
+    {
+        slotBackground.color = color;
+    }
 
     public override void ButtonInteract()
     {
     }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        itemIcon.transform.position = Mouse.current.position.ReadValue();
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if (slotManager != null)
+        {
+            slotManager.SetSlotTo(this, itemIcon.transform.position);
+        }
+
+        itemIcon.transform.localPosition = Vector3.zero;
+    }
+
 }
