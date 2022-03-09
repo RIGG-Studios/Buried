@@ -44,7 +44,7 @@ public class GrapplingHookState : State
         Vector3 mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
         mouseDir = (mousePos - player.GetPosition()).normalized;
 
-        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, mouseDir, settings.maxDistance, settings.grappleLayer);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos, mouseDir, settings.maxDistance, settings.grappleLayer);
 
         if(hit.collider != null)
         {
@@ -59,6 +59,12 @@ public class GrapplingHookState : State
         {
             player.stateManager.TransitionStates(PlayerStates.Movement);
         }
+
+        player.collider.enabled = false;
+    }
+    public override void ExitState()
+    {
+        player.collider.enabled = true;
     }
 
     public override void UpdateLogic()

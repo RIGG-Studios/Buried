@@ -16,7 +16,10 @@ public class CanvasManager : MonoBehaviour
 
         //find the elements
         allElements = FindElements();
+    }
 
+    private void Start()
+    {
         //to start, play the hide animation on all elements so they aren't visible.
         foreach (UIElementGroup gr in allElements)
             gr.UpdateElements(0, 0, false);

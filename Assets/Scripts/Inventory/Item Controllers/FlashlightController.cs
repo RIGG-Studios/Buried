@@ -99,4 +99,10 @@ public class FlashlightController : ItemController
         currentBattery = null;
         flashLightDisabled = true;
     }
+
+    public FlashlightStates GetState()
+    {
+        return state;
+    }
 }
+

@@ -27,6 +27,14 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public ItemManagement itemManagement;
 
+    public Collider2D collider
+    {
+        get
+        {
+            return GetComponent<Collider2D>();
+        }
+    }
+
     private void Awake()
     {
         playerInput = new PlayerControls();

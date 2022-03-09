@@ -59,4 +59,15 @@ public class Utilites : MonoBehaviour
         //round it, and we have the answer
         return Mathf.FloorToInt(stepCount);
     }
+
+    public static float NormalizeAngle(float radians)
+    {
+        while (radians < 0)
+            radians += Mathf.PI * 2f;
+
+        while (radians >= Mathf.PI * 2)
+            radians -= Mathf.PI * 2;
+
+        return radians;
+    }
 }

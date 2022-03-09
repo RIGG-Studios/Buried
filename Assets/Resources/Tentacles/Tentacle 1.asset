@@ -18,4 +18,4 @@ MonoBehaviour:
   tentacleSegments: 20
   lengthBetweenSegments: 0.5
   hitOffset: 1
-  rotateAngle: 3
+  rotateAngle: 2

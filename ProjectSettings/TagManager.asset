@@ -20,8 +20,8 @@ TagManager:
   - Player
   - Wall
   - PlayerCollision
-  - 
-  - 
+  - Abyss
+  - Ground
   - 
   - 
   - 
@@ -42,6 +42,9 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 282671577
+    locked: 0
+  - name: Background 1
+    uniqueID: 4040916353
     locked: 0
   - name: Background 2
     uniqueID: 2701904337

@@ -172,6 +172,17 @@ public class UIElementGroup : MonoBehaviour
                 }
             }
 
+            Button[] buttons = GetComponentsInChildren<Button>();
+
+            if(buttons.Length > 0)
+            {
+                foreach(Button btn in buttons)
+                {
+                    btn.gameObject.AddComponent<ButtonElements>().Setup();
+                }
+            }
+
+
             UIElement[] elem = GetComponentsInChildren<UIElement>();
 
             if (elem.Length > 0)

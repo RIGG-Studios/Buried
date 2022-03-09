@@ -72,8 +72,12 @@ public class TentacleController : MonoBehaviour
         //loop through the amount of segments this tentacle will have
         for (int i = 0; i < properties.tentacleSegments; i++)
         {
+            float width = 25 - i;
+            float length = 23 - i * 0.5f;
+            float desiredAng = Mathf.Max(0, Mathf.Min(Mathf.PI * 0.1f, Mathf.Sin(i * 0.2f - 0.5f) * 0.4f));
+
             //create new instances of the segment class and add them to the list.
-            segments.Add(new Segment(i, properties));
+            segments.Add(new Segment(i, properties, length, width, desiredAng));
         }
 
         //assign the length of the velocity array
@@ -93,6 +97,7 @@ public class TentacleController : MonoBehaviour
         segmentCount = (int)(dist / properties.lengthBetweenSegments);
         //clamp the segment count between 0 and the max segments this tentacle will have
         segmentCount = Mathf.Clamp(segmentCount, 0, properties.tentacleSegments);
+        line.positionCount = segmentCount;
     }
 
     //method used for updating segment positions
@@ -123,14 +128,13 @@ public class TentacleController : MonoBehaviour
             Segment previousSeg = segments[i - 1];
 
             //update the current segment position with the given arguments
-            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, GetTrackedPosition(i), wallLayer, i * targetRotation);
+            Vector2 segPos = currentSeg.UpdatePosition(previousSeg, GetTrackedPosition(i), wallLayer);
 
             //move the position to the target position using smooth damp
             segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i],  properties.tentacleMoveSpeed);    
         }
 
         //set the position count and positions of the line render
-        line.positionCount = segmentCount;
         line.SetPositions(GetSegmentPositions());
     }
 

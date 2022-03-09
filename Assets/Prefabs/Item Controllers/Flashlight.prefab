@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Color: {r: 0.9716981, g: 0.7963838, b: 0.5377951, a: 1}
   m_Intensity: 1.16
   m_LightVolumeOpacity: 0.323
-  m_ApplyToSortingLayers: d939d910d1c90ba1f95c0100
+  m_ApplyToSortingLayers: d939d910d1c90ba1f95c0100817ddbf0
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -82,6 +82,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7403624876181052577}
   - component: {fileID: 7671292276103295305}
+  - component: {fileID: 467599083949353167}
   m_Layer: 10
   m_Name: Flashlight
   m_TagString: Untagged
@@ -123,3 +124,15 @@ MonoBehaviour:
     stack: 0
   state: 0
   settings: {fileID: 11400000, guid: d19d0323ccc81bb408b613464c5b0929, type: 2}
+--- !u!114 &467599083949353167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7403624876181052576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22bbf84f6c8480c43914d241036666e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

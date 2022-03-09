@@ -15,6 +15,13 @@ MonoBehaviour:
   speed: 10
   maxDistance: 10
   shootSpeed: 35
+  ropeAnimationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  percision: 20
   grappleLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 18560

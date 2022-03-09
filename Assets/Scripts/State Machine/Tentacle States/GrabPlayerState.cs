@@ -13,12 +13,18 @@ public class GrabPlayerState : State
     {
         controller.UpdateAgentPosition(controller.GetAnchorPosition());
 
+        float dist = controller.GetDistanceBetweenPlayerAndEndPoint();
+
+        if (dist > 5f)
+            controller.stateManager.TransitionStates(TentacleStates.Retreat);
+
+        controller.UpdateSegmentCount();
+        controller.UpdateSegmentPositions();
         controller.UpdateQueuedSegments();
     }
 
     public override void UpdateLateLogic()
     {
-        controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions();
+        controller.UpdateQueuedSegments();
     }
 }
