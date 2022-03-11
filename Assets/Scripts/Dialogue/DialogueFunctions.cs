@@ -3,18 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DialogueFunctions : MonoBehaviour
+public static class DialogueFunctions
 {
-    public void PrintTextToField(string text, TextMeshProUGUI textField, float timeBetweenCharacters)
-    {
-        StartCoroutine(PrintText(text, textField, timeBetweenCharacters));
-    }
-
-    IEnumerator PrintText(string text, TextMeshProUGUI field, float time)
+    public static IEnumerator PrintText(string text, UIElement textField, float time)
     {
         for(int i = 0; i < text.Length + 1; i++)
         {
-            field.text = text.Substring(0, i);
+            object outputText = text.Substring(0, i);
+
+            textField.OverrideValue(outputText);
             yield return new WaitForSeconds(time);
         }
     }
