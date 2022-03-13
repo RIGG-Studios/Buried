@@ -30,16 +30,8 @@ public class ItemManagement : MonoBehaviour
             equipText = equipGroup.FindElement("text");
         }
 
-        player.playerInput.Player.Fire.performed += ctx => UseActiveController();
+        player.playerInput.Player.Fire.performed += ctx => UseActiveControllerByClick();
         player.playerInput.Enable();
-    }
-
-    private void UseActiveController()
-    {
-        if (activeController == null || !canUseItems)
-            return;
-
-        activeController.UseItem();
     }
 
     public void InitializeItemControllers(Item[] itemsToSpawn)
@@ -53,9 +45,11 @@ public class ItemManagement : MonoBehaviour
         }
     }
 
-    public void SetNewActiveController(ItemProperties item)
+    public void SetNewActiveController(ItemProperties.ItemTypes itemType)
     {
-        if (activeController != null && item == activeController.baseItem)
+        ItemProperties item = player.inventory.FindItem(itemType).item;
+
+        if (item == null || activeController != null && item == activeController.baseItem)
             return;
 
         equipGroup.UpdateElements(0, 0, true);
@@ -63,6 +57,11 @@ public class ItemManagement : MonoBehaviour
         equipTimer.SetMin(0);
         canUseItems = false;
         StartCoroutine(EquipNewItem(item));
+    }
+
+    public void SetNewActiveController(ItemController controller)
+    {
+        activeController = controller;
     }
 
     private IEnumerator EquipNewItem(ItemProperties nextItem)
@@ -79,15 +78,20 @@ public class ItemManagement : MonoBehaviour
 
         if (activeController)
         {
-            activeController.itemInInventory.slot.SetColor(activeController.itemInInventory.slot.dColor);
+            activeController.itemInInventory.slot.SetColor(activeController.itemInInventory.slot.dColor, false);
             activeController.ResetItem();
         }
+
         //set the color of the slot to the highlighted slot, because this slot is now activiated.
         activeController = FindItemController(nextItem);
-        activeController.itemInInventory.slot.SetColor(activeController.itemInInventory.slot.hColor);
+        activeController.itemInInventory.slot.SetColor(activeController.itemInInventory.slot.hColor, true);
         canUseItems = true;
         equipGroup.UpdateElements(0, 0, false);
+
+        if (nextItem.activateType == ItemProperties.ActivationTypes.OnSlotSelected)
+            UseActiveControllerBySlotSelected();
     }
+
 
     public void OnNewItemAdded(Item item)
     {
@@ -101,6 +105,22 @@ public class ItemManagement : MonoBehaviour
             newItem.SetupController(player, item);
             allItems.Add(newItem);
         }
+    }
+
+    private void UseActiveControllerByClick()
+    {
+        if (activeController == null || !canUseItems || activeController.baseItem.activateType != ItemProperties.ActivationTypes.RightMouseClick)
+            return;
+
+        activeController.UseItem();
+    }
+
+    private void UseActiveControllerBySlotSelected()
+    {
+        if (activeController == null || !canUseItems || activeController.baseItem.activateType != ItemProperties.ActivationTypes.OnSlotSelected)
+            return;
+
+        activeController.UseItem();
     }
 
     public bool OnItemRemoved(ItemProperties item)
@@ -127,5 +147,15 @@ public class ItemManagement : MonoBehaviour
         }
 
         return null;
+    }
+
+    public bool CheckActiveController(ItemProperties.ItemTypes itemType)
+    {
+        bool found = false;
+
+        if (activeController != null && activeController.baseItem.itemType == itemType)
+            found = true;
+
+        return found;
     }
 }

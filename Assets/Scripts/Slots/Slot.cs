@@ -38,6 +38,11 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
     //all the buttons we made that show up when we hover over it
     private List<Button> buttons = new List<Button>();
 
+    private int index = 0;
+
+    [HideInInspector]
+    public bool selected = false;
+
     //create a property of the defaultColor
     public Color dColor
     {
@@ -83,6 +88,8 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
         this.isPlayer = isPlayer;
         //assign the slotManager
         this.slotManager = slotManager;
+
+        this.index = index;
 
         //assign the inputText
         itemInput.text = (index + 1).ToString();
@@ -252,12 +259,16 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
     public void UseItem()
     {
         //call the use item event
-        GameEvents.OnPlayerUseItem.Invoke(item.item);
+        slotManager.TryEnableSlot(index, out item);
     }
 
     //method used for setting the backgound color
-    public void SetColor(Color color)
+    public void SetColor(Color color, bool selected)
     {
+        if (!item.item.controllable)
+            return;
+
+        this.selected = selected;
         slotBackground.color = color;
     }
 

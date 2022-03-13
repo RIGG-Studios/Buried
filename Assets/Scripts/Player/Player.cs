@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 
     public MovementSettings movementSettings;
     public GrapplingHookSettings grappleHookSettings;
+    public VitalSettings vitalSettings;
 
     [HideInInspector]
     public PlayerStateManager stateManager;
@@ -26,6 +27,8 @@ public class Player : MonoBehaviour
     public PlayerInteractionManager playerInteraction;
     [HideInInspector]
     public ItemManagement itemManagement;
+    [HideInInspector]
+    public PlayerVitals vitals;
 
     public Collider2D collider
     {
@@ -47,6 +50,7 @@ public class Player : MonoBehaviour
         mouseLook = GetComponentInChildren<MouseLook>();
         playerInteraction = GetComponent<PlayerInteractionManager>();
         itemManagement = GetComponent<ItemManagement>();
+        vitals = GetComponent<PlayerVitals>();
     }
 
     private void OnEnable()

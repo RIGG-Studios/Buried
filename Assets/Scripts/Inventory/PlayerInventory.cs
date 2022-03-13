@@ -53,13 +53,27 @@ public class PlayerInventory : ItemDatabase
         //try to enable the that relates to i, if we are succesfull store the item the slot has in the Item var.
         Item item = null;
         bool success = TryEnableSlot(i, out item);
-
         //if we are succesfull and the output item is a tool, meaning it will have a controller
         if (success && item.item.controllable)
         {
             //set a new active controller in the item management class
-            player.itemManagement.SetNewActiveController(item.item);
+            player.itemManagement.SetNewActiveController(item.item.itemType);
+        }
 
+        if(success && !item.item.controllable && item.item.activateType == ItemProperties.ActivationTypes.OnSlotSelected)
+        {
+            UseItem(item.item);
+        }
+    }
+
+    public void DeselectSlot(Item item)
+    {
+        Slot slot = slotManager.FindSlotByItemProperties(item.item);
+
+        if (slot != null && slot.selected)
+        {
+            player.itemManagement.SetNewActiveController(null);
+            slot.SetColor(slot.dColor, false);
         }
     }
 
@@ -81,9 +95,12 @@ public class PlayerInventory : ItemDatabase
         //if the item we are trying to use is a battery, meaning we are trying to update the flashlight battery
         if (item.itemType == ItemProperties.ItemTypes.Battery) 
         {
+            if (!HasItem(ItemProperties.ItemTypes.Flashlight))
+                return;
+
             //find the flashlight item controller
             ItemController controller = player.itemManagement.FindItemController(FindItem(ItemProperties.ItemTypes.Flashlight).item);
-            Debug.Log(controller);
+
             if (controller != null)
             {
                 //cast it to the flashlight controller class
@@ -95,6 +112,13 @@ public class PlayerInventory : ItemDatabase
                 //remove the item from the list as we just used one of them.
                 RemoveItem(item, 1);
             }
+        }
+        else if(item.itemType == ItemProperties.ItemTypes.GrapplingHookAmmo)
+        {
+            if (!HasItem(ItemProperties.ItemTypes.GrapplingHook))
+                return;
+
+            RemoveItem(item, 1);
         }
     }
 

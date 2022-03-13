@@ -40,18 +40,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Background
+  - name: TopWall
     uniqueID: 282671577
     locked: 0
-  - name: Background 1
-    uniqueID: 4040916353
-    locked: 0
-  - name: Background 2
-    uniqueID: 2701904337
+  - name: Player
+    uniqueID: 89337
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Top
-    uniqueID: 89337
+  - name: BottomWall
+    uniqueID: 2047542617
     locked: 0

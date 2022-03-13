@@ -148,6 +148,25 @@ public class ItemDatabase : MonoBehaviour
         return hasItem;
     }
 
+    //method for checking if we have an item in the database, returning a bool
+    public bool HasItem(ItemProperties.ItemTypes itemType)
+    {
+        bool hasItem = false;
+
+        //loop through all items
+        for (int i = 0; i < items.Count; i++)
+        {
+            //if any in the list contain the argument, return it and break.
+            if (itemType == items[i].item.itemType)
+            {
+                hasItem = true;
+                break;
+            }
+        }
+
+        return hasItem;
+    }
+
     //method used for finding an item in the database
     public Item FindItem(ItemProperties itemProperties)
     {
@@ -181,6 +200,17 @@ public class ItemDatabase : MonoBehaviour
         }
 
         return item;
+    }
+
+    public void TryFindItem(ItemProperties.ItemTypes type, out Item item)
+    {
+        item = null;
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (type == items[i].item.itemType)
+                item = items[i];         
+        }
     }
 
     public Item[] FindAllControllableItems()

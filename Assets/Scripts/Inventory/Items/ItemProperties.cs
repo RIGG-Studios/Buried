@@ -12,14 +12,15 @@ public class ItemProperties : ScriptableObject
         Flashlight,
         GrapplingHook,
         Journal,
-        Note
+        Note,
+        GrapplingHookAmmo,
+        None
     }
 
     public enum ActivationTypes
     {
         OnSlotSelected,
         RightMouseClick,
-        LeftMouseClick,
         None
     }
 

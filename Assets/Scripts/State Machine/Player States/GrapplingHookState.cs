@@ -54,6 +54,14 @@ public class GrapplingHookState : State
 
         if(hit.collider != null)
         {
+            float dist = (new Vector3(hit.point.x, hit.point.y, 0) - player.GetPosition()).magnitude;
+
+            if (dist > settings.maxDistance)
+            {
+                player.stateManager.TransitionStates(PlayerStates.Movement);
+                return;
+            }
+
             state = GrappleStates.Shooting;
             grappleTarget = hit.point;
             line.enabled = true;

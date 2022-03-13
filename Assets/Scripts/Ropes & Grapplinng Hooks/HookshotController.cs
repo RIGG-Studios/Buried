@@ -6,16 +6,27 @@ public class HookshotController : ItemController
 {
     [SerializeField] private LineRenderer lineRenderer = null;
 
+    private int bulletStack;
+
     public override void UseItem()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
-        Vector2 mouseDir = (mousePos - player.GetPosition()).normalized;
-
-        RaycastHit2D hit = Physics2D.Raycast(player.transform.position, mouseDir, player.grappleHookSettings.maxDistance, player.grappleHookSettings.grappleLayer);
-
-        if (hit.collider != null)
+        Item ammo = null;
+        player.inventory.TryFindItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out ammo);
+        Debug.Log(ammo);
+        if (ammo != null && ammo.stack > 0)
         {
-            player.stateManager.TransitionStates(PlayerStates.Grappling);
+            if (player.stateManager.currentState.name == "PlayerGrapple")
+                return;
+
+            Vector2 mouseDir = (Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()) - player.GetPosition()).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(player.transform.position, mouseDir, player.grappleHookSettings.maxDistance, player.grappleHookSettings.grappleLayer);
+
+            if (hit.collider != null)
+            {
+                player.stateManager.TransitionStates(PlayerStates.Grappling);
+            }
+
+            player.inventory.UseItem(ammo.item);
         }
     }
 

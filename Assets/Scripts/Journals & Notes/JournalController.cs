@@ -43,7 +43,7 @@ public class JournalController : ItemController
 
     private void Start()
     {
-        player.playerInput.Player.Leave.performed += ctx => DisableJournal();
+        player.playerInput.Player.Leave.performed += ctx => ResetItem();
     }
 
     public override void SetupController(Player player, Item itemInInventory)
@@ -52,7 +52,6 @@ public class JournalController : ItemController
 
         nextButton.button.onClick.AddListener(() => CyclePages(currentPageIndex++));
         previousButton.button.onClick.AddListener(() => CyclePages(currentPageIndex--));
-
     }
 
     public override void UseItem()
@@ -97,21 +96,12 @@ public class JournalController : ItemController
         CyclePages(0);
     }
 
-    public void AddNewNote(string header, string author, string date, string contents)
-    {
-        /*/
-        Note newNote = new Note(author, date, header, contents);
-
-        if(notesInJournal.Contains(newNote) || notesInJournal.Count < maxNotesInJournal)
-        {
-            notesInJournal.Add(newNote);
-        }
-        /*/
-    }
-
-    private void DisableJournal()
+    public override void ResetItem()
     {
         if (state == JournalStates.Open)
+        {
             UseItem();
+            player.inventory.DeselectSlot(itemInInventory);
+        }
     }
 }

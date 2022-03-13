@@ -177,3 +177,4 @@ MonoBehaviour:
   startingRotation: {x: 0, y: 0, z: 0}
   baseItem: {fileID: 11400000, guid: 18041df6f9fcdfa4bb6377235ca3eb99, type: 2}
   lineRenderer: {fileID: 41985515659211868}
+  settings: {fileID: 11400000, guid: 90864b5babac11946894cf671ceef8ff, type: 2}

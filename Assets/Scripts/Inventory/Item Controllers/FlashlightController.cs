@@ -121,7 +121,10 @@ public class FlashlightController : ItemController
 
     private Vector3 GetFlashlightPosition()
     {
-        MovementState state = (MovementState)player.stateManager.GetCurrentState();
+        MovementState state = player.stateManager.currentState.name == "PlayerMovement" ? (MovementState)player.stateManager.currentState : null;
+
+        if (state == null)
+            return startingPosition;
 
         if (state != null)
         {

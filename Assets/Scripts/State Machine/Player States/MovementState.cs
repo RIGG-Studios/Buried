@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MovementState : State
 {
-    public Vector2 movementInput { get; private set; }
-    public Vector2 mouseDir { get; private set; }
+    private Vector2 movementInput = Vector2.zero;
+    private Vector2 mouseDir = Vector2.zero;
 
     private Camera camera = null;
     private PlayerCamera cameraController = null;
@@ -13,6 +13,7 @@ public class MovementState : State
     private Animator animator = null;
 
     private float stepCooldown = 0.0f;
+    private int dir = 0;
 
     public MovementState(Player player) : base("PlayerMovement", player)
     {
@@ -48,10 +49,30 @@ public class MovementState : State
             stepCooldown = settings.stepRate / GetMovementSpeed() / 2f;
         }
 
+        UpdatePlayerRotation();
+
         cameraController.SetOffset(mouseDir * settings.cameraOffset);
-        animator.SetInteger("Direction", GetDirection());
 
         stepCooldown -= Time.deltaTime;
+    }
+
+    private void UpdatePlayerRotation()
+    {
+        bool rotateWithMouse = player.itemManagement.CheckActiveController(ItemProperties.ItemTypes.Flashlight);
+
+        if (rotateWithMouse)
+        {
+            dir = GetDirection();
+        }
+        else
+        {
+            if (movementInput.x > 0) dir = 3;
+            if (movementInput.x < 0) dir = 1;
+            if (movementInput.y > 0) dir = 0;
+            if (movementInput.y < 0) dir = 2;
+        } 
+
+        animator.SetInteger("Direction", dir);
     }
 
     public override void UpdatePhysics()

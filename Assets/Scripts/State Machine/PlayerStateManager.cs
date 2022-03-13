@@ -87,6 +87,9 @@ public class PlayerStateManager : StateMachine
         {
             case "PlayerMovement":
                 return movementState;
+
+            case "PlayerGrapple":
+                return grappleState;
         }
 
         return null;

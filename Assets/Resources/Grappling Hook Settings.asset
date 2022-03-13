@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af32aafa82590d14395e2e26d4f7ca86, type: 3}
   m_Name: Grappling Hook Settings
   m_EditorClassIdentifier: 
-  speed: 10
-  maxDistance: 10
-  shootSpeed: 9
+  maxDistance: 8
+  shootSpeed: 7
   percision: 20
-  waveSize: 0.5
+  waveSize: 1
   launchSpeedMultiplier: 20
-  straightenLineSpeed: 5
+  straightenLineSpeed: 7
   ropeAnimationCurve:
     serializedVersion: 2
     m_Curve:
@@ -52,17 +51,17 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.31982362
       value: 0.3061403
-      inSlope: 0.088290215
-      outSlope: 0.088290215
+      inSlope: 0.32898912
+      outSlope: 0.32898912
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.5888662
-      value: 0.11606461
-      inSlope: -1.0723776
-      outSlope: -1.0723776
+      time: 0.7211904
+      value: 0.21579605
+      inSlope: -1.5196301
+      outSlope: -1.5196301
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -70,8 +69,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.9319966
       value: -0.37744814
-      inSlope: 2.0560818
-      outSlope: 2.0560818
+      inSlope: 1.3681303
+      outSlope: 1.3681303
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -103,8 +102,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -114,4 +113,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   grappleLayer:
     serializedVersion: 2
-    m_Bits: 18560
+    m_Bits: 16512

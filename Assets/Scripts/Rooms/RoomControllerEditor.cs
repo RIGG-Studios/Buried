@@ -7,6 +7,7 @@ public class RoomControllerEdidtor : Editor
 {
     public override void OnInspectorGUI()
     {
+        /*/
         RoomController controller = (RoomController)target;
 
         controller.room = (Room)EditorGUILayout.ObjectField("Room Properties: ", controller.room, typeof(Room), true);
@@ -28,6 +29,7 @@ public class RoomControllerEdidtor : Editor
                 obj.ApplyModifiedProperties();
             }
         }
+        /*/
     }
 }
 #endif

@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Flashlight
   itemDescription: A tool used for looking
-  itemType: 2
-  activateType: 0
+  itemType: 1
+  activateType: 1
   itemSprite: {fileID: 21300000, guid: 47de16b1135fde445a24b78c5c9a0349, type: 3}
   itemPrefab: {fileID: 7403624876181052576, guid: b1151148bca6edb41ba4c816fb240514,
     type: 3}
   controllable: 1
-  equipTime: 2
+  equipTime: 5
   stackable: 0
   stackAmount: 0
   button: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649, type: 3}

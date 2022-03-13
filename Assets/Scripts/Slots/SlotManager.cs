@@ -21,6 +21,7 @@ public class SlotManager : MonoBehaviour
     {
         bool success = false;
         item = null;
+
         if (index > slots.Count - 1 || index < 0)
         {
             item = null;
@@ -29,7 +30,6 @@ public class SlotManager : MonoBehaviour
 
         if (slots[index].hasItem)
         {
-            slots[index].UseItem();
             item = slots[index].item;
             success = true;
         }
@@ -57,6 +57,11 @@ public class SlotManager : MonoBehaviour
         {
             nextSlot.AddItem(baseSlot.item);
             baseSlot.ResetSlot();
+        }
+
+        if (baseSlot.selected)
+        {
+            nextSlot.SetColor(nextSlot.hColor, true);
         }
     }
 

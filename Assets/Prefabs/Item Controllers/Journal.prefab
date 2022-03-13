@@ -45,11 +45,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingPosition: {x: 0, y: 0, z: 0}
   startingRotation: {x: 0, y: 0, z: 0}
-  baseItem:
-    item: {fileID: 11400000, guid: a8d16a6172430334a8f443b4a249684a, type: 2}
-    stack: 0
+  baseItem: {fileID: 11400000, guid: a8d16a6172430334a8f443b4a249684a, type: 2}
   state: 1
   maxNotesInJournal: 5
   notesInJournal:
   - {fileID: 11400000, guid: 3adf15c1dfc46e64688dbebf98802cb0, type: 2}
-  - {fileID: 11400000, guid: 214fb43e9ab2cd14584e48b69fabd911, type: 2}
+  - {fileID: 0}
