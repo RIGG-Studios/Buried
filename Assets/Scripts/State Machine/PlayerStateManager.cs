@@ -5,6 +5,7 @@ using UnityEngine;
 //make an enum for all the possible states the player can be in
 public enum PlayerStates
 {
+    None,
     Movement,
     GrabbedByTentacle,
     Dead,
@@ -77,6 +78,17 @@ public class PlayerStateManager : StateMachine
         }
 
         //if nothing is found, return null
+        return null;
+    }
+
+    public State GetCurrentState()
+    {
+        switch (currentState.name)
+        {
+            case "PlayerMovement":
+                return movementState;
+        }
+
         return null;
     }
 }

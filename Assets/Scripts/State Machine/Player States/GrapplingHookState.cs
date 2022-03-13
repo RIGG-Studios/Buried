@@ -21,7 +21,11 @@ public class GrapplingHookState : State
 
 
     private Vector2 mouseDir = Vector2.zero;
-    private Vector2 grappleTarget = Vector2.zero;
+    private Vector3 grappleTarget = Vector2.zero;
+
+    private float moveTime;
+    private float waveSize;
+    private bool straighenLine;
 
     public GrapplingHookState(Player player) : base("PlayerGrapple", player)
     {
@@ -36,10 +40,12 @@ public class GrapplingHookState : State
     {
         if (grappleController == null)
         {
-            grappleController = (HookshotController)player.itemManagement.GetActiveController();
+            grappleController = (HookshotController)player.itemManagement.activeController;
 
             line = grappleController.GetLine();
         }
+
+        line.positionCount = settings.percision;
 
         Vector3 mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
         mouseDir = (mousePos - player.GetPosition()).normalized;
@@ -51,62 +57,79 @@ public class GrapplingHookState : State
             state = GrappleStates.Shooting;
             grappleTarget = hit.point;
             line.enabled = true;
-            line.positionCount = 2;
-
-            player.StartCoroutine(GrappleMovement());
         }
         else
         {
             player.stateManager.TransitionStates(PlayerStates.Movement);
         }
 
+        waveSize = settings.waveSize;
         player.collider.enabled = false;
     }
     public override void ExitState()
     {
         player.collider.enabled = true;
+        moveTime = 0.0f;
     }
 
     public override void UpdateLogic()
     {
+        moveTime += Time.deltaTime;
+
+        if(state == GrappleStates.Shooting)
+        {
+            if (line.GetPosition(settings.percision - 1).x != grappleTarget.x)
+                MoveLine();
+            else
+            {
+                state = GrappleStates.Retracting;
+            }
+        }
+
         if (state == GrappleStates.Retracting)
         {
-            Vector2 grapplePos = Vector2.Lerp(player.transform.position, grappleTarget, settings.speed * Time.deltaTime);
-            player.transform.position = grapplePos;
-
-            line.SetPosition(0, grappleController.GetPosition());
-
-            float dist = Vector3.Distance(player.GetPosition(), grappleTarget);
-
-            if (dist< 0.5f)
+            if(waveSize > 0)
             {
-                state = GrappleStates.None;
-                line.enabled = false;
+                waveSize -= Time.deltaTime * settings.straightenLineSpeed;
+                MoveLine();
+            }
+            else
+            {
+                MoveToTarget();
+                waveSize = 0;
 
-                player.stateManager.TransitionStates(PlayerStates.Movement);
+                float dist = Vector3.Distance(player.GetPosition(), grappleTarget);
+
+                if (dist < 0.5f)
+                {
+                    state = GrappleStates.None;
+                    line.enabled = false;
+
+                    player.stateManager.TransitionStates(PlayerStates.Movement);
+                }
             }
         }
     }
 
-    public IEnumerator GrappleMovement()
+    public void MoveLine()
     {
-        float t = 0;
-        float time = 10;
+        for (int i = 0; i < settings.percision; i++)
+        {
+            float delta = (float)i / ((float)settings.percision - 1f);
+            Vector2 offset = Vector2.Perpendicular(grappleController.GetPosition() - grappleTarget).normalized * settings.ropeAnimationCurve.Evaluate(delta) * waveSize;
+            Vector2 targetPosition = Vector2.Lerp(grappleController.GetPosition(), grappleTarget, delta) + offset;
+            Vector2 currentPosition = Vector2.Lerp(grappleController.GetPosition(), targetPosition, settings.ropeLaunchSpeedCurve.Evaluate(moveTime) * settings.launchSpeedMultiplier);
 
-        line.SetPosition(0, grappleController.GetPosition());
+            line.SetPosition(i, currentPosition);
+        }
+    }
+
+    private void MoveToTarget()
+    {
+        line.positionCount = 2;
+        line.SetPosition(0, grappleTarget);
         line.SetPosition(1, grappleController.GetPosition());
 
-        Vector2 nextPos;
-
-        for(; t < time; t += settings.shootSpeed * Time.deltaTime)
-        {
-            nextPos = Vector2.Lerp(grappleController.GetPosition(), grappleTarget, t / time);
-            line.SetPosition(0, grappleController.GetPosition());
-            line.SetPosition(1, nextPos);
-            yield return null;
-        }
-
-        line.SetPosition(1, grappleTarget);
-        state = GrappleStates.Retracting;
+        player.transform.position = Vector3.Lerp(player.transform.position, grappleTarget, Time.deltaTime * settings.shootSpeed);
     }
 }

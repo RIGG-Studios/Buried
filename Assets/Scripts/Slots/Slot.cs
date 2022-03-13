@@ -112,7 +112,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
             itemInput.enabled = true;
         }
 
-        if (item.item.useUIButtons)
+        if (item.item.inventoryButtons)
         {
             //if this item uses ui buttons, spawn them based on the database type
             if (isPlayer)
@@ -120,9 +120,12 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
                 //spawn inventory buttons
                 SpawnUIButtons(item.item.uiInventoryButtons);
             }
-            else
+        }
+
+        if (item.item.chestButtons)
+        {
+            if (!isPlayer)
             {
-                //spawn chest buttons
                 SpawnUIButtons(item.item.uiChestButtons);
             }
         }
@@ -146,7 +149,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
         for(int i = 0; i < properties.Length; i++)
         {
             //spawn a button
-            Button button = Instantiate(item.item.uiButton, uiButtonTransform).GetComponent<Button>();
+            Button button = Instantiate(item.item.button, uiButtonTransform).GetComponent<Button>();
             //set the text of the button to the property name
             button.GetComponentInChildren<Text>().text = properties[i].name;
             //add this button to the list of buttons

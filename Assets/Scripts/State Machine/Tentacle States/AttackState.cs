@@ -47,9 +47,10 @@ public class AttackState : State
 
         if (playerDistFromTentacle <= properties.lightDistance)
         {
+            /*/
             if (Game.instance.player.itemManagement.GetActiveController() != null)
             {
-                bool canGetScared = Game.instance.player.itemManagement.GetActiveController().baseItem.item.toolType == ItemProperties.WeaponTypes.Flashlight;
+                bool canGetScared = Game.instance.player.itemManagement.GetActiveController().baseItem.item.itemType == ItemProperties.ItemTypes.Flashlight;
 
                 if (canGetScared)
                 {
@@ -61,6 +62,7 @@ public class AttackState : State
                     }
                 }
             }
+            /*/
         }
 
         if (playerDistFromTentacle <= 1f)

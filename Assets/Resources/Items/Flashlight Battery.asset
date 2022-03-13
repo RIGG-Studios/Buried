@@ -15,29 +15,24 @@ MonoBehaviour:
   itemName: Battery
   itemDescription: Used to regenerate the flashlight.
   itemType: 3
+  activateType: 0
   itemSprite: {fileID: 21300000, guid: 138d625a02c0a224ca5ee893f935f09e, type: 3}
   itemPrefab: {fileID: 0}
+  controllable: 0
+  equipTime: 0
   stackable: 1
   stackAmount: 5
-  noteAuthor: 
-  noteDate: 
-  noteDescription: 
-  toolType: 1
-  damage: 2
-  wieldTime: 1
-  unWieldTime: 1
-  consumableType: 1
-  batteryCapacity: 500
-  batteryAmount: 300
-  healAmount: 0
-  useUIButtons: 1
-  uiButton: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649,
-    type: 3}
+  button: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649, type: 3}
+  inventoryButtons: 0
   uiInventoryButtons:
   - name: Use
     propertyType: 1
     propertyName: 
+  chestButtons: 1
   uiChestButtons:
   - name: Take
     propertyType: 3
     propertyName: 
+  author: 
+  date: 
+  noteSprite: {fileID: 0}

@@ -8,9 +8,12 @@ public class GrapplingHookSettings : ScriptableObject
     public float speed = 10f;
     public float maxDistance = 10f;
     public float shootSpeed = 20f;
+    public int percision = 20;
+    public float waveSize;
+    public float launchSpeedMultiplier;
+    public float straightenLineSpeed;
 
     public AnimationCurve ropeAnimationCurve;
-    public int percision = 20;
-
+    public AnimationCurve ropeLaunchSpeedCurve;
     public LayerMask grappleLayer;
 }

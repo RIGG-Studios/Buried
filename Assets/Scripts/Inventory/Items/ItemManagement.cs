@@ -7,139 +7,125 @@ using UnityEngine.InputSystem;
 //and is only used for the player, this class is seperate from the inventory.
 public class ItemManagement : MonoBehaviour
 {
-    //parent of spawned item controllers
-    [SerializeField] private Transform itemParent = null;
+    private Player player { get { return GetComponent<Player>(); } }
 
-    //list of all items controllers we have in the list
-    private List<ItemController> itemControllers = new List<ItemController>();
-    //item controller we are currently using
-    private ItemController activeItemController = null;
-    //reference to the player
-    private Player player = null;
+    [SerializeField] private Transform itemParent;
 
-    private void Awake()
-    {
-        player = GetComponent<Player>();
-    }
+    public ItemController activeController { get; private set; } 
+    private List<ItemController> allItems = new List<ItemController>();
+
+    private UIElementGroup equipGroup;
+    private SliderElement equipTimer;
+    private UIElement equipText;
+
+    private bool canUseItems;
 
     private void Start()
     {
-        //when we press any key that is under the Fire action, try and use the active item.
-        player.playerInput.Player.Fire.performed += ctx => UseActiveItem();
+        equipGroup = CanvasManager.instance.FindElementGroupByID("EquipGroup");
+
+        if(equipGroup != null)
+        {
+            equipTimer = (SliderElement)equipGroup.FindElement("flashlightslider");
+            equipText = equipGroup.FindElement("text");
+        }
+
+        player.playerInput.Player.Fire.performed += ctx => UseActiveController();
+        player.playerInput.Enable();
     }
 
-    public void UseActiveItem()
+    private void UseActiveController()
     {
-        //if we have no active item, dont use it.
-        if (activeItemController == null)
+        if (activeController == null || !canUseItems)
             return;
 
-        //use the current item controller.
-        activeItemController.UseItem();
+        activeController.UseItem();
     }
 
-    //method used for setting a new item controller, when we enable another item controller in the inventory, this method is called
-    //to reassign it to the next highlighted item.
-    public void SetNewItemController(ItemProperties props)
+    public void InitializeItemControllers(Item[] itemsToSpawn)
     {
-        //find the controller with the given properties
-        ItemController nextController = FindItemController(props);
+        if (itemsToSpawn.Length <= 0)
+            return;
 
-        //if we have found the next controller, and this controller is not the next controller
-        if (nextController && activeItemController != nextController)
+        for(int i = 0; i < itemsToSpawn.Length; i++)
         {
-            //check if we already have an active item controller, so we can disable it.
-            if (activeItemController)
-            {
-                //reset the item
-                activeItemController.ResetItem();
-                //set the color of the slot back to the default color.
-                activeItemController.baseItem.slot.SetColor(activeItemController.baseItem.slot.dColor);
-            }
-
-            //finally, assign the current controller to the next one
-            activeItemController = nextController;
+            OnNewItemAdded(itemsToSpawn[i]);
         }
     }
 
-    //Method used for setting up items with any starting items the player may have
-    public void SetupItemControllers(Item[] items)
+    public void SetNewActiveController(ItemProperties item)
     {
-        //loop through all the items
-        for(int i = 0; i < items.Length; i++)
+        if (activeController != null && item == activeController.baseItem)
+            return;
+
+        equipGroup.UpdateElements(0, 0, true);
+        equipTimer.SetMax(1.5f);
+        equipTimer.SetMin(0);
+        canUseItems = false;
+        StartCoroutine(EquipNewItem(item));
+    }
+
+    private IEnumerator EquipNewItem(ItemProperties nextItem)
+    {
+        float elapsedTime = 1.5f;
+
+        while (elapsedTime >= 0)
         {
-            //spawn them
-            SpawnItemController(items[i]);
-        }
-    }
-    private void SpawnItemController(Item item)
-    {
-        //create a new item controller
-        ItemController itm = Instantiate(item.item.itemPrefab, itemParent).GetComponent<ItemController>();
-        //set its position to the starting pos
-        itm.transform.localPosition = itm.startingPosition;
-        //set the rotation to the starting rot
-        itm.transform.localRotation = Quaternion.Euler(itm.startingRotation);
-        //set the base item to the next item
-        itm.baseItem = item;
-        //setup the controller
-        itm.SetupController(player);
-        //add it the the list
-        itemControllers.Add(itm);
-    }
-
-    //Method used to setup individual items or items added to the inventory via a chest.
-    public void SetupNewItem(Item item)
-    {
-        //spawn in a new item controller with the given item.
-        SpawnItemController(item);
-    }
-
-    //method used for removing item controllers. If the player ever loses an item, remove its controller aswell.
-    public void RemoveItem(ItemProperties item)
-    {
-        //find the controller
-        ItemController controller = FindItemController(item);
-
-        if(controller != null)
-        {
-            //remove & destroy it
-            itemControllers.Remove(controller);
-            Destroy(controller);
-        }
-    }
-
-
-    //method used for finding item controllers
-    public ItemController FindItemController(Item item)
-    {
-        //loop through all items
-        for(int i = 0; i < itemControllers.Count; i++)
-        {
-            //check if we found any that is the same as the item
-            if (item == itemControllers[i].baseItem)
-                return itemControllers[i];
+            equipTimer.OverrideValue(elapsedTime);
+            equipText.OverrideValue("Equipping " + nextItem.itemName +  " in: " + (int)elapsedTime);
+            elapsedTime -= Time.deltaTime * nextItem.equipTime;
+            yield return null;
         }
 
-        return null;
+        if (activeController)
+        {
+            activeController.itemInInventory.slot.SetColor(activeController.itemInInventory.slot.dColor);
+            activeController.ResetItem();
+        }
+        //set the color of the slot to the highlighted slot, because this slot is now activiated.
+        activeController = FindItemController(nextItem);
+        activeController.itemInInventory.slot.SetColor(activeController.itemInInventory.slot.hColor);
+        canUseItems = true;
+        equipGroup.UpdateElements(0, 0, false);
     }
 
+    public void OnNewItemAdded(Item item)
+    {
+        ItemController newItem = Instantiate(item.item.itemPrefab, itemParent).GetComponent<ItemController>();
 
-    //same method as above, but use the ItemProperties instead
+        if(newItem != null)
+        {
+            newItem.transform.localPosition = newItem.startingPosition;
+            newItem.transform.localRotation = Quaternion.Euler(newItem.startingRotation);
+
+            newItem.SetupController(player, item);
+            allItems.Add(newItem);
+        }
+    }
+
+    public bool OnItemRemoved(ItemProperties item)
+    {
+        ItemController itemToRemove = FindItemController(item);
+
+        if(itemToRemove != null)
+        {
+            allItems.Remove(itemToRemove);
+            Destroy(itemToRemove.gameObject);
+
+            return true;
+        }
+
+        return false;
+    }
+
     public ItemController FindItemController(ItemProperties item)
     {
-        for (int i = 0; i < itemControllers.Count; i++)
+        for(int i = 0; i < allItems.Count; i++)
         {
-            if (item == itemControllers[i].baseItem.item)
-                return itemControllers[i];
+            if (item == allItems[i].baseItem)
+                return allItems[i];
         }
 
         return null;
-    }
-
-    //method used for finding the active controller.
-    public ItemController GetActiveController()
-    {
-        return activeItemController;
     }
 }

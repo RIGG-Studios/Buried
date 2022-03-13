@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class SlotManager : MonoBehaviour
 {
-    [SerializeField] private Color slotDefaultColor;
-    [SerializeField] private Color slotHighlightedColor;
-
     private List<Slot> slots = new List<Slot>();
 
     public void SetupSlots(int size, Transform slotGrid, GameObject slotPrefab, bool isPlayer)

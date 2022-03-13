@@ -11,8 +11,15 @@ public enum FlashlightStates
 
 public class FlashlightController : ItemController
 {
+    [Header("Flashlight Positions")]
+    [SerializeField] private Vector3 moveRightPosition = Vector3.zero;
+    [SerializeField] private Vector3 moveLeftPosition = Vector3.zero;
+    [SerializeField] private Vector3 moveUpPosition = Vector3.zero;
+    [SerializeField] private Vector3 moveDownPosition = Vector3.zero;
+
     [SerializeField] private FlashlightStates state = FlashlightStates.Off;
     [SerializeField] private FlashlightSettings settings;
+
 
     private Battery currentBattery = null;
     private Light2D lightSource = null;
@@ -75,6 +82,13 @@ public class FlashlightController : ItemController
 
     private void Update()
     {
+        transform.localPosition = Vector3.Lerp(transform.localPosition, GetFlashlightPosition(), Time.deltaTime * 10f);
+
+        UpdateFlashlight();
+    }
+
+    private void UpdateFlashlight()
+    {
         if (currentBattery == null || state == FlashlightStates.Off)
             return;
 
@@ -84,7 +98,7 @@ public class FlashlightController : ItemController
 
         flashlightSlider.OverrideValue(currentLightIntensity);
 
-        if(currentLightIntensity < settings.minIntensity)
+        if (currentLightIntensity < settings.minIntensity)
         {
             DisableItem();
         }
@@ -103,6 +117,33 @@ public class FlashlightController : ItemController
     public FlashlightStates GetState()
     {
         return state;
+    }
+
+    private Vector3 GetFlashlightPosition()
+    {
+        MovementState state = (MovementState)player.stateManager.GetCurrentState();
+
+        if (state != null)
+        {
+            int dir = state.GetDirection();
+
+            switch (dir)
+            {
+                case 0:
+                    return moveUpPosition;
+
+                case 1:
+                    return moveLeftPosition;
+
+                case 2:
+                    return moveDownPosition;
+
+                case 3:
+                    return moveRightPosition;
+            }
+        }
+
+        return startingPosition;
     }
 }
 

@@ -167,13 +167,13 @@ public class ItemDatabase : MonoBehaviour
         return item;
     }
 
-    public Item FindItem(ItemProperties.WeaponTypes weaponType)
+    public Item FindItem(ItemProperties.ItemTypes itemType)
     {
         Item item = null;
 
         for (int i = 0; i < items.Count; i++)
         {
-            if (weaponType == items[i].item.toolType)
+            if (itemType == items[i].item.itemType)
             {
                 item = items[i];
                 break;
@@ -183,30 +183,13 @@ public class ItemDatabase : MonoBehaviour
         return item;
     }
 
-    public Item FindItem(ItemProperties.ConsumableTypes consumableTypes)
-    {
-        Item item = null;
-
-        for (int i = 0; i < items.Count; i++)
-        {
-            if (consumableTypes == items[i].item.consumableType)
-            {
-                item = items[i];
-                break;
-            }
-        }
-
-        return item;
-    }
-
-    //method used to finding all tools in a database
-    public Item[] FindAllTools()
+    public Item[] FindAllControllableItems()
     {
         List<Item> items = new List<Item>();
 
         for (int i = 0; i < this.items.Count; i++)
         {
-            if (this.items[i].item.toolType != ItemProperties.WeaponTypes.None)
+            if (this.items[i].item.controllable)
             {
                 items.Add(this.items[i]);
                 break;
@@ -216,22 +199,6 @@ public class ItemDatabase : MonoBehaviour
         return items.ToArray();
     }
 
-    //method used for finding all consumables in a database
-    public Item[] FindAllConsumables()
-    {
-        List<Item> items = new List<Item>();
-
-        for (int i = 0; i < this.items.Count; i++)
-        {
-            if (this.items[i].item.consumableType != ItemProperties.ConsumableTypes.None)
-            {
-                items.Add(this.items[i]);
-                break;
-            }
-        }
-
-        return items.ToArray();
-    }
 
     //method used for trying to enable a slot, since slots have items in it we want to be able to interact with those items. So we every time we press a button that relates
     //to a certain slot, like (1,2,3,4,5,6) find the slot the relates and check if it has an item that can be activated like a flashlight, or hookshot. 

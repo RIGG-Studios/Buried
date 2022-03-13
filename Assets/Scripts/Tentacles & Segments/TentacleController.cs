@@ -289,5 +289,10 @@ public class TentacleController : MonoBehaviour
     {
         return (spawner.spawnPoint - Game.instance.player.GetPosition()).magnitude;
     }
+
+    public NavMeshAgent GetAgent()
+    {
+        return agent;
+    }
 }
 

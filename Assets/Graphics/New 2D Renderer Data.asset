@@ -27,14 +27,14 @@ MonoBehaviour:
       additive: 0
   - name: Blend Style 1
     maskTextureChannel: 1
-    renderTextureScale: 0.5
+    renderTextureScale: 0.598
     blendMode: 1
     customBlendFactors:
       multiplicative: 0
       additive: 0
   - name: Blend Style 2
     maskTextureChannel: 0
-    renderTextureScale: 0.5
+    renderTextureScale: 0.492
     blendMode: 1
     customBlendFactors:
       multiplicative: 0

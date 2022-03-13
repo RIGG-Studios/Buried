@@ -18,9 +18,6 @@ public class GameEvents
     public delegate void PlayAudio(string audio);
     public static PlayAudio OnPlayAudio;
 
-    public delegate void ToggleFlashlight(bool state);
-    public static ToggleFlashlight OnToggleFlashlight;
-
     public delegate void PlayerLootChest();
     public static PlayerLootChest OnSearchChest;
 
@@ -29,4 +26,7 @@ public class GameEvents
 
     public delegate void PlayerUseItem(ItemProperties item);
     public static PlayerUseItem OnPlayerUseItem;
+
+    public delegate void PlayerEnterNewRoom(Room room);
+    public static PlayerEnterNewRoom OnPlayerEnterRoom;
 }

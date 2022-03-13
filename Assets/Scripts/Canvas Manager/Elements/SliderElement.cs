@@ -18,4 +18,14 @@ public class SliderElement : UIElement
         float value = (float)message;
         slider.value = value;
     }
+
+    public void SetMax(float max)
+    {
+        slider.maxValue = max;
+    }
+
+    public void SetMin(float min)
+    {
+        slider.minValue = min;
+    }
 }

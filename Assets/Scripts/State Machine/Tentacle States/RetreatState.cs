@@ -12,6 +12,7 @@ public class RetreatState : State
     public override void EnterState()
     {
         stateManager = controller.stateManager;
+        controller.GetAgent().speed = 10f;
 
         GameEvents.OnTentacleRetreat.Invoke(controller);
         GameEvents.OnPlayerDie += OnPlayerDead;
@@ -19,6 +20,7 @@ public class RetreatState : State
 
     public override void ExitState()
     {
+        controller.GetAgent().speed = 4.75f;
         controller.ResetTentacle();
         retreatTimer = 0.0f;
         GameEvents.OnPlayerDie -= OnPlayerDead;

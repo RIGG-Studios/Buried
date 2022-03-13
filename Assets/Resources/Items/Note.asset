@@ -15,21 +15,18 @@ MonoBehaviour:
   itemName: 
   itemDescription: 
   itemType: 2
+  activateType: 0
   itemSprite: {fileID: 0}
   itemPrefab: {fileID: 0}
+  controllable: 0
+  equipTime: 0
   stackable: 0
   stackAmount: 0
-  noteAuthor: 
-  noteDate: 
-  noteDescription: 
-  damage: 0
-  wieldTime: 0
-  unWieldTime: 0
-  consumableType: 0
-  batteryAmount: 0
-  healAmount: 0
-  useInventoryButtons: 1
-  uiButton: {fileID: 0}
-  uiButtons:
-  - name: View Note
-  - name: Drop Note
+  button: {fileID: 0}
+  inventoryButtons: 0
+  uiInventoryButtons: []
+  chestButtons: 0
+  uiChestButtons: []
+  author: 
+  date: 
+  noteSprite: {fileID: 0}

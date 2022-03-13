@@ -28,6 +28,7 @@ public class JournalController : ItemController
     private void Awake()
     {
         noteGroup = CanvasManager.instance.FindElementGroupByID("Journal");
+
         if(noteGroup != null)
         {
             noteHeader = noteGroup.FindElement("header");
@@ -45,9 +46,9 @@ public class JournalController : ItemController
         player.playerInput.Player.Leave.performed += ctx => DisableJournal();
     }
 
-    public override void SetupController(Player player)
+    public override void SetupController(Player player, Item itemInInventory)
     {
-        base.SetupController(player);
+        base.SetupController(player, itemInInventory);
 
         nextButton.button.onClick.AddListener(() => CyclePages(currentPageIndex++));
         previousButton.button.onClick.AddListener(() => CyclePages(currentPageIndex--));
@@ -80,17 +81,12 @@ public class JournalController : ItemController
             index = notesInJournal.Count - 1;
         }
 
-        Debug.Log(index);
-        Debug.Log("gh");
-
         ItemProperties note = notesInJournal[index];
 
         if(note != null)
         {
             noteHeader.OverrideValue("NOTE HEADER");
-            noteDate.OverrideValue(note.noteDate);
-            noteAuthor.OverrideValue(note.noteAuthor);
-            noteDescription.OverrideValue(note.noteDescription);
+       //     noteDate.OverrideValue(note.);
         }
 
         currentPageIndex = index;

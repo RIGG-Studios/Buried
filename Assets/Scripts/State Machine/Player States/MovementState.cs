@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class MovementState : State
 {
-    private Vector2 movementInput = Vector2.zero;
-    private Vector2 mouseDir = Vector2.zero;
+    public Vector2 movementInput { get; private set; }
+    public Vector2 mouseDir { get; private set; }
 
     private Camera camera = null;
     private PlayerCamera cameraController = null;
@@ -33,8 +33,8 @@ public class MovementState : State
     public override void UpdateInput()
     {
         Vector3 mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
-        mouseDir = (mousePos - player.GetPosition()).normalized;
 
+        mouseDir = (mousePos - player.GetPosition()).normalized;
         movementInput = player.playerInput.Player.Move.ReadValue<Vector2>();
     }
 
@@ -49,7 +49,7 @@ public class MovementState : State
         }
 
         cameraController.SetOffset(mouseDir * settings.cameraOffset);
-        animator.SetInteger("Direction", Utilites.DirectionToIndex(mouseDir, 4));
+        animator.SetInteger("Direction", GetDirection());
 
         stepCooldown -= Time.deltaTime;
     }
@@ -64,5 +64,12 @@ public class MovementState : State
         float speed = settings.movementSpeed + player.paranoidManager.paranoidAmount * settings.movementParanoidMultiplier;
 
         return speed;
+    }
+
+    public int GetDirection()
+    {
+        int index = Utilites.DirectionToIndex(mouseDir, 4);
+
+        return index;
     }
 }

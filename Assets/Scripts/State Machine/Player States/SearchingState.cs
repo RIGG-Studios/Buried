@@ -24,8 +24,6 @@ public class SearchingState : State
 
     public override void UpdateInput()
     {
-
-
         movement = player.playerInput.Player.Move.ReadValue<Vector2>();
     }
 

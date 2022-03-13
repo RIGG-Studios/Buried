@@ -7,6 +7,13 @@ public class GrabPlayerState : State
     public override void EnterState()
     {
         GameEvents.OnPlayerGetGrabbed.Invoke(controller);
+
+        controller.GetAgent().speed = 10f;
+    }
+
+    public override void ExitState()
+    {
+        controller.GetAgent().speed = 4.75f;
     }
 
     public override void UpdateLogic()

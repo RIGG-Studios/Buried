@@ -8,6 +8,50 @@ public class ItemProperties : ScriptableObject
 {
     public enum ItemTypes
     {
+        Battery,
+        Flashlight,
+        GrapplingHook,
+        Journal,
+        Note
+    }
+
+    public enum ActivationTypes
+    {
+        OnSlotSelected,
+        RightMouseClick,
+        LeftMouseClick,
+        None
+    }
+
+    public string itemName;
+    public string itemDescription;
+    public ItemTypes itemType;
+    public ActivationTypes activateType;
+
+    public Sprite itemSprite;
+    public GameObject itemPrefab;
+
+    public bool controllable;
+    public float equipTime;
+
+    public bool stackable;
+    public int stackAmount;
+
+    public GameObject button;
+    public bool inventoryButtons;
+    public UIButtonProperties[] uiInventoryButtons;
+    public bool chestButtons;
+    public UIButtonProperties[] uiChestButtons;
+
+    //note
+    public string author;
+    public string date;
+    public Sprite noteSprite;
+
+
+    /*/
+    public enum ItemTypes
+    {
         None,
         Note,
         Tool,
@@ -39,10 +83,7 @@ public class ItemProperties : ScriptableObject
     public int stackAmount;
 
     //note properties
-    public string noteAuthor;
-    public string noteDate;
-    [TextArea]
-    public string noteDescription;
+    public Sprite note = null;
 
     //weapon properties
     public WeaponTypes toolType;
@@ -60,6 +101,7 @@ public class ItemProperties : ScriptableObject
     public GameObject uiButton;
     public UIButtonProperties[] uiInventoryButtons;
     public UIButtonProperties[] uiChestButtons;
+    /*/
 }
 
 [System.Serializable]

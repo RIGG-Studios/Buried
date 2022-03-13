@@ -11,8 +11,8 @@ public class PlayerInventory : ItemDatabase
 
     //reference to the slot info
     [Header("Slots")]
-    [SerializeField] private Transform slotGrid = null;
     [SerializeField] private GameObject slotPrefab;
+    [SerializeField] private Transform slotGrid = null;
 
     //reference to the inventory info
     [Header("Inventory")]
@@ -27,7 +27,7 @@ public class PlayerInventory : ItemDatabase
         //if it was succesfull, setup the item controllers that the starting items may or may not of contained
         if (initialized)
         {
-            player.itemManagement.SetupItemControllers(FindAllTools());
+            player.itemManagement.InitializeItemControllers(FindAllControllableItems());
         }
 
         //add input response to the slot #
@@ -55,13 +55,11 @@ public class PlayerInventory : ItemDatabase
         bool success = TryEnableSlot(i, out item);
 
         //if we are succesfull and the output item is a tool, meaning it will have a controller
-        if (success && item.item.itemType == ItemProperties.ItemTypes.Tool)
+        if (success && item.item.controllable)
         {
             //set a new active controller in the item management class
-            player.itemManagement.SetNewItemController(item.item);
+            player.itemManagement.SetNewActiveController(item.item);
 
-            //set the color of the slot to the highlighted slot, because this slot is now activiated.
-            item.slot.SetColor(item.slot.hColor);
         }
     }
 
@@ -81,18 +79,22 @@ public class PlayerInventory : ItemDatabase
     public void UseItem(ItemProperties item)
     {
         //if the item we are trying to use is a battery, meaning we are trying to update the flashlight battery
-        if (item.consumableType == ItemProperties.ConsumableTypes.Battery) 
+        if (item.itemType == ItemProperties.ItemTypes.Battery) 
         {
             //find the flashlight item controller
-            ItemController controller = player.itemManagement.FindItemController(FindItem(ItemProperties.WeaponTypes.Flashlight));
-            //cast it to the flashlight controller class
-            FlashlightController flashLight = (FlashlightController)controller;
+            ItemController controller = player.itemManagement.FindItemController(FindItem(ItemProperties.ItemTypes.Flashlight).item);
+            Debug.Log(controller);
+            if (controller != null)
+            {
+                //cast it to the flashlight controller class
+                FlashlightController flashLight = (FlashlightController)controller;
 
-            //set a new battery 
-            flashLight.SetNewBattery(new Battery(100f, 5));
+                //set a new battery 
+                flashLight.SetNewBattery(new Battery(100f, 5));
 
-            //remove the item from the list as we just used one of them.
-            RemoveItem(item, 1);
+                //remove the item from the list as we just used one of them.
+                RemoveItem(item, 1);
+            }
         }
     }
 
@@ -111,10 +113,10 @@ public class PlayerInventory : ItemDatabase
         Item addItem = base.AddItem(itemProperties, amount);
         
         //check if the database succesfully added the item to its list, and then check if the item we are adding is a tool
-        if (addItem != null && itemProperties.itemType == ItemProperties.ItemTypes.Tool)
+        if (addItem != null && itemProperties.controllable)
         {
             //if so, setup a new item in the item management
-            player.itemManagement.SetupNewItem(addItem);
+            player.itemManagement.OnNewItemAdded(addItem);
         }
 
         //return the added item
@@ -127,10 +129,10 @@ public class PlayerInventory : ItemDatabase
         bool removeItem = base.RemoveItem(itemProperties, amount);
 
         //check if the database succesfully added the item to its list, and then check if the item we are adding is a tool
-        if (removeItem && itemProperties.itemType == ItemProperties.ItemTypes.Tool)
+        if (removeItem && itemProperties.controllable)
         {           
             //if so, remove the item from the item management class
-            player.itemManagement.RemoveItem(itemProperties);
+            player.itemManagement.OnItemRemoved(itemProperties);
         }
 
         return removeItem;

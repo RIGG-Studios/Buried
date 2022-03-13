@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddcf3dd8afd489c45a9112ece4e488bb, type: 3}
   m_Name: Flashlight Settings
   m_EditorClassIdentifier: 
-  maxIntensity: 1.2
-  minIntensity: 0.1
+  maxIntensity: 2.58
+  minIntensity: 0.6
