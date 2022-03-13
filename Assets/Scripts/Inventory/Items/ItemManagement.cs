@@ -26,7 +26,7 @@ public class ItemManagement : MonoBehaviour
 
         if(equipGroup != null)
         {
-            equipTimer = (SliderElement)equipGroup.FindElement("flashlightslider");
+            equipTimer = (SliderElement)equipGroup.FindElement("slider");
             equipText = equipGroup.FindElement("text");
         }
 

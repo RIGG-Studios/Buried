@@ -16,12 +16,9 @@ public class JournalController : ItemController
     public List<ItemProperties> notesInJournal = new List<ItemProperties>();
     private int currentPageIndex = 0;
 
-
     private UIElementGroup noteGroup = null;
     private UIElement noteHeader = null;
-    private UIElement noteDate = null;
-    private UIElement noteAuthor = null;
-    private UIElement noteDescription = null;
+    private UIElement noteContents = null;
     private ButtonElements nextButton = null;
     private ButtonElements previousButton = null;
 
@@ -32,10 +29,7 @@ public class JournalController : ItemController
         if(noteGroup != null)
         {
             noteHeader = noteGroup.FindElement("header");
-            noteDate = noteGroup.FindElement("date");
-            noteAuthor = noteGroup.FindElement("author");
-            noteDescription = noteGroup.FindElement("contents");
-
+            noteContents = noteGroup.FindElement("contents");
             nextButton = (ButtonElements)noteGroup.FindElement("nextbutton");
             previousButton = (ButtonElements)noteGroup.FindElement("previousbutton");
         }
@@ -50,8 +44,8 @@ public class JournalController : ItemController
     {
         base.SetupController(player, itemInInventory);
 
-        nextButton.button.onClick.AddListener(() => CyclePages(currentPageIndex++));
-        previousButton.button.onClick.AddListener(() => CyclePages(currentPageIndex--));
+        nextButton.button.onClick.AddListener(() => CyclePages(1));
+        previousButton.button.onClick.AddListener(() => CyclePages(-1));
     }
 
     public override void UseItem()
@@ -69,26 +63,34 @@ public class JournalController : ItemController
         }
     }
 
-    private void CyclePages(int index)
+    private void CyclePages(int amount)
     {
-        if(index > notesInJournal.Count)
-        {
-            index = 0;
-        }
-        else if(index < 0)
-        {
-            index = notesInJournal.Count - 1;
-        }
+        if (notesInJournal.Count <= 0)
+            return;
 
-        ItemProperties note = notesInJournal[index];
+        currentPageIndex += amount;
+
+        if (currentPageIndex > notesInJournal.Count - 1)
+            currentPageIndex = 0;
+        else if (currentPageIndex < 0)
+            currentPageIndex = notesInJournal.Count - 1;
+
+        ItemProperties note = notesInJournal[currentPageIndex];
 
         if(note != null)
         {
-            noteHeader.OverrideValue("NOTE HEADER");
-       //     noteDate.OverrideValue(note.);
+            noteContents.SetActive(true);
+            noteHeader.OverrideValue("Note " + (currentPageIndex + 1));
+            noteContents.OverrideValue(note.noteSprite);
         }
+    }
 
-        currentPageIndex = index;
+    public void AddNote(ItemProperties note)
+    {
+        if (notesInJournal.Contains(note))
+            return;
+
+        notesInJournal.Add(note);
     }
 
     private void LoadNotes()

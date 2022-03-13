@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0007f82fef1d654dbea3c205e5c2b5f, type: 3}
-  m_Name: Note
+  m_Name: Note 2
   m_EditorClassIdentifier: 
-  itemName: Note 1
+  itemName: Note 2
   itemDescription: A note found in a chest
   itemType: 4
   activateType: 0
@@ -22,14 +22,11 @@ MonoBehaviour:
   equipTime: 0
   stackable: 0
   stackAmount: 0
-  button: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649, type: 3}
+  button: {fileID: 0}
   inventoryButtons: 0
   uiInventoryButtons: []
-  chestButtons: 1
-  uiChestButtons:
-  - name: Take
-    propertyType: 3
-    propertyName: 
+  chestButtons: 0
+  uiChestButtons: []
   author: 
   date: 
-  noteSprite: {fileID: 21300062, guid: b3aa8d53e9925b74cae2f85b987dcbdc, type: 3}
+  noteSprite: {fileID: 21300208, guid: b3aa8d53e9925b74cae2f85b987dcbdc, type: 3}

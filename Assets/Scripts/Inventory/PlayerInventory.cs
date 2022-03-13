@@ -137,10 +137,25 @@ public class PlayerInventory : ItemDatabase
         Item addItem = base.AddItem(itemProperties, amount);
         
         //check if the database succesfully added the item to its list, and then check if the item we are adding is a tool
-        if (addItem != null && itemProperties.controllable)
+        if (addItem != null)
         {
-            //if so, setup a new item in the item management
-            player.itemManagement.OnNewItemAdded(addItem);
+            if (itemProperties.controllable)
+            {
+                //if so, setup a new item in the item management
+                player.itemManagement.OnNewItemAdded(addItem);
+            }
+
+            if(itemProperties.itemType == ItemProperties.ItemTypes.Note)
+            {
+                ItemController controller = player.itemManagement.FindItemController(FindItem(ItemProperties.ItemTypes.Journal).item);
+
+                if (controller != null && HasItem(ItemProperties.ItemTypes.Journal))
+                {
+                    JournalController journal = (JournalController)controller;
+                    journal.AddNote(itemProperties);
+                    RemoveItem(addItem.item, 1);
+                }
+            }
         }
 
         //return the added item

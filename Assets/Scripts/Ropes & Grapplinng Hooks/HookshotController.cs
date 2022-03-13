@@ -12,7 +12,6 @@ public class HookshotController : ItemController
     {
         Item ammo = null;
         player.inventory.TryFindItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out ammo);
-        Debug.Log(ammo);
         if (ammo != null && ammo.stack > 0)
         {
             if (player.stateManager.currentState.name == "PlayerGrapple")

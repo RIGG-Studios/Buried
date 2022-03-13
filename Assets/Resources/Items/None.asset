@@ -22,11 +22,14 @@ MonoBehaviour:
   equipTime: 0
   stackable: 0
   stackAmount: 0
-  button: {fileID: 0}
+  button: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649, type: 3}
   inventoryButtons: 0
   uiInventoryButtons: []
-  chestButtons: 0
-  uiChestButtons: []
+  chestButtons: 1
+  uiChestButtons:
+  - name: Take
+    propertyType: 3
+    propertyName: 
   author: 
   date: 
   noteSprite: {fileID: 0}
