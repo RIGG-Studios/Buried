@@ -8,8 +8,6 @@ public class AttackState : State
 
     private bool detachedFromAnchor;
     private float attackTime;
-    private float wrapTime;
-    private float targetRotation;
 
     public AttackState(TentacleController controller) : base("Attack", controller) => this.controller = controller;
 
@@ -27,11 +25,11 @@ public class AttackState : State
     {
         detachedFromAnchor = false;
         attackTime = 0.0f;
-        wrapTime = 0.0f;
     }
 
     public override void UpdateLogic()
     {
+        Vector3 playerPos = Game.instance.player.GetPosition();
         float currentTentacleDistance = controller.GetDistanceBetweenEndPointAndAnchor();
 
         if (currentTentacleDistance >= 4 && !detachedFromAnchor)
@@ -47,62 +45,21 @@ public class AttackState : State
 
         if (playerDistFromTentacle <= properties.lightDistance)
         {
-            /*/
-            if (Game.instance.player.itemManagement.GetActiveController() != null)
-            {
-                bool canGetScared = Game.instance.player.itemManagement.GetActiveController().baseItem.item.itemType == ItemProperties.ItemTypes.Flashlight;
-
-                if (canGetScared)
-                {
-                    FlashlightController fCon = (FlashlightController)Game.instance.player.itemManagement.GetActiveController();
-
-                    if (fCon.GetState() == FlashlightStates.On)
-                    {
-                        stateManager.TransitionStates(TentacleStates.Retreat);
-                    }
-                }
-            }
-            /*/
         }
 
-        if (playerDistFromTentacle <= 1f)
+        if (playerDistFromTentacle <= properties.detectionRange)
         {
-            wrapTime += Time.deltaTime;
-
-            if (wrapTime > 0.75f)
-            {
-                stateManager.TransitionStates(TentacleStates.GrabPlayer);
-            }
-        }
-        else
-        {
-            wrapTime = 0.0f;
+            stateManager.TransitionStates(TentacleStates.GrabPlayer);
         }
 
         attackTime += Time.deltaTime;
 
-        controller.UpdateAgentPosition(Game.instance.player.GetPosition());
-
-
-        controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions();
+        controller.UpdateAgentPosition(playerPos);
+        controller.UpdateSegmentPositions(playerPos);
     }
-    public override void UpdateLateLogic()
+
+    public override void UpdatePhysics()
     {
-        controller.UpdateQueuedSegments();
+
     }
-
-    bool IsLookingAtLight(Vector3 targetPos, float FOVAngle)
-    {
-        // FOVAngle has to be less than 180
-        float dot = Vector3.Dot(controller.GetTentacleEndPoint(), (targetPos - controller.GetTentacleEndPoint()).normalized); // credit to fafase for this
-
-        float viewAngle = (1 - dot) * 90; // convert the dot product value into a 180 degree representation (or *180 if you don't divide by 2 earlier)
-
-        if (viewAngle <= 90f)
-            return true;
-        else
-            return false;
-    }
-
 }

@@ -40,7 +40,7 @@ public class GrapplingHookState : State
     {
         if (grappleController == null)
         {
-            grappleController = (HookshotController)player.itemManagement.activeController;
+            grappleController = (HookshotController)player.inventory.GetCurrentControllableItem();
 
             line = grappleController.GetLine();
         }

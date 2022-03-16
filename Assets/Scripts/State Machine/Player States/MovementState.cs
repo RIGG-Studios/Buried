@@ -58,19 +58,7 @@ public class MovementState : State
 
     private void UpdatePlayerRotation()
     {
-        bool rotateWithMouse = player.itemManagement.CheckActiveController(ItemProperties.ItemTypes.Flashlight);
-
-        if (rotateWithMouse)
-        {
-            dir = GetDirection();
-        }
-        else
-        {
-            if (movementInput.x > 0) dir = 3;
-            if (movementInput.x < 0) dir = 1;
-            if (movementInput.y > 0) dir = 0;
-            if (movementInput.y < 0) dir = 2;
-        } 
+        dir = GetDirection();
 
         animator.SetInteger("Direction", dir);
     }

@@ -56,7 +56,8 @@ public class Segment
         }
     }
 
-    //method for finding the next position this segment will travel to
+
+    
     public Vector2 UpdatePosition(Segment previousSegment, Vector2 targetDir, LayerMask wallLayer)
     {
         UpdateLength(targetDir);
@@ -69,7 +70,7 @@ public class Segment
         //the next position will be the origin + dir
         Vector2 position = origin + dir.normalized;
         //check for any walls the segment may collide with with a simple raycast in the direction we are travelling too
-        RaycastHit2D hit = Physics2D.Raycast(origin, dir, dir.magnitude, wallLayer);
+        RaycastHit2D hit = Physics2D.CircleCast(origin, 0.2f, dir, dir.magnitude, wallLayer);
 
         collided = hit.collider != null;
 

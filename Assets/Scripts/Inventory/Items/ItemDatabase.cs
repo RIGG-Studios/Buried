@@ -16,6 +16,7 @@ public class ItemDatabase : MonoBehaviour
     
     //list of items in the database
     protected List<Item> items = new List<Item>();
+    private int inventoySize;
 
     private void Awake()
     {
@@ -28,12 +29,17 @@ public class ItemDatabase : MonoBehaviour
         //setup the slots with the given arguments
         slotManager.SetupSlots(inventorySize, slotGrid, slotPrefab, isPlayer);
 
+        inventoySize = inventorySize;
+
         //if we have given any starting items, like chest loot or starting items for the player, follow through
         if (startingItems.Length > 0)
         {
             //loop through all the starting items
             for(int i = 0; i < startingItems.Length; i++)
             {
+                if (isPlayer && startingItems[i].item.controllable)
+                    continue;
+
                 //add them to the inventory
                 AddItem(startingItems[i].item, startingItems[i].stack);
             }
@@ -50,6 +56,9 @@ public class ItemDatabase : MonoBehaviour
     //method used for adding in items, taking in the item properties and the amount, and returning an new Item that the inventory uses.
     public virtual Item AddItem(ItemProperties itemProperties, int amount)
     {
+        if (items.Count >= inventoySize)
+            return null;
+
         //check if we already have this item in the inventory
         if (HasItem(itemProperties))
         {
@@ -243,6 +252,7 @@ public class ItemDatabase : MonoBehaviour
     {
         return items.ToArray();
     }
+
 }
 
 //This class is used for local items, so we can track its stack, slot, and item properties.

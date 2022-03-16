@@ -25,13 +25,11 @@ public class GrabPlayerState : State
         if (dist > 5f)
             controller.stateManager.TransitionStates(TentacleStates.Retreat);
 
-        controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions();
-        controller.UpdateQueuedSegments();
+        controller.UpdateSegmentPositions(controller.GetAgentPosition());
     }
 
     public override void UpdateLateLogic()
     {
-        controller.UpdateQueuedSegments();
+     //   controller.UpdateQueuedSegments();
     }
 }

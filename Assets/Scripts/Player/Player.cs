@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 [RequireComponent(typeof(PlayerStateManager))]
 public class Player : MonoBehaviour
@@ -29,6 +30,8 @@ public class Player : MonoBehaviour
     public ItemManagement itemManagement;
     [HideInInspector]
     public PlayerVitals vitals;
+    [HideInInspector]
+    public Light2D defaultLight;
 
     public Collider2D collider
     {
@@ -51,6 +54,7 @@ public class Player : MonoBehaviour
         playerInteraction = GetComponent<PlayerInteractionManager>();
         itemManagement = GetComponent<ItemManagement>();
         vitals = GetComponent<PlayerVitals>();
+        defaultLight = GetComponentInChildren<Light2D>();
     }
 
     private void OnEnable()

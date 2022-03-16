@@ -27,8 +27,6 @@ public class ScaredState : State
 
     public override void UpdatePhysics()
     {
-        controller.UpdateSegmentCount();
-        controller.UpdateSegmentPositions();
-        controller.UpdateAgentTrackedPositions();
+        controller.UpdateSegmentPositions(controller.GetAnchorPosition());
     }
 }

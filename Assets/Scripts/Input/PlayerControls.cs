@@ -113,6 +113,22 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ScrollUp"",
+                    ""type"": ""Value"",
+                    ""id"": ""078e7e15-bfb9-4aca-add9-59082b9d763a"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""ScrollDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""c0af5072-f510-46d7-93c8-77c5322567ba"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -399,6 +415,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1773e864-8686-4914-a30d-b0b6d41c27c6"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ScrollUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8de26fc7-58bf-41e3-8886-2fdc0d2200cd"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -988,6 +1026,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Slot5 = m_Player.FindAction("Slot5", throwIfNotFound: true);
         m_Player_Slot6 = m_Player.FindAction("Slot6", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_ScrollUp = m_Player.FindAction("ScrollUp", throwIfNotFound: true);
+        m_Player_ScrollDown = m_Player.FindAction("ScrollDown", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1061,6 +1101,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Slot5;
     private readonly InputAction m_Player_Slot6;
     private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_ScrollUp;
+    private readonly InputAction m_Player_ScrollDown;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -1077,6 +1119,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Slot5 => m_Wrapper.m_Player_Slot5;
         public InputAction @Slot6 => m_Wrapper.m_Player_Slot6;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @ScrollUp => m_Wrapper.m_Player_ScrollUp;
+        public InputAction @ScrollDown => m_Wrapper.m_Player_ScrollDown;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1122,6 +1166,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @ScrollUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollUp;
+                @ScrollUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollUp;
+                @ScrollUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollUp;
+                @ScrollDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollDown;
+                @ScrollDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollDown;
+                @ScrollDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollDown;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1162,6 +1212,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @ScrollUp.started += instance.OnScrollUp;
+                @ScrollUp.performed += instance.OnScrollUp;
+                @ScrollUp.canceled += instance.OnScrollUp;
+                @ScrollDown.started += instance.OnScrollDown;
+                @ScrollDown.performed += instance.OnScrollDown;
+                @ScrollDown.canceled += instance.OnScrollDown;
             }
         }
     }
@@ -1330,6 +1386,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnSlot5(InputAction.CallbackContext context);
         void OnSlot6(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnScrollUp(InputAction.CallbackContext context);
+        void OnScrollDown(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

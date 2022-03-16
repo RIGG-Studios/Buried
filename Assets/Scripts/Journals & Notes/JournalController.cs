@@ -37,7 +37,7 @@ public class JournalController : ItemController
 
     private void Start()
     {
-        player.playerInput.Player.Leave.performed += ctx => ResetItem();
+    //    player.playerInput.Player.Leave.performed += ctx => ResetItem();
     }
 
     public override void SetupController(Player player, Item itemInInventory)

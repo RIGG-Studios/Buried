@@ -12,5 +12,6 @@ public class TentacleProperties : ScriptableObject
     public int tentacleSegments;
     public float lengthBetweenSegments;
     public float hitOffset;
-    public float rotateAngle;
+    public float detectionRange;
+    public float rotationAmount;
 }

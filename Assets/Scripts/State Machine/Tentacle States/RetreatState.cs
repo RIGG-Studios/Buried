@@ -35,12 +35,8 @@ public class RetreatState : State
 
         if (distance <= 1f || retreatTimer >= 10f)
            stateManager.TransitionStates(TentacleStates.Idle);
-    }
 
-    public override void UpdateLateLogic()
-    {
-        controller.UpdateSegmentPositions();
-        controller.UpdateAgentTrackedPositions();
+        controller.UpdateSegmentPositions(controller.GetAgentPosition());
     }
 
     public void OnPlayerDead()

@@ -16,6 +16,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
 
     //reference to the item info UI, when we hover over the item these ui properties will show up
     [Header("Item Info")]
+    [SerializeField] private bool controllableItemSlot = false;
     [SerializeField] private Transform itemInfoTransform = null;
     [SerializeField] private Text itemName = null;
     [SerializeField] private Text itemDescription = null;
@@ -119,7 +120,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
             itemInput.enabled = true;
         }
 
-        if (item.item.inventoryButtons)
+        if (item.item.inventoryButtons && !controllableItemSlot)
         {
             //if this item uses ui buttons, spawn them based on the database type
             if (isPlayer)
@@ -129,7 +130,7 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
             }
         }
 
-        if (item.item.chestButtons)
+        if (item.item.chestButtons && !controllableItemSlot)
         {
             if (!isPlayer)
             {

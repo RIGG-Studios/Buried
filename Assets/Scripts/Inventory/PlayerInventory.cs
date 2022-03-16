@@ -12,12 +12,18 @@ public class PlayerInventory : ItemDatabase
     //reference to the slot info
     [Header("Slots")]
     [SerializeField] private GameObject slotPrefab;
+    [SerializeField] private Slot currentItemSlot = null;
     [SerializeField] private Transform slotGrid = null;
 
     //reference to the inventory info
     [Header("Inventory")]
     [SerializeField, Range(0, 10)] private int inventorySize;
+    [SerializeField] private Transform itemParent;
     [SerializeField] private List<Item> startingItems = new List<Item>();
+
+    private List<ItemController> controllableItems = new List<ItemController>();
+    private ItemController currentControllableItem = null;
+    private int currentItemIndex = 0;
 
     public void Start()
     {
@@ -27,7 +33,21 @@ public class PlayerInventory : ItemDatabase
         //if it was succesfull, setup the item controllers that the starting items may or may not of contained
         if (initialized)
         {
-            player.itemManagement.InitializeItemControllers(FindAllControllableItems());
+            Item[] props = startingItems.ToArray();
+
+            for (int i = 0; i < props.Length; i++)
+            {
+                ItemController obj = Instantiate(props[i].item.itemPrefab, itemParent).GetComponent<ItemController>();
+
+                if (obj != null)
+                {
+                    obj.transform.localPosition = obj.startingPosition;
+                    obj.transform.localRotation = Quaternion.Euler(obj.startingRotation);
+                    obj.SetupController(player, props[i]);
+
+                    controllableItems.Add(obj);
+                }
+            }
         }
 
         //add input response to the slot #
@@ -43,22 +63,65 @@ public class PlayerInventory : ItemDatabase
         //add input response to the slot #
         player.playerInput.Player.Slot5.performed += ctx => EnableSlot(5);
 
+        player.playerInput.Player.Fire.performed += ctx => UseCurrentControllableItem();
+
         //Find the UI from the canvas manager and update it to show on the screen.
         CanvasManager.instance.FindElementGroupByID("PlayerInventory").UpdateElements(0, 0, true);
+
+        SwitchItems(0);
     }
 
-    //method used for enabling slots
+    private void Update()
+    {
+        float scroll = player.playerInput.Player.ScrollUp.ReadValue<float>();
+
+        if (scroll >= 1f)
+        {
+            SwitchItems(1);
+        }
+        else if (scroll <= -1f)
+        {
+            SwitchItems(-1);
+        }      
+    }
+
+    private void UseCurrentControllableItem()
+    {
+        if (currentControllableItem == null)
+            return;
+
+        currentControllableItem.UseItem();
+    }
+
+    private void SwitchItems(int i)
+    {
+        currentItemIndex += i;
+
+        if (currentItemIndex > controllableItems.Count - 1)
+            currentItemIndex = 0;
+        else if (currentItemIndex < 0)
+            currentItemIndex = controllableItems.Count - 1;
+
+        ItemController nextController = controllableItems[currentItemIndex];
+
+        if(nextController != null)
+        {
+            if(currentControllableItem != null)
+                currentControllableItem.ResetItem();
+
+            currentControllableItem = nextController;
+            currentItemSlot.AddItem(currentControllableItem.itemInInventory);
+        }
+        else
+        {
+            currentItemSlot.ResetSlot();
+        }
+    }
+
     private void EnableSlot(int i)
     {
-        //try to enable the that relates to i, if we are succesfull store the item the slot has in the Item var.
         Item item = null;
         bool success = TryEnableSlot(i, out item);
-        //if we are succesfull and the output item is a tool, meaning it will have a controller
-        if (success && item.item.controllable)
-        {
-            //set a new active controller in the item management class
-            player.itemManagement.SetNewActiveController(item.item.itemType);
-        }
 
         if(success && !item.item.controllable && item.item.activateType == ItemProperties.ActivationTypes.OnSlotSelected)
         {
@@ -72,7 +135,6 @@ public class PlayerInventory : ItemDatabase
 
         if (slot != null && slot.selected)
         {
-            player.itemManagement.SetNewActiveController(null);
             slot.SetColor(slot.dColor, false);
         }
     }
@@ -95,85 +157,56 @@ public class PlayerInventory : ItemDatabase
         //if the item we are trying to use is a battery, meaning we are trying to update the flashlight battery
         if (item.itemType == ItemProperties.ItemTypes.Battery) 
         {
-            if (!HasItem(ItemProperties.ItemTypes.Flashlight))
-                return;
-
             //find the flashlight item controller
-            ItemController controller = player.itemManagement.FindItemController(FindItem(ItemProperties.ItemTypes.Flashlight).item);
+            ItemController controller = FindItemController(ItemProperties.ItemTypes.Flashlight);
 
             if (controller != null)
             {
-                //cast it to the flashlight controller class
                 FlashlightController flashLight = (FlashlightController)controller;
 
-                //set a new battery 
                 flashLight.SetNewBattery(new Battery(100f, 5));
 
-                //remove the item from the list as we just used one of them.
                 RemoveItem(item, 1);
             }
         }
         else if(item.itemType == ItemProperties.ItemTypes.GrapplingHookAmmo)
         {
-            if (!HasItem(ItemProperties.ItemTypes.GrapplingHook))
-                return;
-
             RemoveItem(item, 1);
         }
     }
 
-    //Method used for adding new items from chests for example
     public void AddNewItem(Item item, ChestInventory chest)
     {
-        //add the item we selected to our inventory
         AddItem(item.item, item.stack);
-        //remove it from the chest as we took it to our inventory
         chest.RemoveItemFromChest(item);
     }
 
-    //override the base AddItem method as the player as some stuff to do when we add items.
     public override Item AddItem(ItemProperties itemProperties, int amount)
     {
         Item addItem = base.AddItem(itemProperties, amount);
-        
-        //check if the database succesfully added the item to its list, and then check if the item we are adding is a tool
-        if (addItem != null)
-        {
-            if (itemProperties.controllable)
-            {
-                //if so, setup a new item in the item management
-                player.itemManagement.OnNewItemAdded(addItem);
-            }
 
-            if(itemProperties.itemType == ItemProperties.ItemTypes.Note)
-            {
-                ItemController controller = player.itemManagement.FindItemController(FindItem(ItemProperties.ItemTypes.Journal).item);
-
-                if (controller != null && HasItem(ItemProperties.ItemTypes.Journal))
-                {
-                    JournalController journal = (JournalController)controller;
-                    journal.AddNote(itemProperties);
-                    RemoveItem(addItem.item, 1);
-                }
-            }
-        }
-
-        //return the added item
         return addItem;
     }
 
-    //override the base RemoveItem method as the player as some stuff to do when we add items.
     public override bool RemoveItem(ItemProperties itemProperties, int amount)
     {
         bool removeItem = base.RemoveItem(itemProperties, amount);
 
-        //check if the database succesfully added the item to its list, and then check if the item we are adding is a tool
-        if (removeItem && itemProperties.controllable)
-        {           
-            //if so, remove the item from the item management class
-            player.itemManagement.OnItemRemoved(itemProperties);
+        return removeItem;
+    }
+
+    private ItemController FindItemController(ItemProperties.ItemTypes type)
+    {
+        for(int i = 0; i < controllableItems.Count; i++)
+        {
+            if (type == controllableItems[i].baseItem.itemType)
+                return controllableItems[i];
         }
 
-        return removeItem;
+        return null;
+    }
+    public ItemController GetCurrentControllableItem()
+    {
+        return currentControllableItem;
     }
 }

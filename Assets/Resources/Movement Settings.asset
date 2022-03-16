@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c467af1a8868e7a46934a87d731601c5, type: 3}
   m_Name: Movement Settings
   m_EditorClassIdentifier: 
-  movementSpeed: 2.5
+  movementSpeed: 3.1
   movementParanoidMultiplier: 1.5
   cameraOffset: 6
   stepRate: 3
