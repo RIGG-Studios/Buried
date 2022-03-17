@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.Universal;
 
 public static class ItemThrower
 {
@@ -12,21 +11,16 @@ public static class ItemThrower
             GameObject instantiatedPrefab = GameObject.Instantiate(prefab);
             instantiatedPrefab.transform.position = throwPos.position;
 
-            bool doLightStuff;
-
-            if (prefab.GetComponent<Light2D>() != null)
+            if (prefab.GetComponent<IThrowableObject>() == null)
             {
-                doLightStuff = true;
+                Debug.LogWarning("Supplied prefab " + prefab.name + " does not contain any throw behaviour, gonna throw it anyway UmU");
             }
             else
             {
-                doLightStuff = false;
-                Debug.LogWarning("Supplied prefab " + prefab.name + " does not contain a 2d light UwU, gonna throw it anyway");
+                instantiatedPrefab.GetComponent<IThrowableObject>().OnThrow();
             }
 
             instantiatedPrefab.GetComponent<Rigidbody2D>().AddForce(throwDirection.normalized * force, ForceMode2D.Impulse);
-
-
         }
         else
         {
