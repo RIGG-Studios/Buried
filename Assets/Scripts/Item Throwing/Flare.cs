@@ -23,7 +23,7 @@ public class Flare : MonoBehaviour, IThrowableObject
         if (degrade)
         {
             timeSinceThrown += Time.deltaTime;
-            flareLight.intensity -= decayOverTime;
+            flareLight.intensity -= decayOverTime * Time.deltaTime;
 
             if (timeSinceThrown >= timeUntilDestroy)
             {
