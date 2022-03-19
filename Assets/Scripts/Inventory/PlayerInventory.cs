@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 //this class is the player inventory system, it will inherit from the database because it is an inventory system
 public class PlayerInventory : ItemDatabase
@@ -24,6 +25,8 @@ public class PlayerInventory : ItemDatabase
     private List<ItemController> controllableItems = new List<ItemController>();
     private int currentItemIndex = 0;
     public ItemController currentControllableItem { get; private set; }
+
+    public TextMeshProUGUI notesCollected;
 
     public void Start()
     {
@@ -82,7 +85,9 @@ public class PlayerInventory : ItemDatabase
         else if (scroll <= -1f)
         {
             SwitchItems(-1);
-        }      
+        }
+
+        notesCollected.text = ($"{MainManager.GetRemainingNotes(this)} notes remaining");
     }
 
     private void UseCurrentControllableItem()
