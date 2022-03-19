@@ -7,7 +7,11 @@ public class ScaredState : State
     private TentacleStateManager stateManager = null;
     private float timer;
 
-    public ScaredState(TentacleController controller) : base("Scared", controller) => this.controller = controller;
+    public ScaredState(TentacleController controller, Player player) : base("Scared", controller)
+    {
+        this.player = player;
+        this.controller = controller;
+    }
 
     public override void EnterState()
     {

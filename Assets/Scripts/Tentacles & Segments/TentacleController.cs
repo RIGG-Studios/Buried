@@ -24,7 +24,9 @@ public class TentacleController : MonoBehaviour
 
     private int index = 1;
     [HideInInspector]
-    public float targetLength;
+    public float targetSpeed;
+
+    private WallLight[] wallLights;
 
     private void Awake()
     {
@@ -33,6 +35,10 @@ public class TentacleController : MonoBehaviour
         stateManager = GetComponent<TentacleStateManager>();
     }
 
+    private void Start()
+    {
+        wallLights = FindObjectsOfType<WallLight>();
+    }
 
     public void InitializeTentacles()
     {
@@ -51,8 +57,7 @@ public class TentacleController : MonoBehaviour
             segments.Add(new Segment(i, properties, length, width, desiredAng));
         }
 
-        targetLength = properties.lengthBetweenSegments;
-
+        targetSpeed = properties.tentacleMoveSpeed;
         segmentVelocity = new Vector2[segments.Count];
         line.positionCount = properties.tentacleSegments;
         setup = true;
@@ -73,10 +78,29 @@ public class TentacleController : MonoBehaviour
 
             Vector2 segPos = currentSeg.UpdatePosition(previousSeg, target, wallLayer);
 
-            segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i],  properties.tentacleMoveSpeed);    
+            segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i],  targetSpeed);    
         }
 
         line.SetPositions(GetSegmentPositions());
+    }
+
+    public void CheckForLights()
+    {
+        foreach(WallLight light in wallLights)
+        {
+            float dist = (light.transform.position - GetTentacleEndPoint()).magnitude;
+
+            if(dist < 5)
+            {
+                light.minIntensity = Mathf.Lerp(light.minIntensity, 0f, Time.deltaTime * 5f);
+                light.maxIntensity = Mathf.Lerp(light.maxIntensity, 0f, Time.deltaTime * 5f);
+            }
+            else
+            {
+                light.maxIntensity = 2f;
+                light.maxIntensity = 5f;
+            }
+        }
     }
 
     public void UpdateAgentPosition(Vector3 position)
@@ -147,9 +171,9 @@ public class TentacleController : MonoBehaviour
     {
         return (GetTentacleEndPoint() - Game.instance.player.GetPosition()).magnitude;
     }
-    public float GetDistanceBetweenEndPointAndAnchor()
+    public float GetTentacleDistance()
     {
-       return (spawner.spawnPoint - GetTentacleEndPoint()).magnitude;
+        return (segments[0].position - segments[segments.Count-1].position).magnitude;
     }
     public TentacleProperties GetTentacleProperties()
     {

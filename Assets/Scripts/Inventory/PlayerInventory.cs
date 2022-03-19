@@ -22,8 +22,8 @@ public class PlayerInventory : ItemDatabase
     [SerializeField] private List<Item> startingItems = new List<Item>();
 
     private List<ItemController> controllableItems = new List<ItemController>();
-    private ItemController currentControllableItem = null;
     private int currentItemIndex = 0;
+    public ItemController currentControllableItem { get; private set; }
 
     public void Start()
     {
@@ -106,10 +106,14 @@ public class PlayerInventory : ItemDatabase
 
         if(nextController != null)
         {
-            if(currentControllableItem != null)
+            if (currentControllableItem != null)
+            {
+                currentItemSlot.ResetSlot();
                 currentControllableItem.ResetItem();
+            }
 
             currentControllableItem = nextController;
+            nextController.ActivateItem();
             currentItemSlot.AddItem(currentControllableItem.itemInInventory);
         }
         else
@@ -165,13 +169,18 @@ public class PlayerInventory : ItemDatabase
                 FlashlightController flashLight = (FlashlightController)controller;
 
                 flashLight.SetNewBattery(new Battery(100f, 5));
-
                 RemoveItem(item, 1);
             }
         }
         else if(item.itemType == ItemProperties.ItemTypes.GrapplingHookAmmo)
         {
             RemoveItem(item, 1);
+        }
+        else if(item.itemType == ItemProperties.ItemTypes.Flare)
+        {
+            ItemController flare = FindItemController(ItemProperties.ItemTypes.Flare);
+            flare.itemInInventory.stack--;
+            currentItemSlot.UpdateSlotStack(flare.itemInInventory.stack);
         }
     }
 
@@ -185,6 +194,27 @@ public class PlayerInventory : ItemDatabase
     {
         Item addItem = base.AddItem(itemProperties, amount);
 
+        if(addItem != null)
+        {
+            if (itemProperties.itemType == ItemProperties.ItemTypes.Note)
+            {
+                Item itm = FindItem(ItemProperties.ItemTypes.Note);
+
+                if (itm != addItem)
+                {
+                    itm.stack++;
+                    RemoveItem(itemProperties, 1);
+                }
+            }
+            else if(itemProperties.itemType == ItemProperties.ItemTypes.Flare)
+            {
+                ItemController flare = FindItemController(ItemProperties.ItemTypes.Flare);
+                flare.itemInInventory.stack++;
+                currentItemSlot.UpdateSlotStack(flare.itemInInventory.stack);
+                RemoveItem(itemProperties, 1);
+            }
+        }
+
         return addItem;
     }
 
@@ -195,7 +225,7 @@ public class PlayerInventory : ItemDatabase
         return removeItem;
     }
 
-    private ItemController FindItemController(ItemProperties.ItemTypes type)
+    public ItemController FindItemController(ItemProperties.ItemTypes type)
     {
         for(int i = 0; i < controllableItems.Count; i++)
         {

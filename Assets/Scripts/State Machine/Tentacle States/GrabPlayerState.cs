@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class GrabPlayerState : State
 {
-    public GrabPlayerState(TentacleController controller) : base("GrabPlayer", controller) => this.controller = controller;
+    public GrabPlayerState(TentacleController controller, Player player) : base("GrabPlayer", controller)
+    {
+        this.player = player;
+        this.controller = controller;
+    }
 
     public override void EnterState()
     {

@@ -11,6 +11,8 @@ public class GrapplingHookSettings : ScriptableObject
     public float waveSize;
     public float launchSpeedMultiplier;
     public float straightenLineSpeed;
+    public float shakeDuration;
+    public float shakeMagnitude;
 
     public AnimationCurve ropeAnimationCurve;
     public AnimationCurve ropeLaunchSpeedCurve;

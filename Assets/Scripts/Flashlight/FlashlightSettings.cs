@@ -4,6 +4,8 @@ using UnityEngine;
 public class FlashlightSettings : ScriptableObject
 {
     [Header("Flashlight Properties")]
-    [Range(0, 5)] public float maxIntensity;
-    [Range(0, 5)] public float minIntensity;
+    public float maxIntensity;
+    public float minIntensity;
+    public float shakeDuration;
+    public float shakeMagnitude;
 }

@@ -74,10 +74,12 @@ public class GrapplingHookState : State
         waveSize = settings.waveSize;
         player.collider.enabled = false;
     }
+
     public override void ExitState()
     {
         player.collider.enabled = true;
         moveTime = 0.0f;
+        line.enabled = false;
     }
 
     public override void UpdateLogic()
@@ -90,6 +92,7 @@ public class GrapplingHookState : State
                 MoveLine();
             else
             {
+                player.playerCam.ShakeCamera(player.grappleHookSettings.shakeDuration, player.grappleHookSettings.shakeMagnitude);
                 state = GrappleStates.Retracting;
             }
         }

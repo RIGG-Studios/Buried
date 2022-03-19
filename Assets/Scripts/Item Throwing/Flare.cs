@@ -9,12 +9,14 @@ public class Flare : MonoBehaviour, IThrowableObject
     public float timeUntilDestroy;
 
     Light2D flareLight;
+    Rigidbody2D rb;
     bool degrade;
 
     float timeSinceThrown;
 
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         flareLight = GetComponent<Light2D>();
     }
 
@@ -36,5 +38,10 @@ public class Flare : MonoBehaviour, IThrowableObject
     {
         degrade = true;
         timeSinceThrown = 0;
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        rb.AddForce(collision.contacts[0].normal * rb.velocity.magnitude);
     }
 }

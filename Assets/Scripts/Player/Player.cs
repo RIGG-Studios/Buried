@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
 
     public MovementSettings movementSettings;
     public GrapplingHookSettings grappleHookSettings;
-    public VitalSettings vitalSettings;
+    public FlashlightSettings flashLightSettings;
+    public FlareSettings flareSettings;
 
     [HideInInspector]
     public PlayerStateManager stateManager;
@@ -29,9 +30,9 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public ItemManagement itemManagement;
     [HideInInspector]
-    public PlayerVitals vitals;
-    [HideInInspector]
     public Light2D defaultLight;
+    [HideInInspector]
+    public PlayerCamera playerCam;
 
     public Collider2D collider
     {
@@ -53,8 +54,8 @@ public class Player : MonoBehaviour
         mouseLook = GetComponentInChildren<MouseLook>();
         playerInteraction = GetComponent<PlayerInteractionManager>();
         itemManagement = GetComponent<ItemManagement>();
-        vitals = GetComponent<PlayerVitals>();
         defaultLight = GetComponentInChildren<Light2D>();
+        playerCam = FindObjectOfType<PlayerCamera>();
     }
 
     private void OnEnable()

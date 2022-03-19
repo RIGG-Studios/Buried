@@ -2,29 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class handles the calculations for each segment. Since a tentacle is made of segments, each segment can stretch out or change its target rotation/direction. 
+/// This class handles all of that.
+/// </summary>
+
 [System.Serializable]
 public class Segment 
 {
-    //store the index of this current segment in all segments
     public int index;
-    //store local tentacle properties
     public TentacleProperties properties;
-    //store the position so we can move the tentacle
     public Vector3 position;
-    //store the target rotation
     public float angle;
-    //let us know if this segment has collided
     public bool collided;
-    //length of this segment
     public float length;
-    //width of this segment
     public float width;
-    //the desired angle of this segment
     public float desiredAngle;
-    //min length this segmnent can stretch too
     public float minLength;
 
-    //create a constructor for segment, where we pass in the index and tentacle properties
+    /// <summary>
+    /// constructor for the segment, takes in the index in the list of all segments to calculate different rotations, length and width of the segment piece, and the desired angle.
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="properties"></param>
+    /// <param name="length"></param>
+    /// <param name="width"></param>
+    /// <param name="desiredAngle"></param>
     public Segment(int index, TentacleProperties properties, float length, float width, float desiredAngle)
     {
         //assign the values
@@ -38,6 +41,11 @@ public class Segment
         position = Vector3.zero;
     }
 
+    /// <summary>
+    /// This method is used to update the length of the segment. This to create a "stretch" effect for the tentacle so it behaves realistically and organically.
+    /// Updates the length based on the angle difference between the target and the segment.
+    /// </summary>
+    /// <param name="target"></param>
     private void UpdateLength(Vector2 target)
     {
         float globalAngle = Utilites.NormalizeAngle(Mathf.Atan2(target.y - position.y, target.x - position.x));
@@ -57,7 +65,13 @@ public class Segment
     }
 
 
-    
+    /// <summary>
+    /// This method is used to find the next position of the segment, needing the previous segment to create a chain effect.
+    /// </summary>
+    /// <param name="previousSegment"></param>
+    /// <param name="targetDir"></param>
+    /// <param name="wallLayer"></param>
+    /// <returns></returns>
     public Vector2 UpdatePosition(Segment previousSegment, Vector2 targetDir, LayerMask wallLayer)
     {
         UpdateLength(targetDir);
@@ -70,9 +84,9 @@ public class Segment
         //the next position will be the origin + dir
         Vector2 position = origin + dir.normalized;
         //check for any walls the segment may collide with with a simple raycast in the direction we are travelling too
-        RaycastHit2D hit = Physics2D.CircleCast(origin, 0.2f, dir, dir.magnitude, wallLayer);
+        RaycastHit2D hit = Physics2D.CircleCast(origin, 0.15f, dir, dir.magnitude, wallLayer);
 
-        collided = hit.collider != null;
+        collided = hit.collider != null && index != properties.tentacleSegments - 1;
 
         //if we hit something, set the position to the collision point + the normal for a hit offset effect
         if (collided)
@@ -84,6 +98,11 @@ public class Segment
         return position;
     }
 
+    /// <summary>
+    /// simple method for rotating around an axis. In this class the forward axis.
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <returns></returns>
     private Quaternion CalculateRotationAngle(float angle)
     {
         return Quaternion.AngleAxis(angle, Vector3.forward);

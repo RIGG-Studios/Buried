@@ -45,32 +45,10 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
     public bool selected = false;
 
     //create a property of the defaultColor
-    public Color dColor
-    {
-        get
-        {
-            return defaultColor;
-        }
-
-        set
-        {
-            defaultColor = value;
-        }
-    }
+    public Color dColor { get { return defaultColor; } set { defaultColor = value; } }
 
     //create a property of the highlightedColor
-    public Color hColor
-    {
-        get
-        {
-            return highlighedColor;
-        }
-
-        set
-        {
-            highlighedColor = value;
-        }
-    }
+    public Color hColor  { get { return highlighedColor; } set { highlighedColor = value; } }
 
 
     private void Awake()
@@ -137,7 +115,6 @@ public class Slot : InteractableObject, IDragHandler, IEndDragHandler
                 SpawnUIButtons(item.item.uiChestButtons);
             }
         }
-
 
         if (item.item.stackable)
         {

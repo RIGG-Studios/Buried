@@ -44,6 +44,5 @@ public class SearchingState : State
         player.playerInteraction.allowInteractions = true;
         player.stateManager.TransitionStates(PlayerStates.Movement); 
         GameEvents.OnPlayerTakeItem -= TakeItem;
-
     }
 }

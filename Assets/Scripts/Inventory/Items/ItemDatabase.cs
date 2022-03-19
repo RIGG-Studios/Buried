@@ -110,7 +110,7 @@ public class ItemDatabase : MonoBehaviour
     }
 
     //method used for updating item with stacks in the database, since not all items have a stack this is only called for items that can stack (batteries for example).
-    private bool UpdateExistingItem(Item item, int amount)
+    public bool UpdateExistingItem(Item item, int amount)
     {
         //check if this items stack can be updated
         bool canAddToStack = item.item.stackable;

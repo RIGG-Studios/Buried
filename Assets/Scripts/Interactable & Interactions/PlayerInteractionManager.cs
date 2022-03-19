@@ -38,10 +38,9 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void Update()
     {
-        Vector2 mouseWorldSpace = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
-        Vector3 worldPos = mouseWorldSpace;
+        Vector3 mouseWorldSpace = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
 
-        RaycastHit2D spriteHit = Physics2D.Raycast(worldPos, transform.position - worldPos, minInteractionDistance, interactionLayer);
+        RaycastHit2D spriteHit = Physics2D.Raycast(mouseWorldSpace, transform.position - mouseWorldSpace, minInteractionDistance, interactionLayer);
         RaycastResult uiHit = Utilites.IsPointerOverUIElement();
 
         if (uiHit.gameObject != null)

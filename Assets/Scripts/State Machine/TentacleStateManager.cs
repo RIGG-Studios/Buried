@@ -33,11 +33,11 @@ public class TentacleStateManager : StateMachine
     private void Awake()
     {
         //create new instances of all the states
-        attackState = new AttackState(controller);
-        idleState = new IdleState(controller);
-        retreatState = new RetreatState(controller);
-        scaredState = new ScaredState(controller);
-        grabState = new GrabPlayerState(controller);
+        attackState = new AttackState(controller, GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
+        idleState = new IdleState(controller, GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
+        retreatState = new RetreatState(controller, GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
+        scaredState = new ScaredState(controller, GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
+        grabState = new GrabPlayerState(controller, GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());
 
         //set the current state to be the idle state for the tentacle
         currentState = idleState;

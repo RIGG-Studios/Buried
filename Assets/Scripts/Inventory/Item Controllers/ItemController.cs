@@ -30,4 +30,5 @@ public class ItemController : MonoBehaviour
     public virtual void UseItem() { }
     //resets the item, if we are using another item there is no need to keep using the old item. This method disabled items that arent used.
     public virtual void ResetItem() { }
+    public virtual void ActivateItem() { }
 }

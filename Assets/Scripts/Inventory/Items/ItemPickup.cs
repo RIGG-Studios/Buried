@@ -17,7 +17,19 @@ public class ItemPickup : InteractableObject
     }
     public override void ButtonInteract()
     {
-        inventory.AddItem(itemProperties, pickupAmount);
+        if (itemProperties.itemType == ItemProperties.ItemTypes.Note)
+        {
+            NoteReadingManager.instance.ReadNote(itemProperties);
+            Destroy(gameObject);
+            return;
+        }
+
+        Item itm = inventory.AddItem(itemProperties, pickupAmount);
+
+        if(itm != null)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public override void HoverInteract()

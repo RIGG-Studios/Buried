@@ -14,6 +14,7 @@ public class ItemProperties : ScriptableObject
         Journal,
         Note,
         GrapplingHookAmmo,
+        Flare,
         None
     }
 

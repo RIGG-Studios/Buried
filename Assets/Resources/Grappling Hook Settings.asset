@@ -18,6 +18,8 @@ MonoBehaviour:
   waveSize: 1
   launchSpeedMultiplier: 20
   straightenLineSpeed: 7
+  shakeDuration: 1
+  shakeMagnitude: 1
   ropeAnimationCurve:
     serializedVersion: 2
     m_Curve:
