@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class MainManager: MonoBehaviour
@@ -8,12 +9,18 @@ public class MainManager: MonoBehaviour
     [SerializeField]
     int notesInLevel;
 
+    [SerializeField]
+    string nextSceneName;
+
     static bool canOpenDoor;
     static int maxNotes;
+
+    public static string nextScene;
 
     private void Start()
     {
         maxNotes = notesInLevel;
+        nextScene = nextSceneName;
     }
 
     public static int GetRemainingNotes(ItemDatabase inventory)
