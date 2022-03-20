@@ -18,10 +18,6 @@ public class Tutorial : MonoBehaviour
     {
         instance = this;
         playerCamera = FindObjectOfType<PlayerCamera>();
-    }
-
-    private void Start()
-    {
         tutorialGroup = CanvasManager.instance.FindElementGroupByID("Tutorial");
 
         if (tutorialGroup != null)
@@ -29,6 +25,11 @@ public class Tutorial : MonoBehaviour
             tutorialHeader = tutorialGroup.FindElement("header");
             tutorialContents = tutorialGroup.FindElement("contents");
         }
+    }
+
+    private void Start()
+    {
+
     }
 
     public void StartTutorial()
