@@ -1,5 +1,8 @@
 public class GameEvents
 {
+    public delegate void StartGame();
+    public static StartGame OnStartGame;
+
     public delegate void TentacleAttack(TentacleController controller);
     public static TentacleAttack OnTentacleAttackPlayer;
 

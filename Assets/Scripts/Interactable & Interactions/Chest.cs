@@ -27,8 +27,6 @@ public class Chest : InteractableObject
     private void ToggleChest(bool state)
     {
         chestShown = state;
-        openChest.SetActive(state);
-        closedChest.SetActive(!state);
     }
 
     public override void HoverInteract()

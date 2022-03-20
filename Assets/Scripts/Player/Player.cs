@@ -58,6 +58,11 @@ public class Player : MonoBehaviour
         playerCam = FindObjectOfType<PlayerCamera>();
     }
 
+    public void StartGame()
+    {
+        stateManager.TransitionStates(PlayerStates.Movement);
+    }
+
     private void OnEnable()
     {
         GameEvents.OnPlayerGetGrabbed += GrabbedState;

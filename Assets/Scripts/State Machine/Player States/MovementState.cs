@@ -41,6 +41,9 @@ public class MovementState : State
 
     public override void UpdateLogic()
     {
+        if (Game.instance.gameState != GameStates.Playing)
+            return;
+
         bool isMoving = movementInput != Vector2.zero;
 
         if (isMoving && stepCooldown < 0f)
@@ -49,18 +52,12 @@ public class MovementState : State
             stepCooldown = settings.stepRate / GetMovementSpeed() / 2f;
         }
 
-        UpdatePlayerRotation();
+        animator.SetBool("isMoving", false);
+        animator.SetInteger("dir", GetDirection());
 
         cameraController.SetOffset(mouseDir * settings.cameraOffset);
 
         stepCooldown -= Time.deltaTime;
-    }
-
-    private void UpdatePlayerRotation()
-    {
-        dir = GetDirection();
-
-        animator.SetInteger("Direction", dir);
     }
 
     public override void UpdatePhysics()

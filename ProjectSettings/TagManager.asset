@@ -52,3 +52,6 @@ TagManager:
   - name: BottomWall
     uniqueID: 2047542617
     locked: 0
+  - name: Prop
+    uniqueID: 2092416167
+    locked: 0

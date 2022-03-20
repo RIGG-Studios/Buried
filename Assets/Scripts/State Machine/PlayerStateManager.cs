@@ -20,11 +20,13 @@ public class PlayerStateManager : StateMachine
     private Player player { get { return GetComponent<Player>(); } }
 
     //create variables for all the player state classes
+
     private MovementState movementState = null;
     private GrabbedByTentacleState grabbedState = null;
     private PlayerDeadState deadState = null;
     public SearchingState searchState = null;
     public GrapplingHookState grappleState = null;
+    public PlayerIdleState idleState = null;
 
     private void Awake()
     {
@@ -34,9 +36,9 @@ public class PlayerStateManager : StateMachine
         deadState = new PlayerDeadState(player);
         searchState = new SearchingState(player);
         grappleState = new GrapplingHookState(player);
+        idleState = new PlayerIdleState(player);
 
-        //assign the current state to the movement state, because we want to start being able to move.
-        currentState = movementState;
+        currentState = idleState;
     }
 
     //method for transitioning states

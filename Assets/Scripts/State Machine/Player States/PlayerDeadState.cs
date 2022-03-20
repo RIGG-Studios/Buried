@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerDeadState : State
 {
@@ -8,6 +9,6 @@ public class PlayerDeadState : State
 
     public override void EnterState()
     {
-        Debug.Log("Player Dead");
+        SceneManager.LoadScene(1);
     }
 }

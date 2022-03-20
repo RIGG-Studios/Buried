@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameStates
+{
+    Tutorial,
+    Playing,
+    Loading
+}
+
 public class Game : MonoBehaviour
 {
     public static Game instance;
     public Player player { get; private set; }
-
+    public GameStates gameState { get; private set; }
 
     private void Awake()
     {
@@ -16,30 +23,44 @@ public class Game : MonoBehaviour
         player = FindObjectOfType<Player>();
     }
 
-    public TentacleSpawner GetClosestSpawnerToPlayer()
+    private void Start()
     {
-        TentacleSpawner tMin = null;
-        float minDist = Mathf.Infinity;
-        Vector3 currentPos = transform.position;
-
-        foreach (TentacleSpawner t in GetAllTentaclesSpawners())
-        {
-            float dist = Vector3.Distance(t.spawnPoint, currentPos);
-
-            if (dist < minDist)
-            {
-                tMin = t;
-                minDist = dist;
-            }
-        }
-
-        return tMin;
+        UpdateState(GameStates.Tutorial);
     }
 
-    public TentacleSpawner[] GetAllTentaclesSpawners()
+    public void UpdateState(GameStates gameState)
     {
-        TentacleSpawner[] spawners = FindObjectsOfType<TentacleSpawner>();
+        this.gameState = gameState;
 
-        return spawners.Length > 0 ? spawners : null;
+        switch (gameState)
+        {
+            case GameStates.Tutorial:
+                StartTutorial();
+                break;
+
+            case GameStates.Playing:
+                StartGame();
+                break;
+
+            case GameStates.Loading:
+                Loading();
+                break;
+        }
+    }
+
+    private void StartTutorial()
+    {
+        Tutorial.instance.StartTutorial();
+    }
+
+    private void StartGame()
+    {
+        GameEvents.OnStartGame?.Invoke();
+        player.StartGame();
+    }
+
+    private void Loading()
+    {
+
     }
 }

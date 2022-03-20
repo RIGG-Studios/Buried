@@ -67,10 +67,8 @@ public class PlayerInventory : ItemDatabase
         player.playerInput.Player.Slot5.performed += ctx => EnableSlot(5);
 
         player.playerInput.Player.Fire.performed += ctx => UseCurrentControllableItem();
-
-        //Find the UI from the canvas manager and update it to show on the screen.
-        CanvasManager.instance.FindElementGroupByID("PlayerInventory").UpdateElements(0, 0, true);
-
+        notesCollected.enabled = false;
+        currentItemSlot.gameObject.SetActive(false);
         SwitchItems(0);
     }
 
@@ -152,12 +150,22 @@ public class PlayerInventory : ItemDatabase
     {
         //subscribe to the UseItem event
         GameEvents.OnPlayerUseItem += UseItem;
+        GameEvents.OnStartGame += StartGame;
     }
 
     private void OnDisable()
     {
         //unsubscribe to the UseItem event
         GameEvents.OnPlayerUseItem -= UseItem;
+        GameEvents.OnStartGame -= StartGame;
+    }
+
+    private void StartGame()
+    {
+        //Find the UI from the canvas manager and update it to show on the screen.
+        CanvasManager.instance.FindElementGroupByID("PlayerInventory").UpdateElements(0, 0, true);
+        currentItemSlot.gameObject.SetActive(true);
+        notesCollected.enabled = true;
     }
 
     //Method used for using items from UI buttons.
