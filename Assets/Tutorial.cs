@@ -27,11 +27,6 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-
-    }
-
     public void StartTutorial()
     {
         tutorialGroup.UpdateElements(0, 0, true);

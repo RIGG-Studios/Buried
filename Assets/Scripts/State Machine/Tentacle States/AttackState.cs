@@ -20,8 +20,8 @@ public class AttackState : State
         stateManager = controller.stateManager;
         properties = controller.GetTentacleProperties();
         controller.SetAgentPosition(controller.GetAnchorPosition());
-        controller.occupied = true;
         controller.targetSpeed = properties.tentacleMoveSpeed;
+        controller.occupied = true;
 
         GameEvents.OnTentacleAttackPlayer.Invoke(controller);
     }
@@ -45,22 +45,9 @@ public class AttackState : State
             stateManager.TransitionStates(TentacleStates.Retreat);
         }
 
-        if (playerDistFromTentacle <= properties.lightDistance)
+        if (controller.IsTentacleScared(playerDistFromTentacle))
         {
-            if(player.inventory.currentControllableItem.baseItem.itemType == ItemProperties.ItemTypes.Flashlight)
-            {
-                FlashlightController controller = (FlashlightController)player.inventory.currentControllableItem;
-
-                if (controller.GetState() == FlashlightStates.On)
-                {
-                    float ang = Vector2.Angle(Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()), this.controller.GetAgentPosition());
-
-                    if (ang < 5f)
-                    {
-                        stateManager.TransitionStates(TentacleStates.Retreat);
-                    }
-                }
-            }
+            stateManager.TransitionStates(TentacleStates.Retreat);
         }
 
         if (playerDistFromTentacle <= properties.detectionRange)
@@ -73,10 +60,5 @@ public class AttackState : State
         controller.UpdateAgentPosition(playerPos);
         controller.UpdateSegmentPositions(playerPos);
         controller.CheckForLights();
-    }
-
-    public override void UpdatePhysics()
-    {
-
     }
 }

@@ -23,7 +23,7 @@ MonoBehaviour:
   stackable: 1
   stackAmount: 5
   button: {fileID: 5280593639180750574, guid: 75cad97f8484901499fd3f54f0a1e649, type: 3}
-  inventoryButtons: 1
+  inventoryButtons: 0
   uiInventoryButtons:
   - name: Use
     propertyType: 1

@@ -14,14 +14,12 @@ public class FlareController : ItemController
 
     public override void UseItem()
     {
-        int stack = player.inventory.currentControllableItem.itemInInventory.stack;
+        if (!player.inventory.HasItem(baseItem))
+            return;
 
-        if (stack > 0)
-        {
-            Vector2 dir = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()) - transform.position;
-            ItemThrower.ThrowItem(throwTransform, settings.flarePrefab, dir.normalized, settings.throwForce, settings.decayRate, settings.baseIntensity);
+        Vector2 dir = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()) - transform.position;
+        ItemThrower.ThrowItem(throwTransform, settings.flarePrefab, dir.normalized, settings.throwForce, settings.decayRate, settings.baseIntensity);
 
-            player.inventory.UseItem(player.inventory.currentControllableItem.baseItem);
-        }
+        player.inventory.UseItem(player.inventory.currentControllableItem.baseItem);
     }
 }

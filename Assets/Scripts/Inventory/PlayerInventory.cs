@@ -13,7 +13,6 @@ public class PlayerInventory : ItemDatabase
     //reference to the slot info
     [Header("Slots")]
     [SerializeField] private GameObject slotPrefab;
-    [SerializeField] private Slot currentItemSlot = null;
     [SerializeField] private Transform slotGrid = null;
 
     //reference to the inventory info
@@ -33,26 +32,6 @@ public class PlayerInventory : ItemDatabase
         //try to initialize the database as a new player inventory
         bool initialized = InitializeDatabase(startingItems.ToArray(), inventorySize, slotGrid, slotPrefab, true);
 
-        //if it was succesfull, setup the item controllers that the starting items may or may not of contained
-        if (initialized)
-        {
-            Item[] props = startingItems.ToArray();
-
-            for (int i = 0; i < props.Length; i++)
-            {
-                ItemController obj = Instantiate(props[i].item.itemPrefab, itemParent).GetComponent<ItemController>();
-
-                if (obj != null)
-                {
-                    obj.transform.localPosition = obj.startingPosition;
-                    obj.transform.localRotation = Quaternion.Euler(obj.startingRotation);
-                    obj.SetupController(player, props[i]);
-
-                    controllableItems.Add(obj);
-                }
-            }
-        }
-
         //add input response to the slot #
         player.playerInput.Player.Slot1.performed += ctx => EnableSlot(0);
         //add input response to the slot #
@@ -68,24 +47,28 @@ public class PlayerInventory : ItemDatabase
 
         player.playerInput.Player.Fire.performed += ctx => UseCurrentControllableItem();
         notesCollected.enabled = false;
-        currentItemSlot.gameObject.SetActive(false);
-        SwitchItems(0);
     }
 
     private void Update()
     {
-        float scroll = player.playerInput.Player.ScrollUp.ReadValue<float>();
-
-        if (scroll >= 1f)
-        {
-            SwitchItems(1);
-        }
-        else if (scroll <= -1f)
-        {
-            SwitchItems(-1);
-        }
-
         notesCollected.text = ($"{MainManager.GetRemainingNotes(this)} notes remaining");
+    }
+
+    public void AddControllableItem(Item props)
+    {
+        if (FindItemController(props.item.itemType))
+            return;
+
+        ItemController obj = Instantiate(props.item.itemPrefab, itemParent).GetComponent<ItemController>();
+
+        if (obj != null)
+        {
+            obj.transform.localPosition = obj.startingPosition;
+            obj.transform.localRotation = Quaternion.Euler(obj.startingRotation);
+            obj.SetupController(player, props);
+
+            controllableItems.Add(obj);
+        }
     }
 
     private void UseCurrentControllableItem()
@@ -96,35 +79,6 @@ public class PlayerInventory : ItemDatabase
         currentControllableItem.UseItem();
     }
 
-    private void SwitchItems(int i)
-    {
-        currentItemIndex += i;
-
-        if (currentItemIndex > controllableItems.Count - 1)
-            currentItemIndex = 0;
-        else if (currentItemIndex < 0)
-            currentItemIndex = controllableItems.Count - 1;
-
-        ItemController nextController = controllableItems[currentItemIndex];
-
-        if(nextController != null)
-        {
-            if (currentControllableItem != null)
-            {
-                currentItemSlot.ResetSlot();
-                currentControllableItem.ResetItem();
-            }
-
-            currentControllableItem = nextController;
-            nextController.ActivateItem();
-            currentItemSlot.AddItem(currentControllableItem.itemInInventory);
-        }
-        else
-        {
-            currentItemSlot.ResetSlot();
-        }
-    }
-
     private void EnableSlot(int i)
     {
         Item item = null;
@@ -133,6 +87,22 @@ public class PlayerInventory : ItemDatabase
         if(success && !item.item.controllable && item.item.activateType == ItemProperties.ActivationTypes.OnSlotSelected)
         {
             UseItem(item.item);
+        }
+        else if(success && item.item.controllable)
+        {
+            if (currentControllableItem != null)
+            {
+                if (currentControllableItem.itemInInventory.slot == null)
+                    currentControllableItem = null;
+                else
+                {
+                    currentControllableItem.itemInInventory.slot.SetColor(currentControllableItem.itemInInventory.slot.dColor, false);
+                    currentControllableItem.ResetItem();
+                }
+            }
+
+            currentControllableItem = FindItemController(item.item.itemType);
+            currentControllableItem.itemInInventory.slot.SetColor(currentControllableItem.itemInInventory.slot.hColor, true);
         }
     }
 
@@ -164,7 +134,6 @@ public class PlayerInventory : ItemDatabase
     {
         //Find the UI from the canvas manager and update it to show on the screen.
         CanvasManager.instance.FindElementGroupByID("PlayerInventory").UpdateElements(0, 0, true);
-        currentItemSlot.gameObject.SetActive(true);
         notesCollected.enabled = true;
     }
 
@@ -191,9 +160,13 @@ public class PlayerInventory : ItemDatabase
         }
         else if(item.itemType == ItemProperties.ItemTypes.Flare)
         {
-            ItemController flare = FindItemController(ItemProperties.ItemTypes.Flare);
-            flare.itemInInventory.stack--;
-            currentItemSlot.UpdateSlotStack(flare.itemInInventory.stack);
+            RemoveItem(item, 1);
+
+            if(item.stackAmount <= 0)
+            {
+                controllableItems.Remove(FindItemController(item.itemType));
+                Destroy(FindItemController(item.itemType).gameObject);
+            }
         }
     }
 
@@ -205,35 +178,33 @@ public class PlayerInventory : ItemDatabase
 
     public override Item AddItem(ItemProperties itemProperties, int amount)
     {
-        Item addItem = base.AddItem(itemProperties, amount);
-
-        if(addItem != null)
+        Item note = null;
+        TryFindItem(ItemProperties.ItemTypes.Note, out note);
+        if(itemProperties.itemType == ItemProperties.ItemTypes.Note && note != null)
         {
-            if (itemProperties.itemType == ItemProperties.ItemTypes.Note)
-            {
-                Item itm = FindItem(ItemProperties.ItemTypes.Note);
+            Item itm = FindItem(ItemProperties.ItemTypes.Note);
+            itm.stack++;
+            itm.slot.UpdateSlotStack(itm.stack);
+            RemoveItem(itemProperties, 1);
+        }
+        else
+        {
+            Item addItem = base.AddItem(itemProperties, amount);
 
-                if (itm != addItem)
-                {
-                    itm.stack++;
-                    RemoveItem(itemProperties, 1);
-                }
-            }
-            else if(itemProperties.itemType == ItemProperties.ItemTypes.Flare)
-            {
-                ItemController flare = FindItemController(ItemProperties.ItemTypes.Flare);
-                flare.itemInInventory.stack++;
-                currentItemSlot.UpdateSlotStack(flare.itemInInventory.stack);
-                RemoveItem(itemProperties, 1);
-            }
+            if (addItem != null && itemProperties.controllable)
+                AddControllableItem(addItem);
+
+            return addItem;
         }
 
-        return addItem;
+        return null;
     }
 
     public override bool RemoveItem(ItemProperties itemProperties, int amount)
     {
         bool removeItem = base.RemoveItem(itemProperties, amount);
+
+        ItemController controller = FindItemController(itemProperties.itemType);
 
         return removeItem;
     }

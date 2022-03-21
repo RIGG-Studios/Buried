@@ -1,5 +1,8 @@
 public class GameEvents
 {
+    public delegate void DropPlayer();
+    public static DropPlayer OnDropPlayer;
+
     public delegate void StartGame();
     public static StartGame OnStartGame;
 

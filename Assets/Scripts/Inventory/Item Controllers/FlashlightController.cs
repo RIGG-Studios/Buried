@@ -18,13 +18,21 @@ public class FlashlightController : ItemController
     private Light2D defaultLight = null;
 
     private float currentLightIntensity;
-    private UIElement flashlightSlider;
     private bool flashLightDisabled;
     private FlashlightSettings settings;
+    private UIElement flashlightSlider;
+    private UIElementGroup batteriesNeededGroup;
+    private UIElement batteriesNeedText;
 
     private void Awake()
     {
         flashlightSlider = CanvasManager.instance.FindElementGroupByID("PlayerVitals").FindElement("flashlightslider");
+        batteriesNeededGroup = CanvasManager.instance.FindElementGroupByID("BatteriesNeeded");
+
+        if(batteriesNeededGroup != null)
+        {
+            batteriesNeedText = batteriesNeededGroup.FindElement("text");
+        }    
     }
 
     private void Start()
@@ -68,8 +76,18 @@ public class FlashlightController : ItemController
         {
             if(currentBattery == null)
             {
-                player.playerCam.ShakeCamera(settings.shakeDuration, settings.shakeMagnitude);
-                return;
+                Item battery = null;
+                player.inventory.TryFindItem(ItemProperties.ItemTypes.Battery, out battery);
+
+                if (battery != null)
+                {
+                    player.inventory.UseItem(battery.item);
+                }
+                else
+                {
+                    BatteriesNeeded();
+                    return;
+                }
             }
 
             flashlightSlider.SetActive(true);
@@ -88,8 +106,8 @@ public class FlashlightController : ItemController
 
     public override void ResetItem()
     {
-        if (state == FlashlightStates.On)
-            UseItem();
+  //      if (state == FlashlightStates.On)
+   //         UseItem();
     }
 
     private void Update()
@@ -129,5 +147,15 @@ public class FlashlightController : ItemController
         return state;
     }
 
+    private void BatteriesNeeded()
+    {
+        batteriesNeededGroup.UpdateElements(0, 0, true);
+        Invoke("HideBatteriesNeeded", 0.5f);
+    }
+
+    private void HideBatteriesNeeded()
+    {
+        batteriesNeededGroup.UpdateElements(0, 0, false);
+    }
 }
 

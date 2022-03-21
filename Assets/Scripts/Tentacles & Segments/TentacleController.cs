@@ -13,6 +13,7 @@ public class TentacleController : MonoBehaviour
     private LineRenderer line = null;
     private NavMeshAgent agent = null;
     private TentacleSpawner spawner = null;
+    private Player player = null;
 
     private List<Segment> segments = new List<Segment>();
     private Vector2[] segmentVelocity = new Vector2[0];
@@ -33,6 +34,7 @@ public class TentacleController : MonoBehaviour
         line = GetComponent<LineRenderer>();
         agent = GetComponentInChildren<NavMeshAgent>();
         stateManager = GetComponent<TentacleStateManager>();
+        player = FindObjectOfType<Player>();
     }
 
     private void Start()
@@ -195,6 +197,42 @@ public class TentacleController : MonoBehaviour
     public NavMeshAgent GetAgent()
     {
         return agent;
+    }
+
+    public bool IsTentacleScared(float playerDistFromTentacle)
+    {
+        bool scared = false;
+
+        if (playerDistFromTentacle <= properties.lightDistance)
+        {
+            if (player.inventory.currentControllableItem.baseItem.itemType == ItemProperties.ItemTypes.Flashlight)
+            {
+                FlashlightController controller = (FlashlightController)player.inventory.currentControllableItem;
+
+                if (controller.GetState() == FlashlightStates.On)
+                {
+                    float ang = Vector2.Angle(Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()), GetAgentPosition());
+
+                    if (ang < 5f)
+                        scared = true;
+                }
+            }
+        }
+
+        Flare[] flares = FindObjectsOfType<Flare>();
+
+        if(flares.Length > 0)
+        {
+            foreach(Flare f in flares)
+            {
+                float dist = (f.transform.position - GetTentacleEndPoint()).magnitude;
+
+                if (dist <= properties.lightDistance)
+                    scared = true;
+            }
+        }
+
+        return scared;
     }
 }
 
