@@ -5,15 +5,16 @@ public class FlareController : ItemController
     private Transform throwTransform;
     private FlareSettings settings;
 
-    public override void SetupController(Player player, Item itemInInventory)
+    public override void SetupController(Player player, ItemProperties properties)
     {
-        base.SetupController(player, itemInInventory);
+        base.SetupController(player, properties);
         throwTransform = player.defaultLight.transform;
         settings = player.flareSettings;
     }
 
     public override void UseItem()
     {
+        /*/
         if (!player.inventory.HasItem(baseItem))
             return;
 
@@ -21,5 +22,6 @@ public class FlareController : ItemController
         ItemThrower.ThrowItem(throwTransform, settings.flarePrefab, dir.normalized, settings.throwForce, settings.decayRate, settings.baseIntensity);
 
         player.inventory.UseItem(player.inventory.currentControllableItem.baseItem);
+        /*/
     }
 }

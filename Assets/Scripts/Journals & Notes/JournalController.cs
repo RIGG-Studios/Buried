@@ -40,7 +40,7 @@ public class JournalController : ItemController
     //    player.playerInput.Player.Leave.performed += ctx => ResetItem();
     }
 
-    public override void SetupController(Player player, Item itemInInventory)
+    public override void SetupController(Player player, ItemProperties itemInInventory)
     {
         base.SetupController(player, itemInInventory);
 
@@ -103,7 +103,7 @@ public class JournalController : ItemController
         if (state == JournalStates.Open)
         {
             UseItem();
-            player.inventory.DeselectSlot(itemInInventory);
+         //   player.inventory.DeselectSlot(itemInInventory);
         }
     }
 }

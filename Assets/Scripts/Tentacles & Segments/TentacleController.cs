@@ -205,6 +205,7 @@ public class TentacleController : MonoBehaviour
 
         if (playerDistFromTentacle <= properties.lightDistance)
         {
+            /*/
             if (player.inventory.currentControllableItem.baseItem.itemType == ItemProperties.ItemTypes.Flashlight)
             {
                 FlashlightController controller = (FlashlightController)player.inventory.currentControllableItem;
@@ -217,6 +218,7 @@ public class TentacleController : MonoBehaviour
                         scared = true;
                 }
             }
+            /*/
         }
 
         Flare[] flares = FindObjectsOfType<Flare>();

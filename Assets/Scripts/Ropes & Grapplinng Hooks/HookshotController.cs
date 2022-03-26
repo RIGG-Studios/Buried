@@ -8,7 +8,7 @@ public class HookshotController : ItemController
 
     private int bulletStack;
     private GrapplingHookSettings settings;
-    public override void SetupController(Player player, Item itemInInventory)
+    public override void SetupController(Player player, ItemProperties itemInInventory)
     {
         base.SetupController(player, itemInInventory);
         settings = player.grappleHookSettings;
@@ -16,6 +16,7 @@ public class HookshotController : ItemController
 
     public override void UseItem()
     {
+        /*/
         Item ammo = null;
         player.inventory.TryFindItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out ammo);
 
@@ -38,6 +39,7 @@ public class HookshotController : ItemController
         {
             player.playerCam.ShakeCamera(settings.shakeDuration / 3, settings.shakeMagnitude / 3);
         }
+        /*/
     }
 
     public Vector3 GetPosition()

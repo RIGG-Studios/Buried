@@ -28,8 +28,6 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public PlayerInteractionManager playerInteraction;
     [HideInInspector]
-    public ItemManagement itemManagement;
-    [HideInInspector]
     public Light2D defaultLight;
     [HideInInspector]
     public PlayerCamera playerCam;
@@ -53,7 +51,6 @@ public class Player : MonoBehaviour
         paranoidManager = GetComponent<PlayerParanoidManager>();
         mouseLook = GetComponentInChildren<MouseLook>();
         playerInteraction = GetComponent<PlayerInteractionManager>();
-        itemManagement = GetComponent<ItemManagement>();
         defaultLight = GetComponentInChildren<Light2D>();
         playerCam = FindObjectOfType<PlayerCamera>();
     }
@@ -66,18 +63,11 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnPlayerGetGrabbed += GrabbedState;
-        GameEvents.OnSearchChest += SearchState;
     }
 
     private void OnDisable()
     {
         GameEvents.OnPlayerGetGrabbed -= GrabbedState;
-        GameEvents.OnSearchChest -= SearchState;
-    }
-
-    private void SearchState()
-    {
-        stateManager.TransitionStates(PlayerStates.Search);
     }
 
     private void GrabbedState(TentacleController controller)

@@ -13,11 +13,13 @@ public class MovementState : State
     private Animator animator = null;
 
     private float stepCooldown = 0.0f;
-    private int dir = 0;
+    private bool isMoving;
+
+    private Vector2 leftMovement, upMovement;
 
     public MovementState(Player player) : base("PlayerMovement", player)
     {
-        this.player = player;
+        player = player;
         camera = Camera.main;
         settings = player.movementSettings;
         physics = player.GetComponent<Rigidbody2D>();
@@ -44,7 +46,7 @@ public class MovementState : State
         if (Game.instance.gameState != GameStates.Playing)
             return;
 
-        bool isMoving = movementInput != Vector2.zero;
+        isMoving = movementInput != Vector2.zero;
 
         if (isMoving && stepCooldown < 0f)
         {
@@ -52,7 +54,7 @@ public class MovementState : State
             stepCooldown = settings.stepRate / GetMovementSpeed() / 2f;
         }
 
-        animator.SetBool("isMoving", false);
+        animator.SetBool("isMoving", isMoving);
         animator.SetInteger("dir", GetDirection());
 
         cameraController.SetOffset(mouseDir * settings.cameraOffset);
@@ -74,7 +76,24 @@ public class MovementState : State
 
     public int GetDirection()
     {
-        int index = Utilites.DirectionToIndex(mouseDir, 4);
+        int index = 0;
+
+        if (isMoving)
+        {
+            if (movementInput.x < 0)
+                index = 2;
+            else if (movementInput.x > 0)
+                index = 1;
+            else if (movementInput.y < 0)
+                index = 3;
+            else if (movementInput.y > 0)
+                index = 4;
+
+        }
+        else
+        {
+            index = Utilites.DirectionToIndex(mouseDir, 4);
+        }
 
         return index;
     }

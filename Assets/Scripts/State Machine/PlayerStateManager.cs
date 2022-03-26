@@ -9,7 +9,6 @@ public enum PlayerStates
     Movement,
     GrabbedByTentacle,
     Dead,
-    Search,
     Grappling
 }
 
@@ -34,7 +33,6 @@ public class PlayerStateManager : StateMachine
         movementState = new MovementState(player);
         grabbedState = new GrabbedByTentacleState(player);
         deadState = new PlayerDeadState(player);
-        searchState = new SearchingState(player);
         grappleState = new GrapplingHookState(player);
         idleState = new PlayerIdleState(player);
 
@@ -72,8 +70,6 @@ public class PlayerStateManager : StateMachine
             case PlayerStates.Dead:
                 return deadState;
 
-            case PlayerStates.Search:
-                return searchState;
 
             case PlayerStates.Grappling:
                 return grappleState;

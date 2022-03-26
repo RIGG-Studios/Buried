@@ -23,9 +23,10 @@ public class MainManager: MonoBehaviour
         nextScene = nextSceneName;
     }
 
-    public static int GetRemainingNotes(ItemDatabase inventory)
+    public static int GetRemainingNotes(PlayerInventory inventory)
     {
-        Item notes = inventory.FindItem(ItemProperties.ItemTypes.Note);
+        Item notes = null;
+        inventory.HasItem(ItemProperties.ItemTypes.Note, out notes);
 
         if(notes != null)
         {
