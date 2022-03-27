@@ -17,7 +17,7 @@ public class Slot : MonoBehaviour
         icon.sprite = item.item.itemSprite;
         icon.enabled = true;
 
-        if (!item.item.controllable)
+        if (item.item.stackable)
         {
             stack.text = item.stack.ToString();
             stack.enabled = true;

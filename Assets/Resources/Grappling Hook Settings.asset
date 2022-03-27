@@ -115,4 +115,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   grappleLayer:
     serializedVersion: 2
-    m_Bits: 16512
+    m_Bits: 16384

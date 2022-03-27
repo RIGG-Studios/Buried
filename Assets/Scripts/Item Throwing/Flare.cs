@@ -5,12 +5,15 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class Flare : MonoBehaviour, IThrowableObject
 {
-    public float decayOverTime;
-    public float timeUntilDestroy;
+    [SerializeField] private float decayOverTime;
+    [SerializeField] private float timeUntilDestroy;
+    [SerializeField] private Transform flareIcon;
 
     Light2D flareLight;
     Rigidbody2D rb;
     bool degrade;
+    bool hit;
+    int hitCount;
 
     float timeSinceThrown;
 
@@ -32,6 +35,11 @@ public class Flare : MonoBehaviour, IThrowableObject
                 Destroy(gameObject);
             }
         }
+
+        float velocity = rb.velocity.magnitude;
+        float target = velocity > 0.6f ? 180f : 0.0f;
+        if(!hit)
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, 0, Random.Range(-target, target)), Time.deltaTime * velocity);
     }
 
     public void OnThrow()
@@ -42,6 +50,15 @@ public class Flare : MonoBehaviour, IThrowableObject
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        rb.AddForce(collision.contacts[0].normal * rb.velocity.magnitude);
+        hitCount++;
+
+        if(hitCount >= 1)
+        {
+            hit = true;
+            return;
+        }
+
+      //  rb.AddForce(collision.contacts[0].normal * rb.velocity.magnitude * 25f);
+        rb.velocity /= 2;        
     }
 }

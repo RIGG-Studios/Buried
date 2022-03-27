@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Input/PlayerControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -16,12 +16,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     ""maps"": [
         {
             ""name"": ""Player"",
-            ""id"": ""3a3c0e39-6e8a-4804-a350-bcff4aa56e82"",
+            ""id"": ""62a40ff9-8d8b-4104-94b0-a102501210cc"",
             ""actions"": [
                 {
                     ""name"": ""Move"",
                     ""type"": ""Value"",
-                    ""id"": ""940550a1-ad02-4ead-99e9-21c28f06d853"",
+                    ""id"": ""cdefc85d-9aeb-41e5-ac12-022c94ff8001"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -29,103 +29,39 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
-                    ""id"": ""97c0cae1-e7d6-421c-8905-3678fe373e8b"",
+                    ""id"": ""ca979368-40e2-4996-810a-dbfd0ae4fc55"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Interact"",
-                    ""type"": ""Button"",
-                    ""id"": ""a63ea3eb-020f-4568-bdae-da0493c15426"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Flashlight"",
-                    ""type"": ""Button"",
-                    ""id"": ""8e2ee33a-d9b6-4be3-8130-ca3bbdb69ff3"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Leave"",
-                    ""type"": ""Button"",
-                    ""id"": ""bc4f8768-5987-4c42-bf1e-9b7adf2d6db2"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Slot1"",
-                    ""type"": ""Button"",
-                    ""id"": ""1500b0fc-2fb7-4af5-8a33-ac425bf182c4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Slot2"",
-                    ""type"": ""Button"",
-                    ""id"": ""db636c71-adfa-4f09-bc5c-0af863ba3ff9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Slot3"",
-                    ""type"": ""Button"",
-                    ""id"": ""84d4aa6b-192d-4eb6-b2db-3ca54fd96271"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Slot4"",
-                    ""type"": ""Button"",
-                    ""id"": ""e1ba0b08-1742-477e-974a-853c8fbbbddb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Slot5"",
-                    ""type"": ""Button"",
-                    ""id"": ""c9f358e5-9fb0-4c64-82f0-de64bea1da33"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""Slot6"",
-                    ""type"": ""Button"",
-                    ""id"": ""b1e4a9cf-1c96-4414-8702-2bca23f1ebe4"",
-                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""Fire"",
                     ""type"": ""Button"",
-                    ""id"": ""5faca0e2-0f0b-49e9-bd1a-9ccbdf9cffb8"",
+                    ""id"": ""978cb23d-4fa9-43a1-beca-b6990abb7014"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""ScrollUp"",
+                    ""name"": ""Scroll"",
                     ""type"": ""Value"",
-                    ""id"": ""078e7e15-bfb9-4aca-add9-59082b9d763a"",
+                    ""id"": ""f462ecdf-3a8f-4c43-a48c-e56fbb3a0859"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""ScrollDown"",
+                    ""name"": ""Flashlight"",
                     ""type"": ""Button"",
-                    ""id"": ""c0af5072-f510-46d7-93c8-77c5322567ba"",
+                    ""id"": ""53e07c42-6781-4452-a1cd-f9167e944734"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f68608c-26c0-4312-97a2-2e6c0468d13b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -299,7 +235,84 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b2af6734-2613-4c79-a623-e69cdb9ef8c3"",
+                    ""id"": ""143bb1cd-cc10-4eca-a2f0-a3664166fe91"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""05f6913d-c316-48b2-a6bb-e225f14c7960"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""886e731e-7071-4ae4-95c0-e61739dad6fd"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Touch"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ee3d0cd2-254e-47a7-a8cb-bc94d9658c54"",
+                    ""path"": ""<Joystick>/trigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Joystick"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8255d333-5683-4943-a58a-ccb207ff1dce"",
+                    ""path"": ""<XRController>/{PrimaryAction}"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""XR"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1c6355a-6864-4847-ac38-c4cd86b05b5e"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Scroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27e4ad41-f5ad-4249-a701-a47b9a989e76"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Flashlight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84a86cdf-2170-4750-8ce2-229f8c71dd4b"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -310,133 +323,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f00f4fe8-d42c-4619-97eb-d69fb7c0e750"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Flashlight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b59dea39-932c-4a17-8052-e37f70a79d1b"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Flashlight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6c632b91-598d-4f35-b046-1cd3bc276af6"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""2f61a5b9-1e3a-4e94-ae89-2b76c33d3434"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Leave"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1e2344c2-8712-46ff-89ce-c0550e67656f"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Slot1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cae6d66d-0d67-4b0a-bfca-4da6b98d6e33"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Slot2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""31325e4c-f851-40ec-b789-88008a528ec5"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Slot3"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e6283363-a15c-48d9-847f-b55bee7d3969"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Slot4"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0b277f7e-b6cf-40c5-ab8b-e96f10419fdc"",
-                    ""path"": ""<Keyboard>/5"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Slot5"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""674d7783-6535-4554-a805-6e22c245c548"",
-                    ""path"": ""<Keyboard>/6"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Slot6"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c765ce7f-8ba5-4966-8ffa-f134d607445f"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Fire"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1773e864-8686-4914-a30d-b0b6d41c27c6"",
-                    ""path"": ""<Mouse>/scroll/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""ScrollUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8de26fc7-58bf-41e3-8886-2fdc0d2200cd"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ScrollDown"",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -444,12 +336,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         },
         {
             ""name"": ""UI"",
-            ""id"": ""8abd62c3-592c-48ff-ac10-6e4295dba258"",
+            ""id"": ""00b19557-fdc7-4926-adfc-cbd9eb21e536"",
             ""actions"": [
                 {
                     ""name"": ""Navigate"",
                     ""type"": ""Value"",
-                    ""id"": ""91de473a-483a-4e19-b514-437e8b156fe0"",
+                    ""id"": ""6d9232f6-78cd-4c9d-a330-023e05cbd250"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -457,7 +349,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Submit"",
                     ""type"": ""Button"",
-                    ""id"": ""d7924482-202e-451b-91d4-dcd7bfcd7e1f"",
+                    ""id"": ""51ebd293-c038-477e-a263-3b0248109124"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -465,7 +357,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
-                    ""id"": ""bd4c6856-1b15-48cf-9ca3-0c0d2e2a7abd"",
+                    ""id"": ""f7b90bcc-87bd-4e2b-abc4-4bc3dd6dae72"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -473,7 +365,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Point"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""394fedcb-297a-41e1-80f2-d1394cd69aac"",
+                    ""id"": ""85678bf2-ad3a-44ef-a806-f6aad746487e"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -481,7 +373,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Click"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""7c503d6f-715e-4f5d-970a-dedc8bc8600d"",
+                    ""id"": ""9ce2ce2d-4437-4bf2-8ed5-9472caacdd4a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -489,7 +381,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""ScrollWheel"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""e8b416c8-c8ab-455a-aacb-8042572f0cb6"",
+                    ""id"": ""c652e8ae-1ef9-43e5-87f0-fec5e772ccac"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -497,7 +389,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""MiddleClick"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""8a329ea7-020a-4163-b812-2bba8fa83159"",
+                    ""id"": ""cb81c0b5-e5ad-4449-ad44-dca95f220f98"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -505,7 +397,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""RightClick"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""5b930073-cd2e-45bf-98db-04d72216da74"",
+                    ""id"": ""1285d1d3-4d53-4d3a-982b-e2713a70ac08"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -513,7 +405,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""TrackedDevicePosition"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""ee8489fd-79d3-42a3-8ece-c33adf4ba06e"",
+                    ""id"": ""0f197996-0b98-45e5-bcc4-b65e3ed58a27"",
                     ""expectedControlType"": ""Vector3"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -521,7 +413,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": ""TrackedDeviceOrientation"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""c9b495dd-c7ef-4cb6-962a-d714450273a9"",
+                    ""id"": ""e36431fa-62c0-41c2-bbdb-962beb6233e2"",
                     ""expectedControlType"": ""Quaternion"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -1016,18 +908,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
-        m_Player_Leave = m_Player.FindAction("Leave", throwIfNotFound: true);
-        m_Player_Slot1 = m_Player.FindAction("Slot1", throwIfNotFound: true);
-        m_Player_Slot2 = m_Player.FindAction("Slot2", throwIfNotFound: true);
-        m_Player_Slot3 = m_Player.FindAction("Slot3", throwIfNotFound: true);
-        m_Player_Slot4 = m_Player.FindAction("Slot4", throwIfNotFound: true);
-        m_Player_Slot5 = m_Player.FindAction("Slot5", throwIfNotFound: true);
-        m_Player_Slot6 = m_Player.FindAction("Slot6", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-        m_Player_ScrollUp = m_Player.FindAction("ScrollUp", throwIfNotFound: true);
-        m_Player_ScrollDown = m_Player.FindAction("ScrollDown", throwIfNotFound: true);
+        m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
+        m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1091,36 +975,20 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
-    private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_Flashlight;
-    private readonly InputAction m_Player_Leave;
-    private readonly InputAction m_Player_Slot1;
-    private readonly InputAction m_Player_Slot2;
-    private readonly InputAction m_Player_Slot3;
-    private readonly InputAction m_Player_Slot4;
-    private readonly InputAction m_Player_Slot5;
-    private readonly InputAction m_Player_Slot6;
     private readonly InputAction m_Player_Fire;
-    private readonly InputAction m_Player_ScrollUp;
-    private readonly InputAction m_Player_ScrollDown;
+    private readonly InputAction m_Player_Scroll;
+    private readonly InputAction m_Player_Flashlight;
+    private readonly InputAction m_Player_Interact;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
-        public InputAction @Leave => m_Wrapper.m_Player_Leave;
-        public InputAction @Slot1 => m_Wrapper.m_Player_Slot1;
-        public InputAction @Slot2 => m_Wrapper.m_Player_Slot2;
-        public InputAction @Slot3 => m_Wrapper.m_Player_Slot3;
-        public InputAction @Slot4 => m_Wrapper.m_Player_Slot4;
-        public InputAction @Slot5 => m_Wrapper.m_Player_Slot5;
-        public InputAction @Slot6 => m_Wrapper.m_Player_Slot6;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
-        public InputAction @ScrollUp => m_Wrapper.m_Player_ScrollUp;
-        public InputAction @ScrollDown => m_Wrapper.m_Player_ScrollDown;
+        public InputAction @Scroll => m_Wrapper.m_Player_Scroll;
+        public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1136,42 +1004,18 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Flashlight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
-                @Flashlight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
-                @Flashlight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
-                @Leave.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
-                @Leave.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
-                @Leave.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
-                @Slot1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot1;
-                @Slot1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot1;
-                @Slot1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot1;
-                @Slot2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot2;
-                @Slot2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot2;
-                @Slot2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot2;
-                @Slot3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot3;
-                @Slot3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot3;
-                @Slot3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot3;
-                @Slot4.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot4;
-                @Slot4.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot4;
-                @Slot4.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot4;
-                @Slot5.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot5;
-                @Slot5.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot5;
-                @Slot5.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot5;
-                @Slot6.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
-                @Slot6.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
-                @Slot6.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSlot6;
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
-                @ScrollUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollUp;
-                @ScrollUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollUp;
-                @ScrollUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollUp;
-                @ScrollDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollDown;
-                @ScrollDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollDown;
-                @ScrollDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScrollDown;
+                @Scroll.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScroll;
+                @Scroll.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScroll;
+                @Scroll.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnScroll;
+                @Flashlight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
+                @Flashlight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
+                @Flashlight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFlashlight;
+                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1182,42 +1026,18 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
-                @Interact.started += instance.OnInteract;
-                @Interact.performed += instance.OnInteract;
-                @Interact.canceled += instance.OnInteract;
-                @Flashlight.started += instance.OnFlashlight;
-                @Flashlight.performed += instance.OnFlashlight;
-                @Flashlight.canceled += instance.OnFlashlight;
-                @Leave.started += instance.OnLeave;
-                @Leave.performed += instance.OnLeave;
-                @Leave.canceled += instance.OnLeave;
-                @Slot1.started += instance.OnSlot1;
-                @Slot1.performed += instance.OnSlot1;
-                @Slot1.canceled += instance.OnSlot1;
-                @Slot2.started += instance.OnSlot2;
-                @Slot2.performed += instance.OnSlot2;
-                @Slot2.canceled += instance.OnSlot2;
-                @Slot3.started += instance.OnSlot3;
-                @Slot3.performed += instance.OnSlot3;
-                @Slot3.canceled += instance.OnSlot3;
-                @Slot4.started += instance.OnSlot4;
-                @Slot4.performed += instance.OnSlot4;
-                @Slot4.canceled += instance.OnSlot4;
-                @Slot5.started += instance.OnSlot5;
-                @Slot5.performed += instance.OnSlot5;
-                @Slot5.canceled += instance.OnSlot5;
-                @Slot6.started += instance.OnSlot6;
-                @Slot6.performed += instance.OnSlot6;
-                @Slot6.canceled += instance.OnSlot6;
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
-                @ScrollUp.started += instance.OnScrollUp;
-                @ScrollUp.performed += instance.OnScrollUp;
-                @ScrollUp.canceled += instance.OnScrollUp;
-                @ScrollDown.started += instance.OnScrollDown;
-                @ScrollDown.performed += instance.OnScrollDown;
-                @ScrollDown.canceled += instance.OnScrollDown;
+                @Scroll.started += instance.OnScroll;
+                @Scroll.performed += instance.OnScroll;
+                @Scroll.canceled += instance.OnScroll;
+                @Flashlight.started += instance.OnFlashlight;
+                @Flashlight.performed += instance.OnFlashlight;
+                @Flashlight.canceled += instance.OnFlashlight;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -1376,18 +1196,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
-        void OnFlashlight(InputAction.CallbackContext context);
-        void OnLeave(InputAction.CallbackContext context);
-        void OnSlot1(InputAction.CallbackContext context);
-        void OnSlot2(InputAction.CallbackContext context);
-        void OnSlot3(InputAction.CallbackContext context);
-        void OnSlot4(InputAction.CallbackContext context);
-        void OnSlot5(InputAction.CallbackContext context);
-        void OnSlot6(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
-        void OnScrollUp(InputAction.CallbackContext context);
-        void OnScrollDown(InputAction.CallbackContext context);
+        void OnScroll(InputAction.CallbackContext context);
+        void OnFlashlight(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

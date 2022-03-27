@@ -20,8 +20,8 @@ MonoBehaviour:
   itemPrefab: {fileID: 0}
   controllable: 0
   equipTime: 0
-  stackable: 0
-  stackAmount: 0
+  stackable: 1
+  stackAmount: 5
   button: {fileID: 0}
   inventoryButtons: 0
   uiInventoryButtons: []

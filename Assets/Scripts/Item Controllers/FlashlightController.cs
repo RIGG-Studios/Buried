@@ -9,112 +9,55 @@ public enum FlashlightStates
     Off
 }
 
-public class FlashlightController : ItemController
+public class FlashlightController : MonoBehaviour
 {
-    [SerializeField] private FlashlightStates state = FlashlightStates.Off;
-    [SerializeField] private Light2D lightSource;
 
-    private Battery currentBattery = null;
-    private Light2D defaultLight = null;
+    [SerializeField] private FlashlightStates state = FlashlightStates.Off;
+    [SerializeField] private FlashlightSettings settings = null;
+    [SerializeField] private float maxIntensity = 0.0f;
+    [SerializeField] private Light2D lightSource = null;
+    [SerializeField] private Light2D defaultLight = null;
 
     private float currentLightIntensity;
-    private bool flashLightDisabled;
-    private FlashlightSettings settings;
     private UIElement flashlightSlider;
-    private UIElementGroup batteriesNeededGroup;
-    private UIElement batteriesNeedText;
+    private Player player;
 
-    private void Awake()
-    {
-        flashlightSlider = CanvasManager.instance.FindElementGroupByID("PlayerVitals").FindElement("flashlightslider");
-        batteriesNeededGroup = CanvasManager.instance.FindElementGroupByID("BatteriesNeeded");
-
-        if(batteriesNeededGroup != null)
-        {
-            batteriesNeedText = batteriesNeededGroup.FindElement("text");
-        }    
-    }
 
     private void Start()
     {
+        player = FindObjectOfType<Player>();
         state = FlashlightStates.Off;
-    }
-
-    public override void SetupController(Player player, ItemProperties itemInInventory)
-    {
-        base.SetupController(player, itemInInventory);
-        defaultLight = player.defaultLight;
-        settings = player.flashLightSettings;
-    }
-
-    public void SetNewBattery(Battery battery)
-    {
-        if (currentBattery == battery || battery == null)
-            return;
-
+        player.playerInput.Player.Flashlight.performed += ctx => ToggleFlashLight();
+        flashlightSlider = CanvasManager.instance.FindElementGroupByID("PlayerVitals").FindElement("flashlightslider");
         currentLightIntensity = settings.maxIntensity;
-        currentBattery = battery;
-
-        if (flashLightDisabled)
-        {
-            flashLightDisabled = false;
-            UseItem();
-        }
     }
 
-    public override void ActivateItem()
-    {
-        UseItem();
-    }
 
-    public override void UseItem()
+    public void ToggleFlashLight()
     {
-        /*/
-        if (flashLightDisabled)
-            return;
-
         if(state == FlashlightStates.Off)
         {
-            if(currentBattery == null)
-            {
-                Item battery = null;
-                player.inventory.TryFindItem(ItemProperties.ItemTypes.Battery, out battery);
-
-                if (battery != null)
-                {
-                    player.inventory.UseItem(battery.item);
-                }
-                else
-                {
-                    BatteriesNeeded();
-                    return;
-                }
-            }
-
             flashlightSlider.SetActive(true);
             lightSource.enabled = true;
             defaultLight.enabled = false;
             state = FlashlightStates.On;
+            Debug.Log("g");
         }
         else if(state == FlashlightStates.On)
         {
+            Debug.Log("g");
+
             flashlightSlider.SetActive(false);
             lightSource.enabled = false;
             defaultLight.enabled = true;
             state = FlashlightStates.Off;
         }
-        /*/
     }
 
-    public override void ResetItem()
-    {
-  //      if (state == FlashlightStates.On)
-   //         UseItem();
-    }
 
     private void Update()
     {
-        if (currentBattery == null || state == FlashlightStates.Off)
+        if (state == FlashlightStates.Off)
             return;
 
         UpdateFlashlightBatteryLevel();
@@ -122,9 +65,8 @@ public class FlashlightController : ItemController
 
     private void UpdateFlashlightBatteryLevel()
     {
-        currentLightIntensity -= settings.maxIntensity / currentBattery.batteryLimit * Time.deltaTime;
+        currentLightIntensity -= settings.maxIntensity / maxIntensity * Time.deltaTime;
         lightSource.intensity = currentLightIntensity;
-        currentBattery.currentBatteryLife = currentLightIntensity;
 
         flashlightSlider.OverrideValue(currentLightIntensity);
 
@@ -140,24 +82,11 @@ public class FlashlightController : ItemController
         lightSource.intensity = 0.0f;
         currentLightIntensity = 0.0f;
         lightSource.enabled = false;
-        currentBattery = null;
-        flashLightDisabled = true;
     }
 
     public FlashlightStates GetState()
     {
         return state;
-    }
-
-    private void BatteriesNeeded()
-    {
-        batteriesNeededGroup.UpdateElements(0, 0, true);
-        Invoke("HideBatteriesNeeded", 0.5f);
-    }
-
-    private void HideBatteriesNeeded()
-    {
-        batteriesNeededGroup.UpdateElements(0, 0, false);
     }
 }
 

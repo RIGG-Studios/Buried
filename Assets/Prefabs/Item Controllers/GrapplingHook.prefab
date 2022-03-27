@@ -50,7 +50,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 908d79952cc41704c835cb1ecc1527fc, type: 2}
+  - {fileID: 2100000, guid: 0ea4968f9d46bd14788fee9fcd409ed8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -175,6 +175,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingPosition: {x: -0.02, y: 0.05, z: 0}
   startingRotation: {x: 0, y: 0, z: 0}
-  baseItem: {fileID: 11400000, guid: 18041df6f9fcdfa4bb6377235ca3eb99, type: 2}
+  properties: {fileID: 0}
   lineRenderer: {fileID: 41985515659211868}
-  settings: {fileID: 11400000, guid: 90864b5babac11946894cf671ceef8ff, type: 2}

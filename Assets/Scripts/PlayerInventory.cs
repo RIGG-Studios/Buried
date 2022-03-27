@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -12,8 +13,17 @@ public class PlayerInventory : MonoBehaviour
     public bool initialized { get; private set; }
     public List<ItemController> tools { get; private set; }
     public List<Item> items { get; private set; }
+    public ItemController currentTool { get; private set; }
 
     private Player player = null;
+    private UIElementGroup equipGroup = null;
+    private SliderElement equipSlider = null;
+    private UIElement equipText = null;
+
+    private int currentToolIndex = 0;
+    private float equipTimer = 0.0f;
+    private float equipLength = 0.0f;
+    private bool isEquipping = false;
 
     private void Awake()
     {
@@ -21,6 +31,16 @@ public class PlayerInventory : MonoBehaviour
         items = new List<Item>();
 
         player = GetComponent<Player>();
+
+        equipGroup = CanvasManager.instance.FindElementGroupByID("EquipGroup");
+
+        if (equipGroup != null)
+        {
+            equipSlider = (SliderElement)equipGroup.FindElement("slider");
+            equipText = equipGroup.FindElement("text");
+        }
+
+        InitializeInventory();
     }
 
     public void InitializeInventory()
@@ -35,8 +55,11 @@ public class PlayerInventory : MonoBehaviour
                 ItemController controller = Instantiate(startingTools[i].itemPrefab, itemParent).GetComponent<ItemController>();
 
                 controller.SetupController(player, startingTools[i]);
+                tools.Add(controller);
             }
         }
+
+        player.playerInput.Player.Fire.performed += ctx => UseTool();
     }
 
     private void OnEnable()
@@ -54,30 +77,67 @@ public class PlayerInventory : MonoBehaviour
         CanvasManager.instance.FindElementGroupByID("PlayerInventory").UpdateElements(0, 0, true);
     }
 
+    private void UseTool()
+    {
+        if (currentTool == null)
+            return;
+
+        currentTool.UseItem();
+    }
+
+    public void UseItem(ItemProperties.ItemTypes type)
+    {
+        Item item = null;
+        HasItem(type, out item);
+
+        if(item != null)
+        {
+            RemoveItem(item.item, 1);
+        }
+    }
+
     private void Update()
     {
-        float scroll = player.playerInput.Player.ScrollUp.ReadValue<float>();
+        float scroll = player.playerInput.Player.Scroll.ReadValue<float>();
 
         if(scroll > 0)
         {
-            Debug.Log("ya");
+            SwitchItems(1);
         }
         else if(scroll < 0)
         {
-            Debug.Log("down");
+            SwitchItems(-1);
         }
+    }
+
+    private void SwitchItems(int i)
+    {
+        if (isEquipping)
+            return;
+
+        currentToolIndex += i;
+
+        if (currentToolIndex > tools.Count - 1)
+            currentToolIndex = 0;
+        else if (currentToolIndex < 0)
+            currentToolIndex = tools.Count - 1;
+
+        StartCoroutine(SwitchTools(tools[currentToolIndex]));
     }
 
     public bool AddItem(ItemProperties properties, int amount)
     {
-        switch (properties.controllable)
+        if (properties.stackable)
         {
-            case true:
-                return AddControllableItem(properties);
-
-            case false:
-                return AddStackableItem(properties, amount);
+            return AddStackableItem(properties, amount);
         }
+
+        if (properties.controllable)
+        {
+            return AddControllableItem(properties);
+        }
+
+        return false;
     }
 
     private bool AddControllableItem(ItemProperties properties)
@@ -103,6 +163,7 @@ public class PlayerInventory : MonoBehaviour
             if (nextStack <= properties.stackAmount)
             {
                 item.stack += amount;
+                item.slot.UpdateStack();
                 success = true;
             }
             else if (nextStack <= 0)
@@ -119,10 +180,10 @@ public class PlayerInventory : MonoBehaviour
     private bool SpawnNewStackableItem(ItemProperties properties, int amt)
     {
         bool success = false;
-        Item item = new Item(properties, amt);
         Slot slot = Instantiate(itemUI, stackableParent).GetComponent<Slot>();
+        Item item = new Item(properties, slot, amt);
 
-        if(slot != null)
+        if (slot != null)
         {
             slot.SetupSlot(item);
             success = true;
@@ -157,17 +218,59 @@ public class PlayerInventory : MonoBehaviour
             }
         }
     }
+
+    private ItemController FindTool(ItemProperties properties)
+    {
+        for (int i = 0; i < tools.Count; i++)
+        {
+            if (properties == tools[i].properties)
+                return tools[i];
+        }
+
+        return null;
+    }
+
+    private IEnumerator SwitchTools(ItemController nextTool)
+    {
+        isEquipping = true;
+        equipGroup.UpdateElements(0, 0, true);
+        equipSlider.SetMax(nextTool.properties.equipTime);
+
+        if (currentTool != null)
+        {
+            currentTool.ResetItem();
+        }
+
+        float t = nextTool.properties.equipTime;
+        while (t > 0.3f) 
+        {
+            t -= Time.deltaTime * 2f;
+            equipText.OverrideValue("Equipping: " + nextTool.properties.itemName);
+            equipSlider.OverrideValue(t);
+
+            yield return null;
+        }
+        Debug.Log("e");
+        equipGroup.UpdateElements(0, 0, false);
+
+        currentTool = nextTool;
+        currentTool.ActivateItem();
+
+        isEquipping = false;
+    }
 }
 
 [System.Serializable]
 public class Item
 {
     public ItemProperties item = null;
+    public Slot slot = null;
     public int stack = 0;
 
-    public Item(ItemProperties item, int stack)
+    public Item(ItemProperties item, Slot slot, int stack)
     {
         this.item = item;
+        this.slot = slot;
         this.stack = stack;
     }
 }

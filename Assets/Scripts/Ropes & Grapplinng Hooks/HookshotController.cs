@@ -16,9 +16,8 @@ public class HookshotController : ItemController
 
     public override void UseItem()
     {
-        /*/
         Item ammo = null;
-        player.inventory.TryFindItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out ammo);
+        player.inventory.HasItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out ammo);
 
         if (ammo != null && ammo.stack > 0)
         {
@@ -32,14 +31,11 @@ public class HookshotController : ItemController
             {
                 player.stateManager.TransitionStates(PlayerStates.Grappling);
             }
-
-            player.inventory.UseItem(ammo.item);
         }
         else
         {
             player.playerCam.ShakeCamera(settings.shakeDuration / 3, settings.shakeMagnitude / 3);
         }
-        /*/
     }
 
     public Vector3 GetPosition()

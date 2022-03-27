@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b15cfdf9dde29649851ed6226de8ad2, type: 3}
   m_Name: Grappling Hook
   m_EditorClassIdentifier: 
-  itemName: Hook
+  itemName: Grappling Hook
   itemDescription: 
   itemType: 2
   activateType: 0
   itemSprite: {fileID: 21300000, guid: 3c21aef9479adbf4d9394fc3dd256655, type: 3}
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 7186079014763946330, guid: 5a34aedb4d6559846980760b535d2be3,
+    type: 3}
   controllable: 1
-  equipTime: 0
+  equipTime: 1
   stackable: 0
   stackAmount: 0
   button: {fileID: 0}

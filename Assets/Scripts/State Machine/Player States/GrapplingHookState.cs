@@ -40,10 +40,8 @@ public class GrapplingHookState : State
     {
         if (grappleController == null)
         {
-            /*/
-            grappleController = (HookshotController)player.inventory.GetCurrentControllableItem();
+            grappleController = (HookshotController)player.inventory.currentTool;
 
-            /*/
             line = grappleController.GetLine();
         }
 
@@ -64,6 +62,7 @@ public class GrapplingHookState : State
                 return;
             }
 
+            player.inventory.UseItem(ItemProperties.ItemTypes.GrapplingHookAmmo);
             state = GrappleStates.Shooting;
             grappleTarget = hit.point;
             line.enabled = true;
