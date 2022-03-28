@@ -78,7 +78,7 @@ public class MovementState : State
     {
         int index = 0;
 
-        if (player.flashLight.GetState() == FlashlightStates.Off)
+        if (player.flashLight.GetState() == FlashlightStates.Off || isMoving)
         {
             if (movementInput.x < 0)
                 index = 2;
@@ -88,7 +88,6 @@ public class MovementState : State
                 index = 3;
             if (movementInput.y > 0)
                 index = 4;
-
         }
         else
         {

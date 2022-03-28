@@ -205,20 +205,13 @@ public class TentacleController : MonoBehaviour
 
         if (playerDistFromTentacle <= properties.lightDistance)
         {
-            /*/
-            if (player.inventory.currentControllableItem.baseItem.itemType == ItemProperties.ItemTypes.Flashlight)
+            if (player.flashLight.GetState() == FlashlightStates.On)
             {
-                FlashlightController controller = (FlashlightController)player.inventory.currentControllableItem;
+                float ang = Vector2.Angle(Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()), GetAgentPosition());
 
-                if (controller.GetState() == FlashlightStates.On)
-                {
-                    float ang = Vector2.Angle(Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()), GetAgentPosition());
-
-                    if (ang < 5f)
-                        scared = true;
-                }
+                if (ang < 5f)
+                    scared = true;
             }
-            /*/
         }
 
         Flare[] flares = FindObjectsOfType<Flare>();

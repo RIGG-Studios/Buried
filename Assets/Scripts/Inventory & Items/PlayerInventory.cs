@@ -7,7 +7,6 @@ public class PlayerInventory : MonoBehaviour
 {
     [SerializeField] private List<ItemProperties> startingTools = new List<ItemProperties>();
     [SerializeField] private GameObject itemUI = null;
-    [SerializeField] private Transform stackableParent = null;
     [SerializeField] private Transform itemParent = null;
 
     public bool initialized { get; private set; }
@@ -19,6 +18,7 @@ public class PlayerInventory : MonoBehaviour
     private UIElementGroup equipGroup = null;
     private SliderElement equipSlider = null;
     private UIElement equipText = null;
+    private Transform stackableParent = null;
 
     private int currentToolIndex = 0;
     private float equipTimer = 0.0f;
@@ -40,6 +40,7 @@ public class PlayerInventory : MonoBehaviour
             equipText = equipGroup.FindElement("text");
         }
 
+        stackableParent = CanvasManager.instance.FindElementGroupByID("PlayerInventory").FindElement("grid").transform;
         InitializeInventory();
     }
 
@@ -60,6 +61,8 @@ public class PlayerInventory : MonoBehaviour
         }
 
         player.playerInput.Player.Fire.performed += ctx => UseTool();
+
+        SwitchItems(0);
     }
 
     private void OnEnable()
@@ -150,6 +153,9 @@ public class PlayerInventory : MonoBehaviour
 
     private bool AddControllableItem(ItemProperties properties)
     {
+        if (FindTool(properties))
+            return false;
+
         ItemController controller = Instantiate(properties.itemPrefab, itemParent).GetComponent<ItemController>();
 
         controller.SetupController(player, properties);
@@ -166,7 +172,7 @@ public class PlayerInventory : MonoBehaviour
 
         if(item != null)
         {
-            int nextStack = item.stack + amount;
+            int nextStack = (item.stack+ amount);
 
             if (nextStack <= properties.stackAmount)
             {
@@ -269,7 +275,7 @@ public class PlayerInventory : MonoBehaviour
 
             yield return null;
         }
-        Debug.Log("e");
+
         equipGroup.UpdateElements(0, 0, false);
 
         currentTool = nextTool;

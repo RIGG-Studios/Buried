@@ -15,7 +15,7 @@ MonoBehaviour:
   maxDistance: 8
   shootSpeed: 7
   percision: 20
-  waveSize: 1
+  waveSize: 1.4
   launchSpeedMultiplier: 20
   straightenLineSpeed: 7
   shakeDuration: 1

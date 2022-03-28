@@ -21,8 +21,6 @@ public class TentacleManager : MonoBehaviour
         instance = this;
 
         spawners = FindObjectsOfType<TentacleSpawner>();
-
-        SetupTentacles();
     }
 
     private void OnEnable()
@@ -34,6 +32,7 @@ public class TentacleManager : MonoBehaviour
     {
         GameEvents.OnNotePickedUp -= OnNotePickedUp;
     }
+
 
     private void OnNotePickedUp(int noteCount)
     {
@@ -51,9 +50,7 @@ public class TentacleManager : MonoBehaviour
         }
     }
 
-
-
-    public void SetupTentacles()
+    public void Initialize()
     {
         for(int i = 0; i < tentacleProperties.Length; i++)
         {
@@ -67,6 +64,7 @@ public class TentacleManager : MonoBehaviour
                 controller.transform.parent = transform;
                 controller.properties = tentacleProperties[i];
                 controller.InitializeTentacles();
+                controller.stateManager.InitializeStates();
 
                 tentacles.Add(controller);
             }

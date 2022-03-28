@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
+
 
 public class FlareController : ItemController
 {
     private Transform throwTransform;
     private FlareSettings settings;
+
 
     public override void SetupController(Player player, ItemProperties properties)
     {
@@ -20,13 +23,19 @@ public class FlareController : ItemController
         if (flares != null)
         {
             if (flares.stack <= 0)
+            {
+                StartCoroutine(ShowAmmoNeededUI("NO FLARES"));
                 return;
+            }
 
-            Debug.Log("hi");
             Vector2 dir = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()) - transform.position;
             ItemThrower.ThrowItem(throwTransform, settings.flarePrefab, dir.normalized, settings.throwForce, settings.decayRate, settings.baseIntensity);
 
             player.inventory.UseItem(properties.itemType);
+        }
+        else
+        {
+            StartCoroutine(ShowAmmoNeededUI("NO FLARES"));
         }
     }
 }

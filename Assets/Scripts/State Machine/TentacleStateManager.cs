@@ -30,7 +30,7 @@ public class TentacleStateManager : StateMachine
     private GrabPlayerState grabState;
 
     //when we awake, assign all the variables to their proper values.
-    private void Awake()
+    public void InitializeStates()
     {
         //create new instances of all the states
         attackState = new AttackState(controller, GameObject.FindGameObjectWithTag("Player").GetComponent<Player>());

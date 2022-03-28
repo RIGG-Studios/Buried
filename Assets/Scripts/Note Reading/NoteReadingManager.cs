@@ -17,7 +17,7 @@ public class NoteReadingManager : MonoBehaviour
             instance = this;
     }
 
-    private void Start()
+    public void Initialize()
     {
         player = FindObjectOfType<Player>();
         noteGroup = CanvasManager.instance.FindElementGroupByID("Note");

@@ -19,10 +19,13 @@ public class HookshotController : ItemController
         Item ammo = null;
         player.inventory.HasItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out ammo);
 
-        if (ammo != null && ammo.stack > 0)
+        if (ammo != null && player.stateManager.currentState.name != "PlayerGrapple")
         {
-            if (player.stateManager.currentState.name == "PlayerGrapple")
+            if(ammo.stack <= 0)
+            {
+                StartCoroutine(ShowAmmoNeededUI("NO AMMO"));
                 return;
+            }
 
             Vector2 mouseDir = (Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()) - player.GetPosition()).normalized;
             RaycastHit2D hit = Physics2D.Raycast(player.transform.position, mouseDir, settings.maxDistance, settings.grappleLayer);
@@ -34,7 +37,7 @@ public class HookshotController : ItemController
         }
         else
         {
-            player.playerCam.ShakeCamera(settings.shakeDuration / 3, settings.shakeMagnitude / 3);
+            StartCoroutine(ShowAmmoNeededUI("NO AMMO"));
         }
     }
 
@@ -47,4 +50,6 @@ public class HookshotController : ItemController
     {
         return lineRenderer;
     }
+
+
 }

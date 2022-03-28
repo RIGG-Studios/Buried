@@ -27,6 +27,12 @@ public class PlayerInteractionManager : MonoBehaviour
     {
         player = GetComponent<Player>();
         camera = Camera.main;
+
+        if(interactionAssist != null)
+        {
+            interactionAssist.transform.SetParent(null);
+            interactionAssist.transform.position = new Vector3(150, 150, 0);
+        }
     }
 
     private void Start()
@@ -41,6 +47,7 @@ public class PlayerInteractionManager : MonoBehaviour
         Vector3 mouseWorldSpace = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
 
         RaycastHit2D spriteHit = Physics2D.Raycast(mouseWorldSpace, transform.position - mouseWorldSpace, minInteractionDistance, interactionLayer);
+        /*/
         RaycastResult uiHit = Utilites.IsPointerOverUIElement();
 
         if (uiHit.gameObject != null)
@@ -51,6 +58,7 @@ public class PlayerInteractionManager : MonoBehaviour
         {
             OnStopHoverInteractable();
         }
+        /*/
 
         if (allowInteractions)
         {
@@ -61,7 +69,7 @@ public class PlayerInteractionManager : MonoBehaviour
                 if (dist < 2)
                     OnHoverOverInteractable(spriteHit.collider.gameObject, spriteHit.point);
             }
-            else if (spriteHit.collider == null && hoveredObject != null && uiHit.gameObject == null)
+            else if (spriteHit.collider == null && hoveredObject != null)
             {
                 OnStopHoverInteractable();
             }

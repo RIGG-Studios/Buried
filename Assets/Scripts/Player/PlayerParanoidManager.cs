@@ -68,7 +68,7 @@ public class PlayerParanoidManager : MonoBehaviour
 
         paranoidAmount = Mathf.Clamp(1 - (distance * enemyDistanceMultiplier), 0.1f, 1f);
         currentHeartBeat = paranoidAmount * heartBeatMultiplier;
-        currentShakeMagnitude = distance >= enemyDistanceThreshold ? 0 : (paranoidAmount * cameraShakeMultiplier);
+        currentShakeMagnitude = distance >= enemyDistanceThreshold ? Mathf.Lerp(currentShakeMagnitude, 0, Time.deltaTime * 5f) : (paranoidAmount * cameraShakeMultiplier);
         playerCamera.SetShakeMagnitude(currentShakeMagnitude);
 
         float t = (60f / currentHeartBeat);

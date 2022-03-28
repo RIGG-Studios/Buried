@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-//Base class for item controllers, since we need a way for items to have functionaility (like a flashlight or a grappling hook)
-//they have some variables/methods that relate. This class handles all the base functionality of those items
 public class ItemController : MonoBehaviour
 {
-    //when this items spawns in, where?
     public Vector3 startingPosition;
-    //when this item spawns in, what rotation
     public Vector3 startingRotation;
-    //item this controller relates too
     public ItemProperties properties;
-    //player
     protected Player player;
 
-    //setup controller, used to assign the player
+    private UIElementGroup ammoNeededGroup = null;
+    private UIElement ammoNeededText = null;
+
     public virtual void SetupController(Player player, ItemProperties properties)
     {
+        ammoNeededGroup = CanvasManager.instance.FindElementGroupByID("AmmoNeeded");
+        ammoNeededText = ammoNeededGroup.FindElement("text");
+
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
 
@@ -26,9 +25,16 @@ public class ItemController : MonoBehaviour
         this.properties = properties;
     }
 
-    //use item, if this item is a flashlight toggle it on or off, or if this is a grappling hook try and fire the grappling hook.
     public virtual void UseItem() { }
-    //resets the item, if we are using another item there is no need to keep using the old item. This method disabled items that arent used.
     public virtual void ResetItem() { }
     public virtual void ActivateItem() { }
+
+    public IEnumerator ShowAmmoNeededUI(string text)
+    {
+        ammoNeededGroup.UpdateElements(0, 0, true);
+        ammoNeededText.OverrideValue(text);
+        yield return new WaitForSeconds(0.25f);
+        ammoNeededText.OverrideValue(string.Empty);
+        ammoNeededGroup.UpdateElements(0, 0, false);
+    }
 }

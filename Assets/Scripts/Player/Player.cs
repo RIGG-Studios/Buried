@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
 
     public MovementSettings movementSettings;
     public GrapplingHookSettings grappleHookSettings;
-    public FlashlightSettings flashLightSettings;
     public FlareSettings flareSettings;
 
     [HideInInspector]
@@ -57,8 +56,8 @@ public class Player : MonoBehaviour
         playerCam = FindObjectOfType<PlayerCamera>();
         flashLight = FindObjectOfType<FlashlightController>();
     }
-
-    public void StartGame()
+    
+    public void Initialize()
     {
         stateManager.TransitionStates(PlayerStates.Movement);
     }

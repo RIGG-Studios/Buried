@@ -87,6 +87,7 @@ public class FlashlightController : MonoBehaviour
         lightSource.intensity = 0.0f;
         currentLightIntensity = 0.0f;
         lightSource.enabled = false;
+        flashlightSlider.SetActive(false);
     }
 
     public FlashlightStates GetState()

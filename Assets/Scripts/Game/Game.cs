@@ -13,14 +13,19 @@ public enum GameStates
 public class Game : MonoBehaviour
 {
     public static Game instance;
+
+
     public Player player { get; private set; }
+    public TentacleManager tentacleManager { get; private set; }
     public GameStates gameState { get; private set; }
+
+    private GameObject spawnPoint = null;
 
     private void Awake()
     {
         instance = this;
-
-        player = FindObjectOfType<Player>();
+        spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+        tentacleManager = FindObjectOfType<TentacleManager>();
     }
 
     private void Start()
@@ -55,8 +60,18 @@ public class Game : MonoBehaviour
 
     private void StartGame()
     {
+        Player player = PlayerSpawner.SpawnPlayer(spawnPoint.transform);
+
+        if(player)
+        {
+            this.player = player;
+
+            this.player.Initialize();
+            tentacleManager.Initialize();
+            NoteReadingManager.instance.Initialize();
+        }
+
         GameEvents.OnStartGame?.Invoke();
-        player.StartGame();
     }
 
     private void Loading()
