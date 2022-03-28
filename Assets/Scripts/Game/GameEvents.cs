@@ -24,15 +24,9 @@ public class GameEvents
     public delegate void PlayAudio(string audio);
     public static PlayAudio OnPlayAudio;
 
-    public delegate void PlayerLootChest();
-    public static PlayerLootChest OnSearchChest;
+    public delegate void NotePickedUp(int noteCount);
+    public static NotePickedUp OnNotePickedUp;
 
-    public delegate void PlayerTakeItem(Item item);
-    public static PlayerTakeItem OnPlayerTakeItem;
-
-    public delegate void PlayerUseItem(ItemProperties item);
-    public static PlayerUseItem OnPlayerUseItem;
-
-    public delegate void PlayerEnterNewRoom(Room room);
-    public static PlayerEnterNewRoom OnPlayerEnterRoom;
+    public delegate void ToggleRechargingStation(bool inside);
+    public static ToggleRechargingStation OnToggleRechargingStation;
 }

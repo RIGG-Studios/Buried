@@ -7,10 +7,12 @@ public class Flare : MonoBehaviour, IThrowableObject
 {
     [SerializeField] private float decayOverTime;
     [SerializeField] private float timeUntilDestroy;
+    [SerializeField] private float fakeHeight;
     [SerializeField] private Transform flareIcon;
 
     Light2D flareLight;
     Rigidbody2D rb;
+    BoxCollider2D collider;
     bool degrade;
     bool hit;
     int hitCount;
@@ -21,6 +23,8 @@ public class Flare : MonoBehaviour, IThrowableObject
     {
         rb = GetComponent<Rigidbody2D>();
         flareLight = GetComponent<Light2D>();
+        collider = GetComponent<BoxCollider2D>();
+        rb.gravityScale = 0f;
     }
 
     void Update()
@@ -38,8 +42,8 @@ public class Flare : MonoBehaviour, IThrowableObject
 
         float velocity = rb.velocity.magnitude;
         float target = velocity > 0.6f ? 180f : 0.0f;
-        if(!hit)
-            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, 0, Random.Range(-target, target)), Time.deltaTime * velocity);
+
+        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(0, 0, Random.Range(-target, target)), Time.deltaTime * velocity);
     }
 
     public void OnThrow()
@@ -50,15 +54,13 @@ public class Flare : MonoBehaviour, IThrowableObject
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        hitCount++;
-
-        if(hitCount >= 1)
+        if(collision.gameObject.layer == 13)
         {
-            hit = true;
-            return;
+            Debug.Log("a");
+            flareIcon.gameObject.SetActive(false);
+            collider.enabled = false;
+            flareLight.enabled = false;
+            rb.gravityScale = 1f;
         }
-
-      //  rb.AddForce(collision.contacts[0].normal * rb.velocity.magnitude * 25f);
-        rb.velocity /= 2;        
     }
 }

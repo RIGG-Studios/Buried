@@ -1,27 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class TentacleManager : MonoBehaviour
 {
-    public bool initialized { get; private set; }
-
-    [SerializeField]
-    private TentacleProperties[] tentacleProperties;
-
-    [SerializeField]
-    private GameObject tentaclePrefab;
-
     public static TentacleManager instance;
 
+    [SerializeField] private TentacleProperties[] tentacleProperties;
+    [SerializeField] private TentacleDifficultyProgression progression;
+    [SerializeField] private GameObject tentaclePrefab;
+
+    public bool initialized { get; private set; }
+
     private List<TentacleController> tentacles = new List<TentacleController>();
+    private TentacleSpawner[] spawners;
 
     void Start()
     {
         instance = this;
 
+        spawners = FindObjectsOfType<TentacleSpawner>();
+
         SetupTentacles();
     }
+
+    private void OnEnable()
+    {
+        GameEvents.OnNotePickedUp += OnNotePickedUp;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnNotePickedUp -= OnNotePickedUp;
+    }
+
+    private void OnNotePickedUp(int noteCount)
+    {
+        if (noteCount <= 0)
+            return;
+
+        DifficultyProgressionProperties difficultProps = progression.FindProperty(noteCount);
+
+        if(difficultProps != null)
+        {
+            TentacleSpawner[] spawners = FindClosestSpawners(difficultProps.tentaclesToSpawn, Game.instance.player.GetPosition());
+
+            foreach (TentacleSpawner s in spawners)
+                SpawnTentacle(s, 1);
+        }
+    }
+
+
 
     public void SetupTentacles()
     {
@@ -57,6 +87,14 @@ public class TentacleManager : MonoBehaviour
         }
 
         spawner.occupied = true;
+    }
+
+    private TentacleSpawner[] FindClosestSpawners(int amount, Vector3 pos)
+    {
+        List<TentacleSpawner> spawners = this.spawners.OrderBy(x => (pos - x.transform.position).magnitude).ToList();
+        IEnumerable<TentacleSpawner> s = spawners.Take(amount);
+
+        return s.ToArray();
     }
 
     private TentacleController[] GetTentacles(int amount)

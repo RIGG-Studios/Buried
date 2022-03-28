@@ -21,6 +21,7 @@ public class FlashlightController : MonoBehaviour
     private float currentLightIntensity;
     private UIElement flashlightSlider;
     private Player player;
+    private bool chargeBattery;
 
 
     private void Start()
@@ -41,12 +42,9 @@ public class FlashlightController : MonoBehaviour
             lightSource.enabled = true;
             defaultLight.enabled = false;
             state = FlashlightStates.On;
-            Debug.Log("g");
         }
         else if(state == FlashlightStates.On)
         {
-            Debug.Log("g");
-
             flashlightSlider.SetActive(false);
             lightSource.enabled = false;
             defaultLight.enabled = true;
@@ -63,9 +61,14 @@ public class FlashlightController : MonoBehaviour
         UpdateFlashlightBatteryLevel();
     }
 
+
     private void UpdateFlashlightBatteryLevel()
     {
-        currentLightIntensity -= settings.maxIntensity / maxIntensity * Time.deltaTime;
+        if(chargeBattery)
+            currentLightIntensity += settings.maxIntensity / maxIntensity * Time.deltaTime;
+        else
+            currentLightIntensity -= settings.maxIntensity / maxIntensity * Time.deltaTime;
+
         lightSource.intensity = currentLightIntensity;
 
         flashlightSlider.OverrideValue(currentLightIntensity);
@@ -75,6 +78,8 @@ public class FlashlightController : MonoBehaviour
             DisableItem();
         }
     }
+
+    public void ToggleChargeBattery(bool state) => chargeBattery = state;  
 
     private void DisableItem()
     {

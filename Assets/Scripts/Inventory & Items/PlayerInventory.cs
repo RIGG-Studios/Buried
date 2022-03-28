@@ -129,7 +129,15 @@ public class PlayerInventory : MonoBehaviour
     {
         if (properties.stackable)
         {
-            return AddStackableItem(properties, amount);
+            bool success = AddStackableItem(properties, amount);
+
+            if (success)
+            {
+                if (properties.itemType == ItemProperties.ItemTypes.Note)
+                    GameEvents.OnNotePickedUp?.Invoke(FindItem(properties).stack);
+
+                return success;
+            }
         }
 
         if (properties.controllable)
@@ -225,6 +233,17 @@ public class PlayerInventory : MonoBehaviour
         {
             if (properties == tools[i].properties)
                 return tools[i];
+        }
+
+        return null;
+    }
+
+    private Item FindItem(ItemProperties item)
+    {
+        for(int i = 0; i < items.Count; i++)
+        {
+            if (items[i].item == item)
+                return items[i];
         }
 
         return null;

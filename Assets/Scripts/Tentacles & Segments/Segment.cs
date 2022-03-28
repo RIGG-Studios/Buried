@@ -84,10 +84,11 @@ public class Segment
         //the next position will be the origin + dir
         Vector2 position = origin + dir.normalized;
         //check for any walls the segment may collide with with a simple raycast in the direction we are travelling too
-        RaycastHit2D hit = Physics2D.CircleCast(origin, 0.15f, dir, dir.magnitude, wallLayer);
+        RaycastHit2D hit = Physics2D.CircleCast(origin, .5f, dir, 0, wallLayer);
 
         collided = hit.collider != null && index != properties.tentacleSegments - 1;
 
+        Debug.DrawRay(origin, dir, Color.red);
         //if we hit something, set the position to the collision point + the normal for a hit offset effect
         if (collided)
         {

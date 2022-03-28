@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
     public Light2D defaultLight;
     [HideInInspector]
     public PlayerCamera playerCam;
+    [HideInInspector]
+    public FlashlightController flashLight;
 
     public Collider2D collider
     {
@@ -53,6 +55,7 @@ public class Player : MonoBehaviour
         playerInteraction = GetComponent<PlayerInteractionManager>();
         defaultLight = GetComponentInChildren<Light2D>();
         playerCam = FindObjectOfType<PlayerCamera>();
+        flashLight = FindObjectOfType<FlashlightController>();
     }
 
     public void StartGame()
@@ -63,17 +66,24 @@ public class Player : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnPlayerGetGrabbed += GrabbedState;
+        GameEvents.OnToggleRechargingStation += OnEnterRechargingStation;
     }
 
     private void OnDisable()
     {
         GameEvents.OnPlayerGetGrabbed -= GrabbedState;
+        GameEvents.OnToggleRechargingStation -= OnEnterRechargingStation;
     }
 
     private void GrabbedState(TentacleController controller)
     {
         stateManager.TransitionStates(PlayerStates.GrabbedByTentacle);
         attackingTentacle = controller;
+    }
+
+    private void OnEnterRechargingStation(bool toggle)
+    {
+        flashLight.ToggleChargeBattery(toggle);
     }
 
     public Vector3 GetPosition()

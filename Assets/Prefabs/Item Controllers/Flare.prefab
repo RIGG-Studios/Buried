@@ -172,6 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decayOverTime: 0.25
   timeUntilDestroy: 20
+  fakeHeight: 0
   flareIcon: {fileID: 8424263245388872711}
 --- !u!50 &242383798693861586
 Rigidbody2D:
@@ -186,14 +187,14 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 88bdbec17168ca84bb106729c9b09974, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &8009287552297176703
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -58,7 +58,7 @@ public class AttackState : State
         attackTime += Time.deltaTime;
 
         controller.UpdateAgentPosition(playerPos);
-        controller.UpdateSegmentPositions(playerPos);
+        controller.UpdateSegmentPositions(controller.GetAgentPosition());
         controller.CheckForLights();
     }
 }
