@@ -669,7 +669,7 @@ MonoBehaviour:
   m_Color: {r: 0.9716981, g: 0.7963838, b: 0.5377951, a: 1}
   m_Intensity: 1.57
   m_LightVolumeOpacity: 0.154
-  m_ApplyToSortingLayers: d939d910f95c010059050b7a00000000
+  m_ApplyToSortingLayers: d939d910f95c010059050b7a00000000a7bcb77c
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -905,6 +905,7 @@ GameObject:
   - component: {fileID: 8840369115370620712}
   - component: {fileID: 8840369115370620719}
   - component: {fileID: 8840369115370620715}
+  - component: {fileID: 5506523797748207776}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -1189,3 +1190,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 257710a7a7b35c5478de1e0a89d1376f, type: 2}
   itemUI: {fileID: 7539297883243094625, guid: 4e001c50f54ef624ea954a9cb365635a, type: 3}
   itemParent: {fileID: 5096201167517069325}
+--- !u!81 &5506523797748207776
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8840369115370620705}
+  m_Enabled: 1

@@ -53,7 +53,7 @@ public class FlashlightController : MonoBehaviour
 
     private void Update()
     {
-        if (chargeBattery)
+        if (chargeBattery && currentLightIntensity <= settings.maxIntensity)
         {
             currentLightIntensity += settings.maxIntensity / maxIntensity * Time.deltaTime;
         }

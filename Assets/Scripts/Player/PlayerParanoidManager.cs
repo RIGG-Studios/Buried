@@ -38,17 +38,20 @@ public class PlayerParanoidManager : MonoBehaviour
 
         if (controller == null)
         {
-            playerCamera.SetShakeMagnitude(0.0f
-                );
-            return;
+            playerCamera.SetShakeMagnitude(0.0f);
+            distance /= Time.deltaTime * 2f;
         }
+        else
+        {
+            distance = (controller.GetTentacleEndPoint() - transform.position).magnitude;
 
-        distance = (controller.GetTentacleEndPoint() - transform.position).magnitude;
+            currentShakeMagnitude = distance >= enemyDistanceThreshold ? Mathf.Lerp(currentShakeMagnitude, 0, Time.deltaTime * 5f) : (paranoidAmount * cameraShakeMultiplier);
+            playerCamera.SetShakeMagnitude(currentShakeMagnitude);
+        }
 
         paranoidAmount = Mathf.Clamp(1 - (distance * enemyDistanceMultiplier), 0.1f, 1f);
         currentHeartBeat = paranoidAmount * heartBeatMultiplier;
-        currentShakeMagnitude = distance >= enemyDistanceThreshold ? Mathf.Lerp(currentShakeMagnitude, 0, Time.deltaTime * 5f) : (paranoidAmount * cameraShakeMultiplier);
-        playerCamera.SetShakeMagnitude(currentShakeMagnitude);
+
 
         float t = (60f / currentHeartBeat);
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficultyProgression:
   - noteCount: 1
-    tentaclesToSpawn: 2
+    tentaclesToSpawn: 1
   - noteCount: 2
     tentaclesToSpawn: 1
   - noteCount: 3
