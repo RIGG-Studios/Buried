@@ -12,7 +12,6 @@ public class RetreatState : State
     {
         this.player = player;
         this.controller = controller;
-
         properties = controller.GetTentacleProperties();
     }
 
@@ -21,7 +20,7 @@ public class RetreatState : State
         stateManager = controller.stateManager;
         controller.targetSpeed = 0.05f;
 
-        GameEvents.OnTentacleRetreat.Invoke(controller);
+        GameEvents.OnTentacleRetreat?.Invoke(controller);
         GameEvents.OnPlayerDie += OnPlayerDead;
 
         float dist = controller.GetDistanceBetweenPlayerAndEndPoint();
@@ -30,6 +29,8 @@ public class RetreatState : State
         {
             controller.SetAgentPosition(controller.GetTentacleEndPoint());
         }
+
+        controller.targetSpeed = 0.1f;
     }
 
     public override void ExitState()

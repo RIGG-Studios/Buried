@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine;
+using TMPro;
 using System.Collections;
 
 public class PlayerInventory : MonoBehaviour
@@ -15,14 +16,17 @@ public class PlayerInventory : MonoBehaviour
     public ItemController currentTool { get; private set; }
 
     private Player player = null;
-    private UIElementGroup equipGroup = null;
-    private SliderElement equipSlider = null;
-    private UIElement equipText = null;
+    private TextMeshProUGUI notesCollectedUI;
     private Transform stackableParent = null;
 
+    private UIElementGroup equipGroup = null;
+    private UIElementGroup inventoryGroup = null;
+    private SliderElement equipSlider = null;
+    private UIElement equipText = null;
+    private ImageElement toolIcon = null;
+    private UIElement toolName = null;
+
     private int currentToolIndex = 0;
-    private float equipTimer = 0.0f;
-    private float equipLength = 0.0f;
     private bool isEquipping = false;
 
     private void Awake()
@@ -40,7 +44,20 @@ public class PlayerInventory : MonoBehaviour
             equipText = equipGroup.FindElement("text");
         }
 
+        inventoryGroup = CanvasManager.instance.FindElementGroupByID("PlayerInventory");
+
+        if(inventoryGroup != null)
+        {
+            toolIcon = (ImageElement)inventoryGroup.FindElement("toolicon");
+            toolName = inventoryGroup.FindElement("toolname");
+        }
+
         stackableParent = CanvasManager.instance.FindElementGroupByID("PlayerInventory").FindElement("grid").transform;
+        notesCollectedUI = GameObject.FindGameObjectWithTag("NotesCollectedUI").GetComponent<TextMeshProUGUI>();
+    }
+
+    private void Start()
+    {
         InitializeInventory();
     }
 
@@ -111,6 +128,8 @@ public class PlayerInventory : MonoBehaviour
         {
             SwitchItems(-1);
         }
+
+        notesCollectedUI.text = string.Format("{0} notes remaining", MainManager.GetRemainingNotes(this));
     }
 
     private void SwitchItems(int i)
@@ -280,6 +299,10 @@ public class PlayerInventory : MonoBehaviour
 
         currentTool = nextTool;
         currentTool.ActivateItem();
+
+        toolName.OverrideValue(currentTool.properties.itemName);
+        toolIcon.OverrideValue(currentTool.properties.itemSprite);
+        toolIcon.SetNatizeSize();
 
         isEquipping = false;
     }

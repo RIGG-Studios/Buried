@@ -15,6 +15,7 @@ public class TentacleManager : MonoBehaviour
 
     private List<TentacleController> tentacles = new List<TentacleController>();
     private TentacleSpawner[] spawners;
+    private List<TentacleController> attackingTentacles = new List<TentacleController>();
 
     void Start()
     {
@@ -82,9 +83,18 @@ public class TentacleManager : MonoBehaviour
             tentacles[i].gameObject.SetActive(true);
             tentacles[i].SetNewAnchor(spawner);
             tentacles[i].stateManager.TransitionStates(TentacleStates.Attack);
+            attackingTentacles.Add(tentacles[i]);
         }
 
         spawner.occupied = true;
+    }
+
+    public void ResetTentacle(TentacleController controller)
+    {
+        if (controller == null || !attackingTentacles.Contains(controller))
+            return;
+
+        attackingTentacles.Remove(controller);
     }
 
     private TentacleSpawner[] FindClosestSpawners(int amount, Vector3 pos)
@@ -116,4 +126,22 @@ public class TentacleManager : MonoBehaviour
         return data.ToArray();
     }
 
+    public TentacleController GetClosestTentacleToPlayer(Vector3 playerPos)
+    {
+        TentacleController tMin = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+
+        foreach (TentacleController t in attackingTentacles)
+        {
+            float dist = Vector3.Distance(t.GetTentacleEndPoint(), playerPos);
+            if (dist < minDist)
+            {
+                tMin = t;
+                minDist = dist;
+            }
+        }
+
+        return tMin;
+    }
 }

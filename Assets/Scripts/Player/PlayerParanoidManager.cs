@@ -31,40 +31,19 @@ public class PlayerParanoidManager : MonoBehaviour
         playerCamera = FindObjectOfType<PlayerCamera>();
     }
 
-    private void OnEnable()
-    {
-        GameEvents.OnTentacleAttackPlayer += OnPlayerAttacked;
-        GameEvents.OnTentacleRetreat += OnTentacleRetreat;
-    }
-
-    private void OnDisable()
-    {
-        GameEvents.OnTentacleAttackPlayer -= OnPlayerAttacked;
-        GameEvents.OnTentacleRetreat -= OnTentacleRetreat;
-    }
-
-    private void OnPlayerAttacked(TentacleController controller)
-    {
-        calculateDistance = true;
-        this.controller = controller;
-    }
-
-    private void OnTentacleRetreat(TentacleController controller)
-    {
-        calculateDistance = false;
-        this.controller = null;
-    }
 
     private void Update()
     {
-        if (calculateDistance)
+        controller = Game.instance.tentacleManager.GetClosestTentacleToPlayer(transform.position);
+
+        if (controller == null)
         {
-            distance = (controller.GetTentacleEndPoint() - transform.position).magnitude;
+            playerCamera.SetShakeMagnitude(0.0f
+                );
+            return;
         }
-        else
-        {
-            distance += Time.deltaTime * 2f;
-        }
+
+        distance = (controller.GetTentacleEndPoint() - transform.position).magnitude;
 
         paranoidAmount = Mathf.Clamp(1 - (distance * enemyDistanceMultiplier), 0.1f, 1f);
         currentHeartBeat = paranoidAmount * heartBeatMultiplier;

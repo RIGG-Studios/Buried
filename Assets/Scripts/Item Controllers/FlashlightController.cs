@@ -40,14 +40,12 @@ public class FlashlightController : MonoBehaviour
         {
             flashlightSlider.SetActive(true);
             lightSource.enabled = true;
-            defaultLight.enabled = false;
             state = FlashlightStates.On;
         }
         else if(state == FlashlightStates.On)
         {
             flashlightSlider.SetActive(false);
             lightSource.enabled = false;
-            defaultLight.enabled = true;
             state = FlashlightStates.Off;
         }
     }
@@ -55,8 +53,10 @@ public class FlashlightController : MonoBehaviour
 
     private void Update()
     {
-        if (state == FlashlightStates.Off)
-            return;
+        if (chargeBattery)
+        {
+            currentLightIntensity += settings.maxIntensity / maxIntensity * Time.deltaTime;
+        }
 
         UpdateFlashlightBatteryLevel();
     }
@@ -64,16 +64,17 @@ public class FlashlightController : MonoBehaviour
 
     private void UpdateFlashlightBatteryLevel()
     {
-        if(chargeBattery)
-            currentLightIntensity += settings.maxIntensity / maxIntensity * Time.deltaTime;
-        else
+        if (state == FlashlightStates.Off)
+            return;
+
+        if(!chargeBattery)
             currentLightIntensity -= settings.maxIntensity / maxIntensity * Time.deltaTime;
 
         lightSource.intensity = currentLightIntensity;
 
         flashlightSlider.OverrideValue(currentLightIntensity);
 
-        if (currentLightIntensity < settings.minIntensity)
+        if (currentLightIntensity < settings.minIntensity && !chargeBattery)
         {
             DisableItem();
         }

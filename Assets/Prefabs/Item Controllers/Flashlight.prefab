@@ -117,12 +117,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b826158e74c24946b78c8f5f3971d7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingPosition: {x: 0, y: 0.397, z: 0}
-  startingRotation: {x: 0, y: 0, z: 0}
-  baseItem: {fileID: 11400000, guid: fc1684062d0f4134cb18bf94903428fb, type: 2}
   state: 0
-  lightSource: {fileID: 6105045936663995244}
   settings: {fileID: 11400000, guid: d19d0323ccc81bb408b613464c5b0929, type: 2}
+  maxIntensity: 20
+  lightSource: {fileID: 6105045936663995244}
+  defaultLight: {fileID: 0}
 --- !u!114 &467599083949353167
 MonoBehaviour:
   m_ObjectHideFlags: 0

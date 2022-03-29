@@ -620,7 +620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22bbf84f6c8480c43914d241036666e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clamp: 0
 --- !u!1 &1297086277570061077
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,7 +739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   settings: {fileID: 11400000, guid: d19d0323ccc81bb408b613464c5b0929, type: 2}
-  maxIntensity: 45
+  maxIntensity: 25
   lightSource: {fileID: 1297086277570061075}
   defaultLight: {fileID: 1297086276999385687}
 --- !u!114 &4666970655626700976
@@ -755,7 +754,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22bbf84f6c8480c43914d241036666e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clamp: 0
 --- !u!1 &5096201167517069324
 GameObject:
   m_ObjectHideFlags: 0

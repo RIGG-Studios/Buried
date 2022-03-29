@@ -57,7 +57,8 @@ public class MovementState : State
         animator.SetBool("isMoving", isMoving);
         animator.SetInteger("dir", GetDirection());
 
-        cameraController.SetOffset(mouseDir * settings.cameraOffset);
+        Vector3 offset = FlashLightEnabled() ? mouseDir * 6f : movementInput * settings.cameraOffset;
+        cameraController.SetOffset(offset);
 
         stepCooldown -= Time.deltaTime;
     }
@@ -78,7 +79,7 @@ public class MovementState : State
     {
         int index = 0;
 
-        if (player.flashLight.GetState() == FlashlightStates.Off || isMoving)
+        if (!FlashLightEnabled() || isMoving)
         {
             if (movementInput.x < 0)
                 index = 2;
@@ -96,4 +97,6 @@ public class MovementState : State
 
         return index;
     }
+
+    private bool FlashLightEnabled() => player.flashLight.GetState() == FlashlightStates.On;
 }

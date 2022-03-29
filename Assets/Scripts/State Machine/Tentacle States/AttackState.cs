@@ -23,8 +23,11 @@ public class AttackState : State
         controller.targetSpeed = properties.tentacleMoveSpeed;
         controller.occupied = true;
 
-        GameEvents.OnTentacleAttackPlayer.Invoke(controller);
+        controller.targetSpeed = 0.20f;
+
+        GameEvents.OnTentacleAttackPlayer?.Invoke(controller);
     }
+
     public override void ExitState()
     {
         detachedFromAnchor = false;

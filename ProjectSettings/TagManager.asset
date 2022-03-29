@@ -9,6 +9,7 @@ TagManager:
   - PlayerSpawnPoint
   - PlayerInteractionUI
   - PlayerInventoryUI
+  - NotesCollectedUI
   layers:
   - Default
   - TransparentFX

@@ -16,6 +16,7 @@ public class Slot : MonoBehaviour
     {
         icon.sprite = item.item.itemSprite;
         icon.enabled = true;
+        icon.SetNativeSize();
 
         if (item.item.stackable)
         {

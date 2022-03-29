@@ -80,7 +80,7 @@ public class TentacleController : MonoBehaviour
 
             Vector2 segPos = currentSeg.UpdatePosition(previousSeg, target, wallLayer);
 
-            segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i],  targetSpeed);    
+            segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i], targetSpeed);    
         }
 
         line.SetPositions(GetSegmentPositions());
@@ -143,8 +143,9 @@ public class TentacleController : MonoBehaviour
         occupied = false;
         spawner = null;
         line.positionCount = 0;
-    }
 
+        Game.instance.tentacleManager.ResetTentacle(this);
+    }
     private Vector3[] GetSegmentPositions()
     {
         List<Vector3> seg = new List<Vector3>();

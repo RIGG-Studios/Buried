@@ -22,4 +22,7 @@ public class ImageElement : UIElement
         if (sprite != null)
             Image.sprite = sprite;
     }
+
+    public void SetNatizeSize() => Image.SetNativeSize();
+
 }
