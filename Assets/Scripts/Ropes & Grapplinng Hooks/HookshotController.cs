@@ -17,6 +17,9 @@ public class HookshotController : ItemController
 
     public override void UseItem()
     {
+        if (!CanUseItem())
+            return;
+
         Item ammo = null;
         player.inventory.HasItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out ammo);
 

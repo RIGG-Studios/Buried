@@ -36,14 +36,14 @@ public class AttackState : State
 
     public override void UpdateLogic()
     {
-        Vector3 playerPos = player.GetPosition();
+        Vector3 targetPos = player.stateManager.GetStateInEnum() == PlayerStates.Hiding ? player.lastKnownPosition : player.GetPosition();
         float currentTentacleDistance = controller.GetTentacleDistance();
         float playerDistFromTentacle = controller.GetDistanceBetweenPlayerAndEndPoint();
 
         if (currentTentacleDistance >= 4 && !detachedFromAnchor)
             detachedFromAnchor = true;
 
-        if ((currentTentacleDistance < 1 && detachedFromAnchor) || currentTentacleDistance >= properties.tentacleMaxLength || attackTime >= 15f)
+        if ((currentTentacleDistance < 1 && detachedFromAnchor) || currentTentacleDistance >= properties.tentacleMaxLength || attackTime >= 10f)
         {
             stateManager.TransitionStates(TentacleStates.Retreat);
         }
@@ -53,14 +53,14 @@ public class AttackState : State
             stateManager.TransitionStates(TentacleStates.Retreat);
         }
 
-        if (playerDistFromTentacle <= properties.detectionRange)
+        if (playerDistFromTentacle <= properties.detectionRange && player.stateManager.GetStateInEnum() != PlayerStates.Hiding)
         {
             stateManager.TransitionStates(TentacleStates.GrabPlayer);
         }
 
         attackTime += Time.deltaTime;
 
-        controller.UpdateAgentPosition(playerPos);
+        controller.UpdateAgentPosition(targetPos);
         controller.UpdateSegmentPositions(controller.GetAgentPosition());
         controller.CheckForLights();
     }

@@ -15,7 +15,7 @@ MonoBehaviour:
   tentacleMaxLength: 18
   tentacleMoveSpeed: 0.25
   lightDistance: 1.25
-  tentacleSegments: 20
+  tentacleSegments: 30
   lengthBetweenSegments: 0.9
   hitOffset: 1
   detectionRange: 0.5

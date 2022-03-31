@@ -143,8 +143,6 @@ public class GrapplingHookState : State
 
     private void UpdateCharacterSprite()
     {
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
-
         int direction = Utilites.DirectionToIndex(mouseDir, 4);
         Debug.Log(direction);
         player.animator.enabled = false;

@@ -9,7 +9,8 @@ public enum PlayerStates
     Movement,
     GrabbedByTentacle,
     Dead,
-    Grappling
+    Grappling,
+    Hiding
 }
 
 //this class handles the state transitoning/updating of the player
@@ -23,9 +24,10 @@ public class PlayerStateManager : StateMachine
     private MovementState movementState = null;
     private GrabbedByTentacleState grabbedState = null;
     private PlayerDeadState deadState = null;
-    public SearchingState searchState = null;
-    public GrapplingHookState grappleState = null;
-    public PlayerIdleState idleState = null;
+    private SearchingState searchState = null;
+    private GrapplingHookState grappleState = null;
+    private PlayerIdleState idleState = null;
+    private HideState hideState = null;
 
     private void Awake()
     {
@@ -35,6 +37,7 @@ public class PlayerStateManager : StateMachine
         deadState = new PlayerDeadState(player);
         grappleState = new GrapplingHookState(player);
         idleState = new PlayerIdleState(player);
+        hideState = new HideState(player);
 
         currentState = idleState;
     }
@@ -73,23 +76,28 @@ public class PlayerStateManager : StateMachine
 
             case PlayerStates.Grappling:
                 return grappleState;
+
+            case PlayerStates.Hiding:
+                return hideState;
         }
 
         //if nothing is found, return null
         return null;
     }
 
-    public State GetCurrentState()
+    public PlayerStates GetStateInEnum()
     {
-        switch (currentState.name)
-        {
-            case "PlayerMovement":
-                return movementState;
+        PlayerStates state = PlayerStates.Dead;
 
-            case "PlayerGrapple":
-                return grappleState;
-        }
+        if (currentState == movementState)
+            state = PlayerStates.Movement;
+        else if (currentState == hideState)
+            state = PlayerStates.Hiding;
+        else if (state == PlayerStates.Grappling)
+            state = PlayerStates.Grappling;
+        else if (state == PlayerStates.GrabbedByTentacle)
+            state = PlayerStates.GrabbedByTentacle;
 
-        return null;
+        return state;
     }
 }

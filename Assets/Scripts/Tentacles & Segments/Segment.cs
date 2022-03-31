@@ -76,7 +76,7 @@ public class Segment
     {
         UpdateLength(targetDir);
 
-        angle =  Mathf.Atan2(length, width);
+        angle = previousSegment.angle - Mathf.Atan2(length, width);
         //the origin of this segment will be the previous segment, this it to create a chain effect
         Vector2 origin = previousSegment.position;
         //the direction will be the dir between the targetDir and origin, rotating around an axis calcuated below. Then its normalized

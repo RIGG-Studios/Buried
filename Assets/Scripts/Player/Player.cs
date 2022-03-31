@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Vector3 lastKnownPosition { get; private set; }
+
     private void Awake()
     {
         playerInput = new PlayerControls();
@@ -69,12 +71,30 @@ public class Player : MonoBehaviour
     {
         GameEvents.OnPlayerGetGrabbed += GrabbedState;
         GameEvents.OnToggleRechargingStation += OnEnterRechargingStation;
+        GameEvents.OnToggleHidePlayer += HideState;
     }
 
     private void OnDisable()
     {
         GameEvents.OnPlayerGetGrabbed -= GrabbedState;
         GameEvents.OnToggleRechargingStation -= OnEnterRechargingStation;
+        GameEvents.OnToggleHidePlayer -= HideState;
+    }
+
+    private void HideState()
+    {
+        if (stateManager.currentState.name == "PlayerMovement")
+        {
+            lastKnownPosition = transform.position;
+            transform.position = playerInteraction.hoveredObject.transform.position;
+
+            stateManager.TransitionStates(PlayerStates.Hiding);
+        }
+        else if(stateManager.currentState.name == "PlayerHide")
+        {
+            transform.position = lastKnownPosition;
+            stateManager.TransitionStates(PlayerStates.Movement);
+        }
     }
 
     private void GrabbedState(TentacleController controller)

@@ -88,6 +88,9 @@ public class TentacleController : MonoBehaviour
 
     public void CheckForLights()
     {
+        if (wallLights == null || wallLights.Length <= 0)
+            return;
+
         foreach(WallLight light in wallLights)
         {
             float dist = (light.transform.position - GetTentacleEndPoint()).magnitude;
@@ -146,6 +149,7 @@ public class TentacleController : MonoBehaviour
 
         Game.instance.tentacleManager.ResetTentacle(this);
     }
+
     private Vector3[] GetSegmentPositions()
     {
         List<Vector3> seg = new List<Vector3>();
@@ -162,6 +166,7 @@ public class TentacleController : MonoBehaviour
     {
         return segments[segments.Count - 1];
     }
+
     public Vector3 GetTentacleEndPoint()
     {
       return  segments[segments.Count - 1].position;

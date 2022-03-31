@@ -1,8 +1,5 @@
 public class GameEvents
 {
-    public delegate void DropPlayer();
-    public static DropPlayer OnDropPlayer;
-
     public delegate void StartGame();
     public static StartGame OnStartGame;
 
@@ -11,6 +8,9 @@ public class GameEvents
 
     public delegate void TentacleRetreat(TentacleController controller);
     public static TentacleRetreat OnTentacleRetreat;
+
+    public delegate void DropPlayer();
+    public static DropPlayer OnDropPlayer;
 
     public delegate void PlayerSpawn();
     public static PlayerSpawn onPlayerSpawn;
@@ -29,4 +29,7 @@ public class GameEvents
 
     public delegate void ToggleRechargingStation(bool inside);
     public static ToggleRechargingStation OnToggleRechargingStation;
-}
+
+    public delegate void ToggleHidePlayer();
+    public static ToggleHidePlayer OnToggleHidePlayer;
+} 

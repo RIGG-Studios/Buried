@@ -13,6 +13,7 @@ public class ItemController : MonoBehaviour
     private UIElementGroup ammoNeededGroup = null;
     private UIElement ammoNeededText = null;
 
+
     public virtual void SetupController(Player player, ItemProperties properties)
     {
         ammoNeededGroup = CanvasManager.instance.FindElementGroupByID("AmmoNeeded");
@@ -36,5 +37,9 @@ public class ItemController : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         ammoNeededText.OverrideValue(string.Empty);
         ammoNeededGroup.UpdateElements(0, 0, false);
+    }
+    protected bool CanUseItem()
+    {
+        return player.stateManager.GetStateInEnum() != PlayerStates.Hiding;
     }
 }

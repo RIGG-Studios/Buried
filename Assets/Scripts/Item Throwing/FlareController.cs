@@ -17,6 +17,9 @@ public class FlareController : ItemController
 
     public override void UseItem()
     {
+        if (!CanUseItem())
+            return;
+
         Item flares = null;
         player.inventory.HasItem(properties.itemType, out flares);
 

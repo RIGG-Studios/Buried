@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/PlayerControls.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Controls & Input/PlayerControls.inputactions'
 
 using System;
 using System.Collections;
@@ -62,6 +62,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""8f68608c-26c0-4312-97a2-2e6c0468d13b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Leave"",
+                    ""type"": ""Button"",
+                    ""id"": ""ece39771-8d16-44ed-9ceb-e8e3f262e8f9"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -329,6 +337,28 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""747dfb25-2fd1-4804-85c5-bf2bdbaeba7d"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Leave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f5d710c2-b0d3-4826-807c-a9130bad8e98"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Leave"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -912,6 +942,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
         m_Player_Flashlight = m_Player.FindAction("Flashlight", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Leave = m_Player.FindAction("Leave", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -979,6 +1010,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Scroll;
     private readonly InputAction m_Player_Flashlight;
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Leave;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -989,6 +1021,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Scroll => m_Wrapper.m_Player_Scroll;
         public InputAction @Flashlight => m_Wrapper.m_Player_Flashlight;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Leave => m_Wrapper.m_Player_Leave;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1016,6 +1049,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Leave.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
+                @Leave.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
+                @Leave.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLeave;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1038,6 +1074,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @Leave.started += instance.OnLeave;
+                @Leave.performed += instance.OnLeave;
+                @Leave.canceled += instance.OnLeave;
             }
         }
     }
@@ -1200,6 +1239,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnScroll(InputAction.CallbackContext context);
         void OnFlashlight(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnLeave(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

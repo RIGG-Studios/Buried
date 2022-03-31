@@ -15,6 +15,7 @@ public class ItemPickup : InteractableObject
             return FindObjectOfType<PlayerInventory>();
         }
     }
+
     public override void ButtonInteract()
     {
         bool itm = inventory.AddItem(itemProperties, pickupAmount);
