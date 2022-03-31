@@ -68,7 +68,6 @@ public class Game : MonoBehaviour
 
             this.player.Initialize();
             tentacleManager.Initialize();
-            NoteReadingManager.instance.Initialize();
         }
 
         GameEvents.OnStartGame?.Invoke();

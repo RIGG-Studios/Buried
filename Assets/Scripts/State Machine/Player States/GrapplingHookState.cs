@@ -19,7 +19,7 @@ public class GrapplingHookState : State
     private Camera camera = null;
     private HookshotController grappleController = null;
 
-
+    private Vector3 mousePos = Vector3.zero;
     private Vector2 mouseDir = Vector2.zero;
     private Vector3 grappleTarget = Vector2.zero;
 
@@ -47,20 +47,14 @@ public class GrapplingHookState : State
 
         line.positionCount = settings.percision;
 
-        Vector3 mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
+        mousePos = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
         mouseDir = (mousePos - player.GetPosition()).normalized;
 
         RaycastHit2D hit = Physics2D.Raycast(mousePos, mouseDir, settings.maxDistance, settings.grappleLayer);
 
         if(hit.collider != null)
         {
-            float dist = (new Vector3(hit.point.x, hit.point.y, 0) - player.GetPosition()).magnitude;
-
-            if (dist > settings.maxDistance)
-            {
-                player.stateManager.TransitionStates(PlayerStates.Movement);
-                return;
-            }
+            UpdateCharacterSprite();
 
             player.inventory.UseItem(ItemProperties.ItemTypes.GrapplingHookAmmo);
             state = GrappleStates.Shooting;
@@ -79,6 +73,7 @@ public class GrapplingHookState : State
     public override void ExitState()
     {
         player.collider.enabled = true;
+        player.animator.enabled = true;
         moveTime = 0.0f;
         line.enabled = false;
     }
@@ -143,5 +138,16 @@ public class GrapplingHookState : State
         line.SetPosition(1, grappleController.GetPosition());
 
         player.transform.position = Vector3.Lerp(player.transform.position, grappleTarget, Time.deltaTime * settings.shootSpeed);
+    }
+
+
+    private void UpdateCharacterSprite()
+    {
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
+
+        int direction = Utilites.DirectionToIndex(mouseDir, 4);
+        Debug.Log(direction);
+        player.animator.enabled = false;
+        player.SetCharacterSprite(settings.sprites[direction]);
     }
 }

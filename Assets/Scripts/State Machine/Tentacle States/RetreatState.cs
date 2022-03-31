@@ -42,7 +42,6 @@ public class RetreatState : State
 
     public override void UpdateLogic()
     {
-        controller.UpdateAgentPosition(controller.GetAnchorPosition());
 
         retreatTimer += Time.deltaTime;
 
@@ -51,6 +50,7 @@ public class RetreatState : State
         if (distance <= 1f || retreatTimer >= 10f)
            stateManager.TransitionStates(TentacleStates.Idle);
 
+        controller.UpdateAgentPosition(controller.GetAnchorPosition());
         controller.UpdateSegmentPositions(controller.GetAgentPosition());
         controller.CheckForLights();
     }

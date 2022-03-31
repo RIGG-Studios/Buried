@@ -44,18 +44,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: TopWall
-    uniqueID: 282671577
-    locked: 0
-  - name: Player
-    uniqueID: 89337
+  - name: Grid
+    uniqueID: 2732549265
     locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: BottomWall
-    uniqueID: 2047542617
-    locked: 0
-  - name: Prop
-    uniqueID: 2092416167
     locked: 0

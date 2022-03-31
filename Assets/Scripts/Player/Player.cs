@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     public PlayerCamera playerCam;
     [HideInInspector]
     public FlashlightController flashLight;
+    [HideInInspector]
+    public SpriteRenderer render;
 
     public Collider2D collider
     {
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour
         defaultLight = GetComponentInChildren<Light2D>();
         playerCam = FindObjectOfType<PlayerCamera>();
         flashLight = FindObjectOfType<FlashlightController>();
+        render = GetComponentInChildren<SpriteRenderer>();
     }
     
     public void Initialize()
@@ -83,6 +86,14 @@ public class Player : MonoBehaviour
     private void OnEnterRechargingStation(bool toggle)
     {
         flashLight.ToggleChargeBattery(toggle);
+    }
+
+    public void SetCharacterSprite(Sprite sprite)
+    {
+        if (sprite == null)
+            return;
+
+        render.sprite = sprite;
     }
 
     public Vector3 GetPosition()

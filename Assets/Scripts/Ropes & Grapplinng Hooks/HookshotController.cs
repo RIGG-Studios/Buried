@@ -8,6 +8,7 @@ public class HookshotController : ItemController
 
     private int bulletStack;
     private GrapplingHookSettings settings;
+
     public override void SetupController(Player player, ItemProperties itemInInventory)
     {
         base.SetupController(player, itemInInventory);
@@ -27,11 +28,18 @@ public class HookshotController : ItemController
                 return;
             }
 
-            Vector2 mouseDir = (Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition()) - player.GetPosition()).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(player.transform.position, mouseDir, settings.maxDistance, settings.grappleLayer);
+            Vector2 playerPos = player.GetPosition();
+            Vector2 camPos = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
+            Vector2 mouseDir = (camPos - playerPos).normalized;
+            RaycastHit2D hit = Physics2D.Raycast(camPos, mouseDir, 0.25f, settings.grappleLayer);
 
             if (hit.collider != null)
             {
+                float dist = (playerPos - hit.point).magnitude;
+
+                if (dist > settings.maxDistance)
+                    return;
+
                 player.stateManager.TransitionStates(PlayerStates.Grappling);
             }
         }

@@ -76,6 +76,9 @@ public class TentacleManager : MonoBehaviour
 
     public void SpawnTentacle(TentacleSpawner spawner, int tentaclesToSpawn)
     {
+        if (spawner.occupied)
+            return;
+
         TentacleController[] tentacles = GetTentacles(tentaclesToSpawn);
 
         for (int i = 0; i < tentacles.Length; i++)

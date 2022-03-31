@@ -17,13 +17,6 @@ public class ItemPickup : InteractableObject
     }
     public override void ButtonInteract()
     {
-        if (itemProperties.itemType == ItemProperties.ItemTypes.Note)
-        {
-            NoteReadingManager.instance.ReadNote(itemProperties);
-            Destroy(gameObject);
-            return;
-        }
-
         bool itm = inventory.AddItem(itemProperties, pickupAmount);
 
         if(itm)

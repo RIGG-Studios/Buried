@@ -10,42 +10,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11145981673336645838492a2d98e247, type: 3}
-  m_Name: 2d_renderer
+  m_Name: Render
   m_EditorClassIdentifier: 
   m_RendererFeatures: []
   m_RendererFeatureMap: 
-  m_TransparencySortMode: 0
+  m_TransparencySortMode: 3
   m_TransparencySortAxis: {x: 0, y: 1, z: 0}
   m_HDREmulationScale: 1
   m_LightBlendStyles:
-  - name: Default
+  - name: Blend Style 0
     maskTextureChannel: 0
-    renderTextureScale: 1
+    renderTextureScale: 0.5
     blendMode: 1
     customBlendFactors:
       multiplicative: 0
       additive: 0
   - name: Blend Style 1
     maskTextureChannel: 0
-    renderTextureScale: 1
-    blendMode: 1
-    customBlendFactors:
-      multiplicative: 1
-      additive: 0
-  - name: Blend Style 2
-    maskTextureChannel: 0
-    renderTextureScale: 1
+    renderTextureScale: 0.5
     blendMode: 1
     customBlendFactors:
       multiplicative: 0
       additive: 0
-  - name: Vision
+  - name: Blend Style 2
     maskTextureChannel: 0
-    renderTextureScale: 1
+    renderTextureScale: 0.5
     blendMode: 1
     customBlendFactors:
-      multiplicative: 7.31
-      additive: -0.98
+      multiplicative: 0
+      additive: 0
+  - name: Blend Style 3
+    maskTextureChannel: 0
+    renderTextureScale: 0.5
+    blendMode: 1
+    customBlendFactors:
+      multiplicative: 0
+      additive: 0
   m_UseDepthStencilBuffer: 1
   m_ShapeLightShader: {fileID: 4800000, guid: d79e1c784eaf80c4585c0be7391f757a, type: 3}
   m_ShapeLightVolumeShader: {fileID: 4800000, guid: 7e60080c8cd24a2468cb08b4bfee5606,
