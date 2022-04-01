@@ -129,7 +129,7 @@ public class PlayerInventory : MonoBehaviour
             SwitchItems(-1);
         }
 
-        notesCollectedUI.text = string.Format("{0} notes remaining", MainManager.GetRemainingNotes(this));
+        notesCollectedUI.text = string.Format("{0} generators remaining", MainManager.GetRemainingGenerators);
     }
 
     private void SwitchItems(int i)

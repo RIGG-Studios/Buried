@@ -13,7 +13,6 @@ public class ExitDoor : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            MainManager.GetRemainingNotes(collision.gameObject.GetComponent<PlayerInventory>());
 
             if (MainManager.GetCanOpenDoor)
             {

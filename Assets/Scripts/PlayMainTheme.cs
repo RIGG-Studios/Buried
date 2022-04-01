@@ -9,8 +9,6 @@ public class PlayMainTheme : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(transform.parent);
-        Debug.Log(gameObject);
         source = GetComponent<AudioSource>();
         source.clip = mainTheme;
 

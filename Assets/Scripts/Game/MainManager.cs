@@ -4,44 +4,46 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
-public class MainManager: MonoBehaviour
+public class MainManager : MonoBehaviour
 {
     [SerializeField]
-    int notesInLevel;
+    int generatorsInLevel;
 
     [SerializeField]
     string nextSceneName;
 
     static bool canOpenDoor;
-    static int maxNotes;
+    static int remainingGenerators;
 
     public static string nextScene;
 
     private void Start()
     {
-        maxNotes = notesInLevel;
+        remainingGenerators = generatorsInLevel;
         nextScene = nextSceneName;
     }
 
-    public static int GetRemainingNotes(PlayerInventory inventory)
+    private void Update()
     {
-        Item notes = null;
-        inventory.HasItem(ItemProperties.ItemTypes.Note, out notes);
-
-        if(notes != null)
+        if (remainingGenerators <= 0)
         {
-            if(maxNotes - notes.stack <= 0)
-            {
-                canOpenDoor = true;
-            }
-
-            return maxNotes - notes.stack;
+            canOpenDoor = true;
         }
-
-        return maxNotes;
     }
 
-    public static int GetMaxNotes => maxNotes;
+    public static int GetRemainingGenerators => remainingGenerators;
+
+    public static int DecrementGeneratorCount()
+    {
+        remainingGenerators--;
+
+        if(remainingGenerators <= 0)
+        {
+            canOpenDoor = true;
+        }
+
+        return remainingGenerators;
+    }
 
     public static bool GetCanOpenDoor => canOpenDoor;
 }
