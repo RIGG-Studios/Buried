@@ -116,6 +116,9 @@ MonoBehaviour:
   grappleLayer:
     serializedVersion: 2
     m_Bits: 16384
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   sprites:
   - {fileID: 4408247311968690161, guid: 24879a8f57ea86a45a87e23c66c30f9e, type: 3}
   - {fileID: -5956173705787234606, guid: 24879a8f57ea86a45a87e23c66c30f9e, type: 3}

@@ -7,7 +7,8 @@ public class AttackState : State
     private TentacleStateManager stateManager = null;
 
     private bool detachedFromAnchor;
-    private float attackTime;
+    private float attackTime = 0.0f;
+    private float audioTimer = 0.0f;
 
     public AttackState(TentacleController controller, Player player) : base("Attack", controller)
     {
@@ -58,6 +59,7 @@ public class AttackState : State
             stateManager.TransitionStates(TentacleStates.GrabPlayer);
         }
 
+        audioTimer += Time.deltaTime;
         attackTime += Time.deltaTime;
 
         controller.UpdateAgentPosition(targetPos);

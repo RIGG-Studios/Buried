@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Tentacle 1
   m_EditorClassIdentifier: 
   tentacleMaxLength: 18
-  tentacleMoveSpeed: 0.25
+  tentacleMoveSpeed: 0.24
   lightDistance: 3
+  audioFrequency: 0
   tentacleSegments: 20
-  lengthBetweenSegments: 0.9
+  lengthBetweenSegments: 0.99
   hitOffset: 1
   detectionRange: 0.5
-  rotationAmount: 5
+  tentacleAudio:
+  - {fileID: 8300000, guid: dbd028ef8bc605647ae033f18f26afaf, type: 3}

@@ -5,7 +5,6 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(LineRenderer), typeof(TentacleStateManager))]
-
 public class TentacleController : MonoBehaviour
 {
     [SerializeField] private LayerMask wallLayer;
@@ -13,6 +12,7 @@ public class TentacleController : MonoBehaviour
     private LineRenderer line = null;
     private NavMeshAgent agent = null;
     private TentacleSpawner spawner = null;
+    private AudioSource audioSource = null;
     private Player player = null;
 
     private List<Segment> segments = new List<Segment>();
@@ -23,7 +23,7 @@ public class TentacleController : MonoBehaviour
     public TentacleProperties properties { get; set; }
     public TentacleStateManager stateManager { get; private set; }
 
-    private int index = 1;
+
     [HideInInspector]
     public float targetSpeed;
 
@@ -34,6 +34,7 @@ public class TentacleController : MonoBehaviour
         line = GetComponent<LineRenderer>();
         agent = GetComponentInChildren<NavMeshAgent>();
         stateManager = GetComponent<TentacleStateManager>();
+        audioSource = GetComponentInChildren<AudioSource>();
         player = FindObjectOfType<Player>();
     }
 
@@ -83,7 +84,17 @@ public class TentacleController : MonoBehaviour
             segments[i].position = Vector2.SmoothDamp(segments[i].position, segPos, ref segmentVelocity[i], properties.tentacleMoveSpeed);    
         }
 
+        audioSource.transform.position = segments[segments.Count - 1].position;
+
         line.SetPositions(GetSegmentPositions());
+    }
+
+    public void PlayTentacleSound()
+    {
+        AudioClip clip = properties.GetRandomAudio();
+
+        if (clip != null && audioSource != null)
+            audioSource.PlayOneShot(clip);
     }
 
     public void CheckForLights()
@@ -137,6 +148,7 @@ public class TentacleController : MonoBehaviour
         agent.transform.position = anchor;
         agent.enabled = true;
 
+        PlayTentacleSound();
         this.spawner = spawner;
     }
 
@@ -162,49 +174,6 @@ public class TentacleController : MonoBehaviour
         return seg.ToArray();
     }
 
-    public Segment GetLastTentacle() 
-    {
-        return segments[segments.Count - 1];
-    }
-
-    public Vector3 GetTentacleEndPoint()
-    {
-      return  segments[segments.Count - 1].position;
-    }
-    public float GetDistanceBetweenAgentAndEndPoint()
-    {
-        return (agent.transform.position - GetTentacleEndPoint()).magnitude;
-    }
-    public float GetDistanceBetweenPlayerAndEndPoint()
-    {
-        return (GetTentacleEndPoint() - Game.instance.player.GetPosition()).magnitude;
-    }
-    public float GetTentacleDistance()
-    {
-        return (segments[0].position - segments[segments.Count-1].position).magnitude;
-    }
-    public TentacleProperties GetTentacleProperties()
-    {
-        return properties;
-    }
-    public Vector3 GetAnchorPosition()
-    {
-       return spawner.spawnPoint;
-    }
-    public Vector3 GetAgentPosition()
-    {
-       return agent.nextPosition;
-    }
-    public float GetDistanceBetweenPlayerAndAnchor()
-    {
-        return (spawner.spawnPoint - Game.instance.player.GetPosition()).magnitude;
-    }
-
-    public NavMeshAgent GetAgent()
-    {
-        return agent;
-    }
-
     public bool IsTentacleScared(float playerDistFromTentacle)
     {
         bool scared = false;
@@ -222,9 +191,9 @@ public class TentacleController : MonoBehaviour
 
         Flare[] flares = FindObjectsOfType<Flare>();
 
-        if(flares.Length > 0)
+        if (flares.Length > 0)
         {
-            foreach(Flare f in flares)
+            foreach (Flare f in flares)
             {
                 float dist = (f.transform.position - GetTentacleEndPoint()).magnitude;
 
@@ -234,6 +203,55 @@ public class TentacleController : MonoBehaviour
         }
 
         return scared;
+    }
+
+    public Segment GetLastTentacle() 
+    {
+        return segments[segments.Count - 1];
+    }
+
+    public Vector3 GetTentacleEndPoint()
+    {
+      return  segments[segments.Count - 1].position;
+    }
+
+    public float GetDistanceBetweenAgentAndEndPoint()
+    {
+        return (agent.transform.position - GetTentacleEndPoint()).magnitude;
+    }
+
+    public float GetDistanceBetweenPlayerAndEndPoint()
+    {
+        return (GetTentacleEndPoint() - Game.instance.player.GetPosition()).magnitude;
+    }
+
+    public float GetTentacleDistance()
+    {
+        return (segments[0].position - segments[segments.Count-1].position).magnitude;
+    }
+
+    public TentacleProperties GetTentacleProperties()
+    {
+        return properties;
+    }
+
+    public Vector3 GetAnchorPosition()
+    {
+       return spawner.spawnPoint;
+    }
+
+    public Vector3 GetAgentPosition()
+    {
+       return agent.nextPosition;
+    }
+    public float GetDistanceBetweenPlayerAndAnchor()
+    {
+        return (spawner.spawnPoint - Game.instance.player.GetPosition()).magnitude;
+    }
+
+    public NavMeshAgent GetAgent()
+    {
+        return agent;
     }
 }
 

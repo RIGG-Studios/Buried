@@ -7,11 +7,16 @@ public class TentacleProperties : ScriptableObject
     public float tentacleMaxLength;
     public float tentacleMoveSpeed;
     public float lightDistance;
+    public float audioFrequency;
 
     [Header("Segments Properties")]
     public int tentacleSegments;
     public float lengthBetweenSegments;
     public float hitOffset;
     public float detectionRange;
-    public float rotationAmount;
+
+    [Header("Audio")]
+    public AudioClip[] tentacleAudio;
+
+    public AudioClip GetRandomAudio() => tentacleAudio[Random.Range(0, tentacleAudio.Length)];
 }

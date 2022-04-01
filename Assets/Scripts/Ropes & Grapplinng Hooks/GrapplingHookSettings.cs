@@ -17,6 +17,7 @@ public class GrapplingHookSettings : ScriptableObject
     public AnimationCurve ropeAnimationCurve;
     public AnimationCurve ropeLaunchSpeedCurve;
     public LayerMask grappleLayer;
+    public LayerMask wallLayer;
 
     public Sprite[] sprites = new Sprite[4];
 }
