@@ -6,7 +6,8 @@ public enum InteractionType
 {
     Search,
     Hide,
-    Loot
+    Loot,
+    Activate,
 }
 
 public abstract class InteractableObject : MonoBehaviour
