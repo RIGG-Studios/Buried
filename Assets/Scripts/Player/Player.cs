@@ -60,6 +60,8 @@ public class Player : MonoBehaviour
         playerCam = FindObjectOfType<PlayerCamera>();
         flashLight = FindObjectOfType<FlashlightController>();
         render = GetComponentInChildren<SpriteRenderer>();
+
+        playerInput.Player.Pause.performed += ctx => PauseGame();
     }
     
     public void Initialize()
@@ -79,6 +81,14 @@ public class Player : MonoBehaviour
         GameEvents.OnPlayerGetGrabbed -= GrabbedState;
         GameEvents.OnToggleRechargingStation -= OnEnterRechargingStation;
         GameEvents.OnToggleHidePlayer -= HideState;
+    }
+
+    private void PauseGame()
+    {
+        if (stateManager.GetStateInEnum() == PlayerStates.Hiding)
+            return;
+
+        PauseMenu.instance.PauseGame();
     }
 
     private void HideState()

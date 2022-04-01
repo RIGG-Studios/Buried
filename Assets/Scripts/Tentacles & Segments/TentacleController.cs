@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
-
+using System.Linq;
 
 
 [RequireComponent(typeof(LineRenderer), typeof(TentacleStateManager))]

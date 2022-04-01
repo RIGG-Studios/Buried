@@ -14,7 +14,7 @@ public class Game : MonoBehaviour
 {
     public static Game instance;
 
-
+    public GameObject tempListener;
     public Player player { get; private set; }
     public TentacleManager tentacleManager { get; private set; }
     public GameStates gameState { get; private set; }
@@ -70,6 +70,7 @@ public class Game : MonoBehaviour
             tentacleManager.Initialize();
         }
 
+        Destroy(tempListener);
         GameEvents.OnStartGame?.Invoke();
     }
 

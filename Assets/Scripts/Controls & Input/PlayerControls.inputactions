@@ -60,6 +60,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "44ec45ac-7059-4a3b-b5e0-93cfc734228d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -340,12 +348,12 @@
                 },
                 {
                     "name": "",
-                    "id": "f5d710c2-b0d3-4826-807c-a9130bad8e98",
+                    "id": "86129163-43aa-4aa8-a7b9-ab36707cd87d",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Leave",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

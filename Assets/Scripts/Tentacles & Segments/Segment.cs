@@ -84,7 +84,7 @@ public class Segment
         //the next position will be the origin + dir
         Vector2 position = (origin + dir.normalized) * properties.lengthBetweenSegments;
         //check for any walls the segment may collide with with a simple raycast in the direction we are travelling too
-        RaycastHit2D hit = Physics2D.CircleCast(origin, 0.5f, dir.normalized, 0.0f, wallLayer);
+        RaycastHit2D hit = Physics2D.Raycast(origin, dir.normalized, dir.magnitude, wallLayer);
 
         collided = hit.collider != null;
 
@@ -92,9 +92,11 @@ public class Segment
         //if we hit something, set the position to the collision point + the normal for a hit offset effect
         if (collided)
         {
+            Debug.Log("collided");
             position += hit.point.normalized;
         }
 
+       
         //finally return the next position after all calculations have been done
         return position;
     }
