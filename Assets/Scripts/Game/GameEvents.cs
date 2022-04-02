@@ -24,8 +24,8 @@ public class GameEvents
     public delegate void PlayAudio(string audio);
     public static PlayAudio OnPlayAudio;
 
-    public delegate void NotePickedUp(int noteCount);
-    public static NotePickedUp OnNotePickedUp;
+    public delegate void GeneratorTurnedOn(int generatorCount);
+    public static GeneratorTurnedOn OnGeneratorTurnedOn;
 
     public delegate void ToggleRechargingStation(bool inside);
     public static ToggleRechargingStation OnToggleRechargingStation;

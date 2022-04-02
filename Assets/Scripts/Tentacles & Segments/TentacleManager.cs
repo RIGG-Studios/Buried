@@ -26,21 +26,23 @@ public class TentacleManager : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.OnNotePickedUp += OnNotePickedUp;
+        GameEvents.OnGeneratorTurnedOn += OnGeneratorTurnedOn;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnNotePickedUp -= OnNotePickedUp;
+        GameEvents.OnGeneratorTurnedOn -= OnGeneratorTurnedOn;
     }
 
 
-    private void OnNotePickedUp(int noteCount)
+    private void OnGeneratorTurnedOn(int genCount)
     {
-        if (noteCount <= 0)
+        int rng = Random.Range(1, 2);
+
+        if (genCount <= 0 || rng == 2)
             return;
 
-        DifficultyProgressionProperties difficultProps = progression.FindProperty(noteCount);
+        DifficultyProgressionProperties difficultProps = progression.FindProperty(genCount);
 
         if(difficultProps != null)
         {

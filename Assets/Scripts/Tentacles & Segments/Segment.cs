@@ -76,7 +76,7 @@ public class Segment
     {
         UpdateLength(targetDir);
 
-        angle = previousSegment.angle -  Mathf.Atan2(length, width);
+        angle = previousSegment.angle + Mathf.Atan2(length, width);
         //the origin of this segment will be the previous segment, this it to create a chain effect
         Vector2 origin = previousSegment.position;
         //the direction will be the dir between the targetDir and origin, rotating around an axis calcuated below. Then its normalized
@@ -92,8 +92,8 @@ public class Segment
         //if we hit something, set the position to the collision point + the normal for a hit offset effect
         if (collided)
         {
-            Debug.Log("collided");
-            position += hit.point.normalized;
+            Vector2 next = (CalculateRotationAngle(angle) * hit.point).normalized;
+            position += next;
         }
 
        

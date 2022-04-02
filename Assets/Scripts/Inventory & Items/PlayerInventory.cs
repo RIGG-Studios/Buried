@@ -151,15 +151,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (properties.stackable)
         {
-            bool success = AddStackableItem(properties, amount);
-
-            if (success)
-            {
-                if (properties.itemType == ItemProperties.ItemTypes.Note)
-                    GameEvents.OnNotePickedUp?.Invoke(FindItem(properties).stack);
-
-                return success;
-            }
+            return AddStackableItem(properties, amount);
         }
 
         if (properties.controllable)

@@ -7,11 +7,11 @@ public class TentacleDifficultyProgression : ScriptableObject
 {
     public List<DifficultyProgressionProperties> difficultyProgression = new List<DifficultyProgressionProperties>();
 
-    public DifficultyProgressionProperties FindProperty(int noteCount)
+    public DifficultyProgressionProperties FindProperty(int generatorCount)
     {
         for(int  i = 0; i < difficultyProgression.Count; i++)
         {
-            if (noteCount == difficultyProgression[i].noteCount)
+            if (generatorCount == difficultyProgression[i].generatorCount)
                 return difficultyProgression[i];
         }
 
@@ -22,6 +22,6 @@ public class TentacleDifficultyProgression : ScriptableObject
 [System.Serializable]
 public class DifficultyProgressionProperties
 {
-    public int noteCount;
+    public int generatorCount;
     public int tentaclesToSpawn;
 }

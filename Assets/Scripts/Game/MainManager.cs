@@ -36,6 +36,7 @@ public class MainManager : MonoBehaviour
     public static int DecrementGeneratorCount()
     {
         remainingGenerators--;
+        GameEvents.OnGeneratorTurnedOn?.Invoke(remainingGenerators);
 
         if(remainingGenerators <= 0)
         {

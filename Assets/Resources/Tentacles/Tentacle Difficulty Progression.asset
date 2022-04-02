@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Tentacle Difficulty Progression
   m_EditorClassIdentifier: 
   difficultyProgression:
-  - noteCount: 1
+  - generatorCount: 3
     tentaclesToSpawn: 1
-  - noteCount: 2
+  - generatorCount: 2
     tentaclesToSpawn: 1
-  - noteCount: 3
+  - generatorCount: 2
     tentaclesToSpawn: 2
-  - noteCount: 4
+  - generatorCount: 1
     tentaclesToSpawn: 3
