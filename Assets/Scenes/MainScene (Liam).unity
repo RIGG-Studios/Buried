@@ -3126,6 +3126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4629874c483ebd0469f0a182107cda03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameProperties: {fileID: 11400000, guid: 62283b52564cdf446bc101bef62477b2, type: 2}
   tempListener: {fileID: 11755325}
 --- !u!4 &295358884
 Transform:
@@ -17060,6 +17061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f295f6f81a0d264f835a9965ffdc55c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxAttackingTentacles: 0
   tentacleProperties:
   - {fileID: 11400000, guid: 372afd2af4aaeb9449f12e92ab08283e, type: 2}
   - {fileID: 11400000, guid: 372afd2af4aaeb9449f12e92ab08283e, type: 2}
@@ -46268,7 +46270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2093877627}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.18, y: -16.24, z: 0}
+  m_LocalPosition: {x: 15.18, y: -15.602, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1420400280}

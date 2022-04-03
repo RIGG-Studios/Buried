@@ -13,6 +13,7 @@ public class Segment
     public int index;
     public TentacleProperties properties;
     public Vector3 position;
+    public Vector2 origin;
     public float angle;
     public bool collided;
     public float length;
@@ -77,26 +78,29 @@ public class Segment
         UpdateLength(targetDir);
 
         angle = previousSegment.angle + Mathf.Atan2(length, width);
-        //the origin of this segment will be the previous segment, this it to create a chain effect
         Vector2 origin = previousSegment.position;
-        //the direction will be the dir between the targetDir and origin, rotating around an axis calcuated below. Then its normalized
         Vector2 dir = CalculateRotationAngle(angle) * (targetDir - origin).normalized;
-        //the next position will be the origin + dir
         Vector2 position = (origin + dir.normalized) * properties.lengthBetweenSegments;
-        //check for any walls the segment may collide with with a simple raycast in the direction we are travelling too
         RaycastHit2D hit = Physics2D.Raycast(origin, dir.normalized, dir.magnitude, wallLayer);
 
         collided = hit.collider != null;
 
-        Debug.DrawRay(origin, dir, Color.red);
-        //if we hit something, set the position to the collision point + the normal for a hit offset effect
         if (collided)
         {
-            Vector2 next = (CalculateRotationAngle(angle) * hit.point).normalized;
-            position += next;
+            Vector2 hitDir = (hit.point - this.origin);
+            float ang = Mathf.Atan2(hitDir.y, hitDir.x) * Mathf.Deg2Rad;
+            float absAng = Mathf.Abs(ang);
+
+            if(absAng <= Mathf.PI / 2)
+            {
+                if(ang > 0)
+                    position += hit.point.normalized;
+                else
+                    position -= hit.point.normalized;
+            }
         }
 
-       
+
         //finally return the next position after all calculations have been done
         return position;
     }

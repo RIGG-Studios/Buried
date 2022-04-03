@@ -142,6 +142,7 @@ public class TentacleController : MonoBehaviour
         for (int i = 0; i < segments.Count; i++)
         {
             segments[i].position = anchor;
+            segments[i].origin = anchor + new Vector3(0, -1f, 0);
         }
 
         agent.enabled = false;

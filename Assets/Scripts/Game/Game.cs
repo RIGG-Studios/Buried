@@ -14,7 +14,11 @@ public class Game : MonoBehaviour
 {
     public static Game instance;
 
-    public GameObject tempListener;
+    public GameProperties gameProperties;
+
+    [SerializeField] private GameObject tempListener;
+
+
     public Player player { get; private set; }
     public TentacleManager tentacleManager { get; private set; }
     public GameStates gameState { get; private set; }
