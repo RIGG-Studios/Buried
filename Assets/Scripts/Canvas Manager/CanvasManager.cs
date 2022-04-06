@@ -12,7 +12,15 @@ public class CanvasManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+           Destroy(gameObject);
+           return;
+        }
 
         //find the elements
         allElements = FindElements();

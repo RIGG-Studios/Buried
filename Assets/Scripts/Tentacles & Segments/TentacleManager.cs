@@ -10,7 +10,6 @@ public class TentacleManager : MonoBehaviour
 {
     public static TentacleManager instance;
 
-    [SerializeField, Range(0, 10)] private int maxAttackingTentacles;
     [SerializeField] private TentacleProperties[] tentacleProperties;
     [SerializeField] private TentacleDifficultyProgression progression;
     [SerializeField] private GameObject tentaclePrefab;

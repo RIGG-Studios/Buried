@@ -9,13 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad8fcd44bc3d6b644a2d4f7a3583f3c5, type: 3}
-  m_Name: Level1Properties
+  m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
+  m_Name: Volume Profile
   m_EditorClassIdentifier: 
-  levelName: Level 1
-  levelDifficulty: 0
-  startingTools: []
-  startingItems: []
-  maxAttackingTentacles: 0
-  generatorsInLevel: 0
-  levelIndex: 1
+  components: []
