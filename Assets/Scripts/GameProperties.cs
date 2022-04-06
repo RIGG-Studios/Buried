@@ -7,7 +7,7 @@ public class GameProperties : ScriptableObject
 
     public string gameVersion;
 
-    [Header("Game Difficulty")]
+    [Header("Levels")]
 
-    [Range(0, 5)] public int maxAttackingTentacles = 5;
+    public LevelProperties[] levelsInGame;
 }

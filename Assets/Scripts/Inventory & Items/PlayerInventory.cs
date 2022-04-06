@@ -6,7 +6,6 @@ using System.Collections;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] private List<ItemProperties> startingTools = new List<ItemProperties>();
     [SerializeField] private GameObject itemUI = null;
     [SerializeField] private Transform itemParent = null;
 
@@ -16,15 +15,11 @@ public class PlayerInventory : MonoBehaviour
     public ItemController currentTool { get; private set; }
 
     private Player player = null;
-    private TextMeshProUGUI notesCollectedUI;
     private Transform stackableParent = null;
 
-    private UIElementGroup equipGroup = null;
     private UIElementGroup inventoryGroup = null;
-    private SliderElement equipSlider = null;
-    private UIElement equipText = null;
+    private UIElement equipSlider = null;
     private ImageElement toolIcon = null;
-    private UIElement toolName = null;
 
     private int currentToolIndex = 0;
     private bool isEquipping = false;
@@ -36,24 +31,15 @@ public class PlayerInventory : MonoBehaviour
 
         player = GetComponent<Player>();
 
-        equipGroup = CanvasManager.instance.FindElementGroupByID("EquipGroup");
-
-        if (equipGroup != null)
-        {
-            equipSlider = (SliderElement)equipGroup.FindElement("slider");
-            equipText = equipGroup.FindElement("text");
-        }
-
         inventoryGroup = CanvasManager.instance.FindElementGroupByID("PlayerInventory");
 
         if(inventoryGroup != null)
         {
             toolIcon = (ImageElement)inventoryGroup.FindElement("toolicon");
-            toolName = inventoryGroup.FindElement("toolname");
+            equipSlider = inventoryGroup.FindElement("equipslider");
         }
 
         stackableParent = CanvasManager.instance.FindElementGroupByID("PlayerInventory").FindElement("grid").transform;
-        notesCollectedUI = GameObject.FindGameObjectWithTag("NotesCollectedUI").GetComponent<TextMeshProUGUI>();
     }
 
     private void Start()
@@ -66,20 +52,8 @@ public class PlayerInventory : MonoBehaviour
         if (initialized)
             return;
 
-        if(startingTools.Count > 0)
-        {
-            for(int i = 0; i < startingTools.Count; i++)
-            {
-                ItemController controller = Instantiate(startingTools[i].itemPrefab, itemParent).GetComponent<ItemController>();
-
-                controller.SetupController(player, startingTools[i]);
-                tools.Add(controller);
-            }
-        }
-
         player.playerInput.Player.Fire.performed += ctx => UseTool();
-
-        SwitchItems(0);
+        initialized = true;
     }
 
     private void OnEnable()
@@ -92,9 +66,36 @@ public class PlayerInventory : MonoBehaviour
         GameEvents.OnStartGame -= StartGame;
     }
 
-    public void StartGame()
+    public void StartGame(LevelProperties properties)
     {
-        CanvasManager.instance.FindElementGroupByID("PlayerInventory").UpdateElements(0, 0, true);
+        inventoryGroup.UpdateElements(0, 0, true);
+        toolIcon.SetActive(false);
+
+        LoadStartingItems(properties.startingTools.ToArray(), properties.startingItems.ToArray());
+    }
+
+    private void LoadStartingItems(ItemProperties[] startingTools, ItemProperties[] startingItems)
+    {
+        if (startingTools.Length > 0)
+        {
+            for (int i = 0; i < startingTools.Length; i++)
+            {
+                ItemController controller = Instantiate(startingTools[i].itemPrefab, itemParent).GetComponent<ItemController>();
+
+                controller.SetupController(player, startingTools[i]);
+                tools.Add(controller);
+            }
+
+            SwitchItems(0);
+        }
+
+        if (startingItems.Length > 0)
+        {
+            for (int i = 0; i < startingItems.Length; i++)
+            {
+                AddItem(startingItems[i], 1);
+            }
+        }
     }
 
     private void UseTool()
@@ -128,15 +129,14 @@ public class PlayerInventory : MonoBehaviour
         {
             SwitchItems(-1);
         }
-
-        notesCollectedUI.text = string.Format("{0} generators remaining", MainManager.GetRemainingGenerators);
     }
 
     private void SwitchItems(int i)
     {
-        if (isEquipping)
+        if (isEquipping || tools.Count <= 0)
             return;
 
+        toolIcon.SetActive(true);
         currentToolIndex += i;
 
         if (currentToolIndex > tools.Count - 1)
@@ -269,8 +269,6 @@ public class PlayerInventory : MonoBehaviour
     private IEnumerator SwitchTools(ItemController nextTool)
     {
         isEquipping = true;
-        equipGroup.UpdateElements(0, 0, true);
-        equipSlider.SetMax(nextTool.properties.equipTime);
 
         if (currentTool != null)
         {
@@ -278,22 +276,19 @@ public class PlayerInventory : MonoBehaviour
         }
 
         float t = nextTool.properties.equipTime;
-        while (t > 0.3f) 
+        while (t > 0.0f) 
         {
             t -= Time.deltaTime * 2f;
-            equipText.OverrideValue("Equipping: " + nextTool.properties.itemName);
-            equipSlider.OverrideValue(t);
+            equipSlider.OverrideValue(t / nextTool.properties.equipTime);
 
             yield return null;
         }
 
-        equipGroup.UpdateElements(0, 0, false);
-
         currentTool = nextTool;
         currentTool.ActivateItem();
 
-        toolName.OverrideValue(currentTool.properties.itemName);
         toolIcon.OverrideValue(currentTool.properties.itemSprite);
+        equipSlider.OverrideValue(1f);
         toolIcon.SetNatizeSize();
 
         isEquipping = false;

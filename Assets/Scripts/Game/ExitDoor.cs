@@ -8,6 +8,15 @@ public class ExitDoor : MonoBehaviour
 {
     public TextMeshProUGUI needToCollectMessage;
     public float textFadeRate;
+
+
+    private Animator animator
+    {
+        get
+        {
+            return GetComponent<Animator>();
+        }
+    }
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -27,17 +36,18 @@ public class ExitDoor : MonoBehaviour
 
     IEnumerator displayDooorOpenSuccessMessage()
     {
+        animator.SetTrigger("Open");
         needToCollectMessage.gameObject.SetActive(true);
         needToCollectMessage.text = "Exiting level...";
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3.5f);
         needToCollectMessage.gameObject.SetActive(false);
-        SceneManager.LoadScene(MainManager.nextScene);
+        Game.instance.SetGameState(GameStates.Exiting);
     }
 
     IEnumerator displayDooorOpenFailMessage()
     {
         needToCollectMessage.gameObject.SetActive(true);
-        needToCollectMessage.text = "Collect all notes to exit";
+        needToCollectMessage.text = "Enable all the generators to power the door!";
         yield return new WaitForSeconds(2);
         needToCollectMessage.gameObject.SetActive(false);
 

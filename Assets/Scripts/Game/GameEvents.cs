@@ -1,7 +1,10 @@
 public class GameEvents
 {
-    public delegate void StartGame();
+    public delegate void StartGame(LevelProperties properties);
     public static StartGame OnStartGame;
+
+    public delegate void EndGame(bool won, string name, float time, int generators);
+    public static EndGame OnEndGame;
 
     public delegate void TentacleAttack(TentacleController controller);
     public static TentacleAttack OnTentacleAttackPlayer;

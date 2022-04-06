@@ -36,7 +36,7 @@ public class Tutorial : MonoBehaviour
     private void EndTutorial()
     {
         tutorialGroup.UpdateElements(0, 0, false);
-        Game.instance.UpdateState(GameStates.Playing);
+        Game.instance.SetGameState(GameStates.Playing);
     }
 
     public void UpdateTutorialPage(int next)

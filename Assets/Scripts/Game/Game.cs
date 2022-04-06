@@ -1,72 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public enum GameStates
 {
-    Tutorial,
+    Entering,
     Playing,
-    Loading
+    Exiting
 }
 
 public class Game : MonoBehaviour
 {
     public static Game instance;
 
-    public GameProperties gameProperties;
+    [SerializeField] private Transform spawnPoint;
 
-    [SerializeField] private GameObject tempListener;
-
-
-    public Player player { get; private set; }
+    public GameStates state { get; private set; }
+    public LevelProperties currentLevelProperties { get; private set; }
     public TentacleManager tentacleManager { get; private set; }
-    public GameStates gameState { get; private set; }
+    public Player player { get; private set; }
 
-    private GameObject spawnPoint = null;
+    private float timeSinceStart;
+    private int generatorsEnabled;
+
 
     private void Awake()
     {
         instance = this;
-        spawnPoint = GameObject.FindGameObjectWithTag("PlayerSpawnPoint");
+    }
+
+    public void InitializeGame(LevelProperties currentLevelProperties)
+    {
+        if (instance == null)
+            instance = this;
+
+        this.currentLevelProperties = currentLevelProperties;
         tentacleManager = FindObjectOfType<TentacleManager>();
     }
 
-    private void Start()
+    private void Update()
     {
-        UpdateState(GameStates.Tutorial);
-    }
-
-    public void UpdateState(GameStates gameState)
-    {
-        this.gameState = gameState;
-
-        switch (gameState)
+        if (state == GameStates.Playing)
         {
-            case GameStates.Tutorial:
-                StartTutorial();
-                break;
-
-            case GameStates.Playing:
-                StartGame();
-                break;
-
-            case GameStates.Loading:
-                Loading();
-                break;
+            timeSinceStart += Time.deltaTime;
+            generatorsEnabled = MainManager.GetRemainingGenerators;
         }
     }
 
-    private void StartTutorial()
+    public void SetGameState(GameStates state)
     {
-        Tutorial.instance.StartTutorial();
+        if (state == this.state)
+            return;
+
+        switch (state)
+        {
+            case GameStates.Entering:
+                EnterGame();
+                break;
+
+            case GameStates.Exiting:
+                ExitGame(player.stateManager.GetStateInEnum() != PlayerStates.Dead);
+                break;
+
+            case GameStates.Playing:
+                StartPlayingGame();
+                break;
+        }
+
+        this.state = state;
     }
 
-    private void StartGame()
+    private void EnterGame()
+    {
+        SetGameState(GameStates.Playing);
+    }
+
+    private void StartPlayingGame()
     {
         Player player = PlayerSpawner.SpawnPlayer(spawnPoint.transform);
 
-        if(player)
+        if (player)
         {
             this.player = player;
 
@@ -74,12 +85,24 @@ public class Game : MonoBehaviour
             tentacleManager.Initialize();
         }
 
-        Destroy(tempListener);
-        GameEvents.OnStartGame?.Invoke();
+        GameEvents.OnStartGame?.Invoke(currentLevelProperties);
     }
 
-    private void Loading()
+    private void ExitGame(bool lost)
     {
+        Destroy(player.gameObject);
+        tentacleManager.enabled = false;
+        
+        GameEvents.OnEndGame?.Invoke(lost, currentLevelProperties.levelName, timeSinceStart, generatorsEnabled);
+    }
 
+    public void ContinueToNextLevel()
+    {
+        GameManager.instance.LoadNextLevelScene(1);
+    }
+
+    public void ResetLevel()
+    {
+        GameManager.instance.currentLevel.LoadLevel();
     }
 }

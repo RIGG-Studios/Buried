@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
-[System.Serializable]
 public class MainManager : MonoBehaviour
 {
-    [SerializeField]
-    int generatorsInLevel;
-
-    [SerializeField]
-    string nextSceneName;
+    [SerializeField]  private TextMeshPro remainingGeneratorsText;
+    [SerializeField]  private string nextSceneName;
 
     static bool canOpenDoor;
     static int remainingGenerators;
@@ -19,7 +16,7 @@ public class MainManager : MonoBehaviour
 
     private void Start()
     {
-        remainingGenerators = generatorsInLevel;
+        remainingGenerators = Game.instance.currentLevelProperties.generatorsInLevel;
         nextScene = nextSceneName;
     }
 
@@ -46,5 +43,6 @@ public class MainManager : MonoBehaviour
         return remainingGenerators;
     }
 
+    public TextMeshPro GetRemainingGeneratorsText() => remainingGeneratorsText;
     public static bool GetCanOpenDoor => canOpenDoor;
 }

@@ -29,7 +29,7 @@ public class FlashlightController : MonoBehaviour
         player = FindObjectOfType<Player>();
         state = FlashlightStates.Off;
         player.playerInput.Player.Flashlight.performed += ctx => ToggleFlashLight();
-        flashlightSlider = CanvasManager.instance.FindElementGroupByID("PlayerVitals").FindElement("flashlightslider");
+        flashlightSlider = CanvasManager.instance.FindElementGroupByID("PlayerFlashlightGroup").FindElement("flashlightslider");
         currentLightIntensity = settings.maxIntensity;
     }
 
@@ -75,7 +75,7 @@ public class FlashlightController : MonoBehaviour
 
         lightSource.intensity = currentLightIntensity;
 
-        flashlightSlider.OverrideValue(currentLightIntensity);
+        flashlightSlider.OverrideValue(currentLightIntensity / settings.maxIntensity);
 
         if (currentLightIntensity < settings.minIntensity && !chargeBattery)
         {

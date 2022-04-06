@@ -33,5 +33,5 @@ public class MainMenuManager : MonoBehaviour
 
     public void QuitGame() => Application.Quit();
 
-    public void PlayGame() => SceneManager.LoadScene("Level1");
+    public void PlayGame() => GameManager.instance.LoadNextLevelScene(0);
 }
