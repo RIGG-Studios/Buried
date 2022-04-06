@@ -1,4 +1,6 @@
 using TMPro;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class GameUI : MonoBehaviour
@@ -17,6 +19,8 @@ public class GameUI : MonoBehaviour
     private UIElement levelWonTime;
     private UIElement levelWonBestTime;
     private UIElement levelWonGeneratorsTurnedOn;
+
+    private UIElement levelObjectiveText;
 
     private void Start()
     {
@@ -39,6 +43,8 @@ public class GameUI : MonoBehaviour
             levelWonBestTime = levelWonGroup.FindElement("besttime");
             levelWonGeneratorsTurnedOn = levelWonGroup.FindElement("generatorsturnedon");
         }
+
+        levelObjectiveText = CanvasManager.instance.FindElementGroupByID("ObjectiveGroup").FindElement("levelobjectivetext");
     }
 
     public void OnEnable()
@@ -76,6 +82,21 @@ public class GameUI : MonoBehaviour
     private void OnGameStarted(LevelProperties properties)
     {
         OnGeneratorTurnedOn(properties.generatorsInLevel);
+
+        PrintText("Find and activate all of the generators.");
+    }
+
+    private void PrintText(string message)
+    {
+        StartCoroutine(PrintText(message, 8.0f));
+    }
+
+    private IEnumerator PrintText(string message, float time)
+    {
+        levelObjectiveText.SetActive(true);
+        StartCoroutine(DialogueFunctions.PrintText(message, levelObjectiveText, 0.08f));
+        yield return new WaitForSeconds(time);
+        StartCoroutine(DialogueFunctions.PrintText(string.Empty, levelObjectiveText, 0.08f));
     }
 
     private void OnGeneratorTurnedOn(int generatorAmount)

@@ -112,22 +112,15 @@ public class UIElementGroup : MonoBehaviour
             for (int i = 0; i < elementsInGroup.Length; i++) //for every element in the group
             {
                 //cross fade the graphics to the desired alpha, based on the duration
-                elementsInGroup[i].graphics.CrossFadeAlpha(targetAlpha, duration, false);
+                elementsInGroup[i].graphics.CrossFadeAlpha(targetAlpha, duration, true);
             }
+
             yield return null;
         }
-       
-        if(targetAlpha == 0)
-        {
-            for (int i = 0; i < elementsInGroup.Length; i++) //for every element in the group
-                elementsInGroup[i].gameObject.SetActive(false);
 
-            active = false;
-        }
-        else if (targetAlpha == 1)
+       if (targetAlpha == 1)
         {
-            for (int i = 0; i < elementsInGroup.Length; i++) //for every element in the group
-                elementsInGroup[i].gameObject.SetActive(true);
+            active = true;
         }
     }
 

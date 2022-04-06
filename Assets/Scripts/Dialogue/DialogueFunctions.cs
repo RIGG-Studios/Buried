@@ -7,7 +7,9 @@ public static class DialogueFunctions
 {
     public static IEnumerator PrintText(string text, UIElement textField, float time)
     {
-        for(int i = 0; i < text.Length + 1; i++)
+        Debug.Log("message");
+
+        for (int i = 0; i < text.Length + 1; i++)
         {
             object outputText = text.Substring(0, i);
 

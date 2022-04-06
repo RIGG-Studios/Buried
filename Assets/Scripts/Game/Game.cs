@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public enum GameStates
@@ -18,12 +20,15 @@ public class Game : MonoBehaviour
     public TentacleManager tentacleManager { get; private set; }
     public Player player { get; private set; }
 
+
+    private PlayerCamera playerCam;
     private float timeSinceStart;
     private int generatorsEnabled;
 
 
     private void Awake()
     {
+        playerCam = FindObjectOfType<PlayerCamera>();
         instance = this;
     }
 
@@ -75,17 +80,8 @@ public class Game : MonoBehaviour
 
     private void StartPlayingGame()
     {
-        Player player = PlayerSpawner.SpawnPlayer(spawnPoint.transform);
-
-        if (player)
-        {
-            this.player = player;
-
-            this.player.Initialize();
-            tentacleManager.Initialize();
-        }
-
-        GameEvents.OnStartGame?.Invoke(currentLevelProperties);
+        CanvasManager.instance.FindElementGroupByID("FadeGroup").UpdateElements(1f, 0.0f, false);
+        StartCoroutine(FadeOut(2f));
     }
 
     private void ExitGame(bool lost)
@@ -104,5 +100,29 @@ public class Game : MonoBehaviour
     public void ResetLevel()
     {
         GameManager.instance.currentLevel.LoadLevel();
+    }
+
+    private IEnumerator FadeOut(float time)
+    {
+        playerCam.SetTarget(spawnPoint);
+        CanvasManager.instance.FindElementGroupByID("FadeGroup").UpdateElements(0, time, false);
+        yield return new WaitForSeconds(time + 1f);
+        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
+        StartGame();
+    }
+
+    private void StartGame()
+    {
+        Player player = PlayerSpawner.SpawnPlayer(spawnPoint.transform);
+
+        if (player)
+        {
+            this.player = player;
+
+            this.player.Initialize();
+            tentacleManager.Initialize();
+        }
+
+        GameEvents.OnStartGame?.Invoke(currentLevelProperties);
     }
 }

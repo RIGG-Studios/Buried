@@ -35,4 +35,7 @@ public class GameEvents
 
     public delegate void ToggleHidePlayer();
     public static ToggleHidePlayer OnToggleHidePlayer;
+
+    public delegate void PrintText(string message);
+    public static PrintText OnPrintText;
 } 
