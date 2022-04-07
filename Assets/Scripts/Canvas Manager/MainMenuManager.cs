@@ -10,10 +10,24 @@ public class MainMenuManager : MonoBehaviour
     CanvasManager manager;
     bool toggledOptions;
 
+    public float audioFadeSpeed;
+    public AudioSource source;
+
+    bool startedFading;
+
     private void Start()
     {
         manager = GetComponent<CanvasManager>();
         manager.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
+        source.volume = 1;
+    }
+
+    private void Update()
+    {
+        if (startedFading)
+        {
+            source.volume -= Time.deltaTime * audioFadeSpeed;
+        }
     }
 
     public void DisplayCredits() => Debug.Log("this is a work in progress uWu");
@@ -41,10 +55,12 @@ public class MainMenuManager : MonoBehaviour
 
     private IEnumerator IEPlayGame()
     {
+        startedFading = true;
         manager.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(true);
         manager.FindElementGroupByID("FadeGroup").UpdateElements(1f, playGameDelay, true);
             
         yield return new WaitForSeconds(playGameDelay + 1f);
+        startedFading = false;
         GameManager.instance.LoadNextLevelScene(0);
     }
 }

@@ -4193,7 +4193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   needToCollectMessage: {fileID: 7816731739600652150}
-  textFadeRate: 0
+  textFadeRate: 1
 --- !u!95 &7816731739019225004
 Animator:
   serializedVersion: 3
