@@ -28,6 +28,7 @@ public class CanvasManager : MonoBehaviour
 
         //find all components that are a UIElementGroup underneath this gameobject
         UIElementGroup[] elements = GetComponentsInChildren<UIElementGroup>();
+
         //return it the array if its length is > 0.
         return elements.Length > 0 ? elements : null;
     }

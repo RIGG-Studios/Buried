@@ -97,9 +97,10 @@ public class Player : MonoBehaviour
 
     public void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.layer == 13 && (stateManager.lastState != null && stateManager.GetStateInEnum(stateManager.lastState) == PlayerStates.GrabbedByTentacle))
+        if (collision.collider.gameObject.layer == 13 && stateManager.lastState != null)
         {
-            stateManager.TransitionStates(PlayerStates.Dead);
+            if(stateManager.GetStateInEnum(stateManager.lastState) == PlayerStates.GrabbedByTentacle)
+                stateManager.TransitionStates(PlayerStates.Dead);
         }
     }
 

@@ -7,9 +7,8 @@ public class PlayerInteractionManager : MonoBehaviour
 {
     [SerializeField] private LayerMask interactionLayer;
 
-    [SerializeField] private GameObject interactionAssist;
-    [SerializeField] private TextMeshPro interactionName;
-    [SerializeField] private TextMeshPro interactionType;
+    [SerializeField] private Texture2D defaultCursor;
+    [SerializeField] private Texture2D hoverCursor;
 
     [SerializeField] private float assistRadius = 0.0f;
     [SerializeField] private float minInteractionDistance = 0.0f;
@@ -27,12 +26,6 @@ public class PlayerInteractionManager : MonoBehaviour
     {
         player = GetComponent<Player>();
         camera = Camera.main;
-
-        if(interactionAssist != null)
-        {
-            interactionAssist.transform.SetParent(null);
-            interactionAssist.transform.position = new Vector3(150, 150, 0);
-        }
     }
 
     private void Start()
@@ -44,21 +37,9 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void Update()
     {
-        Vector3 mouseWorldSpace = camera.ScreenToWorldPoint(Utilites.GetMousePosition());
+        Ray ray = camera.ScreenPointToRay(Utilites.GetMousePosition());
 
-        RaycastHit2D spriteHit = Physics2D.Raycast(mouseWorldSpace, transform.position - mouseWorldSpace, minInteractionDistance, interactionLayer);
-        /*/
-        RaycastResult uiHit = Utilites.IsPointerOverUIElement();
-
-        if (uiHit.gameObject != null)
-        {
-            OnHoverOverInteractable(uiHit.gameObject, Vector2.zero);
-        }
-        else if (uiHit.gameObject == null && hoveredObject != null && spriteHit.collider == null)
-        {
-            OnStopHoverInteractable();
-        }
-        /*/
+        RaycastHit2D spriteHit = Physics2D.GetRayIntersection(ray, 1500f, interactionLayer);
 
         if (allowInteractions)
         {
@@ -85,10 +66,7 @@ public class PlayerInteractionManager : MonoBehaviour
 
         if (hoveredObject.useAssist)
         {
-            interactionName.text = hoveredObject.interactionName;
-            interactionType.text = hoveredObject.interactionType.ToString();
-            interactionAssist.transform.position = point;
-            interactionAssist.SetActive(true);
+            Cursor.SetCursor(hoverCursor, Vector2.zero, CursorMode.Auto);
         }
 
         hoveredObject.HoverInteract();
@@ -99,8 +77,9 @@ public class PlayerInteractionManager : MonoBehaviour
         if (hoveredObject == null)
             return;
 
+        Debug.Log("f");
         hoveredObject.StopHoverInteract();
-        interactionAssist.SetActive(false);
+        Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);   
         hoveredObject = null;
     }
 
@@ -112,6 +91,6 @@ public class PlayerInteractionManager : MonoBehaviour
         if (!hoveredObject.open)
             hoveredObject.ButtonInteract();
 
-        interactionAssist.SetActive(false);
+        Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
     }
 }

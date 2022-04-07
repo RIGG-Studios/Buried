@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
         Destroy(game.player.gameObject);
         SceneManager.LoadScene(3);
     }
+
+    public void QuitToDesktop() => Application.Quit();
     
     public void LoadMainMenu() => SceneManager.LoadScene(0);
 

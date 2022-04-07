@@ -111,11 +111,6 @@ public class Game : MonoBehaviour
         GameEvents.OnStartGame?.Invoke(currentLevelProperties);
     }
 
-    public void LeaveGame()
-    {
-        gameUI.ToggleExitGame(true);
-    }
-
     public void ExitToMenu() => GameManager.instance.LoadMainMenu();
 
     public void ExitToDesktop() => Application.Quit();

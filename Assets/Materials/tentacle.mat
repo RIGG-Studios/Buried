@@ -38,11 +38,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 47c044cbe610f6a4db6b52cbd7c1ca85, type: 3}
+        m_Texture: {fileID: 2800000, guid: d1a516d8233819549ae71fa7f7daa8f3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 47c044cbe610f6a4db6b52cbd7c1ca85, type: 3}
+        m_Texture: {fileID: 2800000, guid: d1a516d8233819549ae71fa7f7daa8f3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -57,7 +57,7 @@ Material:
     - _AlphaClip: 1
     - _Blend: 0
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0.513
     - _DstBlend: 0
     - _EnableExternalAlpha: 0
     - _QueueOffset: 0

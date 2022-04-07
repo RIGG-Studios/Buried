@@ -7,9 +7,11 @@ public class PauseMenu : MonoBehaviour
 {
     public bool isPaused { get; private set; }
     public bool optionsOpened { get; private set; }
+    public bool exitOpened { get; private set; }
 
     private UIElementGroup pauseGroup = null;
     private UIElementGroup optionsGroup = null;
+    private UIElementGroup exitGroup = null;
     private Player player = null;
 
     private void Start()
@@ -18,13 +20,14 @@ public class PauseMenu : MonoBehaviour
 
         pauseGroup = player.playerCanvas.FindElementGroupByID("PauseGroup");
         optionsGroup = player.playerCanvas.FindElementGroupByID("OptionsGroup");
+        exitGroup = player.playerCanvas.FindElementGroupByID("ExitGameGroup");
     }
 
     public void PauseGame()
     {
         if (optionsOpened)
         {
-            optionsGroup.UpdateElements(0, 0, false);
+            player.playerCanvas.HideElementGroup(optionsGroup);
             optionsOpened = false;
             return;
         }
@@ -32,6 +35,13 @@ public class PauseMenu : MonoBehaviour
         if (isPaused)
         {
             ResumeGame();
+            return;
+        }
+
+        if (exitOpened)
+        {
+            player.playerCanvas.HideElementGroup(exitGroup);
+            exitOpened = false;
             return;
         }
 
@@ -52,6 +62,7 @@ public class PauseMenu : MonoBehaviour
 
     public void ToggleOptions()
     {
+        Debug.Log(optionsGroup);
         optionsGroup.UpdateElements(0, 0, true);
         optionsOpened = true;
     }
@@ -60,6 +71,15 @@ public class PauseMenu : MonoBehaviour
     public void ExitGame()
     {
         PauseGame();
-        GameManager.instance.game.LeaveGame();
+        player.playerCanvas.ShowElementGroup(exitGroup, true);
+        exitOpened = true;
+    }
+
+    public void Exit(bool desktop)
+    {
+        if (desktop)
+            GameManager.instance.QuitToDesktop();
+        else
+            GameManager.instance.LoadMainMenu();
     }
 }

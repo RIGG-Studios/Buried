@@ -1,5 +1,4 @@
 using TMPro;
-using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
@@ -129,13 +128,5 @@ public class GameUI : MonoBehaviour
         fadeGroup.FindElement("image").SetActive(false);
         fadeGroup.FindElement("levelnumbertext").SetActive(false);
         fadeGroup.FindElement("levelnametext").SetActive(false);
-    }
-
-    public void ToggleExitGame(bool state)
-    {
-        if (state)
-            game.canvas.ShowElementGroup(exitGameGroup);
-        else
-            game.canvas.HideElementGroup(exitGameGroup);
     }
 }
