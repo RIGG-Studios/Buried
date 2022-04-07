@@ -53,7 +53,7 @@ public class FlashlightController : MonoBehaviour
 
     private void Update()
     {
-        if (player.stateManager.GetStateInEnum() == PlayerStates.Hiding && state == FlashlightStates.On)
+        if (player.stateManager.GetStateInEnum(player.stateManager.currentState) == PlayerStates.Hiding && state == FlashlightStates.On)
             ToggleFlashLight();
             
         if (chargeBattery && currentLightIntensity <= settings.maxIntensity)

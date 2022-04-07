@@ -46,7 +46,7 @@ public class HideState : State
 
     private void LeaveHideableObject()
     {
-        if (player.stateManager.GetStateInEnum() != PlayerStates.Hiding)
+        if (player.stateManager.GetStateInEnum(player.stateManager.currentState) != PlayerStates.Hiding)
             return;
 
         GameEvents.OnToggleHidePlayer?.Invoke();

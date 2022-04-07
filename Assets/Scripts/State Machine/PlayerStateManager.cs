@@ -29,6 +29,8 @@ public class PlayerStateManager : StateMachine
     private PlayerIdleState idleState = null;
     private HideState hideState = null;
 
+    public State lastState { get; private set; }
+
     private void Awake()
     {
         //create new instances of the states
@@ -50,6 +52,7 @@ public class PlayerStateManager : StateMachine
 
         if (newState != null)
         {
+            lastState = currentState;
             //if everything is good, exit the old state and enter the new state.
             currentState.ExitState();
             currentState = newState;
@@ -85,17 +88,17 @@ public class PlayerStateManager : StateMachine
         return null;
     }
 
-    public PlayerStates GetStateInEnum()
+    public PlayerStates GetStateInEnum(State s)
     {
         PlayerStates state = PlayerStates.Dead;
 
-        if (currentState == movementState)
+        if (s == movementState)
             state = PlayerStates.Movement;
-        else if (currentState == hideState)
+        else if (s == hideState)
             state = PlayerStates.Hiding;
-        else if (state == PlayerStates.Grappling)
+        else if (s ==  grappleState)
             state = PlayerStates.Grappling;
-        else if (state == PlayerStates.GrabbedByTentacle)
+        else if (s == grabbedState)
             state = PlayerStates.GrabbedByTentacle;
 
         return state;

@@ -40,6 +40,6 @@ public class ItemController : MonoBehaviour
     }
     protected bool CanUseItem()
     {
-        return player.stateManager.GetStateInEnum() != PlayerStates.Hiding;
+        return player.stateManager.GetStateInEnum(player.stateManager.currentState) != PlayerStates.Hiding;
     }
 }

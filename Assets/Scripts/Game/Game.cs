@@ -62,7 +62,7 @@ public class Game : MonoBehaviour
                 break;
 
             case GameStates.Exiting:
-                ExitGame(player.stateManager.GetStateInEnum() != PlayerStates.Dead);
+                ExitGame(player.stateManager.GetStateInEnum(player.stateManager.currentState) != PlayerStates.Dead);
                 break;
 
             case GameStates.Playing:
@@ -80,7 +80,7 @@ public class Game : MonoBehaviour
 
     private void StartPlayingGame()
     {
-        CanvasManager.instance.FindElementGroupByID("FadeGroup").UpdateElements(1f, 0.0f, false);
+        CanvasManager.instance.FindElementGroupByID("FadeGroup").UpdateElements(2.0f, 0.0f, false);
         StartCoroutine(FadeOut(2f));
     }
 
@@ -105,9 +105,13 @@ public class Game : MonoBehaviour
     private IEnumerator FadeOut(float time)
     {
         playerCam.SetTarget(spawnPoint);
+        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("levelnumbertext").OverrideValue("LEVEL " + currentLevelProperties.levelIndex);
+        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("levelnametext").OverrideValue(currentLevelProperties.levelName.ToUpper());
         CanvasManager.instance.FindElementGroupByID("FadeGroup").UpdateElements(0, time, false);
-        yield return new WaitForSeconds(time + 1f);
+        yield return new WaitForSeconds(time + 2.5f);
         CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
+        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("levelnumbertext").SetActive(false);
+        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("levelnametext").SetActive(false);
         StartGame();
     }
 

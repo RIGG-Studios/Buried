@@ -37,7 +37,7 @@ public class AttackState : State
 
     public override void UpdateLogic()
     {
-        Vector3 targetPos = player.stateManager.GetStateInEnum() == PlayerStates.Hiding ? player.lastKnownPosition : player.GetPosition();
+        Vector3 targetPos = player.stateManager.GetStateInEnum(player.stateManager.currentState) == PlayerStates.Hiding ? player.lastKnownPosition : player.GetPosition();
         float currentTentacleDistance = controller.GetTentacleDistance();
         float playerDistFromTentacle = controller.GetDistanceBetweenPlayerAndEndPoint();
 
@@ -54,7 +54,7 @@ public class AttackState : State
             stateManager.TransitionStates(TentacleStates.Retreat);
         }
 
-        if (playerDistFromTentacle <= properties.detectionRange && player.stateManager.GetStateInEnum() != PlayerStates.Hiding)
+        if (playerDistFromTentacle <= properties.detectionRange && player.stateManager.GetStateInEnum(player.stateManager.currentState) != PlayerStates.Hiding)
         {
             stateManager.TransitionStates(TentacleStates.GrabPlayer);
         }

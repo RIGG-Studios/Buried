@@ -90,8 +90,7 @@ public class Segment
             Vector2 hitDir = (hit.point - this.origin);
             float ang = Mathf.Atan2(hitDir.y, hitDir.x) * Mathf.Deg2Rad;
             float absAng = Mathf.Abs(ang);
-            position += hit.point.normalized;
-
+            position = hit.point;
         }
 
 

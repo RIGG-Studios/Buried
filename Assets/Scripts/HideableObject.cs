@@ -22,7 +22,7 @@ public class HideableObject : InteractableObject
 
     public override void HoverInteract()
     {
-        if (player.stateManager.GetStateInEnum() == PlayerStates.Hiding)
+        if (player.stateManager.GetStateInEnum(player.stateManager.currentState) == PlayerStates.Hiding)
         {
             useAssist = false;
         }

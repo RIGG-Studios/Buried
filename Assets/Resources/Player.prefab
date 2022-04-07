@@ -1330,9 +1330,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26300a70e75360b4b9b05162cd391989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingTools:
-  - {fileID: 11400000, guid: cbd30738035c3664fb77f209d2b100de, type: 2}
-  - {fileID: 11400000, guid: 257710a7a7b35c5478de1e0a89d1376f, type: 2}
   itemUI: {fileID: 7539297883243094625, guid: 4e001c50f54ef624ea954a9cb365635a, type: 3}
   itemParent: {fileID: 5096201167517069325}
 --- !u!81 &5506523797748207776

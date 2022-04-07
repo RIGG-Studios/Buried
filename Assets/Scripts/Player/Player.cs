@@ -85,10 +85,18 @@ public class Player : MonoBehaviour
 
     private void PauseGame()
     {
-        if (stateManager.GetStateInEnum() == PlayerStates.Hiding)
+        if (stateManager.GetStateInEnum(stateManager.currentState) == PlayerStates.Hiding)
             return;
 
         PauseMenu.instance.PauseGame();
+    }
+
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.gameObject.layer == 13 && (stateManager.lastState != null && stateManager.GetStateInEnum(stateManager.lastState) == PlayerStates.GrabbedByTentacle))
+        {
+            stateManager.TransitionStates(PlayerStates.Dead);
+        }
     }
 
     private void HideState()
