@@ -34,7 +34,7 @@ public class PlayerParanoidManager : MonoBehaviour
 
     private void Update()
     {
-        controller = Game.instance.tentacleManager.GetClosestTentacleToPlayer(transform.position);
+        controller = GameManager.instance.game.tentacleManager.GetClosestTentacleToPlayer(transform.position);
 
         if (controller == null)
         {

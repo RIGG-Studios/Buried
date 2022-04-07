@@ -41,7 +41,7 @@ public class ExitDoor : MonoBehaviour
         needToCollectMessage.text = "Exiting level...";
         yield return new WaitForSeconds(3.5f);
         needToCollectMessage.gameObject.SetActive(false);
-        Game.instance.SetGameState(GameStates.Exiting);
+        GameManager.instance.game.SetGameState(GameStates.Exiting);
     }
 
     IEnumerator displayDooorOpenFailMessage()

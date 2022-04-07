@@ -21,9 +21,13 @@ public class GameUI : MonoBehaviour
 
     private UIElement levelObjectiveText;
 
+    private UIElementGroup fadeGroup;
+    private UIElementGroup exitGameGroup;
+
     private Game game { get { return FindObjectOfType<Game>(); } }
 
-    private void Start()
+
+    private void Awake()
     {
         levelLostGroup = game.canvas.FindElementGroupByID("LevelLostGroup");
 
@@ -46,6 +50,9 @@ public class GameUI : MonoBehaviour
         }
 
         levelObjectiveText = game.canvas.FindElementGroupByID("ObjectiveGroup").FindElement("levelobjectivetext");
+
+        fadeGroup = game.canvas.FindElementGroupByID("FadeGroup");
+        exitGameGroup = game.canvas.FindElementGroupByID("ExitGameGroup");
     }
 
     public void OnEnable()
@@ -80,6 +87,8 @@ public class GameUI : MonoBehaviour
         }
     }
 
+
+
     private void OnGameStarted(LevelProperties properties)
     {
         OnGeneratorTurnedOn(properties.generatorsInLevel);
@@ -105,5 +114,28 @@ public class GameUI : MonoBehaviour
         string text = generatorAmount <= 0 ? "Return to the door!" : "Generators remaining: " + generatorAmount;
 
         generatorsLeftText.text = text;
+    }
+
+    public void SetIntroUI(LevelProperties currentLevelProperties, float time)
+    {
+        Debug.Log(fadeGroup);
+        fadeGroup.FindElement("levelnumbertext").OverrideValue("LEVEL " + currentLevelProperties.levelIndex);
+        fadeGroup.FindElement("levelnametext").OverrideValue(currentLevelProperties.levelName.ToUpper());
+        fadeGroup.UpdateElements(0, time, false);
+    }
+
+    public void ResetIntroUI()
+    {
+        fadeGroup.FindElement("image").SetActive(false);
+        fadeGroup.FindElement("levelnumbertext").SetActive(false);
+        fadeGroup.FindElement("levelnametext").SetActive(false);
+    }
+
+    public void ToggleExitGame(bool state)
+    {
+        if (state)
+            game.canvas.ShowElementGroup(exitGameGroup);
+        else
+            game.canvas.HideElementGroup(exitGameGroup);
     }
 }

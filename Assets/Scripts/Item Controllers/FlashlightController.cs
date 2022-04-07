@@ -37,6 +37,7 @@ public class FlashlightController : MonoBehaviour
     {
         if(state == FlashlightStates.Off)
         {
+            Debug.Log(gameObject.name);
             flashlightSlider.SetActive(true);
             lightSource.enabled = true;
             state = FlashlightStates.On;

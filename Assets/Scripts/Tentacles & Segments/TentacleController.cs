@@ -160,7 +160,7 @@ public class TentacleController : MonoBehaviour
         spawner = null;
         line.positionCount = 0;
 
-        Game.instance.tentacleManager.ResetTentacle(this);
+        GameManager.instance.game.tentacleManager.ResetTentacle(this);
     }
 
     private Vector3[] GetSegmentPositions()
@@ -223,7 +223,7 @@ public class TentacleController : MonoBehaviour
 
     public float GetDistanceBetweenPlayerAndEndPoint()
     {
-        return (GetTentacleEndPoint() - Game.instance.player.GetPosition()).magnitude;
+        return (GetTentacleEndPoint() - GameManager.instance.game.player.GetPosition()).magnitude;
     }
 
     public float GetTentacleDistance()
@@ -247,7 +247,7 @@ public class TentacleController : MonoBehaviour
     }
     public float GetDistanceBetweenPlayerAndAnchor()
     {
-        return (spawner.spawnPoint - Game.instance.player.GetPosition()).magnitude;
+        return (spawner.spawnPoint - GameManager.instance.game.player.GetPosition()).magnitude;
     }
 
     public NavMeshAgent GetAgent()

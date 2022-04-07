@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public MovementSettings movementSettings;
     public GrapplingHookSettings grappleHookSettings;
     public FlareSettings flareSettings;
+    public CanvasManager playerCanvas;
 
     [HideInInspector]
     public PlayerStateManager stateManager;
@@ -34,8 +35,6 @@ public class Player : MonoBehaviour
     public FlashlightController flashLight;
     [HideInInspector]
     public SpriteRenderer render;
-    [HideInInspector]
-    public CanvasManager playerCanvas;
     [HideInInspector]
     public PauseMenu playerPause;
 
@@ -64,7 +63,6 @@ public class Player : MonoBehaviour
         playerCam = FindObjectOfType<PlayerCamera>();
         flashLight = FindObjectOfType<FlashlightController>();
         render = GetComponentInChildren<SpriteRenderer>();
-        playerCanvas = GetComponentInChildren<CanvasManager>();
         playerPause = GetComponent<PauseMenu>();
 
         playerInput.Player.Pause.performed += ctx => PauseGame();

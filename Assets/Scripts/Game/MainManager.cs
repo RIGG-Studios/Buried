@@ -16,7 +16,7 @@ public class MainManager : MonoBehaviour
 
     private void Start()
     {
-        remainingGenerators = Game.instance.currentLevelProperties.generatorsInLevel;
+        remainingGenerators = GameManager.instance.game.currentLevelProperties.generatorsInLevel;
         nextScene = nextSceneName;
     }
 

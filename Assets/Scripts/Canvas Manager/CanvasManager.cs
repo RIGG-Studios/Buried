@@ -8,7 +8,7 @@ public class CanvasManager : MonoBehaviour
     private bool loaded = false;
 
     //create a list of our ui element groups, since this is the main things we modify
-    private UIElementGroup[] allElements;
+    public UIElementGroup[] allElements { get; private set; }
 
     private void Awake() => SetupCanvas();
 
@@ -39,6 +39,7 @@ public class CanvasManager : MonoBehaviour
         {
             SetupCanvas();
         }
+
         //loop through all of our elements
         for (int i = 0; i < allElements.Length; i++)
         {

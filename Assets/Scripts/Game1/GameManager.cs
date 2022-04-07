@@ -10,21 +10,31 @@ public class GameManager : MonoBehaviour
     public GameProperties gameProperties { get { return gameProps; } }
     public LevelProperties currentLevel { get; private set; }
 
+    public Game game { get { return FindObjectOfType<Game>(); } }
+
     private int currentLevelIndex = 0;
     private LevelProperties[] levels;
 
     private void Awake()
     {
-        if (instance == null)
+        if (instance != null) { Destroy(gameObject); }
+        else
+        {
             instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
 
         levels = gameProps.levelsInGame;
         SceneManager.sceneLoaded += OnLevelLoaded;
-
-        DontDestroyOnLoad(this);
     }
 
-    public void LoadDeathScene() => SceneManager.LoadScene(3);
+    public void LoadDeathScene()
+    {
+        Destroy(game.player.gameObject);
+        SceneManager.LoadScene(3);
+    }
+    
+    public void LoadMainMenu() => SceneManager.LoadScene(0);
 
     public void LoadNextLevelScene(int index)
     {
@@ -41,12 +51,17 @@ public class GameManager : MonoBehaviour
         currentLevel.LoadLevel();
     }
 
+
     private void OnLevelLoaded(Scene thisscene, LoadSceneMode Single)
     {
-        if (Game.instance == null)
+        if (game == null)
             return;
 
-        Game.instance.InitializeGame(currentLevel);
-        Game.instance.SetGameState(GameStates.Playing);
+        if(game.player != null)
+        {
+            Destroy(game.player);
+        }
+
+        game.SetGameState(GameStates.Playing);
     }
 }

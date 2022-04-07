@@ -11,8 +11,6 @@ public enum GameStates
 
 public class Game : MonoBehaviour
 {
-    public static Game instance;
-
     [SerializeField] private CanvasManager gameCanvas = null;
     [SerializeField] private Transform spawnPoint = null;
 
@@ -20,29 +18,23 @@ public class Game : MonoBehaviour
     public LevelProperties currentLevelProperties { get; private set; }
     public TentacleManager tentacleManager { get; private set; }
     public Player player { get; private set; }
-
     public CanvasManager canvas { get { return gameCanvas != null ? gameCanvas : null; } }
 
-
-    private PlayerCamera playerCam;
-    private float timeSinceStart;
-    private int generatorsEnabled;
+    private PlayerCamera playerCam = null;
+    private GameUI gameUI = null;
+    private float timeSinceStart = 0;
+    private int generatorsEnabled = 0;
 
 
     private void Awake()
     {
         playerCam = FindObjectOfType<PlayerCamera>();
-        instance = this;
-    }
+        gameUI = FindObjectOfType<GameUI>();
 
-    public void InitializeGame(LevelProperties currentLevelProperties)
-    {
-        if (instance == null)
-            instance = this;
-
-        this.currentLevelProperties = currentLevelProperties;
+        this.currentLevelProperties = GameManager.instance.currentLevel;
         tentacleManager = FindObjectOfType<TentacleManager>();
     }
+
 
     private void Update()
     {
@@ -95,26 +87,12 @@ public class Game : MonoBehaviour
         GameEvents.OnEndGame?.Invoke(lost, currentLevelProperties.levelName, timeSinceStart, generatorsEnabled);
     }
 
-    public void ContinueToNextLevel()
-    {
-        GameManager.instance.LoadNextLevelScene(1);
-    }
-
-    public void ResetLevel()
-    {
-        GameManager.instance.currentLevel.LoadLevel();
-    }
-
     private IEnumerator FadeOut(float time)
     {
         playerCam.SetTarget(spawnPoint);
-        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("levelnumbertext").OverrideValue("LEVEL " + currentLevelProperties.levelIndex);
-        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("levelnametext").OverrideValue(currentLevelProperties.levelName.ToUpper());
-        gameCanvas.FindElementGroupByID("FadeGroup").UpdateElements(0, time, false);
+        gameUI.SetIntroUI(currentLevelProperties, time);
         yield return new WaitForSeconds(time + 2.5f);
-        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
-        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("levelnumbertext").SetActive(false);
-        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("levelnametext").SetActive(false);
+        gameUI.ResetIntroUI();
         StartGame();
     }
 
@@ -132,4 +110,17 @@ public class Game : MonoBehaviour
 
         GameEvents.OnStartGame?.Invoke(currentLevelProperties);
     }
+
+    public void LeaveGame()
+    {
+        gameUI.ToggleExitGame(true);
+    }
+
+    public void ExitToMenu() => GameManager.instance.LoadMainMenu();
+
+    public void ExitToDesktop() => Application.Quit();
+
+    public void ContinueToNextLevel() => GameManager.instance.LoadNextLevelScene(1);
+
+    public void ResetLevel() => GameManager.instance.currentLevel.LoadLevel();
 }

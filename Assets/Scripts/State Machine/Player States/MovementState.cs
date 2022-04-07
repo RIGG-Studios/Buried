@@ -43,7 +43,7 @@ public class MovementState : State
 
     public override void UpdateLogic()
     {
-        if (Game.instance.state != GameStates.Playing)
+        if (GameManager.instance.game.state != GameStates.Playing)
             return;
 
         isMoving = movementInput != Vector2.zero;
