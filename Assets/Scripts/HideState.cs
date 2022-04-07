@@ -13,7 +13,7 @@ public class HideState : State
     {
         this.player = player;
         camera = Camera.main;
-        leaveUI = CanvasManager.instance.FindElementGroupByID("LeaveGroup");
+        leaveUI = player.playerCanvas.FindElementGroupByID("LeaveGroup");
     }
 
     public override void EnterState()

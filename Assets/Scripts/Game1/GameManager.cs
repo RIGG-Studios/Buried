@@ -24,6 +24,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+    public void LoadDeathScene() => SceneManager.LoadScene(3);
+
     public void LoadNextLevelScene(int index)
     {
         currentLevelIndex += index;

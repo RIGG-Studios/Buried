@@ -11,7 +11,6 @@ public enum FlashlightStates
 
 public class FlashlightController : MonoBehaviour
 {
-
     [SerializeField] private FlashlightStates state = FlashlightStates.Off;
     [SerializeField] private FlashlightSettings settings = null;
     [SerializeField] private float maxIntensity = 0.0f;
@@ -29,7 +28,7 @@ public class FlashlightController : MonoBehaviour
         player = FindObjectOfType<Player>();
         state = FlashlightStates.Off;
         player.playerInput.Player.Flashlight.performed += ctx => ToggleFlashLight();
-        flashlightSlider = CanvasManager.instance.FindElementGroupByID("PlayerFlashlightGroup").FindElement("flashlightslider");
+        flashlightSlider = player.playerCanvas.FindElementGroupByID("PlayerFlashlightGroup").FindElement("flashlightslider");
         currentLightIntensity = settings.maxIntensity;
     }
 

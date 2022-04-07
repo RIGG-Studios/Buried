@@ -30,16 +30,6 @@ public class PlayerInventory : MonoBehaviour
         items = new List<Item>();
 
         player = GetComponent<Player>();
-
-        inventoryGroup = CanvasManager.instance.FindElementGroupByID("PlayerInventory");
-
-        if(inventoryGroup != null)
-        {
-            toolIcon = (ImageElement)inventoryGroup.FindElement("toolicon");
-            equipSlider = inventoryGroup.FindElement("equipslider");
-        }
-
-        stackableParent = CanvasManager.instance.FindElementGroupByID("PlayerInventory").FindElement("grid").transform;
     }
 
     private void Start()
@@ -51,6 +41,16 @@ public class PlayerInventory : MonoBehaviour
     {
         if (initialized)
             return;
+
+        inventoryGroup = player.playerCanvas.FindElementGroupByID("PlayerInventory");
+
+        if (inventoryGroup != null)
+        {
+            toolIcon = (ImageElement)inventoryGroup.FindElement("toolicon");
+            equipSlider = inventoryGroup.FindElement("equipslider");
+        }
+
+        stackableParent = player.playerCanvas.FindElementGroupByID("PlayerInventory").FindElement("grid").transform;
 
         player.playerInput.Player.Fire.performed += ctx => UseTool();
         initialized = true;
@@ -68,6 +68,11 @@ public class PlayerInventory : MonoBehaviour
 
     public void StartGame(LevelProperties properties)
     {
+        if (!initialized)
+        {
+            InitializeInventory();
+        }
+
         inventoryGroup.UpdateElements(0, 0, true);
         toolIcon.SetActive(false);
 

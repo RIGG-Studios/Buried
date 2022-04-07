@@ -13,12 +13,15 @@ public class Game : MonoBehaviour
 {
     public static Game instance;
 
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private CanvasManager gameCanvas = null;
+    [SerializeField] private Transform spawnPoint = null;
 
     public GameStates state { get; private set; }
     public LevelProperties currentLevelProperties { get; private set; }
     public TentacleManager tentacleManager { get; private set; }
     public Player player { get; private set; }
+
+    public CanvasManager canvas { get { return gameCanvas != null ? gameCanvas : null; } }
 
 
     private PlayerCamera playerCam;
@@ -80,7 +83,7 @@ public class Game : MonoBehaviour
 
     private void StartPlayingGame()
     {
-        CanvasManager.instance.FindElementGroupByID("FadeGroup").UpdateElements(2.0f, 0.0f, false);
+        gameCanvas.FindElementGroupByID("FadeGroup").UpdateElements(2.0f, 0.0f, false);
         StartCoroutine(FadeOut(2f));
     }
 
@@ -105,13 +108,13 @@ public class Game : MonoBehaviour
     private IEnumerator FadeOut(float time)
     {
         playerCam.SetTarget(spawnPoint);
-        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("levelnumbertext").OverrideValue("LEVEL " + currentLevelProperties.levelIndex);
-        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("levelnametext").OverrideValue(currentLevelProperties.levelName.ToUpper());
-        CanvasManager.instance.FindElementGroupByID("FadeGroup").UpdateElements(0, time, false);
+        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("levelnumbertext").OverrideValue("LEVEL " + currentLevelProperties.levelIndex);
+        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("levelnametext").OverrideValue(currentLevelProperties.levelName.ToUpper());
+        gameCanvas.FindElementGroupByID("FadeGroup").UpdateElements(0, time, false);
         yield return new WaitForSeconds(time + 2.5f);
-        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
-        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("levelnumbertext").SetActive(false);
-        CanvasManager.instance.FindElementGroupByID("FadeGroup").FindElement("levelnametext").SetActive(false);
+        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
+        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("levelnumbertext").SetActive(false);
+        gameCanvas.FindElementGroupByID("FadeGroup").FindElement("levelnametext").SetActive(false);
         StartGame();
     }
 

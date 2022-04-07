@@ -5,32 +5,27 @@ using UnityEngine;
 //this class handles managing of the canvas and ui elements
 public class CanvasManager : MonoBehaviour
 {
-    public static CanvasManager instance;
+    private bool loaded = false;
 
     //create a list of our ui element groups, since this is the main things we modify
     private UIElementGroup[] allElements;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-           Destroy(gameObject);
-           return;
-        }
+    private void Awake() => SetupCanvas();
 
+    private void SetupCanvas()
+    {
         //find the elements
         allElements = FindElements();
         //to start, play the hide animation on all elements so they aren't visible.
         foreach (UIElementGroup gr in allElements)
             gr.UpdateElements(0, 0, false);
+
+        loaded = true;
     }
 
     private UIElementGroup[] FindElements()
     {
+
         //find all components that are a UIElementGroup underneath this gameobject
         UIElementGroup[] elements = GetComponentsInChildren<UIElementGroup>();
         //return it the array if its length is > 0.
@@ -40,8 +35,12 @@ public class CanvasManager : MonoBehaviour
     //method for finding groups based on group id
     public UIElementGroup FindElementGroupByID(string id)
     {
+        if (!loaded)
+        {
+            SetupCanvas();
+        }
         //loop through all of our elements
-        for(int i = 0; i < allElements.Length; i++)
+        for (int i = 0; i < allElements.Length; i++)
         {
             //simply check if our id equals any in the list, and if so return it
             if (allElements[i].groupID == id)

@@ -18,7 +18,7 @@ MonoBehaviour:
   audioFrequency: 0
   tentacleSegments: 25
   lengthBetweenSegments: 0.99
-  hitOffset: 2
+  hitOffset: 1
   detectionRange: 0.5
   tentacleAudio:
   - {fileID: 8300000, guid: dbd028ef8bc605647ae033f18f26afaf, type: 3}

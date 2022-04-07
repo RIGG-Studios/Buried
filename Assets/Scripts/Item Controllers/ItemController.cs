@@ -16,7 +16,7 @@ public class ItemController : MonoBehaviour
 
     public virtual void SetupController(Player player, ItemProperties properties)
     {
-        ammoNeededGroup = CanvasManager.instance.FindElementGroupByID("AmmoNeeded");
+        ammoNeededGroup = player.playerCanvas.FindElementGroupByID("AmmoNeeded");
         ammoNeededText = ammoNeededGroup.FindElement("text");
 
         transform.localPosition = Vector3.zero;

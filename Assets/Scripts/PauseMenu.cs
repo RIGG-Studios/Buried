@@ -6,25 +6,18 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public bool isPaused { get; private set; }
-
     public bool optionsOpened { get; private set; }
-
-    public static PauseMenu instance;
 
     private UIElementGroup pauseGroup = null;
     private UIElementGroup optionsGroup = null;
-
-
-    private void Awake()
-    {
-        if (instance == null)
-            instance = this;
-    }
+    private Player player = null;
 
     private void Start()
     {
-        pauseGroup = CanvasManager.instance.FindElementGroupByID("PauseGroup");
-        optionsGroup = CanvasManager.instance.FindElementGroupByID("OptionsGroup");
+        player = FindObjectOfType<Player>();
+
+        pauseGroup = player.playerCanvas.FindElementGroupByID("PauseGroup");
+        optionsGroup = player.playerCanvas.FindElementGroupByID("OptionsGroup");
     }
 
     public void PauseGame()

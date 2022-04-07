@@ -9,6 +9,6 @@ public class PlayerDeadState : State
 
     public override void EnterState()
     {
-        SceneManager.LoadScene(1);
+        GameManager.instance.LoadDeathScene();
     }
 }

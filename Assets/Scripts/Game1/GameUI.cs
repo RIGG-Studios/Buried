@@ -13,7 +13,6 @@ public class GameUI : MonoBehaviour
     private UIElement levelLostBestTime;
     private UIElement levelLostGeneratorsTurnedOn;
 
-
     private UIElementGroup levelWonGroup;
     private UIElement levelWonName;
     private UIElement levelWonTime;
@@ -22,9 +21,11 @@ public class GameUI : MonoBehaviour
 
     private UIElement levelObjectiveText;
 
+    private Game game { get { return FindObjectOfType<Game>(); } }
+
     private void Start()
     {
-        levelLostGroup = CanvasManager.instance.FindElementGroupByID("LevelLostGroup");
+        levelLostGroup = game.canvas.FindElementGroupByID("LevelLostGroup");
 
         if(levelLostGroup != null)
         {
@@ -34,7 +35,7 @@ public class GameUI : MonoBehaviour
             levelLostGeneratorsTurnedOn = levelLostGroup.FindElement("generatorsturnedon");
         }
 
-        levelWonGroup = CanvasManager.instance.FindElementGroupByID("LevelEscapedGroup");
+        levelWonGroup = game.canvas.FindElementGroupByID("LevelEscapedGroup");
 
         if (levelWonGroup != null)
         {
@@ -44,7 +45,7 @@ public class GameUI : MonoBehaviour
             levelWonGeneratorsTurnedOn = levelWonGroup.FindElement("generatorsturnedon");
         }
 
-        levelObjectiveText = CanvasManager.instance.FindElementGroupByID("ObjectiveGroup").FindElement("levelobjectivetext");
+        levelObjectiveText = game.canvas.FindElementGroupByID("ObjectiveGroup").FindElement("levelobjectivetext");
     }
 
     public void OnEnable()
@@ -68,14 +69,14 @@ public class GameUI : MonoBehaviour
             levelWonName.OverrideValue(name);
             levelWonTime.OverrideValue("TIME: " + time);
             levelWonGeneratorsTurnedOn.OverrideValue("GENERATORS ENABLED: " + generators);
-            CanvasManager.instance.ShowElementGroup(levelWonGroup, true);
+            game.canvas.ShowElementGroup(levelWonGroup, true);
         }
         else
         {
             levelLostName.OverrideValue(name);
             levelLostTime.OverrideValue("TIME: " + time);
             levelLostGeneratorsTurnedOn.OverrideValue("GENERATORS ENABLED: " + generators);
-            CanvasManager.instance.ShowElementGroup(levelLostGroup, true);
+            game.canvas.ShowElementGroup(levelLostGroup, true);
         }
     }
 

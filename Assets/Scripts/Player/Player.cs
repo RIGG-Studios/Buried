@@ -34,6 +34,10 @@ public class Player : MonoBehaviour
     public FlashlightController flashLight;
     [HideInInspector]
     public SpriteRenderer render;
+    [HideInInspector]
+    public CanvasManager playerCanvas;
+    [HideInInspector]
+    public PauseMenu playerPause;
 
     public Collider2D collider
     {
@@ -60,6 +64,8 @@ public class Player : MonoBehaviour
         playerCam = FindObjectOfType<PlayerCamera>();
         flashLight = FindObjectOfType<FlashlightController>();
         render = GetComponentInChildren<SpriteRenderer>();
+        playerCanvas = GetComponentInChildren<CanvasManager>();
+        playerPause = GetComponent<PauseMenu>();
 
         playerInput.Player.Pause.performed += ctx => PauseGame();
     }
@@ -88,7 +94,7 @@ public class Player : MonoBehaviour
         if (stateManager.GetStateInEnum(stateManager.currentState) == PlayerStates.Hiding)
             return;
 
-        PauseMenu.instance.PauseGame();
+        playerPause.PauseGame();
     }
 
     public void OnCollisionStay2D(Collision2D collision)
