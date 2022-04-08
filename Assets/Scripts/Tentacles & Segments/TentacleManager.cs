@@ -108,7 +108,7 @@ public class TentacleManager : MonoBehaviour
     {
         //check if the spawner already has a tentacle attached, or the player already has more then the max attacking tentacles
         //if so, dont spawn a tentacle. If its clear, we'll spawn a tentacle based on the amount given and set it up in the TentacleController .
-        if (spawner.occupied || attackingTentacles.Count >= GameManager.instance.game.currentLevelProperties.maxAttackingTentacles)
+        if (spawner.occupied || attackingTentacles.Count >= GameManager.instance.game.currentLevelProperties.properties.maxAttackingTentacles)
             return;
 
         TentacleController[] tentacles = GetTentacles(tentaclesToSpawn);

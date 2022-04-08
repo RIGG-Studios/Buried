@@ -15,7 +15,7 @@ public class Game : MonoBehaviour
     [SerializeField] private Transform spawnPoint = null;
 
     public GameStates state { get; private set; }
-    public LevelProperties currentLevelProperties { get; private set; }
+    public Level currentLevelProperties { get; private set; }
     public TentacleManager tentacleManager { get; private set; }
     public Player player { get; private set; }
     public CanvasManager canvas { get { return gameCanvas != null ? gameCanvas : null; } }
@@ -83,14 +83,14 @@ public class Game : MonoBehaviour
     {
         Destroy(player.gameObject);
         tentacleManager.enabled = false;
-        
-        GameEvents.OnEndGame?.Invoke(lost, currentLevelProperties.levelName, timeSinceStart, generatorsEnabled);
+        GameManager.instance.currentLevel.unlocked = true;
+        GameEvents.OnEndGame?.Invoke(lost, currentLevelProperties.properties.levelName, timeSinceStart, generatorsEnabled);
     }
 
     private IEnumerator FadeOut(float time)
     {
         playerCam.SetTarget(spawnPoint);
-        gameUI.SetIntroUI(currentLevelProperties, time);
+        gameUI.SetIntroUI(currentLevelProperties.properties, time);
         yield return new WaitForSeconds(time + 2.5f);
         gameUI.ResetIntroUI();
         StartGame();
@@ -108,14 +108,14 @@ public class Game : MonoBehaviour
             tentacleManager.Initialize();
         }
 
-        GameEvents.OnStartGame?.Invoke(currentLevelProperties);
+        GameEvents.OnStartGame?.Invoke(currentLevelProperties.properties);
     }
 
     public void ExitToMenu() => GameManager.instance.LoadMainMenu();
 
-    public void ExitToDesktop() => Application.Quit();
+    public void ExitToDesktop() => GameManager.instance.ExitGame();
 
     public void ContinueToNextLevel() => GameManager.instance.LoadNextLevelScene(1);
 
-    public void ResetLevel() => GameManager.instance.currentLevel.LoadLevel();
+    public void ResetLevel() => GameManager.instance.currentLevel.properties.LoadLevel();
 }

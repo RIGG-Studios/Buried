@@ -77,7 +77,6 @@ public class PlayerInteractionManager : MonoBehaviour
         if (hoveredObject == null)
             return;
 
-        Debug.Log("f");
         hoveredObject.StopHoverInteract();
         Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);   
         hoveredObject = null;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 
@@ -7,13 +8,14 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     [SerializeField] private GameProperties gameProps;
-    public GameProperties gameProperties { get { return gameProps; } }
-    public LevelProperties currentLevel { get; private set; }
 
+
+    public GameProperties gameProperties { get { return gameProps; } }
+    public Level currentLevel { get; private set; }
+    public Level[] levels { get; private set; }
     public Game game { get { return FindObjectOfType<Game>(); } }
 
     private int currentLevelIndex = 0;
-    private LevelProperties[] levels;
 
     private void Awake()
     {
@@ -24,7 +26,22 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
 
-        levels = gameProps.levelsInGame;
+        List<Level> lvls = new List<Level>();
+        for(int i = 0; i < gameProperties.levelsInGame.Length; i++)
+        {
+            Level lvl = new Level(gameProperties.levelsInGame[i], i == 0 ? true : false);
+            lvls.Add(lvl);
+        }
+
+        levels = lvls.ToArray();
+
+        for (int i = 1; i < levels.Length; i++)
+        {
+            int unlocked = PlayerPrefs.GetInt("level" + i + "unlocked");
+
+            levels[i].unlocked = unlocked == 1 ? true : false;
+        }
+
         SceneManager.sceneLoaded += OnLevelLoaded;
     }
 
@@ -33,10 +50,15 @@ public class GameManager : MonoBehaviour
         Destroy(game.player.gameObject);
         SceneManager.LoadScene(3);
     }
-
-    public void QuitToDesktop() => Application.Quit();
     
     public void LoadMainMenu() => SceneManager.LoadScene(0);
+    public void ExitGame() => Application.Quit();
+
+    public void LoadLevel(Level properties)
+    {
+        currentLevel = properties;
+        SceneManager.LoadScene(properties.properties.levelIndex);
+    }
 
     public void LoadNextLevelScene(int index)
     {
@@ -49,10 +71,8 @@ public class GameManager : MonoBehaviour
         }
 
         currentLevel = levels[currentLevelIndex];
-
-        currentLevel.LoadLevel();
-    }
-
+        currentLevel.properties.LoadLevel();
+    }    
 
     private void OnLevelLoaded(Scene thisscene, LoadSceneMode Single)
     {
@@ -65,5 +85,26 @@ public class GameManager : MonoBehaviour
         }
 
         game.SetGameState(GameStates.Playing);
+    }
+
+    private void OnApplicationQuit()
+    {
+        for (int i = 0; i < levels.Length; i++)
+        {
+            PlayerPrefs.SetInt("level" + i + "unlocked", levels[i].unlocked ? 1 : 0);
+        }
+    }
+}
+
+[System.Serializable]
+public class Level
+{
+    public LevelProperties properties;
+    public bool unlocked;
+
+    public Level(LevelProperties properties, bool unlocked)
+    {
+        this.properties = properties;
+        this.unlocked = unlocked;
     }
 }

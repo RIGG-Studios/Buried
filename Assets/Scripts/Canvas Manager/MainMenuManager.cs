@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
+    [SerializeField] private List<UIElementGroup> menus = new List<UIElementGroup>();
     [SerializeField, Range(0, 10f)] private float playGameDelay = 0.0f;
 
     CanvasManager manager;
@@ -14,6 +15,7 @@ public class MainMenuManager : MonoBehaviour
     public AudioSource source;
 
     bool startedFading;
+    UIElementGroup currentGroup;
 
     private void Start()
     {
@@ -30,30 +32,28 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void DisplayCredits() => Debug.Log("this is a work in progress uWu");
-
-    public void ToggleOptions()
+    public void ShowMenu(int index)
     {
-        UIElementGroup optionsGroup = manager.FindElementGroupByID("OptionsGroup");
+        if (index < 0)
+            return;
 
-        if (toggledOptions)
-        {
-            optionsGroup.UpdateElements(0, 0.5f, false);
-        }
-        else
-        {
-            optionsGroup.UpdateElements(0, 0.5f, true);
-        }
+        UIElementGroup group = menus[index];
 
-        toggledOptions = !toggledOptions;
+        if(group != null)
+        {
+            if(currentGroup != null)
+                manager.HideElementGroup(currentGroup);
+
+            currentGroup = group;
+            manager.ShowElementGroup(currentGroup);
+        }
     }
 
-    public void QuitGame() => Application.Quit();
+    public void QuitGame() => GameManager.instance.ExitGame();
 
-    public void PlayGame() => StartCoroutine(IEPlayGame());
+    public void EnterLevel(Level properties) => StartCoroutine(IEPlayGame(properties));
 
-
-    private IEnumerator IEPlayGame()
+    private IEnumerator IEPlayGame(Level properties)
     {
         startedFading = true;
         manager.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(true);
@@ -61,6 +61,6 @@ public class MainMenuManager : MonoBehaviour
             
         yield return new WaitForSeconds(playGameDelay + 1f);
         startedFading = false;
-        GameManager.instance.LoadNextLevelScene(0);
+        GameManager.instance.LoadLevel(properties);
     }
 }

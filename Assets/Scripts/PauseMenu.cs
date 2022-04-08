@@ -42,6 +42,7 @@ public class PauseMenu : MonoBehaviour
         {
             player.playerCanvas.HideElementGroup(exitGroup);
             exitOpened = false;
+            Time.timeScale = 1f;
             return;
         }
 
@@ -62,7 +63,6 @@ public class PauseMenu : MonoBehaviour
 
     public void ToggleOptions()
     {
-        Debug.Log(optionsGroup);
         optionsGroup.UpdateElements(0, 0, true);
         optionsOpened = true;
     }
@@ -72,14 +72,16 @@ public class PauseMenu : MonoBehaviour
     {
         PauseGame();
         player.playerCanvas.ShowElementGroup(exitGroup, true);
+        Time.timeScale = 0f;
         exitOpened = true;
     }
 
     public void Exit(bool desktop)
     {
         if (desktop)
-            GameManager.instance.QuitToDesktop();
+            GameManager.instance.ExitGame();
         else
             GameManager.instance.LoadMainMenu();
     }
+
 }

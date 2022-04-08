@@ -46,7 +46,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public Vector3 lastKnownPosition { get; private set; }
+    public Vector3 lastKnownPosition { get; set; }
 
     private void Awake()
     {
@@ -100,7 +100,9 @@ public class Player : MonoBehaviour
         if (collision.collider.gameObject.layer == 13 && stateManager.lastState != null)
         {
             if(stateManager.GetStateInEnum(stateManager.lastState) == PlayerStates.GrabbedByTentacle)
-                stateManager.TransitionStates(PlayerStates.Dead);
+            {
+                transform.position = lastKnownPosition;
+            }
         }
     }
 

@@ -84,6 +84,8 @@ public class GameUI : MonoBehaviour
             levelLostGeneratorsTurnedOn.OverrideValue("GENERATORS ENABLED: " + generators);
             game.canvas.ShowElementGroup(levelLostGroup, true);
         }
+
+        generatorsLeftText.text = "";
     }
 
 
@@ -117,7 +119,6 @@ public class GameUI : MonoBehaviour
 
     public void SetIntroUI(LevelProperties currentLevelProperties, float time)
     {
-        Debug.Log(fadeGroup);
         fadeGroup.FindElement("levelnumbertext").OverrideValue("LEVEL " + currentLevelProperties.levelIndex);
         fadeGroup.FindElement("levelnametext").OverrideValue(currentLevelProperties.levelName.ToUpper());
         fadeGroup.UpdateElements(0, time, false);

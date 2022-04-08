@@ -14,6 +14,8 @@ public enum LevelDifficulty
 public class LevelProperties : ScriptableObject
 {
     public string levelName;
+    public Sprite levelIcon;
+    [TextArea] public string levelDescription;
     public LevelDifficulty levelDifficulty;
 
     public List<ItemProperties> startingTools = new List<ItemProperties>();

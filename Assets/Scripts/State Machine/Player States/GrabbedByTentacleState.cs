@@ -9,6 +9,7 @@ public class GrabbedByTentacleState : State
     public override void EnterState()
     {
         GameEvents.OnDropPlayer += DropPlayer;
+        player.lastKnownPosition = player.GetPosition();
     }
 
     public override void ExitState()
