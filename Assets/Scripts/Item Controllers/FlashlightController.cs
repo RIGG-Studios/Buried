@@ -38,13 +38,13 @@ public class FlashlightController : MonoBehaviour
         if(state == FlashlightStates.Off)
         {
             Debug.Log(gameObject.name);
-            flashlightSlider.SetActive(true);
+            ToggleFlashlightSlider(true);
             lightSource.enabled = true;
             state = FlashlightStates.On;
         }
         else if(state == FlashlightStates.On)
         {
-            flashlightSlider.SetActive(false);
+            ToggleFlashlightSlider(false);
             lightSource.enabled = false;
             state = FlashlightStates.Off;
         }
@@ -68,10 +68,17 @@ public class FlashlightController : MonoBehaviour
     private void UpdateFlashlightBatteryLevel()
     {
         if (state == FlashlightStates.Off)
-            return;
-
-        if(!chargeBattery)
-            currentLightIntensity -= settings.maxIntensity / maxIntensity * Time.deltaTime;
+        {
+            if (chargeBattery)
+                ToggleFlashlightSlider(true);
+            else
+                ToggleFlashlightSlider(false);
+        }
+        else if(state == FlashlightStates.On)
+        {
+            if (!chargeBattery)
+                currentLightIntensity -= settings.maxIntensity / maxIntensity * Time.deltaTime;
+        }
 
         lightSource.intensity = currentLightIntensity;
 
@@ -83,7 +90,11 @@ public class FlashlightController : MonoBehaviour
         }
     }
 
-    public void ToggleChargeBattery(bool state) => chargeBattery = state;  
+    public bool GetIsFullyCharged() => currentLightIntensity >= settings.maxIntensity;
+
+    public void ToggleChargeBattery(bool state) => chargeBattery = state;
+
+    void ToggleFlashlightSlider(bool on) => flashlightSlider.SetActive(on);
 
     private void DisableItem()
     {
@@ -91,7 +102,7 @@ public class FlashlightController : MonoBehaviour
         lightSource.intensity = 0.0f;
         currentLightIntensity = 0.0f;
         lightSource.enabled = false;
-        flashlightSlider.SetActive(false);
+        ToggleFlashlightSlider(false);
     }
 
     public FlashlightStates GetState()

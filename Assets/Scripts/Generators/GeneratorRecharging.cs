@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GeneratorRecharging : MonoBehaviour
 {
@@ -8,7 +9,14 @@ public class GeneratorRecharging : MonoBehaviour
     public Sprite depletedSprite;
     public Sprite chargingSprite;
 
-    bool playerCharging;
+    public Color hasChargeUIColour;
+    public Color depletedUIColour;
+
+    public Image generatorUsesImage;
+
+    FlashlightController playerFlashlight;
+
+    bool playerInTrigger;
 
     float uses;
     SpriteRenderer spriteRenderer;
@@ -23,49 +31,60 @@ public class GeneratorRecharging : MonoBehaviour
 
     private void Update()
     {
-        if (isOn && playerCharging)
-        {
-            uses -= Time.deltaTime;
-        }
-
         isOn = transform.parent.GetComponent<FlashlightRechargingStation>().isOn;
+
+        if (isOn)
+        {
+            if (playerInTrigger && uses > -1 && !playerFlashlight.GetIsFullyCharged())
+            {
+                uses -= Time.deltaTime;
+            }
+
+            if (uses > 0 && playerInTrigger)
+            {
+                GameEvents.OnToggleRechargingStation?.Invoke(true);
+                spriteRenderer.sprite = chargingSprite;
+                generatorUsesImage.color = hasChargeUIColour;
+
+                generatorUsesImage.fillAmount = uses / maxUses;
+            }
+            else if (uses <= 0 || !playerInTrigger)
+            {
+                GameEvents.OnToggleRechargingStation?.Invoke(false);
+
+                if(uses <= 0)
+                {
+                    spriteRenderer.sprite = depletedSprite;
+                    generatorUsesImage.color = depletedUIColour;
+
+                    generatorUsesImage.fillAmount = 1;
+                }
+            }
+        }
     }
 
     public void OnTriggerStay2D(Collider2D collision)
     {
+        playerFlashlight = collision.GetComponentInChildren<FlashlightController>();
+
         if (CheckCollision(collision))
         {
-            if (isOn && uses > 0)
+            if (isOn)
             {
-                if(playerCharging != true)
-                {
-                    playerCharging = true;
-                    GameEvents.OnToggleRechargingStation?.Invoke(true);
-                    spriteRenderer.sprite = chargingSprite;
-                }
+                generatorUsesImage.gameObject.SetActive(true);
             }
-            else if (isOn && uses <= 0)
-            {
-                if(playerCharging == true)
-                {
-                    GameEvents.OnToggleRechargingStation?.Invoke(false);
-                    playerCharging = false;
-                    spriteRenderer.sprite = depletedSprite;
-                }
-            }
+
+            playerInTrigger = true;
         }
     }
 
 
     public void OnTriggerExit2D(Collider2D collision)
     {
-        if (isOn)
+        if (CheckCollision(collision))
         {
-            if (CheckCollision(collision))
-            {
-                GameEvents.OnToggleRechargingStation?.Invoke(false);
-                playerCharging = false;
-            }
+            playerInTrigger = false;
+            generatorUsesImage.gameObject.SetActive(false);
         }
     }
 
