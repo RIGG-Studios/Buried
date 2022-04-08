@@ -175,7 +175,7 @@ MonoBehaviour:
   levelIcon: {fileID: 4330445954087738934}
   levelName: {fileID: 2605403415552261371}
   levelDescription: {fileID: 6407284672878567945}
-  lockedAlpha: 0.4
+  lockedAlpha: 0.1
 --- !u!114 &4681664864455364764
 MonoBehaviour:
   m_ObjectHideFlags: 0

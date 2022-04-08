@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(3);
     }
     
-    public void LoadMainMenu() => SceneManager.LoadScene(0);
+    public void LoadMainMenu() => SceneManager.LoadScene(0, LoadSceneMode.Single);
     public void ExitGame() => Application.Quit();
 
     public void LoadLevel(Level properties)

@@ -11,11 +11,13 @@ public class LevelUI : MonoBehaviour
     [SerializeField] private float lockedAlpha;
 
     private Level levelProperties = null;
-    private MainMenuManager mainMenu;
+    private MainMenuManager mainMenu = null;
+    private Button button = null;
 
     public void Initialize(Level levelProperties)
     {
         mainMenu = FindObjectOfType<MainMenuManager>();
+        button = GetComponent<Button>();
         this.levelProperties = levelProperties;
 
         if (levelProperties.unlocked)
@@ -27,6 +29,7 @@ public class LevelUI : MonoBehaviour
             levelIcon.sprite = levelProperties.properties.levelIcon;
             levelName.text = levelProperties.properties.levelName + " | " + levelProperties.properties.levelDifficulty;
             levelDescription.text = levelProperties.properties.levelDescription;
+            button.interactable = true;
         }
         else
         {
@@ -37,6 +40,7 @@ public class LevelUI : MonoBehaviour
             levelIcon.sprite = levelProperties.properties.levelIcon;
             levelName.text = "LEVEL LOCKED!";
             levelDescription.text = "LEVEL LOCKED!";
+            button.interactable = false;
         }
     }
 

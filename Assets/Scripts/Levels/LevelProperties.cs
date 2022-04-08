@@ -25,5 +25,5 @@ public class LevelProperties : ScriptableObject
     public int generatorsInLevel;
     public int levelIndex;
 
-    public void LoadLevel() => SceneManager.LoadScene(levelIndex);
+    public void LoadLevel() => SceneManager.LoadScene(levelIndex, LoadSceneMode.Single);
 }

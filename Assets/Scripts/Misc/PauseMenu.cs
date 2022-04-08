@@ -82,6 +82,8 @@ public class PauseMenu : MonoBehaviour
             GameManager.instance.ExitGame();
         else
             GameManager.instance.LoadMainMenu();
+
+        Time.timeScale = 1f;
     }
 
 }

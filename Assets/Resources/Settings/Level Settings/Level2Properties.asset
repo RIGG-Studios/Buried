@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8fcd44bc3d6b644a2d4f7a3583f3c5, type: 3}
   m_Name: Level2Properties
   m_EditorClassIdentifier: 
-  unlocked: 0
-  levelName: Grappling Hook
+  levelName: Hookshot Level
   levelIcon: {fileID: 0}
-  levelDescription: 
+  levelDescription: 'This level introduces a grappling hook, and the monster. '
   levelDifficulty: 1
   startingTools:
   - {fileID: 11400000, guid: cbd30738035c3664fb77f209d2b100de, type: 2}
