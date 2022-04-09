@@ -20,7 +20,6 @@ public class MainMenuManager : MonoBehaviour
     private void Start()
     {
         manager = GetComponent<CanvasManager>();
-        manager.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
         source.volume = 1;
     }
 
@@ -56,9 +55,7 @@ public class MainMenuManager : MonoBehaviour
     private IEnumerator IEPlayGame(Level properties)
     {
         startedFading = true;
-        manager.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(true);
-        manager.FindElementGroupByID("FadeGroup").UpdateElements(1f, playGameDelay, true);
-            
+        GameManager.instance.FadeIn(playGameDelay);
         yield return new WaitForSeconds(playGameDelay + 1f);
         startedFading = false;
         GameManager.instance.LoadLevel(properties);

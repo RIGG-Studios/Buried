@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
@@ -9,17 +10,34 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameProperties gameProps;
 
-
-    public GameProperties gameProperties { get { return gameProps; } }
     public Level currentLevel { get; private set; }
     public Level[] levels { get; private set; }
-    public Game game { get { return FindObjectOfType<Game>(); } }
+
+    public Game game
+    {
+        get
+        {
+            return FindObjectOfType<Game>();
+        }
+    }
+
+    public GameProperties gameProperties
+    {
+        get
+        {
+            return gameProps;
+        }
+    }
 
     private int currentLevelIndex = 0;
+    private CanvasManager sceneUI = null;
 
     private void Awake()
     {
-        if (instance != null) { Destroy(gameObject); }
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
         else
         {
             instance = this;
@@ -42,36 +60,37 @@ public class GameManager : MonoBehaviour
             levels[i].unlocked = unlocked == 1 ? true : false;
         }
 
+        sceneUI = GetComponentInChildren<CanvasManager>();
+        sceneUI.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
         SceneManager.sceneLoaded += OnLevelLoaded;
     }
 
     public void LoadDeathScene()
     {
-        Destroy(game.player.gameObject);
-        SceneManager.LoadScene(3);
+        FadeIn(.5f);
+        StartCoroutine(DelayLoadLevel(3.75f, 4));
     }
-    
-    public void LoadMainMenu() => SceneManager.LoadScene(0, LoadSceneMode.Single);
-    public void ExitGame() => Application.Quit();
 
     public void LoadLevel(Level properties)
     {
         currentLevel = properties;
-        SceneManager.LoadScene(properties.properties.levelIndex);
+        SceneManager.LoadScene(properties.properties.levelIndex, LoadSceneMode.Single);
     }
 
-    public void LoadNextLevelScene(int index)
+    public void LoadNextLevelScene(int dir)
     {
-        currentLevelIndex += index;
+        currentLevelIndex = SceneManager.GetActiveScene().buildIndex -1 + dir;
 
-        if(currentLevelIndex >= levels.Length)
+        if (currentLevelIndex > levels.Length)
         {
             Debug.Log("Game finished!");
             return;
         }
 
         currentLevel = levels[currentLevelIndex];
-        currentLevel.properties.LoadLevel();
+        currentLevel.unlocked = true;
+        Debug.Log(currentLevel.properties.levelName);
+        StartCoroutine(DelayLoadLevel(3.75f));
     }    
 
     private void OnLevelLoaded(Scene thisscene, LoadSceneMode Single)
@@ -87,6 +106,18 @@ public class GameManager : MonoBehaviour
         game.SetGameState(GameStates.Playing);
     }
 
+    private IEnumerator DelayLoadLevel(float time)
+    {
+        yield return new WaitForSeconds(time);
+        currentLevel.properties.LoadLevel();
+    }
+
+    private IEnumerator DelayLoadLevel(float time, int index)
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(index, LoadSceneMode.Single);
+    }
+
     private void OnApplicationQuit()
     {
         for (int i = 0; i < levels.Length; i++)
@@ -94,6 +125,32 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("level" + i + "unlocked", levels[i].unlocked ? 1 : 0);
         }
     }
+
+    public void FadeOut(float dur)
+    {
+        sceneUI.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(true);
+        sceneUI.FindElementGroupByID("FadeGroup").UpdateElements(1, 0, true);
+        sceneUI.FindElementGroupByID("FadeGroup").UpdateElements(0, dur, true);
+
+        StartCoroutine(Fade(dur));
+    }
+
+    public void FadeIn(float dur)
+    {
+        sceneUI.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(true);
+        sceneUI.FindElementGroupByID("FadeGroup").UpdateElements(0, 0, true);
+        sceneUI.FindElementGroupByID("FadeGroup").UpdateElements(1, dur, true);
+    }
+
+    private IEnumerator Fade(float time)
+    {
+        yield return new WaitForSeconds(time);
+        sceneUI.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
+    }
+
+    public void LoadMainMenu() => SceneManager.LoadScene(0, LoadSceneMode.Single);
+    public void ExitGame() => Application.Quit();
+
 }
 
 [System.Serializable]

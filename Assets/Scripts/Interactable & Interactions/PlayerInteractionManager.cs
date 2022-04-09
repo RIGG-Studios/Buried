@@ -59,13 +59,12 @@ public class PlayerInteractionManager : MonoBehaviour
 
     private void OnHoverOverInteractable(GameObject collision, Vector2 point)
     {
-        if (hoveredObject != null)
-            OnStopHoverInteractable();
-
         hoveredObject = collision.GetComponent<InteractableObject>();
-
+        Debug.Log("hi");
         if (hoveredObject.useAssist)
         {
+            Debug.Log("90i");
+
             Cursor.SetCursor(hoverCursor, Vector2.zero, CursorMode.Auto);
         }
 
@@ -77,6 +76,7 @@ public class PlayerInteractionManager : MonoBehaviour
         if (hoveredObject == null)
             return;
 
+        Debug.Log("hi");
         hoveredObject.StopHoverInteract();
         Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);   
         hoveredObject = null;
@@ -84,12 +84,10 @@ public class PlayerInteractionManager : MonoBehaviour
 
     public void InteractWithObject()
     {
-        if (hoveredObject == null)
+        if (hoveredObject == null || !hoveredObject.interactable)
             return;
 
-        if (!hoveredObject.open)
-            hoveredObject.ButtonInteract();
-
+        hoveredObject.ButtonInteract();
         Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
     }
 }

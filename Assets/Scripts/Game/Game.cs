@@ -75,7 +75,7 @@ public class Game : MonoBehaviour
 
     private void StartPlayingGame()
     {
-        gameCanvas.FindElementGroupByID("FadeGroup").UpdateElements(2.0f, 0.0f, false);
+        GameManager.instance.FadeOut(2f);
         StartCoroutine(FadeOut(2f));
     }
 
@@ -96,6 +96,7 @@ public class Game : MonoBehaviour
         StartGame();
     }
 
+
     private void StartGame()
     {
         Player player = PlayerSpawner.SpawnPlayer(spawnPoint.transform);
@@ -115,7 +116,12 @@ public class Game : MonoBehaviour
 
     public void ExitToDesktop() => GameManager.instance.ExitGame();
 
-    public void ContinueToNextLevel() => GameManager.instance.LoadNextLevelScene(1);
+    public void ContinueToNextLevel()
+    {
+        GameManager.instance.FadeIn(2f);
+
+        GameManager.instance.LoadNextLevelScene(1);
+    }
 
     public void ResetLevel() => GameManager.instance.currentLevel.properties.LoadLevel();
 }

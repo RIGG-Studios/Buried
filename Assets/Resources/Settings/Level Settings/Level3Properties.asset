@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8fcd44bc3d6b644a2d4f7a3583f3c5, type: 3}
+  m_Name: Level3Properties
+  m_EditorClassIdentifier: 
+  levelName: Main Level
+  levelIcon: {fileID: 0}
+  levelDescription: 
+  levelDifficulty: 1
+  startingTools:
+  - {fileID: 11400000, guid: cbd30738035c3664fb77f209d2b100de, type: 2}
+  startingItems: []
+  maxAttackingTentacles: 1
+  generatorsInLevel: 4
+  levelIndex: 3

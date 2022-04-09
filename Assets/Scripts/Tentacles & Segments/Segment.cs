@@ -83,11 +83,11 @@ public class Segment
         Vector2 position = (origin + dir.normalized) * properties.lengthBetweenSegments;
         RaycastHit2D hit = Physics2D.Raycast(origin, dir.normalized, dir.magnitude, wallLayer);
 
-        collided = hit.collider != null && index < 20;
+        collided = hit.collider != null;
 
         if (collided)
         {
-            position = hit.point + hit.normal * properties.hitOffset;
+            position += hit.normal.normalized;
         }
 
 

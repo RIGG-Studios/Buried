@@ -10,6 +10,7 @@ public class TutorialTrigger : MonoBehaviour
     public string tutorialGroupTag;
 
     bool currentlyDisplaying;
+    bool played;
     CanvasManager tutorialCanvas;
     UIElementGroup tutorialGroup;
 
@@ -21,7 +22,7 @@ public class TutorialTrigger : MonoBehaviour
 
     IEnumerator DisplayTutorial()
     {
-        if (!currentlyDisplaying)
+        if (!currentlyDisplaying && !played)
         {
             currentlyDisplaying = true;
 
@@ -32,6 +33,7 @@ public class TutorialTrigger : MonoBehaviour
             tutorialGroup.UpdateElements(0, fadeInDuration, false);
 
             currentlyDisplaying = false;
+            played = true;
         }
     }
 

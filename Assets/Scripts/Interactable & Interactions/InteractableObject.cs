@@ -13,9 +13,7 @@ public enum InteractionType
 public abstract class InteractableObject : MonoBehaviour
 {
     public bool useAssist;
-    public bool open;
-    public string interactionName;
-    public InteractionType interactionType;
+    public bool interactable;
 
     public abstract void HoverInteract();
     public abstract void StopHoverInteract();

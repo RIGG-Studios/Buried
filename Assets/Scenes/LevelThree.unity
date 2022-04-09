@@ -7019,7 +7019,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 89337
-  m_SortingLayer: -1
+  m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7926514017757549192, guid: 2602b8688ec18ed4c82236f4bcdf6dc5,
     type: 3}
@@ -7302,7 +7302,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -7777,9 +7776,8 @@ MonoBehaviour:
   interactionLayer:
     serializedVersion: 2
     m_Bits: 64
-  interactionAssist: {fileID: 0}
-  interactionName: {fileID: 0}
-  interactionType: {fileID: 0}
+  defaultCursor: {fileID: 0}
+  hoverCursor: {fileID: 0}
   assistRadius: 1
   minInteractionDistance: 0.05
   hoveredObject: {fileID: 0}
@@ -7817,8 +7815,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSettings: {fileID: 11400000, guid: b23a5c8ab0d88264683dfa6007a4133b, type: 2}
   grappleHookSettings: {fileID: 0}
-  flashLightSettings: {fileID: 0}
   flareSettings: {fileID: 0}
+  playerCanvas: {fileID: 0}
   stateManager: {fileID: 0}
   attackingTentacle: {fileID: 0}
   animator: {fileID: 0}
@@ -7826,9 +7824,11 @@ MonoBehaviour:
   paranoidManager: {fileID: 0}
   mouseLook: {fileID: 0}
   playerInteraction: {fileID: 0}
-  itemManagement: {fileID: 0}
   defaultLight: {fileID: 0}
   playerCam: {fileID: 0}
+  flashLight: {fileID: 0}
+  render: {fileID: 0}
+  playerPause: {fileID: 0}
 --- !u!50 &836363265
 Rigidbody2D:
   serializedVersion: 4
@@ -14337,7 +14337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031859191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.77, y: 17.3103, z: 0}
+  m_LocalPosition: {x: -30.17, y: 17.1, z: 0}
   m_LocalScale: {x: 1.1956487, y: 1.1587876, z: 1}
   m_Children: []
   m_Father: {fileID: 1614808285}
