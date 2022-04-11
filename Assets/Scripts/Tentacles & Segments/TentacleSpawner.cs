@@ -21,7 +21,7 @@ public class TentacleSpawner : MonoBehaviour
     private bool CanSpawnTentacle()
     {
         bool spawn = false;
-        int rng = Random.Range(1, 3);
+        int rng = Random.Range(1, 2);
 
         if (rng == 1)
             spawn = true;

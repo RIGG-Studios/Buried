@@ -67,8 +67,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadDeathScene()
     {
-        FadeIn(.5f);
-        StartCoroutine(DelayLoadLevel(3.75f, 4));
+        FadeIn(.1f);
+        StartCoroutine(DelayLoadLevel(0.75f, 4));
     }
 
     public void LoadLevel(Level properties)
@@ -89,7 +89,6 @@ public class GameManager : MonoBehaviour
 
         currentLevel = levels[currentLevelIndex];
         currentLevel.unlocked = true;
-        Debug.Log(currentLevel.properties.levelName);
         StartCoroutine(DelayLoadLevel(3.75f));
     }    
 
