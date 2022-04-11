@@ -37,7 +37,6 @@ public class FlashlightController : MonoBehaviour
     {
         if(state == FlashlightStates.Off)
         {
-            Debug.Log(gameObject.name);
             ToggleFlashlightSlider(true);
             lightSource.enabled = true;
             state = FlashlightStates.On;
@@ -82,7 +81,7 @@ public class FlashlightController : MonoBehaviour
 
         lightSource.intensity = currentLightIntensity;
 
-        flashlightSlider.OverrideValue(currentLightIntensity / settings.maxIntensity);
+        flashlightSlider.OverrideValue(1 - Utilites.NormalizeToRange(currentLightIntensity, settings.minIntensity, settings.maxIntensity));
 
         if (currentLightIntensity < settings.minIntensity && !chargeBattery)
         {
@@ -99,7 +98,7 @@ public class FlashlightController : MonoBehaviour
     private void DisableItem()
     {
         state = FlashlightStates.Off;
-        lightSource.intensity = 0.0f;
+        lightSource.intensity = settings.minIntensity ;
         currentLightIntensity = 0.0f;
         lightSource.enabled = false;
         ToggleFlashlightSlider(false);

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Flashlight Settings
   m_EditorClassIdentifier: 
   maxIntensity: 2.58
-  minIntensity: 0
+  minIntensity: 0.6
   shakeDuration: 0.1
   shakeMagnitude: 2
