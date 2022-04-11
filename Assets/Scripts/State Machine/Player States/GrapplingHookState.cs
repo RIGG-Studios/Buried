@@ -13,6 +13,7 @@ public class GrapplingHookState : State
 {
     public GrappleStates state = GrappleStates.None;
 
+    private Rigidbody2D physics = null;
     private LineRenderer line = null;
     private GrapplingHookSettings settings = null;
     private Camera camera = null;
@@ -24,12 +25,14 @@ public class GrapplingHookState : State
 
     private float moveTime;
     private float waveSize;
+    private bool straighenLine;
 
     public GrapplingHookState(Player player) : base("PlayerGrapple", player)
     {
         this.player = player;
 
         camera = Camera.main;
+        physics = player.GetComponent<Rigidbody2D>();
         settings = player.grappleHookSettings;
     }
 
@@ -53,6 +56,7 @@ public class GrapplingHookState : State
         {
             UpdateCharacterSprite();
 
+            player.inventory.UseItem(ItemProperties.ItemTypes.GrapplingHookAmmo);
             state = GrappleStates.Shooting;
             grappleTarget = hit.point;
             line.enabled = true;
@@ -72,12 +76,6 @@ public class GrapplingHookState : State
         player.animator.enabled = true;
         moveTime = 0.0f;
         line.enabled = false;
-
-        Item item = null;
-        player.inventory.HasItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out item);
-        player.inventory.UseItem(item.item.itemType);
-
-        GameManager.instance.game.SpawnItem(item.item, player.GetPosition());
     }
 
     public override void UpdateLogic()
@@ -146,6 +144,7 @@ public class GrapplingHookState : State
     private void UpdateCharacterSprite()
     {
         int direction = Utilites.DirectionToIndex(mouseDir, 4);
+        Debug.Log(direction);
         player.animator.enabled = false;
         player.SetCharacterSprite(settings.sprites[direction]);
     }

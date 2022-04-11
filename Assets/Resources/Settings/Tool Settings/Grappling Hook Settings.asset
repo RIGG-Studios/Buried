@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af32aafa82590d14395e2e26d4f7ca86, type: 3}
   m_Name: Grappling Hook Settings
   m_EditorClassIdentifier: 
-  maxDistance: 10
+  maxDistance: 15
   shootSpeed: 7
   percision: 20
   waveSize: 1.4
@@ -118,7 +118,7 @@ MonoBehaviour:
     m_Bits: 16384
   wallLayer:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
   sprites:
   - {fileID: 4408247311968690161, guid: 24879a8f57ea86a45a87e23c66c30f9e, type: 3}
   - {fileID: -5956173705787234606, guid: 24879a8f57ea86a45a87e23c66c30f9e, type: 3}
