@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8fcd44bc3d6b644a2d4f7a3583f3c5, type: 3}
   m_Name: Level3Properties
   m_EditorClassIdentifier: 
-  levelName: Main Level
+  levelName: ??? Level
   levelIcon: {fileID: 0}
-  levelDescription: 
+  levelDescription: This level introduces ????
   levelDifficulty: 1
   startingTools:
   - {fileID: 11400000, guid: cbd30738035c3664fb77f209d2b100de, type: 2}
+  - {fileID: 11400000, guid: 257710a7a7b35c5478de1e0a89d1376f, type: 2}
   startingItems: []
-  maxAttackingTentacles: 1
-  generatorsInLevel: 4
+  maxAttackingTentacles: 2
+  generatorsInLevel: 3
   levelIndex: 3
