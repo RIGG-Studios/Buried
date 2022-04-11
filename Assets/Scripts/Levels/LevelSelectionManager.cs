@@ -10,7 +10,7 @@ public class LevelSelectionManager : MonoBehaviour
     private void Start()
     {
         Level[] allLevels = GameManager.instance.levels;
-        Debug.Log(gameObject.name);
+
         if(allLevels.Length > 0)
         {
             for(int i = 0; i < allLevels.Length; i++)

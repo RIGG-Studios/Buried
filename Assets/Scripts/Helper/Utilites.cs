@@ -43,7 +43,6 @@ public class Utilites : MonoBehaviour
         float angle = Vector2.SignedAngle(Vector2.up, normDir);
         angle += halfstep;
 
-
         if (angle < 0)
         {
             angle += 360;
@@ -59,7 +58,6 @@ public class Utilites : MonoBehaviour
 
         return normalized;
     }
-
 
 
     public static float NormalizeAngle(float radians)
