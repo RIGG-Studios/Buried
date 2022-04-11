@@ -25,16 +25,15 @@ public class Game : MonoBehaviour
     private float timeSinceStart = 0;
     private int generatorsEnabled = 0;
 
-
     private void Awake()
     {
         playerCam = FindObjectOfType<PlayerCamera>();
         gameUI = FindObjectOfType<GameUI>();
-
-        this.currentLevelProperties = GameManager.instance.currentLevel;
         tentacleManager = FindObjectOfType<TentacleManager>();
-    }
 
+
+        currentLevelProperties = GameManager.instance.currentLevel;
+    }
 
     private void Update()
     {
@@ -112,10 +111,6 @@ public class Game : MonoBehaviour
         GameEvents.OnStartGame?.Invoke(currentLevelProperties.properties);
     }
 
-    public void ExitToMenu() => GameManager.instance.LoadMainMenu();
-
-    public void ExitToDesktop() => GameManager.instance.ExitGame();
-
     public void ContinueToNextLevel()
     {
         GameManager.instance.FadeIn(2f);
@@ -123,5 +118,15 @@ public class Game : MonoBehaviour
         GameManager.instance.LoadNextLevelScene(1);
     }
 
+    public void SpawnItem(ItemProperties properties, Vector3 pos)
+    {
+        GameObject item = Instantiate(properties.itemPrefab, pos, Quaternion.identity);
+    }
+
     public void ResetLevel() => GameManager.instance.currentLevel.properties.LoadLevel();
+
+    public void ExitToMenu() => GameManager.instance.LoadMainMenu();
+
+    public void ExitToDesktop() => GameManager.instance.ExitGame();
+
 }

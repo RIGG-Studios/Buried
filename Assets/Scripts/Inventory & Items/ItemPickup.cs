@@ -26,11 +26,6 @@ public class ItemPickup : InteractableObject
         }
     }
 
-    public void TakeItem(int itemsNeeded)
-    {
-        pickupAmount -= itemsNeeded;
-    }
-
     public override void HoverInteract()
     {
     }
