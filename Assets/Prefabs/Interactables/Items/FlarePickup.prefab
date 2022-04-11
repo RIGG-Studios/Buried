@@ -71,8 +71,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 282671577
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayer: -2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: b788d0dd33b640a48acd91b02a4118ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -97,9 +97,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useAssist: 1
-  interactable: 1
+  open: 0
+  interactionName: Flare
+  interactionType: 0
   itemProperties: {fileID: 11400000, guid: 257710a7a7b35c5478de1e0a89d1376f, type: 2}
-  pickupAmount: 2
+  pickupAmount: 3
 --- !u!61 &1178546507387723854
 BoxCollider2D:
   m_ObjectHideFlags: 0

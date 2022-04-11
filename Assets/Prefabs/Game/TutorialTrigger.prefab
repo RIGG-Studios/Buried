@@ -63,7 +63,7 @@ MonoBehaviour:
   tutorialStayDuration: 5
   fadeInDuration: 2
   game: {fileID: 0}
-  tutorialGroupTag: FlareTutorialGroup
+  tutorialGroupTag: HookshotTutorialGroup
 --- !u!1 &7765798864074171301
 GameObject:
   m_ObjectHideFlags: 0
