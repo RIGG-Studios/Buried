@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: Hookshot Level
   levelIcon: {fileID: 0}
-  levelDescription: 'This level introduces a grappling hook, and the monster. '
+  levelDescription: 'This level introduces a grappling hook, and the flares
+
+'
   levelDifficulty: 1
   startingTools:
   - {fileID: 11400000, guid: cbd30738035c3664fb77f209d2b100de, type: 2}
+  - {fileID: 11400000, guid: 257710a7a7b35c5478de1e0a89d1376f, type: 2}
   startingItems: []
   maxAttackingTentacles: 2
   generatorsInLevel: 0
