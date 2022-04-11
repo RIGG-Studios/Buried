@@ -51,16 +51,4 @@ public class Flare : MonoBehaviour, IThrowableObject
         degrade = true;
         timeSinceThrown = 0;
     }
-
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.layer == 13)
-        {
-            Debug.Log("a");
-            flareIcon.gameObject.SetActive(false);
-            collider.enabled = false;
-            flareLight.enabled = false;
-            rb.gravityScale = 1f;
-        }
-    }
 }
