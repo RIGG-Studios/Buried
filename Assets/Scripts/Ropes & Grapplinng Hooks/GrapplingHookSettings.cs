@@ -19,5 +19,5 @@ public class GrapplingHookSettings : ScriptableObject
     public LayerMask grappleLayer;
     public LayerMask wallLayer;
 
-    public Sprite[] sprites = new Sprite[4];
+    public Sprite upSprite, downSprite, leftSprite, rightSprite;
 }

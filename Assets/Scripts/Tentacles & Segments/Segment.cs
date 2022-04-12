@@ -80,7 +80,8 @@ public class Segment
         angle = previousSegment.angle + Mathf.Atan2(length, width);
         Vector2 origin = previousSegment.position;
         Vector2 dir = CalculateRotationAngle(angle) * (targetDir - origin).normalized;
-        Vector2 position = (origin + dir.normalized) * properties.lengthBetweenSegments;
+        Vector2 position = (origin + dir.normalized);
+
         RaycastHit2D hit = Physics2D.Raycast(origin, dir.normalized, dir.magnitude, wallLayer);
 
         collided = hit.collider != null;
@@ -88,6 +89,20 @@ public class Segment
         if (collided)
         {
             position += hit.normal.normalized;
+
+            /*/
+            Vector2 hitDir = (this.origin - hit.point).normalized;
+            Vector2 tentacleDir = (hit.point - this.origin).normalized;
+
+            Debug.DrawRay(this.origin, tentacleDir, Color.blue);
+            Debug.DrawRay(hit.point, hitDir, Color.red);
+            float dot = Vector2.Dot(hitDir, tentacleDir);
+
+            if (dot < 0)
+                position += hit.normal.normalized;
+            else
+                position -= hit.normal.normalized;
+            /*/
         }
 
 

@@ -28,6 +28,7 @@ public class GeneratorRecharging : MonoBehaviour
     {
         uses = maxUses;
         spriteRenderer = transform.parent.GetComponent<SpriteRenderer>();
+        generatorUsesImage.enabled = false;
     }
 
     private void Update()
@@ -45,6 +46,7 @@ public class GeneratorRecharging : MonoBehaviour
             {
                 GameEvents.OnToggleRechargingStation.Invoke(true);
                 spriteRenderer.sprite = chargingSprite;
+                generatorUsesImage.enabled = true;
                 generatorUsesImage.color = hasChargeUIColour;
 
                 generatorUsesImage.fillAmount = uses / maxUses;
@@ -56,6 +58,7 @@ public class GeneratorRecharging : MonoBehaviour
                 if(uses <= 0)
                 {
                     spriteRenderer.sprite = depletedSprite;
+                    generatorUsesImage.enabled = true;
                     generatorUsesImage.color = depletedUIColour;
 
                     generatorUsesImage.fillAmount = 1;

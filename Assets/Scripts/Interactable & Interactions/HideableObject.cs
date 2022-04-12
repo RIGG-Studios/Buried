@@ -18,6 +18,10 @@ public class HideableObject : InteractableObject
     public override void ButtonInteract()
     {
         GameEvents.OnToggleHidePlayer?.Invoke();
+
+        if(showTutorial)
+            tutorialText.gameObject.SetActive(false);
+
     }
 
     public override void HoverInteract()

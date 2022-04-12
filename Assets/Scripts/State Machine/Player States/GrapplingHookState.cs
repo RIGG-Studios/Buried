@@ -86,7 +86,6 @@ public class GrapplingHookState : State
                 MoveLine();
             else
             {
-                player.playerCam.ShakeCamera(player.grappleHookSettings.shakeDuration, player.grappleHookSettings.shakeMagnitude);
                 state = GrappleStates.Retracting;
             }
         }
@@ -142,7 +141,19 @@ public class GrapplingHookState : State
     private void UpdateCharacterSprite()
     {
         int direction = Utilites.DirectionToIndex(mouseDir, 4);
-
         player.animator.enabled = false;
+
+        Sprite sprite = null;
+
+        if (direction == 2)
+            sprite = settings.downSprite;
+        else if (direction == 0)
+            sprite = settings.upSprite;
+        else if (direction == 1)
+            sprite = settings.rightSprite;
+        else if (direction == 3)
+            sprite = settings.leftSprite;
+
+        player.SetCharacterSprite(sprite);
     }
 }
