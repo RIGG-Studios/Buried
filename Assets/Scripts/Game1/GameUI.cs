@@ -121,13 +121,11 @@ public class GameUI : MonoBehaviour
     {
         fadeGroup.UpdateElements(1, 0, false);
         fadeGroup.FindElement("levelnumbertext").OverrideValue("LEVEL " + currentLevelProperties.levelIndex);
-        fadeGroup.FindElement("levelnametext").OverrideValue(currentLevelProperties.levelName.ToUpper());
         fadeGroup.UpdateElements(0, time, false);
     }
 
     public void ResetIntroUI()
     {
         fadeGroup.FindElement("levelnumbertext").SetActive(false);
-        fadeGroup.FindElement("levelnametext").SetActive(false);
     }
 }

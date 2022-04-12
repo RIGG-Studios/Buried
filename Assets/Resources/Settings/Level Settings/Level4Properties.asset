@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8fcd44bc3d6b644a2d4f7a3583f3c5, type: 3}
   m_Name: Level4Properties
   m_EditorClassIdentifier: 
-  levelName: Main Level
-  levelIcon: {fileID: 0}
-  levelDescription: The first part of the full game, past the tutorial
+  levelName: Level 4
+  timeEstimate: 5-7 min
   levelDifficulty: 2
   startingTools:
   - {fileID: 11400000, guid: cbd30738035c3664fb77f209d2b100de, type: 2}

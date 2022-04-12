@@ -13,6 +13,8 @@ public class Game : MonoBehaviour
 {
     [SerializeField] private CanvasManager gameCanvas = null;
     [SerializeField] private Transform spawnPoint = null;
+    [SerializeField] private GameObject tempListener = null;
+
 
     public GameStates state { get; private set; }
     public Level currentLevelProperties { get; private set; }
@@ -109,6 +111,7 @@ public class Game : MonoBehaviour
             tentacleManager.Initialize();
         }
 
+        Destroy(tempListener);
         GameEvents.OnStartGame?.Invoke(currentLevelProperties.properties);
     }
 

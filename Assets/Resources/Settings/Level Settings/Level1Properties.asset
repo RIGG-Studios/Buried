@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8fcd44bc3d6b644a2d4f7a3583f3c5, type: 3}
   m_Name: Level1Properties
   m_EditorClassIdentifier: 
-  levelName: Tutorial 1
-  levelIcon: {fileID: 0}
-  levelDescription: This level is a basic tutorial that teaches the player the generators
-    and flashlight managment.
+  levelName: Level 1
+  timeEstimate: 1-2 min
   levelDifficulty: 0
   startingTools: []
   startingItems: []

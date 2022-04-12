@@ -6,6 +6,9 @@ public class DeathSceneManager : MonoBehaviour
 {
     [SerializeField] private float timeDelay = 0.0f;
     [SerializeField] private AnimationClip cutsceneClip;
+    [SerializeField] private UIElementGroup deathEndGroup;
+    [SerializeField] private UIElementGroup playAgainUI;
+    [SerializeField] private GameObject image;
 
     private Animator animator
     {
@@ -23,28 +26,24 @@ public class DeathSceneManager : MonoBehaviour
         }
     }
 
-    private void Awake() => Fade(1f, 0f);
 
     private void Start() => StartCoroutine(DelayAnimation());
 
     private IEnumerator DelayAnimation()
     {
-        Fade(0f, timeDelay);
-        yield return new WaitForSeconds(timeDelay);
+        GameManager.instance.FadeOut(timeDelay);
+        yield return new WaitForSeconds(timeDelay + 1f);
         animator.SetTrigger("Cutscene");
+        image.SetActive(false);
         yield return new WaitForSeconds(cutsceneClip.length);
-        canvasManager.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
-        canvasManager.ShowElementGroup(canvasManager.FindElementGroupByID("DeathEndGroup"), true);
+        deathEndGroup.UpdateElements(0, 0, true);
     }
 
-    public void Fade(float targetAlpha, float time)
-    {
-        canvasManager.FindElementGroupByID("FadeGroup").UpdateElements(targetAlpha, time, true);
-    }
 
     public void PlayAgain()
     {
-        canvasManager.ShowElementGroup(canvasManager.FindElementGroupByID("PlayAgainQuestionGroup"), true);
+        deathEndGroup.UpdateElements(0, 0, false);
+        playAgainUI.UpdateElements(0, 0, true);
     }
 
     public void ExitToMainMenu()
@@ -61,9 +60,13 @@ public class DeathSceneManager : MonoBehaviour
         if (GameManager.instance == null)
             yield break;
 
-        canvasManager.ShowElementGroup(canvasManager.FindElementGroupByID("PlayAgainQuestionGroup"), false);
-        Fade(1f, 1f);
+        playAgainUI.UpdateElements(0, 0, false);
+
         yield return new WaitForSeconds(1.5f);
-        GameManager.instance.LoadNextLevelScene(restart ? -1 : 0);
+        if (!restart)
+            GameManager.instance.LoadLevel(GameManager.instance.currentLevel);
+        else
+            GameManager.instance.LoadMainMenu();
+
     }
 }

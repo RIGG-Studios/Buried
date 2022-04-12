@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464694266836016790}
   - component: {fileID: 6271253902103937308}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 8843847359792539281}
   - component: {fileID: 8582763648868485683}
   - component: {fileID: -2419713788895218579}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WoodBarrelFlare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

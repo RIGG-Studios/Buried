@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     }
 
     private int currentLevelIndex = 0;
+    private bool fade;
     private CanvasManager sceneUI = null;
 
     private void Awake()
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour
     public void LoadDeathScene()
     {
         FadeIn(.1f);
-        StartCoroutine(DelayLoadLevel(0.75f, 4));
+        StartCoroutine(DelayLoadLevel(0.75f, 6));
     }
 
     public void LoadLevel(Level properties)
@@ -81,9 +82,9 @@ public class GameManager : MonoBehaviour
     {
         currentLevelIndex = SceneManager.GetActiveScene().buildIndex -1 + dir;
 
-        if (currentLevelIndex > levels.Length)
+        if (currentLevelIndex >= levels.Length)
         {
-            Debug.Log("Game finished!");
+            StartCoroutine(DelayLoadLevel(2f, 7));
             return;
         }
 
@@ -97,9 +98,10 @@ public class GameManager : MonoBehaviour
         if (game == null)
             return;
 
-        if(game.player != null)
+        if (fade)
         {
-            Destroy(game.player);
+            sceneUI.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
+            fade = false;
         }
 
         game.SetGameState(GameStates.Playing);
@@ -139,15 +141,17 @@ public class GameManager : MonoBehaviour
         sceneUI.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(true);
         sceneUI.FindElementGroupByID("FadeGroup").UpdateElements(0, 0, true);
         sceneUI.FindElementGroupByID("FadeGroup").UpdateElements(1, dur, true);
+        fade = true;
     }
 
     private IEnumerator Fade(float time)
     {
         yield return new WaitForSeconds(time);
         sceneUI.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
+        fade = false;
     }
 
-    public void LoadMainMenu() => SceneManager.LoadScene(0, LoadSceneMode.Single);
+    public void LoadMainMenu() => SceneManager.LoadScene(0);
     public void ExitGame() => Application.Quit();
 
 }

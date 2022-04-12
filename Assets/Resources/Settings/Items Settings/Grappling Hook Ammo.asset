@@ -21,7 +21,7 @@ MonoBehaviour:
   controllable: 0
   equipTime: 0
   stackable: 1
-  stackAmount: 6
+  stackAmount: 15
   button: {fileID: 0}
   inventoryButtons: 0
   uiInventoryButtons: []

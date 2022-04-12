@@ -13,7 +13,6 @@ public class GrapplingHookState : State
 {
     public GrappleStates state = GrappleStates.None;
 
-    private Rigidbody2D physics = null;
     private LineRenderer line = null;
     private GrapplingHookSettings settings = null;
     private Camera camera = null;
@@ -32,7 +31,6 @@ public class GrapplingHookState : State
         this.player = player;
 
         camera = Camera.main;
-        physics = player.GetComponent<Rigidbody2D>();
         settings = player.grappleHookSettings;
     }
 
@@ -144,7 +142,7 @@ public class GrapplingHookState : State
     private void UpdateCharacterSprite()
     {
         int direction = Utilites.DirectionToIndex(mouseDir, 4);
-        Debug.Log(direction);
+
         player.animator.enabled = false;
         player.SetCharacterSprite(settings.sprites[direction]);
     }

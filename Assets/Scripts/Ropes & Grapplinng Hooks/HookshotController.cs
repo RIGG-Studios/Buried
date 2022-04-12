@@ -6,7 +6,6 @@ public class HookshotController : ItemController
 {
     [SerializeField] private LineRenderer lineRenderer = null;
 
-    private int bulletStack;
     private GrapplingHookSettings settings;
 
     public override void SetupController(Player player, ItemProperties itemInInventory)
@@ -40,7 +39,7 @@ public class HookshotController : ItemController
             {
                 float dist = (playerPos - hit.point).magnitude;
 
-                if (dist > settings.maxDistance || CheckForWall(mouseDir))
+                if (dist > settings.maxDistance || CheckForWall(mouseDir, dist))
                     return;
 
                 player.stateManager.TransitionStates(PlayerStates.Grappling);
@@ -62,9 +61,10 @@ public class HookshotController : ItemController
         return lineRenderer;
     }
 
-    private bool CheckForWall(Vector2 mouseDir)
+    private bool CheckForWall(Vector2 mouseDir, float dist)
     {
-        RaycastHit2D hit = Physics2D.Raycast(player.GetPosition(), mouseDir, settings.maxDistance, settings.wallLayer);
+        RaycastHit2D hit = Physics2D.Raycast(player.GetPosition(), mouseDir, dist, settings.wallLayer);
+
         return hit.collider != null;
     }
 }

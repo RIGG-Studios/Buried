@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
     {
         if (collision.collider.gameObject.layer == 13 && stateManager.lastState != null)
         {
-            if(stateManager.GetStateInEnum(stateManager.lastState) == PlayerStates.GrabbedByTentacle)
+            if(stateManager.GetStateInEnum(stateManager.currentState) == PlayerStates.GrabbedByTentacle)
             {
                 transform.position = lastKnownPosition;
             }
