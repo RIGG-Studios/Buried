@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Barrel : InteractableObject
 {
+    [SerializeField] private bool showTutorial;
     [SerializeField] private Sprite emptySprite = null;
+    [SerializeField] private Text text;
     [SerializeField] private ItemProperties itemProperties = null;
     [SerializeField, Range(1, 5)] private int pickupAmount;
 
@@ -21,6 +24,9 @@ public class Barrel : InteractableObject
     private void Start()
     {
         render = GetComponent<SpriteRenderer>();
+
+      if(text && showTutorial)
+            text.gameObject.SetActive(true);
     }
 
     public override void ButtonInteract()
@@ -31,6 +37,7 @@ public class Barrel : InteractableObject
         {
             render.sprite = emptySprite;
             interactable = false;
+            text.gameObject.SetActive(false);
         }
     }
 

@@ -12,6 +12,13 @@ public class Slot : MonoBehaviour
 
     private Item item = null;
 
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
+
     public void SetupSlot(Item item)
     {
         icon.sprite = item.item.itemSprite;
@@ -34,6 +41,7 @@ public class Slot : MonoBehaviour
         if (item == null)
             return;
 
+        animator.SetTrigger("ItemAdded");       
         stack.text = item.stack.ToString();
     }
 }

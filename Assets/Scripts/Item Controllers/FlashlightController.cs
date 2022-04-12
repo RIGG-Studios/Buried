@@ -15,10 +15,10 @@ public class FlashlightController : MonoBehaviour
     [SerializeField] private FlashlightSettings settings = null;
     [SerializeField] private float maxIntensity = 0.0f;
     [SerializeField] private Light2D lightSource = null;
-    [SerializeField] private Light2D defaultLight = null;
 
     private float currentLightIntensity;
     private UIElement flashlightSlider;
+    private UIElementGroup flashlightRunningLow;
     private Player player;
     private bool chargeBattery;
 
@@ -29,6 +29,7 @@ public class FlashlightController : MonoBehaviour
         state = FlashlightStates.Off;
         player.playerInput.Player.Flashlight.performed += ctx => ToggleFlashLight();
         flashlightSlider = player.playerCanvas.FindElementGroupByID("PlayerFlashlightGroup").FindElement("flashlightslider");
+        flashlightRunningLow = player.playerCanvas.FindElementGroupByID("FlashlightRunningLowGroup");
         currentLightIntensity = settings.maxIntensity;
     }
 
@@ -87,6 +88,15 @@ public class FlashlightController : MonoBehaviour
         {
             DisableItem();
         }
+
+        if(currentLightIntensity <= settings.maxIntensity / 2.5f && !chargeBattery && state == FlashlightStates.On)
+        {
+            flashlightRunningLow.UpdateElements(0, 0, true);
+        }
+        else
+        {
+            flashlightRunningLow.UpdateElements(0, 0, false);
+        }
     }
 
     public bool GetIsFullyCharged() => currentLightIntensity >= settings.maxIntensity;
@@ -101,6 +111,7 @@ public class FlashlightController : MonoBehaviour
         lightSource.intensity = settings.minIntensity ;
         currentLightIntensity = 0.0f;
         lightSource.enabled = false;
+        flashlightRunningLow.UpdateElements(0, 0, false);
         ToggleFlashlightSlider(false);
     }
 

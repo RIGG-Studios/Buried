@@ -9,7 +9,7 @@ public class MainManager : MonoBehaviour
     [SerializeField]  private TextMeshPro remainingGeneratorsText;
     [SerializeField]  private string nextSceneName;
 
-    static bool canOpenDoor;
+    static bool canOpenDoor = false;
     static int remainingGenerators;
 
     public static string nextScene;
@@ -18,14 +18,6 @@ public class MainManager : MonoBehaviour
     {
         remainingGenerators = GameManager.instance.game.currentLevelProperties.properties.generatorsInLevel;
         nextScene = nextSceneName;
-    }
-
-    private void Update()
-    {
-        if (remainingGenerators <= 0)
-        {
-            canOpenDoor = true;
-        }
     }
 
     public static int GetRemainingGenerators => remainingGenerators;
