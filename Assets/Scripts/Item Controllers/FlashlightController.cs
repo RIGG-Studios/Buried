@@ -58,7 +58,6 @@ public class FlashlightController : MonoBehaviour
             
         if (chargeBattery && currentLightIntensity <= settings.maxIntensity)
         {
-            Debug.Log("Charging flashlight");
             currentLightIntensity += settings.maxIntensity / maxIntensity * Time.deltaTime;
         }
 
@@ -105,7 +104,6 @@ public class FlashlightController : MonoBehaviour
     public void ToggleChargeBattery(bool state) 
     { 
         chargeBattery = state;
-        Debug.Log("Got charge call state = " + state);
     }
 
     void ToggleFlashlightSlider(bool on) => flashlightSlider.SetActive(on);

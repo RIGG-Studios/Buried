@@ -39,7 +39,6 @@ public class GeneratorRecharging : MonoBehaviour
             if (playerInTrigger && uses > -1 && !playerFlashlight.GetIsFullyCharged())
             {
                 uses -= Time.deltaTime;
-                Debug.Log("Depleting uses");
             }
 
             if (uses > 0 && playerInTrigger)
