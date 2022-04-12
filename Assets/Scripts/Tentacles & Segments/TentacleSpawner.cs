@@ -12,10 +12,15 @@ public class TentacleSpawner : MonoBehaviour
 
     public bool occupied { get; set; }
 
+    private float lastSpawnTime;
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Player" && CanSpawnTentacle()) 
+        if (collision.gameObject.tag == "Player" && CanSpawnTentacle() && (Time.timeSinceLevelLoad - lastSpawnTime) > 5f)
+        {
             TentacleManager.instance.SpawnTentacle(this, 1);
+            lastSpawnTime = Time.timeSinceLevelLoad;
+        }
     }
 
     private bool CanSpawnTentacle()

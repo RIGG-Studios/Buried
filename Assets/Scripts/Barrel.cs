@@ -35,6 +35,8 @@ public class Barrel : InteractableObject
 
             if(showTutorial)
                 tutorialText.gameObject.SetActive(false);
+
+            interactable = false;
         }
     }
 

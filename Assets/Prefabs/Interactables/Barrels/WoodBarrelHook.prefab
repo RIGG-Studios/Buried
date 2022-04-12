@@ -260,11 +260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91eefded27d402640ad361978531584c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showTutorial: 0
   useAssist: 1
   interactable: 1
-  showTutorial: 0
+  tutorialText: {fileID: 1856183518838257029}
   emptySprite: {fileID: 21300000, guid: f7aeabea22fd0114ca9639e76f31a574, type: 3}
-  text: {fileID: 1856183518838257029}
   itemProperties: {fileID: 11400000, guid: 842d7dc84b7a1ba468cc8149bf9c6774, type: 2}
   pickupAmount: 1
 --- !u!70 &1829884429678363380

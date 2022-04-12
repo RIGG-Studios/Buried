@@ -33,7 +33,7 @@ public class HookshotController : ItemController
             Vector2 playerPos = player.GetPosition();
             Vector2 camPos = Camera.main.ScreenToWorldPoint(Utilites.GetMousePosition());
             Vector2 mouseDir = (camPos - playerPos).normalized;
-            RaycastHit2D hit = Physics2D.Raycast(camPos, mouseDir, 0.25f, settings.grappleLayer);
+            RaycastHit2D hit = Physics2D.Raycast(camPos, mouseDir, 0.1f, settings.grappleLayer);
 
             if (hit.collider != null)
             {

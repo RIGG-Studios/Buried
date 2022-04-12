@@ -19,6 +19,7 @@ public class FlashlightController : MonoBehaviour
     private float currentLightIntensity;
     private UIElement flashlightSlider;
     private UIElementGroup flashlightRunningLow;
+    private UIElementGroup flashlightRecharging;
     private Player player;
     private bool chargeBattery;
 
@@ -30,6 +31,7 @@ public class FlashlightController : MonoBehaviour
         player.playerInput.Player.Flashlight.performed += ctx => ToggleFlashLight();
         flashlightSlider = player.playerCanvas.FindElementGroupByID("PlayerFlashlightGroup").FindElement("flashlightslider");
         flashlightRunningLow = player.playerCanvas.FindElementGroupByID("FlashlightRunningLowGroup");
+        flashlightRecharging = player.playerCanvas.FindElementGroupByID("FlashlightRechargingGroup");
         currentLightIntensity = settings.maxIntensity;
     }
 
@@ -70,9 +72,13 @@ public class FlashlightController : MonoBehaviour
         if (state == FlashlightStates.Off)
         {
             if (chargeBattery)
+            {
                 ToggleFlashlightSlider(true);
+            }
             else
+            {
                 ToggleFlashlightSlider(false);
+            }
         }
         else if(state == FlashlightStates.On)
         {
@@ -102,7 +108,8 @@ public class FlashlightController : MonoBehaviour
     public bool GetIsFullyCharged() => currentLightIntensity >= settings.maxIntensity;
 
     public void ToggleChargeBattery(bool state) 
-    { 
+    {
+        flashlightRecharging.UpdateElements(0, 0, state);
         chargeBattery = state;
     }
 

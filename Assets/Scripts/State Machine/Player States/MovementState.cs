@@ -19,7 +19,7 @@ public class MovementState : State
 
     public MovementState(Player player) : base("PlayerMovement", player)
     {
-        player = player;
+        this.player = player;
         camera = Camera.main;
         settings = player.movementSettings;
         physics = player.GetComponent<Rigidbody2D>();
@@ -79,7 +79,11 @@ public class MovementState : State
     {
         int index = 0;
 
-        if (!FlashLightEnabled() || isMoving)
+        if(FlashLightEnabled() && !isMoving)
+        {
+            index = Utilites.DirectionToIndex(mouseDir, 4);
+        }
+        else
         {
             if (movementInput.x < 0)
                 index = 2;
@@ -89,10 +93,6 @@ public class MovementState : State
                 index = 3;
             if (movementInput.y > 0)
                 index = 4;
-        }
-        else
-        {
-            index = Utilites.DirectionToIndex(mouseDir, 4);
         }
 
         return index;

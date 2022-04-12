@@ -63,13 +63,13 @@ public class GameManager : MonoBehaviour
 
         sceneUI = GetComponentInChildren<CanvasManager>();
         sceneUI.FindElementGroupByID("FadeGroup").FindElement("image").SetActive(false);
+
         SceneManager.sceneLoaded += OnLevelLoaded;
     }
 
     public void LoadDeathScene()
     {
-        FadeIn(.1f);
-        StartCoroutine(DelayLoadLevel(0.75f, 6));
+        SceneManager.LoadScene(6);
     }
 
     public void LoadLevel(Level properties)

@@ -20,8 +20,14 @@ public abstract class InteractableObject : MonoBehaviour
 
     private void Start()
     {
-        if (tutorialText && showTutorial)
+        if (tutorialText == null)
+            return;
+
+        if (showTutorial)
             tutorialText.gameObject.SetActive(true);
+        else 
+            tutorialText.gameObject.SetActive(false);
+
     }
 
     public abstract void HoverInteract();

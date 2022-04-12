@@ -64,9 +64,13 @@ public class PlayerInteractionManager : MonoBehaviour
     {
         hoveredObject = collision.GetComponent<InteractableObject>();
 
-        if (hoveredObject.useAssist)
+        if (hoveredObject.useAssist && hoveredObject.interactable)
         {
             Cursor.SetCursor(hoverCursor, Vector2.zero, CursorMode.Auto);
+        }
+        else
+        {
+            Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
         }
 
         hoveredObject.HoverInteract();

@@ -83,8 +83,10 @@ public class Game : MonoBehaviour
 
     private void ExitGame(bool lost)
     {
+        tempListener.SetActive(true);
         Destroy(player.gameObject);
         tentacleManager.enabled = false;
+
         GameManager.instance.currentLevel.unlocked = true;
         GameEvents.OnEndGame?.Invoke(lost, currentLevelProperties.properties.levelName, timeSinceStart, generatorsEnabled);
     }
@@ -111,7 +113,7 @@ public class Game : MonoBehaviour
             tentacleManager.Initialize();
         }
 
-        Destroy(tempListener);
+        tempListener.SetActive(false);
         GameEvents.OnStartGame?.Invoke(currentLevelProperties.properties);
     }
 

@@ -49,7 +49,7 @@ public class AttackState : State
             stateManager.TransitionStates(TentacleStates.Retreat);
         }
 
-        if (controller.IsTentacleScared(playerDistFromTentacle))
+        if (controller.IsTentacleScared(playerDistFromTentacle) && attackTime >= 2f)
         {
             stateManager.TransitionStates(TentacleStates.Retreat);
         }

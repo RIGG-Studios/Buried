@@ -19,6 +19,7 @@ public class PlayerInventory : MonoBehaviour
 
     private UIElementGroup inventoryGroup = null;
     private UIElement equipSlider = null;
+    private UIElementGroup itemEquipGroup = null;
     private ImageElement toolIcon = null;
 
     private int currentToolIndex = 0;
@@ -49,6 +50,8 @@ public class PlayerInventory : MonoBehaviour
             toolIcon = (ImageElement)inventoryGroup.FindElement("toolicon");
             equipSlider = inventoryGroup.FindElement("equipslider");
         }
+
+        itemEquipGroup = player.playerCanvas.FindElementGroupByID("ItemEquipGroup");
 
         stackableParent = player.playerCanvas.FindElementGroupByID("PlayerInventory").FindElement("grid").transform;
 
@@ -105,7 +108,7 @@ public class PlayerInventory : MonoBehaviour
 
     private void UseTool()
     {
-        if (currentTool == null)
+        if (currentTool == null || isEquipping)
             return;
 
         currentTool.UseItem();
@@ -280,6 +283,9 @@ public class PlayerInventory : MonoBehaviour
             currentTool.ResetItem();
         }
 
+        itemEquipGroup.FindElement("text").OverrideValue("EQUIPPING " + "<color='red'>" + nextTool.properties.itemName + "</color>");
+        itemEquipGroup.UpdateElements(0, 0, true);
+
         float t = nextTool.properties.equipTime;
         while (t > 0.0f) 
         {
@@ -295,7 +301,7 @@ public class PlayerInventory : MonoBehaviour
         toolIcon.OverrideValue(currentTool.properties.itemSprite);
         equipSlider.OverrideValue(1f);
         toolIcon.SetNatizeSize();
-
+        itemEquipGroup.UpdateElements(0, 0, false);
         isEquipping = false;
     }
 }
