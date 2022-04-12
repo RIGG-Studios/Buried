@@ -39,19 +39,20 @@ public class GeneratorRecharging : MonoBehaviour
             if (playerInTrigger && uses > -1 && !playerFlashlight.GetIsFullyCharged())
             {
                 uses -= Time.deltaTime;
+                Debug.Log("Depleting uses");
             }
 
             if (uses > 0 && playerInTrigger)
             {
-                GameEvents.OnToggleRechargingStation?.Invoke(true);
+                GameEvents.OnToggleRechargingStation.Invoke(true);
                 spriteRenderer.sprite = chargingSprite;
                 generatorUsesImage.color = hasChargeUIColour;
 
                 generatorUsesImage.fillAmount = uses / maxUses;
             }
-            else if (uses <= 0 || !playerInTrigger)
+            else if (uses <= 0 && playerInTrigger)
             {
-                GameEvents.OnToggleRechargingStation?.Invoke(false);
+                GameEvents.OnToggleRechargingStation.Invoke(false);
 
                 if(uses <= 0)
                 {
@@ -84,6 +85,7 @@ public class GeneratorRecharging : MonoBehaviour
     {
         if (CheckCollision(collision))
         {
+            GameEvents.OnToggleRechargingStation.Invoke(false);
             playerInTrigger = false;
             generatorUsesImage.gameObject.SetActive(false);
         }
