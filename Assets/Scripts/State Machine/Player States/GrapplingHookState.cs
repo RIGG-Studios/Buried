@@ -144,6 +144,5 @@ public class GrapplingHookState : State
         int direction = Utilites.DirectionToIndex(mouseDir, 4);
 
         player.animator.enabled = false;
-        player.SetCharacterSprite(settings.sprites[direction]);
     }
 }
