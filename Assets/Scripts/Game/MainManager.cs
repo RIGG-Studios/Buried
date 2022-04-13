@@ -19,6 +19,7 @@ public class MainManager : MonoBehaviour
         remainingGenerators = GameManager.instance.game.currentLevelProperties.properties.generatorsInLevel;
         Debug.Log(remainingGenerators);
         nextScene = nextSceneName;
+        canOpenDoor = false;
     }
 
     public static int GetRemainingGenerators => remainingGenerators;
@@ -27,7 +28,6 @@ public class MainManager : MonoBehaviour
     {
         remainingGenerators--;
         GameEvents.OnGeneratorTurnedOn?.Invoke(remainingGenerators);
-        Debug.Log(remainingGenerators);
 
         if (remainingGenerators <= 0)
         {
