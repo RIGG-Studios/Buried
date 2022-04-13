@@ -54,6 +54,7 @@ public class GrapplingHookState : State
         {
             UpdateCharacterSprite();
 
+
             player.inventory.UseItem(ItemProperties.ItemTypes.GrapplingHookAmmo);
             state = GrappleStates.Shooting;
             grappleTarget = hit.point;
@@ -74,6 +75,14 @@ public class GrapplingHookState : State
         player.animator.enabled = true;
         moveTime = 0.0f;
         line.enabled = false;
+
+        Item ammo = null;
+        player.inventory.HasItem(ItemProperties.ItemTypes.GrapplingHookAmmo, out ammo);
+
+        if (ammo != null && ammo.stack == 0)
+        {
+            GameManager.instance.game.SpawnItem(ammo.item, player.GetPosition());
+        }
     }
 
     public override void UpdateLogic()

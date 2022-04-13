@@ -46,13 +46,10 @@ public class DeathSceneManager : MonoBehaviour
         playAgainUI.UpdateElements(0, 0, true);
     }
 
-    public void ExitToMainMenu()
-    {
-    }
+    public void ExitToMainMenu() => GameManager.instance.LoadMainMenu();
 
     public void PlaySameLevel() => StartCoroutine(GoToNextLevel(false));
     
-
     public void RestartGame() => StartCoroutine(GoToNextLevel(true));
 
     private IEnumerator GoToNextLevel(bool restart)

@@ -19,6 +19,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cbd30738035c3664fb77f209d2b100de, type: 2}
   - {fileID: 11400000, guid: 257710a7a7b35c5478de1e0a89d1376f, type: 2}
   startingItems: []
-  maxAttackingTentacles: 10
+  maxAttackingTentacles: 4
   generatorsInLevel: 6
   levelIndex: 5

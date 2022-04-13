@@ -105,9 +105,9 @@ public class GameUI : MonoBehaviour
     private IEnumerator PrintText(string message, float time)
     {
         levelObjectiveText.SetActive(true);
-        StartCoroutine(DialogueFunctions.PrintText(message, levelObjectiveText, 0.08f));
+    //    StartCoroutine(DialogueFunctions.PrintText(message, levelObjectiveText, 0.08f));
         yield return new WaitForSeconds(time);
-        StartCoroutine(DialogueFunctions.PrintText(string.Empty, levelObjectiveText, 0.08f));
+      //  StartCoroutine(DialogueFunctions.PrintText(string.Empty, levelObjectiveText, 0.08f));
     }
 
     private void OnGeneratorTurnedOn(int generatorAmount)

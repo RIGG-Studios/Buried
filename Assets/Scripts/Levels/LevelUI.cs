@@ -23,10 +23,7 @@ public class LevelUI : MonoBehaviour
 
         if (levelProperties.unlocked)
         {
-            levelName.CrossFadeAlpha(1f, 0, true);
-            levelDifficulty.CrossFadeAlpha(1f, 0, true);
-            levelTimeEstimate.CrossFadeAlpha(1f, 0, true);
-
+            LerpAlphas(1f);
             levelName.text = levelProperties.properties.levelName;
             levelDifficulty.text = "DIFFICULTY: " + levelProperties.properties.levelDifficulty;
             levelTimeEstimate.text = "TIME ESTIMATE: " + levelProperties.properties.timeEstimate;
@@ -34,10 +31,7 @@ public class LevelUI : MonoBehaviour
         }
         else
         {
-            levelName.CrossFadeAlpha(lockedAlpha, 0, true);
-            levelDifficulty.CrossFadeAlpha(lockedAlpha, 0, true);
-            levelTimeEstimate.CrossFadeAlpha(lockedAlpha, 0, true);
-
+            LerpAlphas(lockedAlpha);
             levelName.text = "LEVEL LOCKED!";
             levelDifficulty.text = "LOCKED!";
             levelTimeEstimate.text = "LOCKED!";
@@ -45,11 +39,26 @@ public class LevelUI : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (levelProperties.unlocked)
+            return;
+
+        LerpAlphas(lockedAlpha);
+    }
+
     public void EnterLevel()
     {
         if (levelProperties == null || !levelProperties.unlocked)
             return;
-        
+
         mainMenu.EnterLevel(levelProperties);
+    }
+
+    private void LerpAlphas(float target)
+    {
+        levelName.CrossFadeAlpha(target, 0, true);
+        levelDifficulty.CrossFadeAlpha(target, 0, true);
+        levelTimeEstimate.CrossFadeAlpha(target, 0, true);
     }
 }

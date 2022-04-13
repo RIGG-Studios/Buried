@@ -24,10 +24,15 @@ public class HookshotController : ItemController
 
         if (ammo != null && player.stateManager.currentState.name != "PlayerGrapple")
         {
-            if(ammo.stack <= 0)
+            if (ammo.stack <= 0)
             {
                 StartCoroutine(ShowAmmoNeededUI("NO AMMO"));
                 return;
+            }
+
+            if(GrappleCanvas.instance != null && !GrappleCanvas.instance.disabled)
+            {
+                GrappleCanvas.instance.Disable();
             }
 
             Vector2 playerPos = player.GetPosition();

@@ -118,8 +118,8 @@ public class FlashlightController : MonoBehaviour
     private void DisableItem()
     {
         state = FlashlightStates.Off;
-        lightSource.intensity = settings.minIntensity ;
-        currentLightIntensity = 0.0f;
+        lightSource.intensity = settings.minIntensity;
+        currentLightIntensity = settings.minIntensity;
         lightSource.enabled = false;
         flashlightRunningLow.UpdateElements(0, 0, false);
         ToggleFlashlightSlider(false);

@@ -100,6 +100,14 @@ public class Game : MonoBehaviour
         StartGame();
     }
 
+    public void SpawnItem(ItemProperties properties, Vector2 pos)
+    {
+        if (properties == null)
+            return;
+
+        GameObject g = Instantiate(properties.itemPrefab, pos, Quaternion.identity);
+    }
+
 
     private void StartGame()
     {

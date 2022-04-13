@@ -12,10 +12,14 @@ public class FlashlightRechargingStation : InteractableObject
     {
         if (!isOn)
         {
-            isOn = true;
             spriteRenderer.sprite = onSprite;
             MainManager.DecrementGeneratorCount();
             gameObject.layer = 0;
+
+            if (showTutorial)
+                tutorialText.gameObject.SetActive(false);
+
+            isOn = true;
         }
     }
 

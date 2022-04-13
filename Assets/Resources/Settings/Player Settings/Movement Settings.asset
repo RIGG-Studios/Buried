@@ -15,5 +15,5 @@ MonoBehaviour:
   movementSpeed: 3.1
   movementParanoidMultiplier: 1.5
   cameraOffset: 0.5
-  stepRate: 3
+  stepRate: 2.45
   stepRateParanoidMultiplier: 3
